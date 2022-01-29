@@ -20,9 +20,11 @@
     javastudyaccount/javastudy123
 
    ![](image/readme/1643453685482.png)<br/>
+   1344161724@qq.com
+   
    ![](image/readme/1643453708024.png)<br/>
    ![](image/readme/1643453750620.png)<br/>
+   
    ![](image/readme/1643453767771.png)<br/>
 1. ```git pull```
   ![](image/readme/1643454047390.png)
-  
