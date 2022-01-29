@@ -24,4 +24,5 @@
    ![](image/readme/1643453750620.png)<br/>
    ![](image/readme/1643453767771.png)<br/>
 1. ```git pull```
-2. 
+  ![](image/readme/1643454047390.png)
+  
