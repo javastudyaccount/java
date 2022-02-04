@@ -9,6 +9,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HandleLineByStream {
+	/**
+	 * @param fileName 文件路径
+	 * @param encoding 文件编码
+	 * @param text 过滤字符串
+	 */
 	public void handleLineByStream(String fileName, String encoding, String text) {
 		Charset charset = Charset.forName(encoding);
 		try (Stream<String> lines = Files.lines(Paths.get(fileName), charset)) {
