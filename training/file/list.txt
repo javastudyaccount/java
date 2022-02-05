@@ -1,0 +1,7 @@
+file\another_chinese.txt
+file\another_english.txt
+file\chinese_gb2312.txt
+file\english_utf8.txt
+file\list.txt
+file\rename\newFile.txt
+file\rename\reame.md
