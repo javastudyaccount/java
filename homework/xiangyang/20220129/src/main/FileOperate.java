@@ -42,6 +42,7 @@ public class FileOperate {
 			System.out.println(line);
 		}
 	}
+	
 
 	/**
 	 * @param lineList 包含行的list
@@ -119,17 +120,38 @@ public class FileOperate {
 		oldFile.renameTo(newFile);
 	}
 	
+//	/**
+//	 * List all files under path, including files in subdirectories
+//	 * @param path 需要遍历文件的文件夹的路径
+//	 */
+//	public void listAllFiles(String path) {
+//		
+//		File filePath = new File(path);
+//		Collection<File> files = FileUtils.listFiles(filePath, null, true);
+//		for (File file : files) {
+//			if (!file.isDirectory()) {
+//				System.out.println(file);
+//			}
+//		}
+//	}
+	
 	/**
+	 * List all files under path, including files in subdirectories
 	 * @param path 需要遍历文件的文件夹的路径
+	 * @return List of file relative path
 	 */
-	public void ForEachPath(String path) {
-		
+	public List<String> listAllFiles(String path) {
+		List<String> relativePaths = new ArrayList<>();
 		File filePath = new File(path);
 		Collection<File> files = FileUtils.listFiles(filePath, null, true);
 		for (File file : files) {
 			if (!file.isDirectory()) {
-				System.out.println(file);
+//				System.out.println(file);
+				relativePaths.add(file.toString());
 			}
 		}
+		return relativePaths;
 	}
+	
+	
 }
