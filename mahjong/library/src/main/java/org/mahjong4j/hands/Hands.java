@@ -47,10 +47,11 @@ public class Hands {
     private boolean isKokushimuso = false;
 
     /**
-     * @param otherTiles
-     * @param last
-     * @param mentsuList
-     * @throws MahjongTileOverFlowException
+     * @param otherTiles otherTiles
+     * @param last last
+     * @param mentsuList mentsuList
+     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
+     * @throws IllegalMentsuSizeException IllegalMentsuSizeException
      */
     public Hands(int[] otherTiles, Tile last, List<Mentsu> mentsuList) throws MahjongTileOverFlowException, IllegalMentsuSizeException {
         inputtedTiles = otherTiles;
@@ -61,10 +62,11 @@ public class Hands {
     }
 
     /**
-     * @param otherTiles
-     * @param last
-     * @param mentsu
-     * @throws MahjongTileOverFlowException
+     * @param otherTiles otherTiles
+     * @param last last
+     * @param mentsu mentsu
+     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
+     * @throws IllegalMentsuSizeException IllegalMentsuSizeException
      */
     public Hands(int[] otherTiles, Tile last, Mentsu... mentsu) throws MahjongTileOverFlowException, IllegalMentsuSizeException {
         inputtedTiles = otherTiles;
@@ -77,6 +79,9 @@ public class Hands {
     /**
      * @param allTiles lastの牌も含めて下さい合計14になるはずです
      * @param last     この牌もotherTilesに含めてください
+     * @throws HandsOverFlowException HandsOverFlowException
+     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
+     * @throws IllegalMentsuSizeException IllegalMentsuSizeException
      */
     public Hands(int[] allTiles, Tile last) throws HandsOverFlowException, MahjongTileOverFlowException, IllegalMentsuSizeException {
         inputtedTiles = allTiles;
@@ -160,6 +165,8 @@ public class Hands {
 
     /**
      * 槓子は見つけません
+     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
+     * @throws IllegalMentsuSizeException IllegalMentsuSizeException
      */
     public void findMentsu() throws MahjongTileOverFlowException, IllegalMentsuSizeException {
         checkTileOverFlow();

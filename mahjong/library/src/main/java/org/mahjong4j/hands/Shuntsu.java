@@ -16,6 +16,7 @@ public class Shuntsu extends Mentsu {
      *
      * @param isOpen         明順子ならばtrue 暗順子ならばfalse
      * @param identifierTile 順子の組の二番目
+     * @throws IllegalShuntsuIdentifierException IllegalShuntsuIdentifierException
      */
     public Shuntsu(boolean isOpen, Tile identifierTile) throws IllegalShuntsuIdentifierException {
         setIdentifierTile(identifierTile);

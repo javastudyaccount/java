@@ -21,7 +21,7 @@ public class MentsuComp {
 
     /**
      * @param mentsuList 上がりとなった面子のリスト
-     * @param last
+     * @param last last
      * @throws IllegalMentsuSizeException 和了れる形になっていなければthrow
      */
     public MentsuComp(List<Mentsu> mentsuList, Tile last) throws IllegalMentsuSizeException {
@@ -222,8 +222,8 @@ public class MentsuComp {
      * 各面子のリストの順番は関係ないので、
      * 面子の順番が違っていてもtrueになります
      *
-     * @param o
-     * @return
+     * @param o o
+     * @return boolean 
      */
     @Override
     public boolean equals(Object o) {
