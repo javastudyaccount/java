@@ -1,3 +1,10 @@
+## How to git push?
+1. `git checkout -b `*`yyyyMMdd_name_feature`*
+2. `git add .`
+3. `git commit -m `*`"your comment here"`*
+4. `git push --set-upstream origin `*`yyyyMMdd_name_feature`*
+5. tell me the branch name
+
 ## xiangyang
     1. Write test case for normal and exception cases
     2. Assertion for asserting System.out.println
