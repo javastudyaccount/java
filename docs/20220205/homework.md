@@ -1,11 +1,30 @@
+## How to git push?
+`git pull`
+1. `git checkout -b `*`yyyyMMdd_name_feature`*
+2. `git add .`
+3. `git commit -m `*`"your comment here"`*
+4. `git push --set-upstream origin `*`yyyyMMdd_name_feature`*
+5. tell me the branch name
+
 ## xiangyang
-    1. Write test case for normal and exception cases
-    2. Assertion for asserting System.out.println
+ 1. Write test case for normal and exception cases
+ 2. Assertion for asserting System.out.println
+ 3. Use comparator to sort list
+ 4. Pass function parameter to handle list
+
 
 ## xinwei
-    Test Case No9
+ 1. Test Case No9
+ 1. Rewrite file operate functions
+ 2. Write test cases
+
+
 ## xiangyue
-    Test Case No10
+ 1. Test Case No10
+ 2. Write file operate class
+ 3. Write test cases
+
+**Report till 02/09(Wed)**
 
 ## List all files in a directory
 |No|normal|parameter|extension|recursive|order|
