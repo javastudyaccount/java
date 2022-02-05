@@ -14,6 +14,6 @@ public class MahjongService {
   }
 
   public String message() {
-    return this.serviceProperties.getMessage();
+    return this.serviceProperties.getMessages();
   }
 }

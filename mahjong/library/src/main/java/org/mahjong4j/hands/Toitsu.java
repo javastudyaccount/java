@@ -47,6 +47,7 @@ public class Toitsu extends Mentsu {
      *
      * @param tiles 手牌
      * @return 雀頭候補の対子リスト
+     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
      */
     public static List<Toitsu> findJantoCandidate(int[] tiles) throws MahjongTileOverFlowException {
         List<Toitsu> result = new ArrayList<>(7);

@@ -8,13 +8,13 @@ public class ServiceProperties {
   /**
    * A message for the service.
    */
-  private String message;
+  private String messages;
 
-  public String getMessage() {
-    return message;
+  public String getMessages() {
+    return messages;
   }
 
-  public void setMessage(String message) {
-    this.message = message;
+  public void setMessages(String messages) {
+    this.messages = messages;
   }
 }
