@@ -17,9 +17,9 @@ public class HomeService {
         // 直接Beanクラスにマップ出来るけど今回はめんどくさいのでStringで。
         ResponseEntity<String> response = rest.getForEntity(url, String.class);
 
-        String json = response.getBody();
+        String message = response.getBody();
 
-        return decode(json);
+        return decode(message);
 
 	}
     // いわゆる日本語の２バイト文字がunicodeエスケープされてるので解除。
