@@ -1,20 +1,24 @@
 package jp.btsol.mahjong.service;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 @Service
+@EnableConfigurationProperties(ApplicationProperties.class)
 public class HomeService {
+	private final ApplicationProperties applicationProperties;
+	public HomeService(ApplicationProperties applicationProperties) {
+		this.applicationProperties = applicationProperties;
+	}
 	public String getHomeMessage() {
-
         RestTemplate rest = new RestTemplate();
 
-        final String endpoint = "http://localhost:8088";
+        final String endpoint = applicationProperties.getUrl();//"http://localhost:8088";
 
         final String url = endpoint;
 
-        // 直接Beanクラスにマップ出来るけど今回はめんどくさいのでStringで。
         ResponseEntity<String> response = rest.getForEntity(url, String.class);
 
         String message = response.getBody();
