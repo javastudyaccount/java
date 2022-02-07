@@ -3,14 +3,26 @@ package org.mahjong4j.hands;
 import org.mahjong4j.IllegalMentsuSizeException;
 import org.mahjong4j.tile.Tile;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 上がれる面子を整理したクラスです
  *
  * @author yu1ro
  */
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Getter
+//@Setter
+//@Builder
 public class MentsuComp {
 
     private List<Toitsu> toitsuList = new ArrayList<>(7);

@@ -1,14 +1,19 @@
 package org.mahjong4j.hands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mahjong4j.MahjongTileOverFlowException;
 import org.mahjong4j.tile.Tile;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author yu1ro
  */
+//@Getter
+//@Setter
 public class Toitsu extends Mentsu {
 
     /**

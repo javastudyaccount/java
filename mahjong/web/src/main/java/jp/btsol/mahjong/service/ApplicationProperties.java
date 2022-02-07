@@ -8,13 +8,25 @@ public class ApplicationProperties {
   /**
    * A url for the application.
    */
-  private String url;
-
-  public String getUrl() {
-    return url;
+  private String uri;
+  /**
+   * path hands
+   */
+  private String hands;
+  
+  public String getUri() {
+    return uri;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
+  public void setUri(String uri) {
+    this.uri = uri;
   }
+
+	public String getHands() {
+		return hands;
+	}
+	
+	public void setHands(String hands) {
+		this.hands = hands;
+	}
 }

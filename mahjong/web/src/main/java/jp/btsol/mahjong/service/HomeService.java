@@ -15,7 +15,7 @@ public class HomeService {
 	public String getHomeMessage() {
         RestTemplate rest = new RestTemplate();
 
-        final String endpoint = applicationProperties.getUrl();//"http://localhost:8088";
+        final String endpoint = applicationProperties.getUri();//"http://localhost:8088";
 
         final String url = endpoint;
 
