@@ -1,12 +1,23 @@
 package org.mahjong4j.hands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.mahjong4j.HandsOverFlowException;
 import org.mahjong4j.IllegalMentsuSizeException;
 import org.mahjong4j.MahjongTileOverFlowException;
 import org.mahjong4j.tile.Tile;
 import org.mahjong4j.yaku.yakuman.KokushimusoResolver;
 
-import java.util.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 手牌に関する操作全般を扱います
@@ -16,6 +27,11 @@ import java.util.*;
  *
  * @author yu1ro
  */
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Getter
+//@Setter
+//@Builder
 public class Hands {
     // -------------------------確定系-----------------------
 
