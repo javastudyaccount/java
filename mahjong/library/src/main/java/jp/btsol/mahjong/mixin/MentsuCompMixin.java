@@ -1,9 +1,9 @@
 package jp.btsol.mahjong.mixin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mahjong4j.hands.Mentsu;
-import org.mahjong4j.hands.MentsuComp;
 import org.mahjong4j.tile.Tile;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ser.VirtualBeanPropertyWriter;
 import com.fasterxml.jackson.databind.util.Annotations;
 @JsonAppend(props = { @JsonAppend.Prop(value = MentsuCompMixin.MentsuCompWriter.class, 
 name = "mentsuList", 
-type = Mentsu[].class) })
+type = List.class) })
 public abstract class MentsuCompMixin {
 	// CHECKSTYLE:OFF
 	@JsonCreator
@@ -37,8 +37,9 @@ public abstract class MentsuCompMixin {
 
 		@Override
 		protected Object value(Object bean, JsonGenerator gen, SerializerProvider prov) {
-			MentsuComp mentsuComp = (MentsuComp) bean;
-			return mentsuComp.getAllMentsu();
+//			MentsuComp mentsuComp = (MentsuComp) bean;
+//			return mentsuComp.getAllMentsu();
+			return new ArrayList<Mentsu>() {};
 		}
 
 		@Override
