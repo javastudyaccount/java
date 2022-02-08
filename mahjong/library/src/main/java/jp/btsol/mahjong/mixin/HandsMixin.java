@@ -12,8 +12,8 @@ public abstract class HandsMixin {
     // CHECKSTYLE:OFF
     @JsonCreator
     //@formatter:off
-    public HandsMixin(@JsonProperty("otherTiles") int[] otherTiles, 
+    public HandsMixin(@JsonProperty("inputtedTiles") int[] inputtedTiles, 
             @JsonProperty("last") Tile last, 
-            @JsonProperty("mentsuList") List<Mentsu> mentsuList) {
+            @JsonProperty("inputtedMentsuList") List<Mentsu> inputtedMentsuList) {
     }
 }
