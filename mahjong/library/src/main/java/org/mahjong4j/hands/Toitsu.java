@@ -1,19 +1,14 @@
 package org.mahjong4j.hands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.mahjong4j.MahjongTileOverFlowException;
 import org.mahjong4j.tile.Tile;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author yu1ro
  */
-//@Getter
-//@Setter
 public class Toitsu extends Mentsu {
 
     /**
@@ -52,7 +47,6 @@ public class Toitsu extends Mentsu {
      *
      * @param tiles 手牌
      * @return 雀頭候補の対子リスト
-     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
      */
     public static List<Toitsu> findJantoCandidate(int[] tiles) throws MahjongTileOverFlowException {
         List<Toitsu> result = new ArrayList<>(7);

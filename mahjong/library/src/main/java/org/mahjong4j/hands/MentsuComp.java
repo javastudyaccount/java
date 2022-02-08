@@ -3,26 +3,14 @@ package org.mahjong4j.hands;
 import org.mahjong4j.IllegalMentsuSizeException;
 import org.mahjong4j.tile.Tile;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 上がれる面子を整理したクラスです
  *
  * @author yu1ro
  */
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Getter
-//@Setter
-//@Builder
 public class MentsuComp {
 
     private List<Toitsu> toitsuList = new ArrayList<>(7);
@@ -33,7 +21,7 @@ public class MentsuComp {
 
     /**
      * @param mentsuList 上がりとなった面子のリスト
-     * @param last last
+     * @param last
      * @throws IllegalMentsuSizeException 和了れる形になっていなければthrow
      */
     public MentsuComp(List<Mentsu> mentsuList, Tile last) throws IllegalMentsuSizeException {
@@ -234,8 +222,8 @@ public class MentsuComp {
      * 各面子のリストの順番は関係ないので、
      * 面子の順番が違っていてもtrueになります
      *
-     * @param o o
-     * @return boolean 
+     * @param o
+     * @return
      */
     @Override
     public boolean equals(Object o) {
