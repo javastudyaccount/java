@@ -1,23 +1,12 @@
 package org.mahjong4j.hands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.mahjong4j.HandsOverFlowException;
 import org.mahjong4j.IllegalMentsuSizeException;
 import org.mahjong4j.MahjongTileOverFlowException;
 import org.mahjong4j.tile.Tile;
 import org.mahjong4j.yaku.yakuman.KokushimusoResolver;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.*;
 
 /**
  * 手牌に関する操作全般を扱います
@@ -27,11 +16,6 @@ import lombok.Setter;
  *
  * @author yu1ro
  */
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Getter
-//@Setter
-//@Builder
 public class Hands {
     // -------------------------確定系-----------------------
 
@@ -63,11 +47,10 @@ public class Hands {
     private boolean isKokushimuso = false;
 
     /**
-     * @param otherTiles otherTiles
-     * @param last last
-     * @param mentsuList mentsuList
-     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
-     * @throws IllegalMentsuSizeException IllegalMentsuSizeException
+     * @param otherTiles
+     * @param last
+     * @param mentsuList
+     * @throws MahjongTileOverFlowException
      */
     public Hands(int[] otherTiles, Tile last, List<Mentsu> mentsuList) throws MahjongTileOverFlowException, IllegalMentsuSizeException {
         inputtedTiles = otherTiles;
@@ -78,11 +61,10 @@ public class Hands {
     }
 
     /**
-     * @param otherTiles otherTiles
-     * @param last last
-     * @param mentsu mentsu
-     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
-     * @throws IllegalMentsuSizeException IllegalMentsuSizeException
+     * @param otherTiles
+     * @param last
+     * @param mentsu
+     * @throws MahjongTileOverFlowException
      */
     public Hands(int[] otherTiles, Tile last, Mentsu... mentsu) throws MahjongTileOverFlowException, IllegalMentsuSizeException {
         inputtedTiles = otherTiles;
@@ -95,9 +77,6 @@ public class Hands {
     /**
      * @param allTiles lastの牌も含めて下さい合計14になるはずです
      * @param last     この牌もotherTilesに含めてください
-     * @throws HandsOverFlowException HandsOverFlowException
-     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
-     * @throws IllegalMentsuSizeException IllegalMentsuSizeException
      */
     public Hands(int[] allTiles, Tile last) throws HandsOverFlowException, MahjongTileOverFlowException, IllegalMentsuSizeException {
         inputtedTiles = allTiles;
@@ -181,8 +160,6 @@ public class Hands {
 
     /**
      * 槓子は見つけません
-     * @throws MahjongTileOverFlowException MahjongTileOverFlowException
-     * @throws IllegalMentsuSizeException IllegalMentsuSizeException
      */
     public void findMentsu() throws MahjongTileOverFlowException, IllegalMentsuSizeException {
         checkTileOverFlow();

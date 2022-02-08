@@ -1,5 +1,5 @@
- mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
-
+ [mahjong4j github](https://github.com/mahjong4j/mahjong4j.git)
+ 
 ## Beginner
 1. Google searh "mnv springboot create multiproject"
 2. [Creating a Multi Module Project](https://spring.io/guides/gs/multi-module/)
@@ -16,6 +16,10 @@
 1. $ `git init`
 2. $ `git add .`
 1. $ `git commit -m init`
+
+
+ mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+
 
 [Spring Bootとは? Spring BootでWebアプリ開発を始めるために必要な知識を紹介](https://i-common-tech.jp/column/940)
     [Spring BootでThymeleafを使ってhello worldを表示させる方法には？](https://i-common-tech.jp/column/940#Spring+Boot%E3%81%A7Thymeleaf%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hello+world%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%AF%EF%BC%9F)
@@ -43,3 +47,5 @@
 ![](image/Mahjiang/1644111030505.png)
 ![](image/Mahjiang/1644111367900.png)
 
+
+[Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
