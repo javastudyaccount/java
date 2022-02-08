@@ -1,0 +1,203 @@
+{
+    "last": "TON",
+    "mentsuCompSet": [
+        {
+            "last": "TON",
+            "toitsuList": [
+                {
+                    "_type": "org.mahjong4j.hands.Toitsu",
+                    "identifierTile": "TON",
+                    "isMentsu": true,
+                    "isOpen": false
+                }
+            ],
+            "shuntsuList": [
+                {
+                    "_type": "org.mahjong4j.hands.Shuntsu",
+                    "isOpen": false,
+                    "identifierTile": "M4",
+                    "isMentsu": true
+                },
+                {
+                    "_type": "org.mahjong4j.hands.Shuntsu",
+                    "isOpen": false,
+                    "identifierTile": "P4",
+                    "isMentsu": true
+                }
+            ],
+            "kotsuList": [
+                {
+                    "_type": "org.mahjong4j.hands.Kotsu",
+                    "isOpen": true,
+                    "identifierTile": "P4",
+                    "isMentsu": true
+                }
+            ],
+            "kantsuList": [
+                {
+                    "_type": "org.mahjong4j.hands.Kantsu",
+                    "isOpen": true,
+                    "identifierTile": "CHN",
+                    "isMentsu": true
+                }
+            ],
+            "mentsuList": [
+                {
+                    "_type": "org.mahjong4j.hands.Toitsu",
+                    "identifierTile": "TON",
+                    "isMentsu": true,
+                    "isOpen": false
+                },
+                {
+                    "_type": "org.mahjong4j.hands.Shuntsu",
+                    "isOpen": false,
+                    "identifierTile": "M4",
+                    "isMentsu": true
+                },
+                {
+                    "_type": "org.mahjong4j.hands.Shuntsu",
+                    "isOpen": false,
+                    "identifierTile": "P4",
+                    "isMentsu": true
+                },
+                {
+                    "_type": "org.mahjong4j.hands.Kotsu",
+                    "isOpen": true,
+                    "identifierTile": "P4",
+                    "isMentsu": true
+                },
+                {
+                    "_type": "org.mahjong4j.hands.Kantsu",
+                    "isOpen": true,
+                    "identifierTile": "CHN",
+                    "isMentsu": true
+                }
+            ]
+        }
+    ],
+    "handsComp": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4
+    ],
+    "canWin": true,
+    "isOpen": true,
+    "inputtedMentsuList": [
+        {
+            "_type": "org.mahjong4j.hands.Kotsu",
+            "isOpen": true,
+            "identifierTile": "P4",
+            "isMentsu": true
+        },
+        {
+            "_type": "org.mahjong4j.hands.Kantsu",
+            "isOpen": true,
+            "identifierTile": "CHN",
+            "isMentsu": true
+        }
+    ],
+    "handStocks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "inputtedTiles": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "isKokushimuso": false
+}

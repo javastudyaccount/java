@@ -55,6 +55,18 @@ public class Main {
     }
 }
 </pre>
+<pre>
+The process of converting a Double -> BigDecimal -> BigInteger is intensive. I propose the below: (about 500% faster)
+
+BigInteger m = DoubleToBigInteger(doublevalue);
+
+static BigInteger DoubleToBigInteger(double testVal) {
+    long bits = Double.doubleToLongBits(testVal); 
+    int exp = ((int)(bits >> 52) & 0x7ff) - 1075;
+    BigInteger m = BigInteger.valueOf((bits & ((1L << 52)) - 1) | (1L << 52)).shiftLeft(exp);
+    return  (bits >= 0)? m : m.negate();
+}
+</pre>
 </td>
 </tr>
 <tr>
@@ -97,23 +109,21 @@ Map
 
 Classes
 
-|difference|primitive|non-primitive|
-|--|--|--|
-|Defined by?|Java|Programmer<br/>Except <span style="color:red">String</span>|
-|can be used to call methods?|no|yes|
-|can be null?|no|yes|
-|Naming rule|begin with lowercase|begin with Uppercase|
-|Data size|depends on the data type|all the same size|
+| difference                   | primitive                | non-primitive                                                |
+| ---------------------------- | ------------------------ | ------------------------------------------------------------ |
+| Defined by?                  | Java                     | Programmer``Except `<span style="color:red">`String |
+| can be used to call methods? | no                       | yes                                                          |
+| can be null?                 | no                       | yes                                                          |
+| Naming rule                  | begin with lowercase     | begin with Uppercase                                         |
+| Data size                    | depends on the data type | all the same size                                            |
 
 ## [Java Type Casting](https://www.w3schools.com/java/java_type_casting.asp)
-- Widening Casting (automatically) - converting a smaller type to a larger type size
-byte -> short -> char -> int -> long -> float -> double
 
+- Widening Casting (automatically) - converting a smaller type to a larger type size
+  byte -> short -> char -> int -> long -> float -> double
 - Narrowing Casting (manually) - converting a larger type to a smaller size type
-double -> float -> long -> int -> char -> short -> byte
+  double -> float -> long -> int -> char -> short -> byte
 
 [Mutable vs Immutable Objects](https://www.interviewcake.com/concept/java/mutable)
 
-
 Generic Types
-
