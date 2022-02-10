@@ -47,5 +47,7 @@
 ![](image/Mahjiang/1644111030505.png)
 ![](image/Mahjiang/1644111367900.png)
 
-
+## Mixin:
 [Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
+
+[Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)

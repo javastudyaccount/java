@@ -7,5 +7,15 @@
 <body>
 <h1>Hello Mahjong</h1>
 <h4 th:text="${message}"></h4>
+<table>
+<tr>
+<td:block th:each="mentsu , mentsuStat: ${hands.handsComp}">
+    <p th:if="${mentsu != 0}">
+    	<span th:each="i : ${#numbers.sequence(0, mentsu - 1)}" th:text="${T(org.mahjong4j.tile.Tile).valueOf(mentsuStat.index)}">
+    	</span>
+    </p>
+</td:block>
+</tr>
+</table>
 </body>
 </html>
