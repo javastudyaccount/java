@@ -39,5 +39,3 @@
 |8|normal|existing absolute path, with subdirectoires|mixed extension|yes|-|
 |9|normal|existing relative path, with sub directories, filename has space|mixed extension|yes|-|
 |10|normal|existing absolute path, with subdirectoires, filename has Chinese|mixed extension|yes|-|
-
-[Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
