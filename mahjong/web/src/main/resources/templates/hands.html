@@ -10,12 +10,14 @@
 <table>
 <tr>
 <td:block th:each="mentsu , mentsuStat: ${hands.handsComp}">
-    <p th:if="${mentsu != 0}">
-    	<span th:each="i : ${#numbers.sequence(0, mentsu - 1)}" th:text="${T(org.mahjong4j.tile.Tile).valueOf(mentsuStat.index)}">
+    <span th:if="${mentsu != 0}">
+    	<span th:each="i : ${#numbers.sequence(0, mentsu - 1)}">
+    	<img th:src="@{${'/images/' + href}}" th:with="href=${T(jp.btsol.mahjong.tile.TileImage).valueOf(T(org.mahjong4j.tile.Tile).valueOf(mentsuStat.index)).getImage()}"></img>
     	</span>
-    </p>
+    </span>
 </td:block>
 </tr>
 </table>
+
 </body>
 </html>
