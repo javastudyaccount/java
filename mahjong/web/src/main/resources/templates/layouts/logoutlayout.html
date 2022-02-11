@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja"
+	class="aui ltr yui3-js-enabled webkit ltr js chrome chrome90 chrome90-0 win secure"
+	dir="ltr" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title layout:title-pattern="$CONTENT_TITLE"></title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" media="all" th:href="@{/css/othermain.css}">
+	<link rel="stylesheet" media="all" th:href="@{/css/aui.css}">
+	<link rel="stylesheet" media="all" th:href="@{/css/main7.css}">
+	<script type="text/javascript" th:src="@{/js/jquery-1.9.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js}" charset="UTF-8"></script>
+</head>
+
+<body
+    class="red yui3-skin-sam controls-visible signed-in public-page organization-site dockbar-split">
+    <div class="container-fluid" id="wrapper">
+        <header id="banner" role="banner" layout:fragment="header">
+		    <div id="heading" class="navbar">
+		        <div class="navbar-inner">
+		            <!-- .container -->
+		            <div class="container">
+		                    <img th:src="@{/images/layout_set_logo.gif}" width="200"
+		                    height="46" alt="">
+		            </div>
+		            <!-- /.container -->
+		        </div>
+		    </div>
+		    <div style="clear: both;"></div>
+		</header>
+        <div id="content"> 
+            <div class="container">
+                <div layout:fragment="content" th:remove="tag"></div>
+            </div>
+        </div>
+        <div layout:replace="~{layouts/footer::content-footer}"></div>
+        <div layout:replace="~{layouts/footer::footer}"></div>
+    </div>
+</body>
+
+</html>
