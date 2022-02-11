@@ -17,20 +17,33 @@
 		</td:block>
 		</tr>
 	</table>
+<figure>
+    <audio style="width:0px;height:0px"
+        controls
+        th:src="@{/sounds/shuffling.mp3}">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
+</figure>	
 <script th:inline="javascript">
 /*<![CDATA[*/
 function beginRandomIt(e){
 	if($("body").prop("random")){
 		$("body").prop("random", false);
+		$("audio")[0].pause();
 		window.location.href="/tiles/arranged";
 		return;
 	}
 	$("body").prop("random", true);
+	$("audio")[0].play();
 	randomIt(e);
 }
 function randomIt(e) {
 	if(!$("body").prop("random")){
 		return;
+	}
+	if($("audio")[0].ended){
+		$("audio")[0].play();
 	}
 	setTimeout(function(){
 	    var width = /*[[${WIDTH}]]*/ 1000;
@@ -47,7 +60,6 @@ function randomIt(e) {
 	    randomIt(e);
 	}, 100);
 }
-
 /*]]>*/
 </script>
 	</div>
