@@ -34,6 +34,13 @@ public abstract class MentsuCompMixin {
          * serialVersionUID
          */
         private static final long serialVersionUID = -3037187443109861496L;
+        /**
+         * Constructor
+         */
+        @SuppressWarnings("unused")
+        public MentsuCompWriter() {
+            
+        }
         public MentsuCompWriter(BeanPropertyDefinition propDef, Annotations contextAnnotations, JavaType declaredType) {
 			super(propDef, contextAnnotations, declaredType);
 		}
