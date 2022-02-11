@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+    <title>All tiles random</title>
+</head>
+<body>
+    <div layout:fragment="content">
+    <table>
+		<tr>
+		<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.tile.TileImage).values()}">
+		   	<span th:each="i, iStat : ${#numbers.sequence(0, 3)}">
+		   	<img th:style="@{${'position:absolute;left:' + positions[tileStat.index * 4 + iStat.index].center.x + 'px;top:' + positions[tileStat.index * 4 + iStat.index].center.y + 'px'}}" th:src="@{${'/images/' + href}}" th:with="href=${tile.getImage()}"></img>
+		   	</span>
+		</td:block>
+		</tr>
+	</table>
+	</div>
+</body>
+</html>

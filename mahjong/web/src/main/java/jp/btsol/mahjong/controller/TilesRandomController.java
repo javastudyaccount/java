@@ -16,8 +16,8 @@ import jp.btsol.mahjong.tile.Position;
 
 @Controller
 public class TilesRandomController {
-	private static final int width = 300;
-	private static final int height = 300;
+	private static final int width = 1000;
+	private static final int height = 1000;
 	private static final double angleMin = 0;
 	private static final double angleMax = 2 * Math.PI;
 	@GetMapping("/tiles/random")
@@ -35,6 +35,6 @@ public class TilesRandomController {
 			});
 		});
 		model.addAttribute("positions", postions);
-		return "tilesRandom";
+		return "tiles/random";
 	}  
 }

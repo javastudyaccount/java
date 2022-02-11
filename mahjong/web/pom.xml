@@ -46,8 +46,11 @@
             <groupId>jp.btsol.mahjong</groupId>
             <artifactId>library</artifactId>
             <version>${project.version}</version>
-          </dependency>
-				
+        </dependency>
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
