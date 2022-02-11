@@ -1,5 +1,16 @@
-
+tr.rotate90deg
+{
+  line-height: 8px;
+}
+tr.first_div
+{
+  line-height: 8px;
+}
 img {
     zoom: 0.5;
     -moz-transform: scale(0.5);
+}
+img.back {
+    zoom: 0.1;
+    -moz-transform: scale(0.1);
 }
