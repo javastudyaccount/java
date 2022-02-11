@@ -51,3 +51,5 @@
 [Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
 
 [Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)
+
+https://audio-previews.elements.envatousercontent.com/files/294752294/preview.mp3?response-content-disposition=attachment%3B+filename%3D%22HZVG6TV-mahjong-game-1.mp3%22
