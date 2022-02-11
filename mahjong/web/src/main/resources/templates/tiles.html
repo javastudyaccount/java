@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Mahjong</title>
+<style>
+img {
+    zoom: 0.5;
+    -moz-transform: scale(0.5);
+}
+</style>
+</head>
+<body>
+<h1>All tiles</h1>
+<h4 th:text="${message}"></h4>
+<table>
+<tr>
+<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.tile.TileImage).values()}">
+   	<span th:each="i : ${#numbers.sequence(0, 3)}">
+   	<img th:src="@{${'/images/' + href}}" th:with="href=${tile.getImage()}"></img>
+   	</span>
+</td:block>
+</tr>
+</table>
+
+</body>
+</html>
