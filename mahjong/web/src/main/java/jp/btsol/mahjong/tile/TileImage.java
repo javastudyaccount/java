@@ -1,11 +1,5 @@
 package jp.btsol.mahjong.tile;
 
-import static org.mahjong4j.tile.TileType.FONPAI;
-import static org.mahjong4j.tile.TileType.MANZU;
-import static org.mahjong4j.tile.TileType.PINZU;
-import static org.mahjong4j.tile.TileType.SANGEN;
-import static org.mahjong4j.tile.TileType.SOHZU;
-
 import org.mahjong4j.tile.Tile;
 
 public enum TileImage {
