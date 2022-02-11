@@ -52,12 +52,14 @@
 		</tr>
 	</table>
 	</div>	
-<script>
+<script th:inline="javascript">
+/*<![CDATA[*/
 $(document).ready(function() {
-	  $(".second_div").css({
-	    'width': (($(".first_div").width() + 100) + 'px')
-	  });
-	});
+  $(".second_div").css({
+    'width': (($(".first_div").width() + 100) + 'px')
+  });
+});
+/*]]>*/
 </script>
 	</div>
 </body>

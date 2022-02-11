@@ -6,17 +6,44 @@
 <head>
     <title>All tiles random</title>
 </head>
-<body>
+<body ondblclick="randomIt(event);" class="unselectable">
     <div layout:fragment="content">
     <table>
 		<tr>
 		<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.tile.TileImage).values()}">
 		   	<span th:each="i, iStat : ${#numbers.sequence(0, 3)}">
-		   	<img th:style="@{${'position:absolute;left:' + positions[tileStat.index * 4 + iStat.index].center.x + 'px;top:' + positions[tileStat.index * 4 + iStat.index].center.y + 'px'}}" th:src="@{${'/images/' + href}}" th:with="href=${tile.getImage()}"></img>
+		   	<img th:style="@{${'transform: translateX(' + positions[tileStat.index * 4 + iStat.index].center.x + 'px);transform: translateY(' + positions[tileStat.index * 4 + iStat.index].center.y + 'px)'}}" th:src="@{${'/images/' + href}}" th:with="href=${tile.getImage()}"></img>
 		   	</span>
 		</td:block>
 		</tr>
 	</table>
+<script th:inline="javascript">
+/*<![CDATA[*/
+function randomIt(e) {
+    var width = /*[[${WIDTH}]]*/ 1000;
+    var height = /*[[${HEIGHT}]]*/ 1000;
+    var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
+    var repeat = 4;
+    var index = Math.floor(Math.random() * count * 4);
+    console.log("index: " + index);
+    let x = Math.floor(Math.random() * width);
+    console.log("x: " + x);
+    $($("img")[index]).css({transform: 'translateX(' + x + ')'});
+    /*
+    for(let mentsu = 0; mentsu < count; mentsu ++){
+    	for(let i = 0; i < repeat; i ++){
+    		let index = mentsu * 4 + i;
+    		let x = Math.floor(Math.random() * width);
+    		let y = Math.floor(Math.random() * height);
+    		$($("img")[index]).css({transform: 'translateX(' + x + ')'});
+    		//$($("img")[index]).css({transform: 'translateX(' + x + ')', transform: 'translateY(' + y + ')'});
+    		//$($("img")[index]).css({transform: 'translateY(' + y + ')'});
+    	}
+    }
+    */
+}
+/*]]>*/
+</script>
 	</div>
 </body>
 </html>
