@@ -20,12 +20,20 @@ import jp.btsol.mahjong.mixin.MentsuCompMixin;
 import jp.btsol.mahjong.mixin.MentsuMixin;
 import jp.btsol.mahjong.mixin.ShuntsuMixin;
 import jp.btsol.mahjong.mixin.ToitsuMixin;
-import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Config bean
+ * 
+ * @author B&T Solutions Inc.
+ *
+ */
 @Configuration
-@Slf4j
 public class MahjongConfigBean {
-
+    /**
+     * ObjectMapper
+     * 
+     * @return ObjectMapper
+     */
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper om = new ObjectMapper();
@@ -42,7 +50,8 @@ public class MahjongConfigBean {
         om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         om.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
-
+        // Pretty Printにする
+        om.enable(SerializationFeature.INDENT_OUTPUT);
         om.addMixIn(Hands.class, HandsMixin.class);
         om.addMixIn(MentsuComp.class, MentsuCompMixin.class);
         om.addMixIn(Toitsu.class, ToitsuMixin.class);
