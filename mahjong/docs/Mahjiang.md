@@ -53,3 +53,26 @@
 [Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)
 
 https://audio-previews.elements.envatousercontent.com/files/294752294/preview.mp3?response-content-disposition=attachment%3B+filename%3D%22HZVG6TV-mahjong-game-1.mp3%22
+
+## Projects
+![](image/Mahjiang/1644579560635.png)
+
+|Project|Function|
+|--|--|
+|web|front end|
+|application|api|
+|library|common library|
+
+```plantuml
+@startuml
+
+[web]
+package "api"{
+    [application]-HTTP
+    [library]
+}
+[web] --> [library] : use
+[application] --> [library] : use
+[web] ..> HTTP
+@enduml
+```
