@@ -17,22 +17,24 @@ import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 import com.fasterxml.jackson.databind.ser.VirtualBeanPropertyWriter;
 import com.fasterxml.jackson.databind.util.Annotations;
-@JsonAppend(props = { @JsonAppend.Prop(value = MentsuCompMixin.MentsuCompWriter.class, 
-name = "mentsuList", 
-type = Mentsu[].class) })
+
+@JsonAppend(props = {@JsonAppend.Prop(value = MentsuCompMixin.MentsuCompWriter.class, //
+        name = "mentsuList", //
+        type = Mentsu[].class)})
 public abstract class MentsuCompMixin {
-	// CHECKSTYLE:OFF
-	@JsonCreator
-	// @formatter:off
+    // CHECKSTYLE:OFF
+    @JsonCreator
+    // @formatter:off
 	public MentsuCompMixin(@JsonProperty("mentsuList") List<Mentsu> mentsuList, 
 			@JsonProperty("last") Tile last) {
 	}
 
 	private static class MentsuCompWriter extends VirtualBeanPropertyWriter {
-		public MentsuCompWriter() {
-		}
-
-		public MentsuCompWriter(BeanPropertyDefinition propDef, Annotations contextAnnotations, JavaType declaredType) {
+		/**
+         * serialVersionUID
+         */
+        private static final long serialVersionUID = -3037187443109861496L;
+        public MentsuCompWriter(BeanPropertyDefinition propDef, Annotations contextAnnotations, JavaType declaredType) {
 			super(propDef, contextAnnotations, declaredType);
 		}
 
