@@ -16,10 +16,10 @@ import jp.btsol.mahjong.tile.Position;
 
 @Controller
 public class TilesRandomController {
-	private static final int width = 1000;
-	private static final int height = 1000;
-	private static final double angleMin = 0;
-	private static final double angleMax = 2 * Math.PI;
+	private static final int WIDTH = 500;
+	private static final int HEIGHT = 500;
+	private static final double ANGLE_MIN = 0;
+	private static final double ANGLE_MAX = 2 * Math.PI;
 	@GetMapping("/tiles/random")
 	public String home(Model model) {
 		List<Position> postions = new ArrayList<>();
@@ -27,14 +27,16 @@ public class TilesRandomController {
 			IntStream.range(0, 4).forEach(i ->{
 				Position pos = new Position();
 				Point center = new Point();
-				center.x = ThreadLocalRandom.current().nextInt(width);
-				center.y = ThreadLocalRandom.current().nextInt(height);
+				center.x = ThreadLocalRandom.current().nextInt(WIDTH);
+				center.y = ThreadLocalRandom.current().nextInt(HEIGHT);
 				pos.setCenter(center);
-				pos.setAngle(ThreadLocalRandom.current().nextDouble(angleMin, angleMax));
+				pos.setAngle(ThreadLocalRandom.current().nextDouble(ANGLE_MIN, ANGLE_MAX));
 				postions.add(pos);
 			});
 		});
+		model.addAttribute("WIDTH", WIDTH);
+		model.addAttribute("HEIGHT", HEIGHT);
 		model.addAttribute("positions", postions);
 		return "tiles/random";
-	}  
+	}
 }
