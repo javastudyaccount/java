@@ -13,15 +13,36 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jp.btsol.mahjong.tile.Position;
-
+/**
+ * Show all tiles randomly
+ * @author B&T Soutions Inc.
+ *
+ */
 @Controller
 public class TilesRandomController {
+	/**
+	 * width of table
+	 */
 	private static final int WIDTH = 500;
+	/**
+	 * height of table
+	 */
 	private static final int HEIGHT = 500;
+	/**
+	 * min angle for randomly displaying tile
+	 */
 	private static final double ANGLE_MIN = 0;
+	/**
+	 * max angle for randomly displaying tile
+	 */
 	private static final double ANGLE_MAX = 2 * Math.PI;
+	/**
+	 * show tiles randomly
+	 * @param model Model
+	 * @return String random tempate
+	 */
 	@GetMapping("/tiles/random")
-	public String home(Model model) {
+	public String random(Model model) {
 		List<Position> postions = new ArrayList<>();
 		Arrays.stream(Tile.values()).forEach(tile->{
 			IntStream.range(0, 4).forEach(i ->{
