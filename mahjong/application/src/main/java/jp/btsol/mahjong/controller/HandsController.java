@@ -6,14 +6,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.service.HandsService;
 
+/**
+ * Hands controller
+ * 
+ * @author B&T Solutions Inc.
+ *
+ */
 @RestController
 public class HandsController {
-	private final HandsService myService;
-	public HandsController(HandsService myService) {
-		this.myService = myService;
-	}
-	@GetMapping("/hands")
-	public Hands getHands() {
-		return myService.getHands();
-	}
+    /**
+     * hands service
+     */
+    private final HandsService handsService;
+
+    /**
+     * Constructor
+     * 
+     * @param handsService HandsService
+     */
+    public HandsController(HandsService handsService) {
+        this.handsService = handsService;
+    }
+
+    /**
+     * get Hands
+     * 
+     * @return Hands
+     */
+    @GetMapping("/hands")
+    public Hands getHands() {
+        return handsService.getHands();
+    }
 }

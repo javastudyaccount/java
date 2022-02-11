@@ -3,8 +3,21 @@ package jp.btsol.mahjong.tile;
 import java.awt.Point;
 
 import lombok.Data;
+
+/**
+ * Position for tile
+ * 
+ * @author B&T Solutions Inc.
+ *
+ */
 @Data
 public class Position {
-	private Point center;
-	private double angle;
+    /**
+     * center point
+     */
+    private Point center;
+    /**
+     * angle
+     */
+    private double angle;
 }
