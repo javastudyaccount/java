@@ -75,6 +75,35 @@ package "api"{
 [web] ..> HTTP
 @enduml
 ```
+### How to run
+1. Install SpringToolSuite4
+1. Start SpringToolSuite4
+
+    ![](image/Mahjiang/1644647950208.png)
+1. Select workspace
+   ![](image/Mahjiang/1644648159187.png)
+1. Import project
+   ![](image/Mahjiang/1644648227541.png)
+3. Import existing maven project
+   ![](image/Mahjiang/1644648290361.png)
+1. Select mahjong project
+   ![](image/Mahjiang/1644648339201.png)
+1. Open project explorer
+   ![](image/Mahjiang/1644649057023.png)
+1. Three modules imported
+   ![](image/Mahjiang/1644649093770.png)   
+1. Import web as project
+   ![](image/Mahjiang/1644649124894.png)   
+   ![](image/Mahjiang/1644649146156.png)
+2. Run application
+   ![](image/Mahjiang/1644648497777.png)
+3. Application started at port 8088
+   ![](image/Mahjiang/1644648637371.png)
+1. Run web
+   ![](image/Mahjiang/1644649194603.png)
+1. Web started at port 8089
+   ![](image/Mahjiang/1644649247875.png)   
+
 
 ### Mahjong room
 #### Create new room
@@ -134,6 +163,8 @@ package "api"{
     - [deleted]         (none)     -> origin/mvn
 
     systemi@PC526 MINGW64 /c/app/java (development)
+### Delete remote branch
+    $ git push --delete origin 20220205_xiangyang_homework    
 ### List all branches again
     $ git branch -a
     * development
