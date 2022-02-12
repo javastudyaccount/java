@@ -75,6 +75,18 @@ package "api"{
 [web] ..> HTTP
 @enduml
 ```
+
+Java
+    Springboot(Framework) Spring Wicket Struts 
+Database Oracle MySQL Postgresql
+    Hibernate
+    Mybatis
+RestAPI    
+Thymeleaf Wicket JSP 
+HTML
+CSS
+JS
+
 ### How to run
 1. Install SpringToolSuite4
 1. Start SpringToolSuite4
@@ -113,6 +125,7 @@ package "api"{
 #### Enter room as visitor
 
 #### List all rooms
+#### Private room
 
 ### Play Mahjong
 #### Sitting
