@@ -111,12 +111,18 @@ JS
    ![](image/Mahjiang/1644648497777.png)
 3. Application started at port 8088
    ![](image/Mahjiang/1644648637371.png)
-1. Run web
+1. Test a api
+   http://localhost:8088/hands
+   ![](image/Mahjiang/1644673441779.png)   
+2. Run web
    ![](image/Mahjiang/1644649194603.png)
-1. Web started at port 8089
+3. Web started at port 8089
    ![](image/Mahjiang/1644649247875.png)   
-
-
+1. Test a web page
+   http://localhost:8089/hands
+   ![](image/Mahjiang/1644673492424.png)
+   [Shuffling video](media/shuffling.mp4)
+   
 ### Mahjong room
 #### Create new room
 #### Invite player
