@@ -29,7 +29,7 @@ public abstract class MentsuCompMixin {
 			@JsonProperty("last") Tile last) {
 	}
 
-	private static class MentsuCompWriter extends VirtualBeanPropertyWriter {
+	public static class MentsuCompWriter extends VirtualBeanPropertyWriter {
 		/**
          * serialVersionUID
          */

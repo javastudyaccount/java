@@ -76,3 +76,29 @@ package "api"{
 [web] ..> HTTP
 @enduml
 ```
+
+### Mahjong room
+#### Create new room
+#### Invite player
+#### Enter room as player
+#### Invite visitor
+#### Enter room as visitor
+
+#### List all rooms
+
+### Play Mahjong
+#### Sitting
+#### Shuffling
+#### [掷色子](https://codesandbox.io/s/zhisezi-pk3lo) to decide Zhuangjia(Dealer, East player)
+#### Decide where to pick tiles
+#### Pick tiles
+#### Play
+#### Pay
+#### Record wins and loses
+
+cd /c/app/java/mahjong
+chcp.com 932
+mvn install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+
+cd /c/app/java/mahjong/web 
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8189"
