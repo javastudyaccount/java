@@ -1,6 +1,7 @@
  [mahjong4j github](https://github.com/mahjong4j/mahjong4j.git)
  
 ## Beginner
+Make mvn project with multiple modules
 1. Google searh "mnv springboot create multiproject"
 2. [Creating a Multi Module Project](https://spring.io/guides/gs/multi-module/)
 3. $ `mkdir mahjong`
@@ -17,9 +18,7 @@
 2. $ `git add .`
 1. $ `git commit -m init`
 
-
- mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
-
+mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 
 [Spring Bootとは? Spring BootでWebアプリ開発を始めるために必要な知識を紹介](https://i-common-tech.jp/column/940)
     [Spring BootでThymeleafを使ってhello worldを表示させる方法には？](https://i-common-tech.jp/column/940#Spring+Boot%E3%81%A7Thymeleaf%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hello+world%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%AF%EF%BC%9F)
@@ -96,9 +95,53 @@ package "api"{
 #### Pay
 #### Record wins and loses
 
-cd /c/app/java/mahjong
-chcp.com 932
-mvn install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+### Start web and application 
+`cd /c/app/java/mahjong`
+`chcp.com 932`
+`mvn install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true`
 
-cd /c/app/java/mahjong/web 
-mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8189"
+`cd /c/app/java/mahjong/web`
+`mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8189"`
+
+`cd /c/app/java/mahjong/application`
+`mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8188"`
+
+### List all branches
+    $ git branch -a
+    * development
+    mvn
+    remotes/origin/20220205_xiangyang_homework
+    remotes/origin/20220205_xiangyang_homework1
+    remotes/origin/20220205_xinwei_homework
+    remotes/origin/HEAD -> origin/development
+    remotes/origin/development
+    remotes/origin/main
+    remotes/origin/mvn
+
+    systemi@PC526 MINGW64 /c/app/java (development)
+
+### Delete local branch
+
+    $ git branch --delete mvn
+    Deleted branch mvn (was 73b94d9).
+
+    systemi@PC526 MINGW64 /c/app/java (development)
+
+### Prune remote branch
+
+    $ git fetch --prune
+    From https://github.com/javastudyaccount/java
+    - [deleted]         (none)     -> origin/mvn
+
+    systemi@PC526 MINGW64 /c/app/java (development)
+### List all branches again
+    $ git branch -a
+    * development
+    remotes/origin/20220205_xiangyang_homework
+    remotes/origin/20220205_xiangyang_homework1
+    remotes/origin/20220205_xinwei_homework
+    remotes/origin/HEAD -> origin/development
+    remotes/origin/development
+    remotes/origin/main
+
+    systemi@PC526 MINGW64 /c/app/java (development)
