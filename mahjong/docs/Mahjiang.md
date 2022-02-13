@@ -48,11 +48,6 @@ mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 ![](image/Mahjiang/1644111030505.png)
 ![](image/Mahjiang/1644111367900.png)
 
-## Mixin:
-[Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
-
-[Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)
-
 ## Projects
 ![](image/Mahjiang/1644579560635.png)
 
@@ -75,7 +70,15 @@ package "api"{
 [web] ..> HTTP
 @enduml
 ```
+![](image/Mahjiang/1644734013436.png)
+https://qiita.com/kazuki43zoo/items/757b557c05f548c6c5db
 
+![](image/Mahjiang/1644734088691.png)
+
+## Mixin:
+[Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
+
+[Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)
 Java
     Springboot(Framework) Spring Wicket Struts 
 Database Oracle MySQL Postgresql
@@ -143,6 +146,7 @@ JS
 #### Pay
 #### Record wins and loses
 
+[简单的麻将ai算法](https://doc.xuwenliang.com/docs/ai/1495)
 ### Start web and application 
 `cd /c/app/java/mahjong`
 `chcp.com 932`
