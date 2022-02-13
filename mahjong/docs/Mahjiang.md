@@ -138,7 +138,7 @@ JS
 ### Play Mahjong
 #### Sitting
 #### Shuffling
-#### [掷色子](https://codesandbox.io/s/zhisezi-pk3lo) to decide Zhuangjia(Dealer, East player)
+#### [掷色子](https://www.goocode.net/demo/dice/index.php) to decide Zhuangjia(Dealer, East player)
 #### Decide where to pick tiles
 #### Pick tiles
 #### Play
