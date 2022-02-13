@@ -92,6 +92,7 @@ $(document).ready(function() {
 	var size = Math.min(height, width);
 	var ratio = $("img")[0].height / $("img")[0].width;
 	var tileWidth = ((size - 2 * (size / 17 * ratio)) / 17) | 0;
+	var tileHeight = (tileWidth / ratio) | 0;
 	$("img.bottom").css({"width": tileWidth + 'px'});
 	//158, 606
 	//558, 434
@@ -158,9 +159,30 @@ $(document).ready(function() {
     	$("img.bottom2").css({"transform": "translateY(30px)"})
     }
 });
-function tile(direction, column, upperlower){
-	var tiles = /*[[${tiles}]]*/ [];
-	var images = /*[[${T(jp.btsol.mahjong.tile.TileImage).images()}]]*/ [];
+function pick(direction, column, upperlower, count, todirection){
+    const padding = 30;
+    var height = $(window).height();
+    var width = $(window).width();
+    var size = Math.min(height, width);
+    var ratio = $("img")[0].height / $("img")[0].width;
+    var tileWidth = ((size - 2 * (size / 17 * ratio)) / 17) | 0;
+    var tileHeight = (tileWidth / ratio) | 0;
+    
+    if(count == 1){
+        var index = tileIndex(direction, column, upperlower)
+        $($("img")[index]).css({"transition": "transform 1s", "left": "100px", "top": (size - padding - tileHeight) + 'px'})
+    }
+}
+function tileImage(direction, column, upperlower){
+    var index = tileIndex(direction, column, upperlower)
+    var tiles = /*[[${tiles}]]*/ [];
+    var images = /*[[${T(jp.btsol.mahjong.tile.TileImage).images()}]]*/ [];
+    var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
+    return images[tiles[index] % count];
+}
+function tileIndex(direction, column, upperlower){
+	//var tiles = /*[[${tiles}]]*/ [];
+	//var images = /*[[${T(jp.btsol.mahjong.tile.TileImage).images()}]]*/ [];
 	var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
 
     var index = 0;
@@ -178,7 +200,8 @@ function tile(direction, column, upperlower){
         index += count * 3;
     }
 	
-	return images[tiles[index] % count];
+	//return images[tiles[index] % count];
+	return index;
 }
 function arrage(size, tsX, tsY, teX, teY, side){
 	const padding = 30;
