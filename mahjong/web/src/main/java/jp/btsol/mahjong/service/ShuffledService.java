@@ -50,7 +50,7 @@ public class ShuffledService {
 
         final String endpoint = applicationProperties.getUri();
 
-        final String url = endpoint + applicationProperties.getHands();
+        final String url = endpoint + applicationProperties.getShuffled();
         ResponseEntity<String> json = rest.getForEntity(url, String.class);
 
         int[] tiles = null;
