@@ -114,14 +114,23 @@ JS
    ![](image/Mahjiang/1644648497777.png)
 3. Application started at port 8088
    ![](image/Mahjiang/1644648637371.png)
-1. Test a api
+1. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
+   listup all paths:
+   `curl http://localhost:9999/admin/mappings | grep patterns`
+   Output example:
+   <pre>
+    "patterns" : [ "/error" ],
+    "patterns" : [ "/hands" ],
+    "patterns" : [ "/" ],
+    </pre>
+2. Test a api
    http://localhost:8088/hands
    ![](image/Mahjiang/1644673441779.png)   
-2. Run web
+3. Run web
    ![](image/Mahjiang/1644649194603.png)
-3. Web started at port 8089
+4. Web started at port 8089
    ![](image/Mahjiang/1644649247875.png)   
-1. Test a web page
+5. Test a web page
    http://localhost:8089/hands
    ![](image/Mahjiang/1644673492424.png)
    [Shuffling video](media/shuffling.mp4)
