@@ -66,9 +66,16 @@ $(document).ready(function() {
     $(".second_div").css({
       'width': (($(".first_div").width() + 100) + 'px')
     });
+    size = size - 2 * (size / 17 * ratio);
+    size = size * 2;
+    $("#dice1").css({"position":"absolute", "left": (size/2)+'px', "top": (size/2)+'px', "zoom": 0.5});
+    $("#dice2").css({"position":"absolute", "left": (size/2 + 90)+'px', "top": (size/2)+'px', "zoom": 0.5});
 });
 /*]]>*/
 </script>
+<div id="dice1" class="dice dice_1" style="left: -2px; top: 2px; cursor: pointer;"></div>
+
+<div id="dice2" class="dice dice_1" style="left: -2px; top: 2px; cursor: pointer;"></div>
 	</div>
 </body>
 </html>

@@ -14,3 +14,13 @@ tr.first_div
 img {
     transition: transform 1s; 
 }
+
+.dice_1 {
+    background-position: -5px -4px;
+}
+.dice {
+    width: 90px;
+    height: 90px;
+    background: url(../images/dice.png) no-repeat;
+    cursor: pointer;
+}
