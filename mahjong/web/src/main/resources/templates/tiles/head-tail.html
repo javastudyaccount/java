@@ -15,17 +15,40 @@
         </td>
         </tr>
     </table>
-        <table cellspacing="0" cellpadding="0">
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+        <td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+            <img class="back left2" th:src="@{/images/back.png}"></img>
+        </td>
+        </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0">
         <tr>
         <td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
             <img class="back top" th:src="@{/images/back.png}"></img>
         </td>
         </tr>
     </table>
-        <table cellspacing="0" cellpadding="0">
+    
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+        <td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+            <img class="back top2" th:src="@{/images/back.png}"></img>
+        </td>
+        </tr>
+    </table>
+    
+    <table cellspacing="0" cellpadding="0">
         <tr>
         <td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
             <img class="back right" th:src="@{/images/back.png}"></img>
+        </td>
+        </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+        <td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+            <img class="back right2" th:src="@{/images/back.png}"></img>
         </td>
         </tr>
     </table>
@@ -37,6 +60,13 @@
 		</td>
 		</tr>
 	</table>
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+        <td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+            <img class="back bottom2" th:src="@{/images/back.png}"></img>
+        </td>
+        </tr>
+    </table>
 	
 	<figure>
     <audio style="width:0px;height:0px"
@@ -66,15 +96,19 @@ $(document).ready(function() {
 	//158, 606
 	//558, 434
 	arrage(size, 158.0, 606.0, 558.0, 434.0, "img.bottom");
+	arrage(size, 158.0, 606.0, 558.0, 434.0, "img.bottom2");
 	//610, 485
 	//430, 100
 	arrage(size, 610.0, 485.0, 430.0, 100.0, "img.right");
+	arrage(size, 610.0, 485.0, 430.0, 100.0, "img.right2");
 	//490, 50
 	//100, 230
 	arrage(size, 490.0, 50.0, 100.0, 230.0, "img.top");
+	arrage(size, 490.0, 50.0, 100.0, 230.0, "img.top2");
 	//50, 170
 	//230, 560
     arrage(size, 50.0, 170.0, 230.0, 560.0, "img.left");
+    arrage(size, 50.0, 170.0, 230.0, 560.0, "img.left2");
 
     //size = size - 2 * (size / 17 * ratio);
     size = size * 2;
@@ -119,12 +153,18 @@ function arrage(size, tsX, tsY, teX, teY, side){
     var endY = size * (teY / tableSize)
     var deg = angle(startX, startY, endX, endY)
     var length = Math.hypot(endX-startX, endY-startY)
+    var offsetX = 0
+    var offsetY = 0
+    if(side.indexOf("2") >= 0){
+    	offsetX = 4;
+    	offsetY = 2;
+    }
     $(side).each(function(i, tile){
         var x = startX + i * (endX - startX) / 17.0;
         var y = startY + i * (endY - startY) / 17.0;
         $(tile).css({"position": "absolute", 
-            "left": x, 
-            "top": y, 
+            "left": x + offsetX, 
+            "top": y + offsetY, 
             '-webkit-transform':'rotate('+deg+'deg)', 
             '-moz-transform':'rotate('+deg+'deg)',
             'transform':'rotate('+deg+'deg)',
