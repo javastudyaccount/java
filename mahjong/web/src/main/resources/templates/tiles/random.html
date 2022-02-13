@@ -30,7 +30,7 @@
 $(document).ready(function() {
     var height = $(window).height();
     var width = $(window).width();
-    var size = Math.min(height, width) - $("#footer").height();
+    var size = Math.min(height, width) - $("#footer").height() * 2;
     var ratio = $("img")[0].height / $("img")[0].width;
     var tileWidth = ((size - 2 * (size / 17 * ratio)) / 17) | 0;
 
