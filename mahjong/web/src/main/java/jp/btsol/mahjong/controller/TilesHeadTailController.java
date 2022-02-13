@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
  *
  */
 @Controller
-public class TilesArrangedController {
+public class TilesHeadTailController {
     /**
      * show arranged tiles
      * 
      * @param model Model
      * @return String arranged tiles template
      */
-    @GetMapping("/tiles/arranged")
+    @GetMapping("/tiles/headtail")
     public String home(Model model) {
 
-        return "tiles/arranged";
+        return "tiles/head-tail";
     }
 }
