@@ -152,14 +152,41 @@ $(document).ready(function() {
     	jQuery.each( tiles, function( i, val ) {
     		$($("img")[i]).attr("src", '/images/' + images[val % count]);
     	})
+    	$("img.left2").css({"transform": "translateX(-30px)"})
+    	$("img.top2").css({"transform": "translateY(-30px)"})
+    	$("img.right2").css({"transform": "translateX(30px)"})
+    	$("img.bottom2").css({"transform": "translateY(30px)"})
     }
 });
+function tile(direction, column, upperlower){
+	var tiles = /*[[${tiles}]]*/ [];
+	var images = /*[[${T(jp.btsol.mahjong.tile.TileImage).images()}]]*/ [];
+	var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
+
+    var index = 0;
+    if(upperlower == "lower"){
+        index = count / 2 - column;
+    } else {
+        index = count / 2 + count / 2 - column;
+    }
+	if(direction == "west"){
+	} else if(direction == "north"){
+        index += count;
+    } else if(direction == "east"){
+        index += count * 2;
+    } else if(direction == "south"){
+        index += count * 3;
+    }
+	
+	return images[tiles[index] % count];
+}
 function arrage(size, tsX, tsY, teX, teY, side){
+	const padding = 30;
     const tableSize = 660.0;
-    var startX = size * (tsX / tableSize)
-    var startY = size * (tsY / tableSize)
-    var endX = size * (teX / tableSize)
-    var endY = size * (teY / tableSize)
+    var startX = (size - padding * 2) * (tsX / tableSize)
+    var startY = (size - padding * 2) * (tsY / tableSize)
+    var endX = (size - padding * 2) * (teX / tableSize)
+    var endY = (size - padding * 2) * (teY / tableSize)
     var deg = angle(startX, startY, endX, endY)
     var length = Math.hypot(endX-startX, endY-startY)
     var offsetX = 0
@@ -169,8 +196,8 @@ function arrage(size, tsX, tsY, teX, teY, side){
     	offsetY = 2;
     }
     $(side).each(function(i, tile){
-        var x = startX + i * (endX - startX) / 17.0;
-        var y = startY + i * (endY - startY) / 17.0;
+        var x = startX + i * (endX - startX) / 17.0 + padding;
+        var y = startY + i * (endY - startY) / 17.0 + padding;
         $(tile).css({"position": "absolute", 
             "left": x + offsetX, 
             "top": y + offsetY, 
