@@ -48,11 +48,6 @@ mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 ![](image/Mahjiang/1644111030505.png)
 ![](image/Mahjiang/1644111367900.png)
 
-## Mixin:
-[Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
-
-[Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)
-
 ## Projects
 ![](image/Mahjiang/1644579560635.png)
 
@@ -75,7 +70,15 @@ package "api"{
 [web] ..> HTTP
 @enduml
 ```
+[Spring MVC(+Spring Boot)上でのリクエスト共通処理の実装方法を理解する](https://qiita.com/kazuki43zoo/items/757b557c05f548c6c5db)
+![](image/Mahjiang/1644734013436.png)
 
+![](image/Mahjiang/1644734088691.png)
+
+## Mixin:
+[Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
+
+[Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)
 Java
     Springboot(Framework) Spring Wicket Struts 
 Database Oracle MySQL Postgresql
@@ -111,14 +114,23 @@ JS
    ![](image/Mahjiang/1644648497777.png)
 3. Application started at port 8088
    ![](image/Mahjiang/1644648637371.png)
-1. Test a api
+1. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
+   listup all paths:
+   `curl http://localhost:9999/admin/mappings | grep patterns`
+   Output example:
+   <pre>
+    "patterns" : [ "/error" ],
+    "patterns" : [ "/hands" ],
+    "patterns" : [ "/" ],
+    </pre>
+2. Test a api
    http://localhost:8088/hands
    ![](image/Mahjiang/1644673441779.png)   
-2. Run web
+3. Run web
    ![](image/Mahjiang/1644649194603.png)
-3. Web started at port 8089
+4. Web started at port 8089
    ![](image/Mahjiang/1644649247875.png)   
-1. Test a web page
+5. Test a web page
    http://localhost:8089/hands
    ![](image/Mahjiang/1644673492424.png)
    [Shuffling video](media/shuffling.mp4)
@@ -143,6 +155,7 @@ JS
 #### Pay
 #### Record wins and loses
 
+[简单的麻将ai算法](https://doc.xuwenliang.com/docs/ai/1495)
 ### Start web and application 
 `cd /c/app/java/mahjong`
 `chcp.com 932`
