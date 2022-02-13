@@ -16,4 +16,9 @@ public class ApplicationProperties {
      * path hands
      */
     private String hands;
+
+    /**
+     * path shuffled
+     */
+    private String shuffled;
 }
