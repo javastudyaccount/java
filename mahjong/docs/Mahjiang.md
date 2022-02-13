@@ -40,6 +40,8 @@ mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
     フロントエンドプロキシサーバーの背後で実行する
     @ServerEndpoint を使用して WebSocket エンドポイントを作成する
 
+[How to reload templates without restarting the spring boot application?](https://github.com/thymeleaf/thymeleaf/issues/614)
+
 [Mahjong](https://en.wikipedia.org/wiki/Mahjong)
 ![](image/Mahjiang/1644111265138.png)
 ![](image/Mahjiang/1644111180029.png)
@@ -122,7 +124,7 @@ JS
    http://localhost:8089/hands
    ![](image/Mahjiang/1644673492424.png)
    [Shuffling video](media/shuffling.mp4)
-   
+
 ### Mahjong room
 #### Create new room
 #### Invite player

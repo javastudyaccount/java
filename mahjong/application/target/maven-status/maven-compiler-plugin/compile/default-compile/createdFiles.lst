@@ -1,0 +1,6 @@
+jp\btsol\mahjong\controller\HandsController.class
+jp\btsol\mahjong\service\HandsService.class
+jp\btsol\mahjong\service\MahjongService.class
+jp\btsol\mahjong\service\ServiceProperties.class
+META-INF\spring-configuration-metadata.json
+jp\btsol\mahjong\application\MahjongApplication.class
