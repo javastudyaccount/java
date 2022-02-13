@@ -62,11 +62,10 @@ $(document).ready(function() {
 	var tileWidth = ((size - 2 * (size / 17 * ratio)) / 17) | 0;
 	$("img.portrait").css({"width": tileWidth + 'px'});
 	var tileHeight = $("img.portrait")[0].height;
-	//$("img.landscape").css({"height": ((size - 2 * tileHeight) / 17) + 'px'});
 	$("img.landscape").css({"width": tileHeight + 'px'});
-  $(".second_div").css({
-    'width': (($(".first_div").width() + 100) + 'px')
-  });
+    $(".second_div").css({
+      'width': (($(".first_div").width() + 100) + 'px')
+    });
 });
 /*]]>*/
 </script>
