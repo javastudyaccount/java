@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 
+import jp.btsol.mahjong.constant.Constant;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,7 +40,7 @@ public class ShuffledService {
      * @return shuffled tiles
      */
     public int[] shuffled() {
-        int[] tiles = IntStream.rangeClosed(0, 133).toArray();
+        int[] tiles = IntStream.rangeClosed(0, Constant.TOTAL_TILES - 1).toArray();
         shuffleArray(tiles);
         return tiles;
     }

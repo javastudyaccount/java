@@ -144,16 +144,14 @@ $(document).ready(function() {
     dice1.click(diceFunc);
     var dice2 = $("#dice2");
     dice2.click(diceFunc);
-    /*
-    $($("img.bottom2")[3]).css({"display": "none"})
-    $($("img.bottom")[3]).css({"display": "none"})
-    $($("img.bottom2")[4]).css({"display": "none"})
-    $($("img.bottom")[4]).css({"display": "none"})
-    $($("img.bottom2")[5]).css({"display": "none"})
-    */
     var show = /*[[${show}]]*/ 'false';
     if(show){
-    	
+    	var images = /*[[${T(jp.btsol.mahjong.tile.TileImage).images()}]]*/ [];
+    	var tiles = /*[[${tiles}]]*/ [];
+    	var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
+    	jQuery.each( tiles, function( i, val ) {
+    		$($("img")[i]).attr("src", '/images/' + images[val % count]);
+    	})
     }
 });
 function arrage(size, tsX, tsY, teX, teY, side){
