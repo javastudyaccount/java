@@ -70,8 +70,8 @@ package "api"{
 [web] ..> HTTP
 @enduml
 ```
+[Spring MVC(+Spring Boot)上でのリクエスト共通処理の実装方法を理解する](https://qiita.com/kazuki43zoo/items/757b557c05f548c6c5db)
 ![](image/Mahjiang/1644734013436.png)
-https://qiita.com/kazuki43zoo/items/757b557c05f548c6c5db
 
 ![](image/Mahjiang/1644734088691.png)
 
