@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.tile;
 
+import java.util.Arrays;
+
 import org.mahjong4j.tile.Tile;
 
 /**
@@ -210,5 +212,14 @@ public enum TileImage {
      */
     public static TileImage valueOf(Tile c) {
         return TileImage.values()[c.getCode()];
+    }
+
+    /**
+     * get images for tiles
+     * 
+     * @return String[] array of images for tiles
+     */
+    public static String[] images() {
+        return Arrays.stream(TileImage.values()).map(i -> i.getImage()).toArray(String[]::new);
     }
 }

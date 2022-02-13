@@ -44,6 +44,7 @@ mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 
 [Mahjong](https://en.wikipedia.org/wiki/Mahjong)
 ![](image/Mahjiang/1644111265138.png)
+
 ![](image/Mahjiang/1644111180029.png)
 ![](image/Mahjiang/1644111030505.png)
 ![](image/Mahjiang/1644111367900.png)
