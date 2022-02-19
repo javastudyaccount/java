@@ -7,7 +7,7 @@ import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
 
-class testToCamel {
+class TestToCamel {
 	
 	@Test
 	void test1() {
