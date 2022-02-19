@@ -293,26 +293,30 @@ Wenjing: Java
 #### Docker CLI
 `$ docker exec -it /game /bin/bash`
 `$ mysql -h localhost -P 3306 -u root -p`
-#### How to copy files from host to Docker container?
-`$ docker cp foo.txt container_id:/foo.txt`
+Enter password: game
 
 #### Create database
 `mysql> create database game character set utf8;`
 `mysql> use game`
+Paste [ddl.sql](./ddl/ddl.sql)
 
 #### Create user
 `mysql> CREATE USER game IDENTIFIED BY 'game';`
 
 `mysql> GRANT ALL ON *.* TO game;`
-#### How to run SQL script in MySQL?
-`mysql> source test.sql; `
+`mysql> exit;`
 
 #### Connection
-`winpty docker run -it --rm mysql mysql -h192.168.93.40 -uroot -p`
-Enter password: mysql
+`$ mysql -h localhost -P 3306 -u game -p`
+Enter password: game
+`mysql> use game`
+`mysql> show tables;`
 
-`winpty docker run -it --rm mysql mysql -h192.168.93.40 -udeveloper -p`
-Enter password: developer
-`$ docker-copy.sh`
-`mysql> source-sqls.sql`
-            
+| Tables_in_game |
+|----------------|
+| game           |
+| game_log       |
+| game_player    |
+| player         |
+| room           |
+
