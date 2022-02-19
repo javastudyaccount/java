@@ -58,9 +58,10 @@ Xiangyue
     3dishes-->7times
     3dishes-->5times
     totol 17 times
-❗ 
+❗
 Type all codes manually.
 Don't try to copy code from Internet.
+
 1. Write a Java program to sort an array of given integers using Quick sort Algorithm.
    ![](image/homework/1644660229180.png)
    ![](image/homework/1644660259900.png)
@@ -73,5 +74,5 @@ Don't try to copy code from Internet.
    ![](image/homework/1644660130296.png)
 3. Write a Java program to remove spaces between words, change first letter to lowercase, change the first letter to uppercase for other words in a given sentence.
    Example: Do search→doSearch
-   
+
    public static String toCamel(String words)
