@@ -283,7 +283,8 @@ Wenjing: Java
    - Set Docker Daemon auto start
       - `$ echo "# Start dockerd" >> ~/.bashrc`
       - `$ echo "sudo /etc/init.d/docker start" >> ~/.bashrc`
-
+   - Set default user as root
+     - `PS> ubuntu config --default-user root` 
 ### MySQL
 #### Pull docker image
 `$ docker pull mysql`
