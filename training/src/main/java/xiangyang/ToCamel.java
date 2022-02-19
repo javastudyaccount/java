@@ -1,5 +1,9 @@
 package xiangyang;
-
+/**
+ * remove spaces between words, change first letter to lowercase, change the first letter to uppercase for other words in a given sentence.
+   Example: Do search→doSearch
+ *
+ */
 public class ToCamel {
 	/**
 	 * 将输入的字符串以“空格”分割为单词，并将第一个单词首字母大写；
