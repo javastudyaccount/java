@@ -1,2 +1,14 @@
 server:
   port: 8088
+  servlet:
+    context-path: /v1
+# Actuatorを利用する際のPrefix
+management:
+  endpoints:
+    web:
+      base-path: /admin
+      exposure:
+        include: "*"
+# Actuatorを利用する際のポート番号
+  server:
+    port: 9999    

@@ -1,0 +1,24 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /v1
+# Actuatorを利用する際のPrefix
+management:
+  endpoints:
+    web:
+      base-path: /admin
+      exposure:
+        include: "*"
+# Actuatorを利用する際のポート番号
+  server:
+    port: 9999    
+# データベース接続情報の設定
+spring:
+  datasource:
+    name: mahjongdb
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:25432/game
+    username: game
+    password: game
+entity:
+  package: jp.btsol.mahjong    

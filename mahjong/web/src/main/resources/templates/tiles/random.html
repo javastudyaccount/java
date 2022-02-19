@@ -12,7 +12,7 @@
 		<tr>
 		<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.tile.TileImage).values()}">
 		   	<span th:each="i, iStat : ${#numbers.sequence(0, 3)}">
-		   	<img th:style="@{${'position:relative; left: ' + positions[tileStat.index * 4 + iStat.index].center.x + 'px;top: ' + positions[tileStat.index * 4 + iStat.index].center.y + 'px'}}" th:src="@{${'/images/' + href}}" th:with="href=${tile.getImage()}"></img>
+		   	<img th:style="@{${'position:absolute; left: ' + positions[tileStat.index * 4 + iStat.index].center.x + 'px;top: ' + positions[tileStat.index * 4 + iStat.index].center.y + 'px'}}" th:src="@{${'/images/' + href}}" th:with="href=${tile.getImage()}"></img>
 		   	</span>
 		</td:block>
 		</tr>
@@ -27,6 +27,21 @@
 </figure>	
 <script th:inline="javascript">
 /*<![CDATA[*/
+$(document).ready(function() {
+    var height = $(window).height();
+    var width = $(window).width();
+    var size = Math.min(height, width) - $("#footer").height() * 2;
+    var ratio = $("img")[0].height / $("img")[0].width;
+    var tileWidth = ((size - 2 * (size / 17 * ratio)) / 17) | 0;
+
+    $("img").css({"width": tileWidth + 'px'});
+    $("img").each(function(i, tile){
+        let x = Math.floor(Math.random() * size);
+        let y = Math.floor(Math.random() * size);
+
+        $(tile).css({left: '' + x + 'px', top: '' + y + 'px'});
+    })
+});
 function beginRandomIt(e){
 	if($("body").prop("random")){
 		$("body").prop("random", false);

@@ -6,13 +6,13 @@
 <head>
     <title>All tiles arranged</title>
 </head>
-<body>
+<body class="unselectable">
     <div layout:fragment="content">
     <div style="padding-left:50px;padding-right:50px">
     <table cellspacing="0" cellpadding="0" class="first_div">
 		<tr class="first_div">
 		<td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
-		   	<img class="back" th:src="@{/images/back.png}"></img>
+		   	<img class="back portrait" th:src="@{/images/back.png}"></img>
 		</td>
 		</tr>
 	</table>
@@ -25,7 +25,7 @@
     <table cellspacing="0" cellpadding="0">
 		<tr class="rotate90deg" th:each="i , iStat: ${#numbers.sequence(0, 16)}">
 		<td>
-		   	<img class="back" th:src="@{/images/back90deg.png}"></img>
+		   	<img class="back landscape" th:src="@{/images/back90deg.png}"></img>
 		</td>
 		</tr>
 	</table>
@@ -34,7 +34,7 @@
     <table cellspacing="0" cellpadding="0">
 		<tr class="rotate90deg" th:each="i , iStat: ${#numbers.sequence(0, 16)}">
 		<td>
-		   	<img class="back" th:src="@{/images/back90deg.png}"></img>
+		   	<img class="back landscape" th:src="@{/images/back90deg.png}"></img>
 		</td>
 		</tr>
 	</table>
@@ -47,20 +47,51 @@
     <table cellspacing="0" cellpadding="0">
 		<tr>
 		<td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
-		   	<img class="back" th:src="@{/images/back.png}"></img>
+		   	<img class="back portrait" th:src="@{/images/back.png}"></img>
 		</td>
 		</tr>
 	</table>
 	</div>	
+	<figure>
+    <audio style="width:0px;height:0px"
+        controls
+        th:src="@{/sounds/dice.mp3}">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
+    </figure>   
 <script th:inline="javascript">
 /*<![CDATA[*/
 $(document).ready(function() {
-  $(".second_div").css({
-    'width': (($(".first_div").width() + 100) + 'px')
-  });
+	var height = $(window).height();
+	var width = $(window).width();
+	var size = Math.min(height, width);
+	var ratio = $("img.portrait")[0].height / $("img.portrait")[0].width;
+	var tileWidth = ((size - 2 * (size / 17 * ratio)) / 17) | 0;
+	$("img.portrait").css({"width": tileWidth + 'px'});
+	var tileHeight = $("img.portrait")[0].height;
+	$("img.landscape").css({"width": tileHeight + 'px'});
+    $(".second_div").css({
+      'width': (($(".first_div").width() + 100) + 'px')
+    });
+    size = size - 2 * (size / 17 * ratio);
+    size = size * 2;
+    $("#dice1").css({"position":"absolute", "left": (size/2)+'px', "top": (size/2)+'px', "zoom": 0.5});
+    $("#dice2").css({"position":"absolute", "left": (size/2 + 90)+'px', "top": (size/2)+'px', "zoom": 0.5});
+    
+    var dice1 = $("#dice1");
+    dice1.click(diceFunc);
+    var dice2 = $("#dice2");
+    dice2.click(diceFunc);
 });
 /*]]>*/
 </script>
+<div class="wrap1">
+<div id="dice1" class="dice dice_1"></div>
+</div>
+<div class="wrap2">
+<div id="dice2" class="dice dice_1"></div>
+</div>
 	</div>
 </body>
 </html>
