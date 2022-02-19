@@ -209,3 +209,37 @@ JS
     remotes/origin/main
 
     systemi@PC526 MINGW64 /c/app/java (development)
+
+### Create DDL from database
+using pgAdmin
+- Right-click on your database (or schema).
+- Choose "backup"
+- Under "Format" choose "plain"
+- Under "Dump Options #1" choose "Only schema"
+- Under "Objects" choose the tables you want.
+- Then click "backup". The output should be a plain text file with the create table statements.
+
+
+Response Responsibility
+No response -> No Responsibility
+
+Goal
+1. Job
+2. Job Searching
+3. Certificate
+ Java Programmer Certificate
+ Information Primary Skill
+
+Ni: IT Passport       
+   基本情報技術者試験  
+    
+   Java First
+Xiangyang: 中級SE（C）
+    PM？
+    日本語 N3、N2
+
+Xiangyue: Java
+    計算機等級
+
+Wenjing: Java
+            
