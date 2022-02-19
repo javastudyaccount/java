@@ -284,25 +284,28 @@ Wenjing: Java
       - `$ echo "# Start dockerd" >> ~/.bashrc`
       - `$ echo "sudo /etc/init.d/docker start" >> ~/.bashrc`
 
-
-
 ### MySQL
 #### Pull docker image
 `$ docker pull mysql`
 #### Start a mysql server instance
-`$ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=mysql -d mysql:latest `
+`$ docker run -p 3306:3306 --name game -e MYSQL_ROOT_PASSWORD=game -d mysql:latest `
 
-#### Dokcer CLI
+#### Docker CLI
+`$ docker exec -it /game /bin/bash`
 `$ mysql -h localhost -P 3306 -u root -p`
 #### How to copy files from host to Docker container?
 `$ docker cp foo.txt container_id:/foo.txt`
 
-#### Create user
-`mysql> CREATE USER developer IDENTIFIED BY 'developer';`
+#### Create database
+`mysql> create database game character set utf8;`
+`mysql> use game`
 
-`mysql> GRANT ALL ON *.* TO developer;`
+#### Create user
+`mysql> CREATE USER game IDENTIFIED BY 'game';`
+
+`mysql> GRANT ALL ON *.* TO game;`
 #### How to run SQL script in MySQL?
-`mysql> source \home\user\Desktop\test.sql; `
+`mysql> source test.sql; `
 
 #### Connection
 `winpty docker run -it --rm mysql mysql -h192.168.93.40 -uroot -p`
