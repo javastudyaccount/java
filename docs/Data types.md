@@ -126,4 +126,33 @@ Classes
 
 [Mutable vs Immutable Objects](https://www.interviewcake.com/concept/java/mutable)
 
+```java
+//String immutable
+        String a = "aaa";
+        String c = a;
+        a = "a" + "b" + "c";
+        
+        System.out.println("c: " + c);
+        //aaa
+
+class Weight{
+    private int weight;
+    public void setWeight(int weight){
+        this.weight = weight;
+    }
+    public int getWeight(){
+        return weight;
+    }
+}
+
+        Weight w1 = new Weight();
+        w1.setWeight(1999);
+        
+        Weight w2 = w1;
+        System.out.println("w2: " + w2.getWeight());
+        
+        w1.setWeight(2000);
+        System.out.println("w2: " + w2.getWeight());
+        //2000        
+```
 Generic Types
