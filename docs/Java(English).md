@@ -34,3 +34,21 @@ Learn about different types of errors in Java and practice finding them.
 
 Take your understanding of arrays and loops to the next dimension! Learn how to create and use two-dimensional arrays.
 
+## 12 File reading and writing
+
+## 13 Stream
+
+## 14 Functional
+
+## 15 Thread
+
+## 16 Generic type
+
+## 17 Database (JDBC...)
+
+## 18 Mail
+
+## 19 Push notification
+
+## 20 Excel, PDF
+

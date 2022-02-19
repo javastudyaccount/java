@@ -57,6 +57,7 @@ mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 |web|front end|
 |application|api|
 |library|common library|
+|database|jpa|
 
 ```plantuml
 @startuml
@@ -66,9 +67,13 @@ package "api"{
     [application]-HTTP
     [library]
 }
+package "database"{
+    [postgresql]
+}
 [web] --> [library] : use
 [application] --> [library] : use
 [web] ..> HTTP
+api --> database : use
 @enduml
 ```
 [Spring MVC(+Spring Boot)上でのリクエスト共通処理の実装方法を理解する](https://qiita.com/kazuki43zoo/items/757b557c05f548c6c5db)
@@ -80,16 +85,21 @@ package "api"{
 [Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
 
 [Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)
-Java
-    Springboot(Framework) Spring Wicket Struts 
-Database Oracle MySQL Postgresql
-    Hibernate
-    Mybatis
-RestAPI    
-Thymeleaf Wicket JSP 
-HTML
-CSS
-JS
+
+- Java
+  -  Springboot(Framework) Spring Wicket Struts 
+- Database (Oracle, MySQL, Postgresql)
+  - JDBC
+  - JPA
+  - Hibernate
+  - Mybatis
+  - JdbcTemplate
+  - jooq
+- RestAPI    
+- Thymeleaf Wicket JSP 
+- HTML
+- CSS
+- JS
 
 ### How to run
 1. Install SpringToolSuite4
@@ -230,6 +240,7 @@ Goal
  Java Programmer Certificate
  Information Primary Skill
 
+
 Ni: IT Passport       
    基本情報技術者試験  
     
@@ -242,4 +253,63 @@ Xiangyue: Java
     計算機等級
 
 Wenjing: Java
+
+### Docker
+    Windows 10 ビルド 18917 以降であること
+    コマンドプロンプトから確認
+
+    1. コマンドプロンプトを開く
+    2. verコマンドを実行
+    3. 出てきたバージョンが18917以上ならOK！
+
+   - [WSL install](https://docs.microsoft.com/zh-cn/windows/wsl/install)
+   `PS> wsl --install`
+
+   - [Docker install](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+     - Set up the repository
+       - `PS> wsl`
+       - `$  sudo apt-get update`
+       - `$ sudo apt-get install ca-certificates curl gnupg lsb-release`
+       - `$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg`
+       - `$  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null`
+     - Install Docker Engine
+       - `$ sudo apt-get update`
+       - `$ sudo apt-get install docker-ce docker-ce-cli containerd.io`
+     - Manually start docker
+       - `$ sudo /etc/init.d/docker start`
+     - Verify that Docker Engine
+       - `$ sudo docker run hello-world`
+   - Set Docker Daemon auto start
+      - `$ echo "# Start dockerd" >> ~/.bashrc`
+      - `$ echo "sudo /etc/init.d/docker start" >> ~/.bashrc`
+
+
+
+### MySQL
+#### Pull docker image
+`$ docker pull mysql`
+#### Start a mysql server instance
+`$ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=mysql -d mysql:latest `
+
+#### Dokcer CLI
+`$ mysql -h localhost -P 3306 -u root -p`
+#### How to copy files from host to Docker container?
+`$ docker cp foo.txt container_id:/foo.txt`
+
+#### Create user
+`mysql> CREATE USER developer IDENTIFIED BY 'developer';`
+
+`mysql> GRANT ALL ON *.* TO developer;`
+#### How to run SQL script in MySQL?
+`mysql> source \home\user\Desktop\test.sql; `
+
+#### Connection
+`winpty docker run -it --rm mysql mysql -h192.168.93.40 -uroot -p`
+Enter password: mysql
+
+`winpty docker run -it --rm mysql mysql -h192.168.93.40 -udeveloper -p`
+Enter password: developer
+`$ docker-copy.sh`
+`mysql> source-sqls.sql`
             
