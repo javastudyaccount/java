@@ -1,5 +1,8 @@
 package xiangyang;
-
+/**
+ * BinarySearch
+ *
+ */
 public class BinarySearch {
 	/**
 	 * 查找flag在nums里的位置

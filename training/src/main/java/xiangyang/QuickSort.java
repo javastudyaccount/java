@@ -1,5 +1,8 @@
 package xiangyang;
-
+/**
+ * QuickSort
+ *
+ */
 public class QuickSort {
 	
 	private int temp_array[];
