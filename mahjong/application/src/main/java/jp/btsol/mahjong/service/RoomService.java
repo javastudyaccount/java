@@ -1,0 +1,50 @@
+package jp.btsol.mahjong.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.repository.BaseRepository;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Room service
+ * 
+ * @author B&T Solutions Inc.
+ *
+ */
+@Service
+@Slf4j
+public class RoomService {
+    /**
+     * baseRepository
+     */
+    private final BaseRepository baseRepository;
+
+    public RoomService(BaseRepository baseRepository) {
+        this.baseRepository = baseRepository;
+    }
+
+    /**
+     * get rooms
+     * 
+     * @return List<Room>
+     */
+    public List<Room> getRooms() {
+        return baseRepository.findForList("select * from room", Room.class);
+    }
+
+    /**
+     * insert room
+     * 
+     * @param roomName String
+     * @return Room
+     */
+    public Room createNewRoom(String roomName) {
+        Room room = new Room();
+        room.setRoomName(roomName);
+        int roomId = baseRepository.insert(room);
+        return baseRepository.findById(roomId, Room.class);
+    }
+}

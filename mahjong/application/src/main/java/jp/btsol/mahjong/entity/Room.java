@@ -1,10 +1,13 @@
 package jp.btsol.mahjong.entity;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
-
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
 import lombok.Data;
 
 /**
@@ -14,36 +17,45 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class RoomEntity implements Serializable {
+public class Room implements Serializable {
 
     /** デフォルトシリアルバージョンID */
     private static final long serialVersionUID = 1L;
     /**  */
     @Column(nullable = false)
-    // BIGINT
+    // autoIncremnt: autoIncrement=YES
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	// sqlTypeName: BIGINT
     private long roomId;
     /**  */
     @Column(nullable = false)
-    // VARCHAR
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: VARCHAR
     private String roomName;
     /**  */
     @Column(nullable = false)
-    // BIT
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: BIT
     private boolean deletedFlg;
     /**  */
     @Column(nullable = false)
-    // TIMESTAMP
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: TIMESTAMP
     private java.sql.Timestamp createdTimestamp;
     /**  */
     @Column(nullable = false)
-    // VARCHAR
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: VARCHAR
     private String createdUser;
     /**  */
     @Column(nullable = false)
-    // TIMESTAMP
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: TIMESTAMP
     private java.sql.Timestamp updatedTimestamp;
     /**  */
     @Column(nullable = false)
-    // VARCHAR
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: VARCHAR
     private String updatedUser;
 }

@@ -95,8 +95,10 @@ api --> database : use
   - Mybatis
   - JdbcTemplate
   - jooq
+
+  [Java & Databases: An Overview of Libraries & APIs](https://www.marcobehler.com/guides/java-databases)
 - RestAPI    
-- Thymeleaf Wicket JSP 
+- Thymeleaf, Wicket, JSP, Apache Velocity
 - HTML
 - CSS
 - JS
@@ -321,3 +323,10 @@ Enter password: game
 | player         |
 | room           |
 
+```mermaid
+erDiagram
+room{
+    room_id bigint
+    room_name varchar
+}
+```

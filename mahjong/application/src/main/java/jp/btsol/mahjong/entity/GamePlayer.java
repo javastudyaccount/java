@@ -1,10 +1,13 @@
 package jp.btsol.mahjong.entity;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
-
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
 import lombok.Data;
 
 /**
@@ -14,52 +17,63 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class GamePlayerEntity implements Serializable {
+public class GamePlayer implements Serializable {
 
     /** デフォルトシリアルバージョンID */
     private static final long serialVersionUID = 1L;
     /**  */
     @Column(nullable = false)
-    // BIGINT
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: BIGINT
     private long gameId;
     /**  */
     @Column(nullable = false)
-    // BIGINT
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: BIGINT
     private long playerId;
     /**  */
     @Column(nullable = true)
-    // JSON
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: JSON
     private String mentsu;
     /**  */
     @Column(nullable = true)
-    // INT
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: INT
     private int last;
     /**  */
     @Column(nullable = false)
-    // VARCHAR
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: VARCHAR
     private String direction;
     /**  */
     @Column(nullable = false)
-    // BIT
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: BIT
     private boolean isEast;
     /**  */
     @Column(nullable = false)
-    // BIT
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: BIT
     private boolean deletedFlg;
     /**  */
     @Column(nullable = false)
-    // TIME
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: TIME
     private java.sql.Time createdTimestamp;
     /**  */
     @Column(nullable = false)
-    // VARCHAR
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: VARCHAR
     private String createdUser;
     /**  */
     @Column(nullable = false)
-    // TIME
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: TIME
     private java.sql.Time updatedTimestamp;
     /**  */
     @Column(nullable = false)
-    // VARCHAR
+    // autoIncremnt: autoIncrement=NO
+	// sqlTypeName: VARCHAR
     private String updatedUser;
 }
