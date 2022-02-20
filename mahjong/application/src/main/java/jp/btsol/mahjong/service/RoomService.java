@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.repository.BaseRepository;
+import jp.btsol.mahjong.utils.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -51,6 +52,8 @@ public class RoomService {
         room.setRoomName(roomName);
         room.setCreatedUser(requestId);
         room.setUpdatedUser(requestId);
+        new Validator<Room>().validate(room);
+
         int roomId = baseRepository.insert(room);
         return baseRepository.findById(roomId, Room.class);
     }

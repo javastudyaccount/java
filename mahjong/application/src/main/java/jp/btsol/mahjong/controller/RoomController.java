@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.service.RoomService;
+import jp.btsol.mahjong.utils.Validator;
 
 /**
  * Room controller
@@ -55,6 +56,7 @@ public class RoomController {
     @PostMapping(value = "/new")
     public Room createNewRoom(@RequestBody Room room,
             @RequestHeader(value = "request-id", required = true) String requestId) {
+        new Validator<Room>().validate(room);
         return roomService.createNewRoom(room.getRoomName(), requestId);
     }
 }

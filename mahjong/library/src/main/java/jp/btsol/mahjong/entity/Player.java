@@ -21,39 +21,25 @@ public class Player implements Serializable {
     private static final long serialVersionUID = 1L;
     /**  */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=YES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // sqlTypeName: BIGINT
     private long playerId;
     /**  */
-    @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
+    @Column(length = 20, nullable = false)
     private String nickename;
     /**  */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: BIT
     private boolean deletedFlg;
     /**  */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: TIME
     private java.sql.Time createdTimestamp;
     /**  */
-    @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
+    @Column(length = 20, nullable = false)
     private String createdUser;
     /**  */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: TIME
     private java.sql.Time updatedTimestamp;
     /**  */
-    @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
+    @Column(length = 20, nullable = false)
     private String updatedUser;
 }

@@ -27,7 +27,7 @@ public class Room implements Serializable {
     // sqlTypeName: BIGINT
     private long roomId;
     /**  */
-    @Column(nullable = false)
+    @Column(length = 50, nullable = false)
     // autoIncremnt: autoIncrement=NO
     // sqlTypeName: VARCHAR
     private String roomName;
@@ -42,7 +42,7 @@ public class Room implements Serializable {
     // sqlTypeName: TIMESTAMP
     private java.sql.Timestamp createdTimestamp;
     /**  */
-    @Column(nullable = false)
+    @Column(length = 20, nullable = false)
     // autoIncremnt: autoIncrement=NO
     // sqlTypeName: VARCHAR
     private String createdUser;
@@ -52,7 +52,7 @@ public class Room implements Serializable {
     // sqlTypeName: TIMESTAMP
     private java.sql.Timestamp updatedTimestamp;
     /**  */
-    @Column(nullable = false)
+    @Column(length = 20, nullable = false)
     // autoIncremnt: autoIncrement=NO
     // sqlTypeName: VARCHAR
     private String updatedUser;

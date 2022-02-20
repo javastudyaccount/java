@@ -89,10 +89,50 @@ class RoomServiceTest {
         RoomService roomService;
 
         @Test
-        void testCreateNewRoom() {
+        void testCreateNewRoomNameIsNullError() {
             RuntimeException e = Assertions.assertThrows(RuntimeException.class,
                     () -> roomService.createNewRoom(null, null));
             Assertions.assertEquals("room name can not be null.", e.getLocalizedMessage());
+        }
+
+        @Test
+        void testCreateNewRoomNameIsTooLongError() {
+            String nameIsMoreThan50 = "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef";
+            RuntimeException e = Assertions.assertThrows(RuntimeException.class,
+                    () -> roomService.createNewRoom(nameIsMoreThan50, "test-id"));
+            Assertions.assertEquals("Lenght of column roomName is more than 50.", e.getLocalizedMessage());
+        }
+
+        @Test
+        void testCreateNewRoomKanji() {
+            String name = "お楽しみ室";
+            Room room = roomService.createNewRoom(name, "test-id");
+            Assertions.assertNotNull(room);
+            Assertions.assertEquals("お楽しみ室", room.getRoomName());
+        }
+
+        @Test
+        void testCreateNewRoomMaxLength() {
+            String name = "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeee";
+            Room room = roomService.createNewRoom(name, "test-id");
+            Assertions.assertNotNull(room);
+            Assertions.assertEquals("aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeee", room.getRoomName());
+        }
+
+        @Test
+        void testCreateNewRoomKanjiTooLongError() {
+            String nameIsMoreThan50 = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十・";
+            RuntimeException e = Assertions.assertThrows(RuntimeException.class,
+                    () -> roomService.createNewRoom(nameIsMoreThan50, "test-id"));
+            Assertions.assertEquals("Lenght of column roomName is more than 50.", e.getLocalizedMessage());
+        }
+
+        @Test
+        void testCreateNewRoomKanjiMaxLength() {
+            String name = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十";
+            Room room = roomService.createNewRoom(name, "test-id");
+            Assertions.assertNotNull(room);
+            Assertions.assertEquals("一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十", room.getRoomName());
         }
     }
 
