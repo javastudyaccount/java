@@ -167,6 +167,7 @@ public class BaseRepository {
             }
             columnNames.add(camel2snake(f.getName()));
             paramNames.add(":" + f.getName());
+            f.setAccessible(true);
             switch (f.getName()) {
                 case "deleteFlg":
                     params.put(f.getName(), false);
@@ -179,11 +180,18 @@ public class BaseRepository {
                     break;
                 case "createdUser":
                 case "updatedUser":
-                    params.put(f.getName(), "default");
+                    try {
+                        if (Objects.isNull(f.get(entity))) {
+                            params.put(f.getName(), "default");
+                        } else {
+                            params.put(f.getName(), f.get(entity));
+                        }
+                    } catch (IllegalArgumentException | IllegalAccessException e1) {
+                        e1.printStackTrace();
+                    }
                     break;
                 default:
                     try {
-                        f.setAccessible(true);
                         params.put(f.getName(), f.get(entity));
                     } catch (IllegalArgumentException | IllegalAccessException e) {
                         e.printStackTrace();

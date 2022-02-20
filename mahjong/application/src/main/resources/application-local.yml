@@ -2,6 +2,14 @@ server:
   port: 8088
   servlet:
     context-path: /v1
+# データベース接続情報の設定
+spring:
+  datasource:
+    name: mahjongdb
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/game
+    username: game
+    password: game    
 # Actuatorを利用する際のPrefix
 management:
   endpoints:
@@ -11,15 +19,4 @@ management:
         include: "*"
 # Actuatorを利用する際のポート番号
   server:
-    port: 9999    
-# データベース接続情報の設定
-spring:
-  datasource:
-    name: mahjongdb
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/game
-    username: game
-    password: game
-entity:
-  package: jp.btsol.mahjong    
-  suffix: 
+    port: 9999

@@ -3,6 +3,9 @@ package jp.btsol.mahjong.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,11 +48,13 @@ public class RoomController {
     /**
      * create new room
      * 
+     * @param room      Room
+     * @param requestId String
      * @return Room
      */
-    @GetMapping("/new")
-    public Room createNewRoom() {
-        String roomName = "testRoom";
-        return roomService.createNewRoom(roomName);
+    @PostMapping(value = "/new")
+    public Room createNewRoom(@RequestBody Room room,
+            @RequestHeader(value = "request-id", required = true) String requestId) {
+        return roomService.createNewRoom(room.getRoomName(), requestId);
     }
 }

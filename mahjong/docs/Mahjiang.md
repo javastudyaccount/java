@@ -330,3 +330,26 @@ room{
     room_name varchar
 }
 ```
+### API Test
+#### Curl
+```shell
+curl  -X POST -v -H "request-id:requestid" -H "Content-Type:application/json" -H "api-key:AAAAAAA" -d "{\"roonName\":\"test name\"}" http://localhost:8088/v1/room/new 
+```
+```json
+< HTTP/1.1 200
+< Content-Type: application/json
+
+{
+  "roomId" : 22,
+  "roomName" : "{\"roonName\":\"test name\"}",
+  "deletedFlg" : false,
+  "createdTimestamp" : "2022-02-20T07:38:39.000+00:00",
+  "createdUser" : "default",
+  "updatedTimestamp" : "2022-02-20T07:38:39.000+00:00",
+  "updatedUser" : "default"
+}
+```
+#### Advanced REST client
+![](image/Mahjiang/1645345034221.png)
+![](image/Mahjiang/1645343275274.png)
+![](image/Mahjiang/1645343297819.png)

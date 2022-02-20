@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Rooms</title>
+</head>
+<body>
+<h1>Rooms</h1>
+<div layout:fragment="content">
+<h4 th:text="${message}"></h4>
+<table>
+<tr th:each="room, roomStat: ${rooms}">
+<td>
+   	<span th:text="${room.roomId}">
+   	</span>
+</td>
+<td>
+    <span th:text="${room.roomName}">
+    </span>
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

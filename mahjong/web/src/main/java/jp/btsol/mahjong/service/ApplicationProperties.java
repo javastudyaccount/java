@@ -13,12 +13,24 @@ public class ApplicationProperties {
      */
     private String uri;
     /**
-     * path hands
+     * path
      */
-    private String hands;
+    private Path path;
 
-    /**
-     * path shuffled
-     */
-    private String shuffled;
+    @Data
+    public static class Path {
+        /**
+         * path hands
+         */
+        private String hands;
+
+        /**
+         * path shuffled
+         */
+        private String shuffled;
+        /**
+         * rooms
+         */
+        private String rooms;
+    }
 }

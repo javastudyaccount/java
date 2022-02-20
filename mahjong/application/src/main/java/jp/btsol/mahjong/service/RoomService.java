@@ -38,12 +38,15 @@ public class RoomService {
     /**
      * insert room
      * 
-     * @param roomName String
+     * @param roomName  String
+     * @param requestId String
      * @return Room
      */
-    public Room createNewRoom(String roomName) {
+    public Room createNewRoom(String roomName, String requestId) {
         Room room = new Room();
         room.setRoomName(roomName);
+        room.setCreatedUser(requestId);
+        room.setUpdatedUser(requestId);
         int roomId = baseRepository.insert(room);
         return baseRepository.findById(roomId, Room.class);
     }

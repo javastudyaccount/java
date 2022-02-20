@@ -1,6 +1,7 @@
 package jp.btsol.mahjong.service;
 
-import org.mahjong4j.hands.Hands;
+import java.util.List;
+
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,12 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+import jp.btsol.mahjong.entity.Room;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Get tiles of a hand
+ * Room service
  * 
  * @author B&T Solutions Inc.
  *
@@ -20,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @EnableConfigurationProperties(ApplicationProperties.class)
-public class HandsService {
+public class RoomService {
     /**
      * Object mapper
      */
@@ -36,31 +39,32 @@ public class HandsService {
      * @param applicationProperties ApplicationProperties application properties
      * @param objectMapper          ObjectMapper object mapper
      */
-    public HandsService(ApplicationProperties applicationProperties, ObjectMapper objectMapper) {
+    public RoomService(ApplicationProperties applicationProperties, ObjectMapper objectMapper) {
         this.applicationProperties = applicationProperties;
         this.objectMapper = objectMapper;
     }
 
     /**
-     * get tiles of a hand
+     * get room list
      * 
-     * @return Hands
+     * @return List<Room>
      */
-    public Hands getHands() {
+    public List<Room> getRooms() {
         RestTemplate rest = new RestTemplate();
 
         final String endpoint = applicationProperties.getUri();
 
-        final String url = endpoint + applicationProperties.getPath().getHands();
+        final String url = endpoint + applicationProperties.getPath().getRooms();
         ResponseEntity<String> json = rest.getForEntity(url, String.class);
 
-        Hands hands = null;
+        List<Room> rooms = null;
         try {
-            hands = objectMapper.readValue(json.getBody(), Hands.class);
+            Room[] roomsArr = objectMapper.readValue(json.getBody(), Room[].class);
+            rooms = Arrays.asList(roomsArr);
         } catch (JsonProcessingException e) {
-            log.error("Hands error: " + e.getLocalizedMessage());
+            log.error("Rooms error: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
-        return hands;
+        return rooms;
     }
 }
