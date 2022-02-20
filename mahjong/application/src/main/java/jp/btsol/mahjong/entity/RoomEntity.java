@@ -2,6 +2,9 @@ package jp.btsol.mahjong.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import lombok.Data;
 
 /**
@@ -10,22 +13,37 @@ import lombok.Data;
  * 
  */
 @Data
+@Entity
 public class RoomEntity implements Serializable {
 
     /** デフォルトシリアルバージョンID */
     private static final long serialVersionUID = 1L;
-    /** ${column.remarks} */
+    /**  */
+    @Column(nullable = false)
+    // BIGINT
     private long roomId;
-    /** ${column.remarks} */
+    /**  */
+    @Column(nullable = false)
+    // VARCHAR
     private String roomName;
-    /** ${column.remarks} */
+    /**  */
+    @Column(nullable = false)
+    // BIT
     private boolean deletedFlg;
-    /** ${column.remarks} */
+    /**  */
+    @Column(nullable = false)
+    // TIMESTAMP
     private java.sql.Timestamp createdTimestamp;
-    /** ${column.remarks} */
+    /**  */
+    @Column(nullable = false)
+    // VARCHAR
     private String createdUser;
-    /** ${column.remarks} */
+    /**  */
+    @Column(nullable = false)
+    // TIMESTAMP
     private java.sql.Timestamp updatedTimestamp;
-    /** ${column.remarks} */
+    /**  */
+    @Column(nullable = false)
+    // VARCHAR
     private String updatedUser;
 }

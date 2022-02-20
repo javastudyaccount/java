@@ -16,8 +16,8 @@ management:
 spring:
   datasource:
     name: mahjongdb
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:25432/game
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/game
     username: game
     password: game
 entity:
