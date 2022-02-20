@@ -1,6 +1,7 @@
 package jp.btsol.mahjong.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,9 @@ public class RoomService {
      * @return Room
      */
     public Room createNewRoom(String roomName, String requestId) {
+        if (Objects.isNull(roomName)) {
+            throw new RuntimeException("room name can not be null.");
+        }
         Room room = new Room();
         room.setRoomName(roomName);
         room.setCreatedUser(requestId);
