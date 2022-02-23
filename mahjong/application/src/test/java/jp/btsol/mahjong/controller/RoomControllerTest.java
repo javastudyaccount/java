@@ -1,6 +1,5 @@
 package jp.btsol.mahjong.controller;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -21,9 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
@@ -132,8 +133,27 @@ class RoomControllerTest {
     @DisplayName("createNewRoomメソッドのテストケース")
     class createNewRoom {
         @Test
-        void testCreateNewRoom() {
-            fail("まだ実装されていません");
+        void testCreateNewRoom() throws Exception {
+            Room room = new Room(1, //
+                    "test room", //
+                    false, //
+                    null, //
+                    "test-id", //
+                    null, //
+                    "test-id");
+            when(roomService.createNewRoom("test room", "test-id")).thenReturn(room);
+            // 実行、検証
+            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
+                    .header("request-id", "test-id")//
+                    .contentType(MediaType.APPLICATION_JSON)//
+                    .content(om.writeValueAsString(room)))//
+                    .andDo(print())//
+                    .andExpect(status().isOk())//
+                    .andReturn();
+            String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+            Room roomRet = om.readValue(content, Room.class);
+
+            Assertions.assertEquals(room, roomRet);
         }
     }
 

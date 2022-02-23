@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
@@ -12,6 +14,8 @@ import lombok.Data;
  * 
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class GamePlayer implements Serializable {
 
     /** デフォルトシリアルバージョンID */
