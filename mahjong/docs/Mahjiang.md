@@ -353,3 +353,6 @@ curl  -X POST -v -H "request-id:requestid" -H "Content-Type:application/json" -H
 ![](image/Mahjiang/1645345034221.png)
 ![](image/Mahjiang/1645343275274.png)
 ![](image/Mahjiang/1645343297819.png)
+
+
+[Is there a method built in spring MockMVC to get json content as Object?](https://stackoverflow.com/questions/51873620/is-there-a-method-built-in-spring-mockmvc-to-get-json-content-as-object)

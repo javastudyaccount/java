@@ -33,7 +33,6 @@ import jp.btsol.mahjong.service.RoomServiceTest.TestConfig;
 @SpringBootTest(classes = {TestConfig.class})
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
         TransactionDbUnitTestExecutionListener.class, DbUnitTestExecutionListener.class})
-//@TestPropertySource(locations = "classpath:application-unittest.properties")
 @Transactional
 @DisplayName("RoomServiceTestのテストケース")
 class RoomServiceTest {
