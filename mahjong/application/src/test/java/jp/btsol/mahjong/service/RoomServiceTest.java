@@ -22,6 +22,8 @@ import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.loader.XlsDataSetLoader;
@@ -133,6 +135,17 @@ class RoomServiceTest {
             Room room = roomService.createNewRoom(name, "test-id");
             Assertions.assertNotNull(room);
             Assertions.assertEquals("一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十", room.getRoomName());
+        }
+
+        @Test
+        @DisplayName("Use excel to assert")
+        @DatabaseSetup(value = {"/testdata/room/in/rooms-empty.xlsx"}, type = DatabaseOperation.CLEAN_INSERT)
+        @ExpectedDatabase(value = "/testdata/room/out/rooms-1.xlsx", assertionMode = DatabaseAssertionMode.NON_STRICT)
+        void testCreateNewRoomAssertionByExcel() {
+            String name = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十";
+            Room room = roomService.createNewRoom(name, "test-id");
+//            Assertions.assertNotNull(room);
+//            Assertions.assertEquals("一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十", room.getRoomName());
         }
     }
 
