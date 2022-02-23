@@ -111,6 +111,7 @@ class RoomControllerTest {
             room.setRoomId(1);
             room.setRoomName("日本語");
             rooms.add(room);
+
             room = new Room();
             room.setRoomId(2);
             rooms.add(room);
