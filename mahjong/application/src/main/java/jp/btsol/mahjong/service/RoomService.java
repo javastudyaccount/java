@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.fw.DuplicateKeyException;
 import jp.btsol.mahjong.repository.BaseRepository;
 import jp.btsol.mahjong.utils.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +55,14 @@ public class RoomService {
         room.setUpdatedUser(requestId);
         Validator.validate(room);
 
-        int roomId = baseRepository.insert(room);
+        int roomId = 0;
+        try {
+            roomId = baseRepository.insert(room);
+        } catch (org.springframework.dao.DuplicateKeyException e) {
+            log.error(e.getLocalizedMessage());
+
+            throw new DuplicateKeyException("Room name exists.", e);
+        }
         return baseRepository.findById(roomId, Room.class);
     }
 }

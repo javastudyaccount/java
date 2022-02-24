@@ -26,6 +26,7 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.fw.DuplicateKeyException;
 import jp.btsol.mahjong.loader.XlsDataSetLoader;
 import jp.btsol.mahjong.service.RoomServiceTest.TestConfig;
 
@@ -143,8 +144,17 @@ class RoomServiceTest {
         void testCreateNewRoomAssertionByExcel() {
             String name = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十";
             Room room = roomService.createNewRoom(name, "test-id");
-//            Assertions.assertNotNull(room);
+            Assertions.assertNotNull(room);
 //            Assertions.assertEquals("一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十", room.getRoomName());
+        }
+
+        @Test
+        void testCreateNewRoomNameUniqueError() {
+            String name = "一二三四五六七八九十";
+            Room room = roomService.createNewRoom(name, "test-id");
+            RuntimeException e = Assertions.assertThrows(DuplicateKeyException.class,
+                    () -> roomService.createNewRoom(name, "test-id"));
+            Assertions.assertEquals("Room name exists.", e.getLocalizedMessage());
         }
     }
 
