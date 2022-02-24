@@ -76,9 +76,9 @@ class RoomServiceTest {
             Room room33 = rooms.get(32);
             // テストを途中で止めずに一気に評価したい
             Assertions.assertAll(() -> Assertions.assertEquals(1, room.getRoomId()),
-                    () -> Assertions.assertEquals("testRoom", room.getRoomName()),
+                    () -> Assertions.assertEquals("testRoom1", room.getRoomName()),
                     () -> Assertions.assertEquals(33, room33.getRoomId()),
-                    () -> Assertions.assertEquals("test create new room2", room33.getRoomName()));
+                    () -> Assertions.assertEquals("test create new room233", room33.getRoomName()));
         }
     }
 
