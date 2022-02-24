@@ -52,7 +52,7 @@ public class RoomService {
         room.setRoomName(roomName);
         room.setCreatedUser(requestId);
         room.setUpdatedUser(requestId);
-        new Validator<Room>().validate(room);
+        Validator.validate(room);
 
         int roomId = baseRepository.insert(room);
         return baseRepository.findById(roomId, Room.class);

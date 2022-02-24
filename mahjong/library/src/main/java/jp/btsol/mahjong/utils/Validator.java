@@ -5,8 +5,22 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 
-public class Validator<T> {
-    public void validate(T entity) {
+public class Validator {
+    public static int getMaxLength(Object entity, String fieldName) {
+
+        try {
+            Field f = entity.getClass().getDeclaredField(fieldName);
+            Column column = f.getAnnotation(Column.class);
+            if (Objects.nonNull(column)) {
+                return column.length();
+            }
+        } catch (NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static void validate(Object entity) {
         for (Field f : entity.getClass().getDeclaredFields()) {
             Column column = f.getAnnotation(Column.class);
             if (Objects.nonNull(column) && column.length() > 0) {

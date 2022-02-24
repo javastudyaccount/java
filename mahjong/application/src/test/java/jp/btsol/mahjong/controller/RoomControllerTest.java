@@ -64,9 +64,6 @@ class RoomControllerTest {
     @Nested
     @DisplayName("getRoomsメソッドのテストケース")
     class getRooms {
-        @Autowired
-        RoomService roomService;
-
         @Test
         void testGetRoomsEmpty() throws Exception {
             // モック設定
@@ -134,6 +131,40 @@ class RoomControllerTest {
     @DisplayName("createNewRoomメソッドのテストケース")
     class createNewRoom {
         @Test
+        void testCreateNewRoomNoRequestIDError() throws Exception {
+            // 実行、検証
+            mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
+                    .contentType(MediaType.APPLICATION_JSON)//
+                    .content("test room"))//
+                    .andDo(print())//
+                    .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void testCreateNewRoomNameNullError() throws Exception {
+            // 実行、検証
+            mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
+                    .header("request-id", "test-id")//
+                    .contentType(MediaType.APPLICATION_JSON)//
+                    .content(""))//
+                    .andDo(print())//
+                    .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void testCreateNewRoomNameMoreThan50Error() throws Exception {
+            // 実行、検証
+            mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
+                    .header("request-id", "test-id")//
+                    .contentType(MediaType.APPLICATION_JSON)//
+                    .content("aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef"))//
+                    .andDo(print())//
+                    .andExpect(status().isBadRequest())//
+                    .andExpect(result -> Assertions.assertEquals("room name is more than 50",
+                            result.getResolvedException().getMessage()));
+        }
+
+        @Test
         void testCreateNewRoom() throws Exception {
             Room room = new Room(1, //
                     "test room", //
@@ -147,7 +178,7 @@ class RoomControllerTest {
             MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
                     .contentType(MediaType.APPLICATION_JSON)//
-                    .content(om.writeValueAsString(room)))//
+                    .content("test room"))//
                     .andDo(print())//
                     .andExpect(status().isOk())//
                     .andReturn();
