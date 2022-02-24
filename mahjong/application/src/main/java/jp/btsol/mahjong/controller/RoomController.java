@@ -59,7 +59,7 @@ public class RoomController {
             @RequestHeader(value = "request-id", required = true) String requestId) {
         int maxNameLen = Validator.getMaxLength(new Room(), "roomName");
         if (maxNameLen > 0 && roomName.length() > maxNameLen) {
-            throw new BadRequestException("room name is more than " + maxNameLen);
+            throw new BadRequestException("room name is more than " + maxNameLen + ".");
         }
         return roomService.createNewRoom(roomName, requestId);
     }

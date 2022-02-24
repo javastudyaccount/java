@@ -161,7 +161,7 @@ class RoomControllerTest {
                     .content("aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef"))//
                     .andDo(print())//
                     .andExpect(status().isBadRequest())//
-                    .andExpect(result -> Assertions.assertEquals("room name is more than 50",
+                    .andExpect(result -> Assertions.assertEquals("room name is more than 50.",
                             result.getResolvedException().getMessage()));
         }
 
