@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.btsol.mahjong.controller.RoomControllerTest.TestConfig;
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.fw.DuplicateKeyException;
 import jp.btsol.mahjong.service.RoomService;
 
 @DirtiesContext
@@ -186,6 +187,21 @@ class RoomControllerTest {
             Room roomRet = om.readValue(content, Room.class);
 
             Assertions.assertEquals(room, roomRet);
+        }
+
+        @Test
+        void testCreateNewRoomDuplicateNameError() throws Exception {
+            when(roomService.createNewRoom("test room", "test-id"))
+                    .thenThrow(new DuplicateKeyException("Room name exists."));
+            // 実行、検証
+            mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
+                    .header("request-id", "test-id")//
+                    .contentType(MediaType.APPLICATION_JSON)//
+                    .content("test room"))//
+                    .andDo(print())//
+                    .andExpect(status().isInternalServerError())//
+                    .andExpect(result -> Assertions.assertEquals("Room name exists.",
+                            result.getResolvedException().getLocalizedMessage()));
         }
     }
 
