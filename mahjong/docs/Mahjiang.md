@@ -127,7 +127,10 @@ api --> database : use
    ![](image/Mahjiang/1644648497777.png)
 3. Application started at port 8088
    ![](image/Mahjiang/1644648637371.png)
-1. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
+
+1. mnv
+   mvn clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+2. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
    listup all paths:
    `curl http://localhost:9999/admin/mappings | grep patterns`
    Output example:
@@ -136,14 +139,14 @@ api --> database : use
     "patterns" : [ "/hands" ],
     "patterns" : [ "/" ],
     </pre>
-2. Test a api
-   http://localhost:8088/hands
+3. Test a api
+   http://localhost:8088/v1/hands
    ![](image/Mahjiang/1644673441779.png)   
-3. Run web
+4. Run web
    ![](image/Mahjiang/1644649194603.png)
-4. Web started at port 8089
+5. Web started at port 8089
    ![](image/Mahjiang/1644649247875.png)   
-5. Test a web page
+6. Test a web page
    http://localhost:8089/hands
    ![](image/Mahjiang/1644673492424.png)
    [Shuffling video](media/shuffling.mp4)
@@ -333,7 +336,7 @@ room{
 ### API Test
 #### Curl
 ```shell
-curl  -X POST -v -H "request-id:requestid" -H "Content-Type:application/json" -H "api-key:AAAAAAA" -d "{\"roonName\":\"test name\"}" http://localhost:8088/v1/room/new 
+curl  -X POST -v -H "request-id:requestid" -H "Content-Type:application/json" -H "api-key:AAAAAAA" -d "test name" http://localhost:8088/v1/room/new 
 ```
 ```json
 < HTTP/1.1 200
