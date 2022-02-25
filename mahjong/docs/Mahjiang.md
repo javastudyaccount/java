@@ -20,6 +20,9 @@ Make mvn project with multiple modules
 
 mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 
+chcp.com 65001
+
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8188" -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 [Spring Bootとは? Spring BootでWebアプリ開発を始めるために必要な知識を紹介](https://i-common-tech.jp/column/940)
     [Spring BootでThymeleafを使ってhello worldを表示させる方法には？](https://i-common-tech.jp/column/940#Spring+Boot%E3%81%A7Thymeleaf%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hello+world%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%AF%EF%BC%9F)
 
@@ -104,33 +107,37 @@ api --> database : use
 - JS
 
 ### How to run
-1. Install SpringToolSuite4
-1. Start SpringToolSuite4
+1. Install Java 1.11
+
+3. Install SpringToolSuite4
+4. Intall lombok.jar
+   `java -jar lombok.jar`
+6. Start SpringToolSuite4
 
     ![](image/Mahjiang/1644647950208.png)
-1. Select workspace
+7. Select workspace
    ![](image/Mahjiang/1644648159187.png)
-1. Import project
+8. Import project
    ![](image/Mahjiang/1644648227541.png)
-3. Import existing maven project
+9. Import existing maven project
    ![](image/Mahjiang/1644648290361.png)
-1. Select mahjong project
+10. Select mahjong project
    ![](image/Mahjiang/1644648339201.png)
-1. Open project explorer
+11. Open project explorer
    ![](image/Mahjiang/1644649057023.png)
-1. Three modules imported
+12. Three modules imported
    ![](image/Mahjiang/1644649093770.png)   
-1. Import web as project
+11. Import web as project
    ![](image/Mahjiang/1644649124894.png)   
    ![](image/Mahjiang/1644649146156.png)
-2. Run application
+12. Run application
    ![](image/Mahjiang/1644648497777.png)
-3. Application started at port 8088
+13. Application started at port 8088
    ![](image/Mahjiang/1644648637371.png)
 
-1. mnv
+14. mvn
    mvn clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
-2. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
+15. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
    listup all paths:
    `curl http://localhost:9999/admin/mappings | grep patterns`
    Output example:
@@ -139,14 +146,14 @@ api --> database : use
     "patterns" : [ "/hands" ],
     "patterns" : [ "/" ],
     </pre>
-3. Test a api
+16. Test a api
    http://localhost:8088/v1/hands
    ![](image/Mahjiang/1644673441779.png)   
-4. Run web
+17. Run web
    ![](image/Mahjiang/1644649194603.png)
-5. Web started at port 8089
+18. Web started at port 8089
    ![](image/Mahjiang/1644649247875.png)   
-6. Test a web page
+19. Test a web page
    http://localhost:8089/hands
    ![](image/Mahjiang/1644673492424.png)
    [Shuffling video](media/shuffling.mp4)
