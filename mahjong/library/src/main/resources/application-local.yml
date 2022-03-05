@@ -1,0 +1,13 @@
+# データベース接続情報の設定
+spring:
+  datasource:
+    name: mahjongdb
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/game
+    username: game
+    password: game
+entity:
+  package: jp.btsol.mahjong    
+  suffix: 
+service:
+  message: 魔女Mahjong service is avaliable.  

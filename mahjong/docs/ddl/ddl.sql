@@ -72,5 +72,8 @@ CREATE TABLE room (
     updated_user varchar(20) NOT NULL,
     PRIMARY KEY (room_id)
 );
+CREATE UNIQUE INDEX room_name_unique
+    ON room (room_name);
+
 
 

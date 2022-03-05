@@ -12,5 +12,7 @@
         <module>library</module>
         <module>application</module>
     </modules>
-
+    <properties>
+        <spring-boot.run.skip>true</spring-boot.run.skip>
+    </properties>
 </project>

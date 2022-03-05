@@ -1,3 +1,4 @@
+C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\entity\GameLog.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\yakuman\TsuisoResolver.java
 C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\mixin\KantsuMixin.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\ChitoitsuResolver.java
@@ -8,6 +9,7 @@ C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\mixin\HandsMixin.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\RinshankaihohResolver.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\hands\Toitsu.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\PeikoResolver.java
+C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\entity\ErrorDataEntity.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\hands\MentsuComp.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\HonitsuResolver.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\yakuman\SuankoResolver.java
@@ -25,6 +27,7 @@ C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\mixin\KotsuMixin.java
 C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\mixin\ShuntsuMixin.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\BakazeResolver.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\yakuman\KokushimusoResolver.java
+C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\entity\Player.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\IllegalMentsuSizeException.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\ShosangenResolver.java
 C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\config\MahjongConfigBean.java
@@ -35,11 +38,15 @@ C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\Sanshokudoh
 C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\mixin\MentsuMixin.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\hands\Hands.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\SanshokudohjunResolver.java
+C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\constant\Constant.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\SituationResolver.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\hands\Shuntsu.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\Player.java
+C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\entity\Game.java
+C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\entity\GamePlayer.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\IkkitsukanResolver.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\IppatsuResolver.java
+C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\entity\Room.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\HandsOverFlowException.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\MahjongBoard.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\yakuman\ChinrohtohResolver.java
@@ -76,3 +83,4 @@ C:\app\java\mahjong\library\src\main\java\org\mahjong4j\MahjongTileOverFlowExcep
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\ToitoihoResolver.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\yakuman\ChurenpohtohResolver.java
 C:\app\java\mahjong\library\src\main\java\org\mahjong4j\yaku\normals\ChantaResolver.java
+C:\app\java\mahjong\library\src\main\java\jp\btsol\mahjong\utils\Validator.java

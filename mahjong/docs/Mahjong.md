@@ -18,10 +18,13 @@ Make mvn project with multiple modules
 2. $ `git add .`
 1. $ `git commit -m init`
 
-mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+`mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true`
+
+`mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8188" -Dmaven.test.skip=true -Dmaven.javadoc.skip=true`
 
 [Spring Bootとは? Spring BootでWebアプリ開発を始めるために必要な知識を紹介](https://i-common-tech.jp/column/940)
-    [Spring BootでThymeleafを使ってhello worldを表示させる方法には？](https://i-common-tech.jp/column/940#Spring+Boot%E3%81%A7Thymeleaf%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hello+world%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%AF%EF%BC%9F)
+
+   [Spring BootでThymeleafを使ってhello worldを表示させる方法には？](https://i-common-tech.jp/column/940#Spring+Boot%E3%81%A7Thymeleaf%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hello+world%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%AF%EF%BC%9F)
 
 ## [逆にWebAPIを呼び出してみよう編](https://zenn.dev/sugaryo/books/spring-boot-run-up/viewer/api_call)
   [RestTemplateラッパー三点セット](https://zenn.dev/sugaryo/books/spring-boot-run-up/viewer/api_call#%E2%96%A0resttemplate%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E4%B8%89%E7%82%B9%E3%82%BB%E3%83%83%E3%83%88)
@@ -62,17 +65,30 @@ mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 ```plantuml
 @startuml
 
-[web]
+package "web"{
+   [Springboot]
+   [html]
+   [Thymeleaf]
+   [JQuery]
+   [css]
+}
+
+[vue.js]
+[iPhone]
+[Android]
 package "api"{
     [application]-HTTP
-    [library]
 }
+[library]
 package "database"{
-    [postgresql]
+    [MySQL]
 }
-[web] --> [library] : use
+web --> [library] : use
+[vue.js] ..> HTTP : use
+[iPhone] ..> HTTP : use
+[Android] ..> HTTP : use
 [application] --> [library] : use
-[web] ..> HTTP
+web ..> HTTP
 api --> database : use
 @enduml
 ```
@@ -95,37 +111,50 @@ api --> database : use
   - Mybatis
   - JdbcTemplate
   - jooq
+
+  [Java & Databases: An Overview of Libraries & APIs](https://www.marcobehler.com/guides/java-databases)
 - RestAPI    
-- Thymeleaf Wicket JSP 
+- Thymeleaf, Wicket, JSP, Apache Velocity
 - HTML
 - CSS
 - JS
 
 ### How to run
-1. Install SpringToolSuite4
-1. Start SpringToolSuite4
+1. Set environment variable
+   1. spring.profiles.active=local
+2. Install Java 1.11
+
+3. Install SpringToolSuite4
+4. Intall lombok.jar
+   `java -jar lombok.jar`
+5. Start SpringToolSuite4
 
     ![](image/Mahjiang/1644647950208.png)
-1. Select workspace
+6. Select workspace
    ![](image/Mahjiang/1644648159187.png)
-1. Import project
+7. Import project
    ![](image/Mahjiang/1644648227541.png)
-3. Import existing maven project
+8. Import existing maven project
    ![](image/Mahjiang/1644648290361.png)
-1. Select mahjong project
+9.  Select mahjong project
    ![](image/Mahjiang/1644648339201.png)
-1. Open project explorer
+11. Open project explorer
    ![](image/Mahjiang/1644649057023.png)
-1. Three modules imported
+12. Three modules imported
    ![](image/Mahjiang/1644649093770.png)   
-1. Import web as project
+11. Import web as project
    ![](image/Mahjiang/1644649124894.png)   
    ![](image/Mahjiang/1644649146156.png)
-2. Run application
+12. Run application
    ![](image/Mahjiang/1644648497777.png)
-3. Application started at port 8088
+13. Application started at port 8088
    ![](image/Mahjiang/1644648637371.png)
-1. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
+
+chcp.com 932
+
+14. mvn
+   mvn clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+15. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
    listup all paths:
    `curl http://localhost:9999/admin/mappings | grep patterns`
    Output example:
@@ -134,14 +163,14 @@ api --> database : use
     "patterns" : [ "/hands" ],
     "patterns" : [ "/" ],
     </pre>
-2. Test a api
-   http://localhost:8088/hands
+16. Test a api
+   http://localhost:8088/v1/hands
    ![](image/Mahjiang/1644673441779.png)   
-3. Run web
+17. Run web
    ![](image/Mahjiang/1644649194603.png)
-4. Web started at port 8089
+18. Web started at port 8089
    ![](image/Mahjiang/1644649247875.png)   
-5. Test a web page
+19. Test a web page
    http://localhost:8089/hands
    ![](image/Mahjiang/1644673492424.png)
    [Shuffling video](media/shuffling.mp4)
@@ -286,6 +315,9 @@ Wenjing: Java
    - Set default user as root
      - `PS> ubuntu config --default-user root` 
 ### MySQL
+#### start ubuntu
+ubuntu
+
 #### Pull docker image
 `$ docker pull mysql`
 #### Start a mysql server instance
@@ -295,6 +327,9 @@ Wenjing: Java
 `$ docker exec -it /game /bin/bash`
 `$ mysql -h localhost -P 3306 -u root -p`
 Enter password: game
+
+#### How to continue a Docker container which has exited
+`$ docker start  `docker ps -q -l``
 
 #### Create database
 `mysql> create database game character set utf8;`
@@ -321,3 +356,176 @@ Enter password: game
 | player         |
 | room           |
 
+```mermaid
+erDiagram
+room{
+    long room_id
+    varchar room_name 
+    boolean deleted_flg
+}
+
+player{
+    long player_id
+    varchar nick_name 
+    boolean deleted_flg
+}
+
+game{
+   long game_id
+   long room_id
+   timestamp started_timestamp
+   timestamp ended_timestamp
+   varchar shuffled_tiles
+   varchar from_direction
+   int from_column
+   boolean deleted_flg
+}
+
+game_player{
+   long game_id
+   long palyer_id
+   varchar mentsu
+   int last
+   varchar direction
+   boolean is_east
+   boolean deleted_flg
+}
+
+game_log{
+   long game_log_id
+   long game_id
+   long plyer_id
+   varchar operation
+   varchar tiles
+   long player_id_counterpart
+   boolean deleted_flg
+}
+
+game }|--|| room :in
+player }|--|| game_player : is
+game_player }|--|| game: play
+game ||--|{ game_log :has
+
+```
+
+### API Test
+#### Curl
+```shell
+curl  -X POST -v -H "request-id:requestid" -H "Content-Type:application/json" -H "api-key:AAAAAAA" -d "test name" http://localhost:8088/v1/room/new 
+```
+```json
+< HTTP/1.1 200
+< Content-Type: application/json
+
+{
+  "roomId" : 22,
+  "roomName" : "{\"roonName\":\"test name\"}",
+  "deletedFlg" : false,
+  "createdTimestamp" : "2022-02-20T07:38:39.000+00:00",
+  "createdUser" : "default",
+  "updatedTimestamp" : "2022-02-20T07:38:39.000+00:00",
+  "updatedUser" : "default"
+}
+```
+#### Advanced REST client
+![](image/Mahjiang/1645345034221.png)
+![](image/Mahjiang/1645343275274.png)
+![](image/Mahjiang/1645343297819.png)
+
+
+[Is there a method built in spring MockMVC to get json content as Object?](https://stackoverflow.com/questions/51873620/is-there-a-method-built-in-spring-mockmvc-to-get-json-content-as-object)
+
+
+MVC:
+   - M: Model
+   - V: View
+   - C: Controller
+![](image/Mahjong/1646465569844.png)
+Address bar:
+URL: `http://   localhost: 8089  /tiles`
+     `[protocol]://[hostname]:[port][path]`
+![](image/Mahjong/1646465658183.png)
+
+     path: @GetMapping("/tiles")
+![](image/Mahjong/1646465705801.png)
+     html: tiles.html
+![](image/Mahjong/1646465877062.png)
+- /
+- /hands
+- /rooms
+- /tiles/arranged
+- /tiles
+- /tiles/random
+- /tiles/shuffled
+
+```sql
+mysql> insert into room (room_name, deleted_flg, created_timestamp, created_user, updated_timestamp, updated_user) values ('test 82', 0, current_timestamp, 'test', current_timestamp, 'test');
+```
+```sql
+mysql> select * from room;
+```
+
+```sql
+mysql> insert into room (room_name, deleted_flg, created_timestamp, created_user, updated_timestamp, updated_user) values ('東京', 0, current_timestamp, 'test', current_timestamp, 'test');
+```
+
+### Rest Cient
+
+GET http://localhost:8088/v1/room/all HTTP/1.1
+
+###
+
+POST http://localhost:8088/v1/room/new HTTP/1.1
+content-type: application/json
+request-id: request-id
+
+{
+    "roomName": "roomName"
+}
+
+###
+
+POST http://localhost:8088/v1/room/new HTTP/1.1
+content-type: application/json
+request-id: request-id
+
+"test room name"
+
+###
+
+POST http://localhost:8088/v1/room/new HTTP/1.1
+content-type: application/json
+request-id: request-id
+
+東京ドーム
+
+###
+
+POST http://localhost:8088/v1/room/new HTTP/1.1
+content-type: application/json
+request-id: request-id
+
+東京ドーム<br/>第一号
+
+
+Schedule:
+
+```mermaid
+gantt
+   title register player and list all players
+   dateFormat YYYY-MM-DD
+   axisFormat %m/%d
+   
+   section player api
+      list all players: list_all_players, 2022-03-06, 1d
+      create new player: create_new_player, after list_all_players, 1d
+      junit for list: junit_for_list, after create_new_player, 2d
+      junit for create: junit_for_create, after junit_for_list, 2d
+      
+   section game api
+      list all games for a room: list_all_games_for_a_room, 2022-03-06, 1d
+      create new game for room: create_new_game_for_room, after list_all_games_for_a_room, 1d
+      junit for list: junit_for_list, after create_new_game_for_room, 2d
+      junit for create: junit_for_create, after junit_for_list, 2d
+    
+```

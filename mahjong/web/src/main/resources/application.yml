@@ -2,8 +2,10 @@ server:
   port: 8089
 application:
   uri: http://localhost:8088/v1
-  hands: /hands
-  shuffled: /shuffled
+  path:
+    hands: /hands
+    shuffled: /shuffled
+    rooms: /room/all
 spring:
   thymeleaf:
     check-template-location: true

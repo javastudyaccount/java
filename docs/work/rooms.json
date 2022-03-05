@@ -1,0 +1,20 @@
+"[" + //
+"    {" + //
+"        \"roomId\": 1," + //
+"        \"roomName\": \"日本語\"," + //
+"        \"deletedFlg\": false," + //
+"        \"createdTimestamp\": null," + //
+"        \"createdUser\": null," + //
+"        \"updatedTimestamp\": null," + //
+"        \"updatedUser\": null" + //
+"    }," + //
+"    {" + //
+"        \"roomId\": 2," + //
+"        \"roomName\": \"Test room\"," + //
+"        \"deletedFlg\": false," + //
+"        \"createdTimestamp\": null," + //
+"        \"createdUser\": null," + //
+"        \"updatedTimestamp\": null," + //
+"        \"updatedUser\": null" + //
+"    }" + //
+"]
