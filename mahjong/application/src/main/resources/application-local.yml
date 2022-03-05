@@ -20,3 +20,4 @@ management:
 # Actuatorを利用する際のポート番号
   server:
     port: 9999
+    
