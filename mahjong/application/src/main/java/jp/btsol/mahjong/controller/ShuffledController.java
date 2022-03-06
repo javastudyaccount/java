@@ -1,6 +1,8 @@
 package jp.btsol.mahjong.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.service.ShuffledService;
@@ -33,7 +35,8 @@ public class ShuffledController {
      * @return int[] shuffled tiles
      */
     @GetMapping("/shuffled")
-    public int[] getShuffledTiles() {
-        return shuffledService.shuffled();
+    public int[] getShuffledTiles(@RequestBody(required = true) long gameId,
+            @RequestHeader(value = "request-id", required = true) String requestId) {
+        return shuffledService.shuffled(gameId, requestId);
     }
 }

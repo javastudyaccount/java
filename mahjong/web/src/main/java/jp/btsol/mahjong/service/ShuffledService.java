@@ -57,7 +57,7 @@ public class ShuffledService {
         try {
             tiles = objectMapper.readValue(json.getBody(), int[].class);
         } catch (JsonProcessingException e) {
-            log.error("Hands error: " + e.getLocalizedMessage());
+            log.error("Shuffled tiles error: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
         return tiles;

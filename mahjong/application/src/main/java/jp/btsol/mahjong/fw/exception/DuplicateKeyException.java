@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.fw;
+package jp.btsol.mahjong.fw.exception;
 
 /**
  * データが重複エラーがあった場合にスローする例外。

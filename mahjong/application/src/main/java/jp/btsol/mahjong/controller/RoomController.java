@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.entity.Room;
-import jp.btsol.mahjong.fw.BadRequestException;
+import jp.btsol.mahjong.fw.exception.BadRequestException;
 import jp.btsol.mahjong.service.RoomService;
-import jp.btsol.mahjong.utils.Validator;
+import jp.btsol.mahjong.utils.validator.Validator;
 
 /**
  * Room controller

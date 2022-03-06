@@ -6,9 +6,9 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Room;
-import jp.btsol.mahjong.fw.DuplicateKeyException;
+import jp.btsol.mahjong.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.repository.BaseRepository;
-import jp.btsol.mahjong.utils.Validator;
+import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 /**

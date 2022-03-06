@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.btsol.mahjong.controller.RoomControllerTest.TestConfig;
 import jp.btsol.mahjong.entity.Room;
-import jp.btsol.mahjong.fw.DuplicateKeyException;
+import jp.btsol.mahjong.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.service.RoomService;
 
 @DirtiesContext

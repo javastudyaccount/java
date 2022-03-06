@@ -1,14 +1,16 @@
-package jp.btsol.mahjong.fw;
+package jp.btsol.mahjong.fw.handler;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import jp.btsol.mahjong.entity.ErrorDataEntity;
+import jp.btsol.mahjong.fw.exception.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
@@ -24,11 +26,20 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     // レスポンスのボディ部を作成
-    private ErrorDataEntity createErrorResponseBody(BadRequestException exception, WebRequest request) {
+    private ErrorDataEntity createErrorResponseBody(Exception exception, WebRequest request) {
         ErrorDataEntity errorData = new ErrorDataEntity();
         errorData.setErrorDetail(exception.getLocalizedMessage());
         errorData.setErrorCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
         return errorData;
+    }
+
+    @ExceptionHandler({PreAuthenticatedCredentialsNotFoundException.class})
+    protected ResponseEntity<Object> handlePreAuthenticatedCredentialsNotFoundException(
+            PreAuthenticatedCredentialsNotFoundException ex) {
+        ErrorDataEntity errorDetails = new ErrorDataEntity();
+        errorDetails.setErrorCode(HttpStatus.BAD_REQUEST.toString());
+        errorDetails.setErrorDetail(ex.getLocalizedMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({Exception.class})

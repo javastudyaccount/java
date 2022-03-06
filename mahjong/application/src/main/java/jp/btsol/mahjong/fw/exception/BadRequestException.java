@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.fw;
+package jp.btsol.mahjong.fw.exception;
 
 /**
  * リクエストデータに不備があった場合にスローする例外。

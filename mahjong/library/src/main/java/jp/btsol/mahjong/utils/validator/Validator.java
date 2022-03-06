@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.utils;
+package jp.btsol.mahjong.utils.validator;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
