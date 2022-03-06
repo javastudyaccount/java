@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,18 +49,15 @@ public class RoomController {
     /**
      * create new room
      * 
-     * @param roomName  String
-     * @param requestId String
+     * @param roomName String
      * @return Room
      */
     @PostMapping(value = "/new")
-    public Room createNewRoom(@RequestBody(required = true) String roomName,
-            @RequestHeader(value = "request-id", required = true) String requestId) {
+    public Room createNewRoom(@RequestBody(required = true) String roomName) {
         int maxNameLen = Validator.getMaxLength(new Room(), "roomName");
         if (maxNameLen > 0 && roomName.length() > maxNameLen) {
             throw new BadRequestException("room name is more than " + maxNameLen + ".");
         }
-        return roomService.createNewRoom(roomName, requestId);
+        return roomService.createNewRoom(roomName);
     }
-
 }

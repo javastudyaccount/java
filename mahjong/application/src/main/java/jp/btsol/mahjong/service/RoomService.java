@@ -41,18 +41,15 @@ public class RoomService {
     /**
      * insert room
      * 
-     * @param roomName  String
-     * @param requestId String
+     * @param roomName String
      * @return Room
      */
-    public Room createNewRoom(String roomName, String requestId) {
+    public Room createNewRoom(String roomName) {
         if (Objects.isNull(roomName)) {
             throw new RuntimeException("room name can not be null.");
         }
         Room room = new Room();
         room.setRoomName(roomName);
-        room.setCreatedUser(requestId);
-        room.setUpdatedUser(requestId);
         Validator.validate(room);
 
         int roomId = 0;

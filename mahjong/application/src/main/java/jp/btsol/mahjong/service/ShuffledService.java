@@ -37,9 +37,10 @@ public class ShuffledService {
     /**
      * Shuffle tiles
      * 
+     * @param gameId long
      * @return shuffled tiles
      */
-    public int[] shuffled(long gameId, String requestId) {
+    public int[] shuffled(long gameId) {
         int[] tiles = IntStream.rangeClosed(0, Constant.TOTAL_TILES - 1).toArray();
         shuffleArray(tiles);
         // save shuffled tiles

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,12 +34,10 @@ public class PlayerController {
      * create new player
      * 
      * @param playerName String
-     * @param requestId  String
      * @return Player
      */
     @PostMapping(value = "/new")
-    public Player createNewPlayer(@RequestBody(required = true) String playerName,
-            @RequestHeader(value = "request-id", required = true) String requestId) {
+    public Player createNewPlayer(@RequestBody(required = true) String playerName) {
         return null;
     }
 

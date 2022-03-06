@@ -17,6 +17,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import com.google.common.base.CaseFormat;
 
@@ -181,11 +183,15 @@ public class BaseRepository {
                 case "createdUser":
                 case "updatedUser":
                     try {
+                        String requestId = (String) f.get(entity);
                         if (Objects.isNull(f.get(entity))) {
-                            params.put(f.getName(), "default");
-                        } else {
-                            params.put(f.getName(), f.get(entity));
+                            requestId = getRequestId();
+                            if (Objects.isNull(requestId)) {
+                                requestId = "default";
+                            }
                         }
+
+                        params.put(f.getName(), requestId);
                     } catch (IllegalArgumentException | IllegalAccessException e1) {
                         e1.printStackTrace();
                     }
@@ -240,5 +246,15 @@ public class BaseRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         return (T) findForObject(sql.toString(), params, clazz);
+    }
+
+    private String getRequestId() {
+        try {
+            return (String) RequestContextHolder.currentRequestAttributes().getAttribute("request-id",
+                    RequestAttributes.SCOPE_REQUEST);
+        } catch (IllegalStateException e) {
+            // "リクエストを処理するスレッド以外から呼び出さないで下さい。"
+        }
+        return "default";
     }
 }

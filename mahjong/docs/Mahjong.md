@@ -316,6 +316,7 @@ mysql> select * from room;
 mysql> insert into room (room_name, deleted_flg, created_timestamp, created_user, updated_timestamp, updated_user) values ('東京', 0, current_timestamp, 'test', current_timestamp, 'test');
 ```
 
+![](image/Mahjong/1646538361565.png)
 ### Rest Cient
 
 GET http://localhost:8088/v1/room/all HTTP/1.1
@@ -327,11 +328,10 @@ x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUi
 
 POST http://localhost:8088/v1/room/new HTTP/1.1
 content-type: application/json
-request-id: request-id
-
-{
-    "roomName": "roomName"
-}
+request-id: test-id
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+ 
+testRoom2
 
 ###
 

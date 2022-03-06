@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -132,6 +133,8 @@ class RoomControllerTest {
     @DisplayName("createNewRoomメソッドのテストケース")
     class createNewRoom {
         @Test
+        @Disabled
+        @DisplayName("request-id is checked by HandlerInterceptor")
         void testCreateNewRoomNoRequestIDError() throws Exception {
             // 実行、検証
             mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
@@ -174,7 +177,7 @@ class RoomControllerTest {
                     "test-id", //
                     null, //
                     "test-id");
-            when(roomService.createNewRoom("test room", "test-id")).thenReturn(room);
+            when(roomService.createNewRoom("test room")).thenReturn(room);
             // 実行、検証
             MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
@@ -191,8 +194,7 @@ class RoomControllerTest {
 
         @Test
         void testCreateNewRoomDuplicateNameError() throws Exception {
-            when(roomService.createNewRoom("test room", "test-id"))
-                    .thenThrow(new DuplicateKeyException("Room name exists."));
+            when(roomService.createNewRoom("test room")).thenThrow(new DuplicateKeyException("Room name exists."));
             // 実行、検証
             mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
