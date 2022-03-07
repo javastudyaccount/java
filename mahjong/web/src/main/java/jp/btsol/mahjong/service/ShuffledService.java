@@ -1,13 +1,11 @@
 package jp.btsol.mahjong.service;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.btsol.mahjong.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,16 +26,23 @@ public class ShuffledService {
      * application properties
      */
     private final ApplicationProperties applicationProperties;
+    /**
+     * MahjongRestTemplate
+     */
+    private final MahjongRestTemplate restTemplate;
 
     /**
      * Constructor
      * 
      * @param applicationProperties ApplicationProperties application properties
      * @param objectMapper          ObjectMapper object mapper
+     * @param restTemplate          MahjongRestTemplate
      */
-    public ShuffledService(ApplicationProperties applicationProperties, ObjectMapper objectMapper) {
+    public ShuffledService(ApplicationProperties applicationProperties, ObjectMapper objectMapper,
+            MahjongRestTemplate restTemplate) {
         this.applicationProperties = applicationProperties;
         this.objectMapper = objectMapper;
+        this.restTemplate = restTemplate;
     }
 
     /**
@@ -46,20 +51,7 @@ public class ShuffledService {
      * @return tiles
      */
     public int[] getShuffledTiles() {
-        RestTemplate rest = new RestTemplate();
-
-        final String endpoint = applicationProperties.getUri();
-
-        final String url = endpoint + applicationProperties.getPath().getShuffled();
-        ResponseEntity<String> json = rest.getForEntity(url, String.class);
-
-        int[] tiles = null;
-        try {
-            tiles = objectMapper.readValue(json.getBody(), int[].class);
-        } catch (JsonProcessingException e) {
-            log.error("Shuffled tiles error: " + e.getLocalizedMessage());
-            e.printStackTrace();
-        }
-        return tiles;
+        String path = applicationProperties.getUri() + applicationProperties.getPath().getShuffled();
+        return restTemplate.post(path, "{\"gameId\":1}", int[].class);
     }
 }

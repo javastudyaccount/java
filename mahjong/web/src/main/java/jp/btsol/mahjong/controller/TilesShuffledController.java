@@ -39,7 +39,7 @@ public class TilesShuffledController {
      * @return String arranged tiles template
      */
     @GetMapping("/tiles/shuffled")
-    public String home(@RequestParam(name = "show", required = false) boolean show, Model model) {
+    public String shuffle(@RequestParam(name = "show", required = false) boolean show, Model model) {
         model.addAttribute("show", show);
         int[] tiles = shuffledService.getShuffledTiles();
         model.addAttribute("tiles", tiles);

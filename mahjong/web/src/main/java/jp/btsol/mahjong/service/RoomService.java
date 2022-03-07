@@ -55,6 +55,7 @@ public class RoomService {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getRooms();
+
         ResponseEntity<String> json = rest.getForEntity(url, String.class);
 
         List<Room> rooms = null;

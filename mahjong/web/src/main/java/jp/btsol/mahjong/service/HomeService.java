@@ -2,9 +2,9 @@ package jp.btsol.mahjong.service;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
+import jp.btsol.mahjong.fw.MahjongRestTemplate;
 
 /**
  * Home service
@@ -19,14 +19,20 @@ public class HomeService {
      * application properties
      */
     private final ApplicationProperties applicationProperties;
+    /**
+     * MahjongRestTemplate
+     */
+    private final MahjongRestTemplate restTemplate;
 
     /**
      * Contrunctor
      * 
      * @param applicationProperties ApplicationProperties application properties
+     * @param restTemplate          MahjongRestTemplate
      */
-    public HomeService(ApplicationProperties applicationProperties) {
+    public HomeService(ApplicationProperties applicationProperties, MahjongRestTemplate restTemplate) {
         this.applicationProperties = applicationProperties;
+        this.restTemplate = restTemplate;
     }
 
     /**
@@ -35,18 +41,8 @@ public class HomeService {
      * @return String
      */
     public String getHomeMessage() {
-        RestTemplate rest = new RestTemplate();
-
-        final String endpoint = applicationProperties.getUri();
-
-        final String url = endpoint;
-
-        ResponseEntity<String> response = rest.getForEntity(url, String.class);
-
-        String message = response.getBody();
-
-        return decode(message);
-
+        String path = applicationProperties.getUri() + applicationProperties.getPath().getHome();
+        return restTemplate.get(path, String.class);
     }
 
     /**

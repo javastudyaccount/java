@@ -3,6 +3,7 @@ server:
 application:
   uri: http://localhost:8088/v1
   path:
+    home: /
     hands: /hands
     shuffled: /shuffled
     rooms: /room/all

@@ -1,9 +1,10 @@
 package jp.btsol.mahjong.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.btsol.mahjong.model.GameId;
 import jp.btsol.mahjong.service.ShuffledService;
 
 /**
@@ -31,10 +32,11 @@ public class ShuffledController {
     /**
      * get shuffled tiles
      * 
+     * @param gameId long
      * @return int[] shuffled tiles
      */
-    @GetMapping("/shuffled")
-    public int[] getShuffledTiles(@RequestBody(required = true) long gameId) {
-        return shuffledService.shuffled(gameId);
+    @PostMapping("/shuffled")
+    public int[] getShuffledTiles(@RequestBody(required = true) GameId gameId) {
+        return shuffledService.shuffled(gameId.getGameId());
     }
 }

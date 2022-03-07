@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.fw.exception.BadRequestException;
+import jp.btsol.mahjong.model.RoomName;
 import jp.btsol.mahjong.service.RoomService;
 import jp.btsol.mahjong.utils.validator.Validator;
 
@@ -53,11 +54,11 @@ public class RoomController {
      * @return Room
      */
     @PostMapping(value = "/new")
-    public Room createNewRoom(@RequestBody(required = true) String roomName) {
+    public Room createNewRoom(@RequestBody(required = true) RoomName roomName) {
         int maxNameLen = Validator.getMaxLength(new Room(), "roomName");
-        if (maxNameLen > 0 && roomName.length() > maxNameLen) {
+        if (maxNameLen > 0 && roomName.getRoomName().length() > maxNameLen) {
             throw new BadRequestException("room name is more than " + maxNameLen + ".");
         }
-        return roomService.createNewRoom(roomName);
+        return roomService.createNewRoom(roomName.getRoomName());
     }
 }

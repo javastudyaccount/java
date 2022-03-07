@@ -20,6 +20,10 @@ public class ApplicationProperties {
     @Data
     public static class Path {
         /**
+         * path home
+         */
+        private String home;
+        /**
          * path hands
          */
         private String hands;
