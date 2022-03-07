@@ -2,13 +2,9 @@ package jp.btsol.mahjong.service;
 
 import org.mahjong4j.hands.Hands;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import jp.btsol.mahjong.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,23 +18,23 @@ import lombok.extern.slf4j.Slf4j;
 @EnableConfigurationProperties(ApplicationProperties.class)
 public class HandsService {
     /**
-     * Object mapper
-     */
-    private final ObjectMapper objectMapper;
-    /**
      * application properties
      */
     private final ApplicationProperties applicationProperties;
+    /**
+     * MahjongRestTemplate
+     */
+    private final MahjongRestTemplate restTemplate;
 
     /**
      * Constructor
      * 
      * @param applicationProperties ApplicationProperties application properties
-     * @param objectMapper          ObjectMapper object mapper
+     * @param restTemplate          MahjongRestTemplate
      */
-    public HandsService(ApplicationProperties applicationProperties, ObjectMapper objectMapper) {
+    public HandsService(ApplicationProperties applicationProperties, MahjongRestTemplate restTemplate) {
         this.applicationProperties = applicationProperties;
-        this.objectMapper = objectMapper;
+        this.restTemplate = restTemplate;
     }
 
     /**
@@ -47,20 +43,7 @@ public class HandsService {
      * @return Hands
      */
     public Hands getHands() {
-        RestTemplate rest = new RestTemplate();
-
-        final String endpoint = applicationProperties.getUri();
-
-        final String url = endpoint + applicationProperties.getPath().getHands();
-        ResponseEntity<String> json = rest.getForEntity(url, String.class);
-
-        Hands hands = null;
-        try {
-            hands = objectMapper.readValue(json.getBody(), Hands.class);
-        } catch (JsonProcessingException e) {
-            log.error("Hands error: " + e.getLocalizedMessage());
-            e.printStackTrace();
-        }
-        return hands;
+        String path = applicationProperties.getUri() + applicationProperties.getPath().getHands();
+        return restTemplate.get(path, Hands.class);
     }
 }
