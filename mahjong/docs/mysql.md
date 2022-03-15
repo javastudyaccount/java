@@ -9,6 +9,7 @@ ubuntu
 
 #### Docker CLI
 `$ docker exec -it /game /bin/bash`
+
 `$ mysql -h localhost -P 3306 -u root -p`
 Enter password: game
 
@@ -20,6 +21,7 @@ Enter password: game
 
 #### Create database
 `mysql> create database game character set utf8;`
+
 `mysql> use game`
 Paste [ddl.sql](./ddl/ddl.sql)
 
@@ -27,12 +29,14 @@ Paste [ddl.sql](./ddl/ddl.sql)
 `mysql> CREATE USER game IDENTIFIED BY 'game';`
 
 `mysql> GRANT ALL ON *.* TO game;`
+
 `mysql> exit;`
 
 #### Connection
 `$ mysql -h localhost -P 3306 -u game -p`
 Enter password: game
 `mysql> use game`
+
 `mysql> show tables;`
 
 | Tables_in_game |

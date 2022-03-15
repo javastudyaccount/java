@@ -326,12 +326,20 @@ x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUi
 
 ###
 
+POST http://localhost:8088/v1/shuffled HTTP/1.1
+content-type: application/json
+request-id: test-id
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+ 
+{"gameId": 1}
+###
+
 POST http://localhost:8088/v1/room/new HTTP/1.1
 content-type: application/json
 request-id: test-id
 x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
  
-testRoom2
+{"roomName": "testRoom23"}
 
 ###
 
@@ -378,3 +386,15 @@ gantt
       junit for list: junit_for_list, after create_new_game_for_room, 2d
       junit for create: junit_for_create, after junit_for_list, 2d
 ```
+
+registerObjectMappersForType
+
+### Majhong game
+
+- [ ] Player registration
+  - [ ] API
+  - [ ] View
+- [ ] Open a room
+- [ ] Begin a game
+- [ ] Play a game
+
