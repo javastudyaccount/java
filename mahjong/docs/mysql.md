@@ -17,7 +17,9 @@ Enter password: game
 `$ docker ps -a`
 
 #### How to continue a Docker container which has exited
-`$ docker start  `docker ps -q -l``
+```
+$ docker start  `docker ps -q -l`
+```
 
 #### Create database
 `mysql> create database game character set utf8;`
@@ -33,6 +35,9 @@ Paste [ddl.sql](./ddl/ddl.sql)
 `mysql> exit;`
 
 #### Connection
+
+`$ docker exec -it /game /bin/bash`
+
 `$ mysql -h localhost -P 3306 -u game -p`
 Enter password: game
 `mysql> use game`

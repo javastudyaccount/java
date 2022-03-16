@@ -3,9 +3,9 @@ package jp.btsol.mahjong.model;
 import lombok.Data;
 
 @Data
-public class RoomName {
+public class Nickname {
     /**
-     * roomName String
+     * nickname
      */
-    private String roomName;
+    private String nickname;
 }

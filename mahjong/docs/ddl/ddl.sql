@@ -61,7 +61,7 @@ CREATE TABLE player (
     PRIMARY KEY (player_id)
 );
 CREATE UNIQUE INDEX player_name_unique
-    ON player (player_name);
+    ON player (nickename);
 
 drop table room cascade;
 CREATE TABLE room (

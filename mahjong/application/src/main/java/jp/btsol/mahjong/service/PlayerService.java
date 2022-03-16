@@ -1,11 +1,14 @@
 package jp.btsol.mahjong.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.repository.BaseRepository;
+import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -32,17 +35,31 @@ public class PlayerService {
      * @return List<Player>
      */
     public List<Player> getPlayers() {
-        return null;
+        return baseRepository.findForList("select * from player", Player.class);
     }
 
     /**
      * insert player
      * 
-     * @param nickName  String
-     * @param requestId String
+     * @param nickname String
      * @return Player
      */
-    public Player createNewPlayer(String nickName, String requestId) {
-        return null;
+    public Player createNewPlayer(String nickname) {
+        if (Objects.isNull(nickname)) {
+            throw new RuntimeException("Nicke name can not be null.");
+        }
+        Player player = new Player();
+        player.setNickename(nickname);
+        Validator.validate(player);
+
+        int playerId = 0;
+        try {
+            playerId = baseRepository.insert(player);
+        } catch (org.springframework.dao.DuplicateKeyException e) {
+            log.error(e.getLocalizedMessage());
+
+            throw new DuplicateKeyException("Player nickname exists.", e);
+        }
+        return baseRepository.findById(playerId, Player.class);
     }
 }

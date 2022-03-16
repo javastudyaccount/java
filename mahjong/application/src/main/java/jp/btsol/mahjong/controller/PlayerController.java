@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.fw.exception.BadRequestException;
+import jp.btsol.mahjong.model.Nickname;
+import jp.btsol.mahjong.service.PlayerService;
+import jp.btsol.mahjong.utils.validator.Validator;
 
 /**
  * Player controller
@@ -19,6 +23,19 @@ import jp.btsol.mahjong.entity.Player;
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
+    /**
+     * room service
+     */
+    private final PlayerService playerService;
+
+    /**
+     * Constructor
+     * 
+     * @param playerService PlayerService
+     */
+    public PlayerController(PlayerService playerService) {
+        this.playerService = playerService;
+    }
 
     /**
      * get player list
@@ -27,18 +44,22 @@ public class PlayerController {
      */
     @GetMapping("/all")
     public List<Player> getPlayers() {
-        return null;
+        return playerService.getPlayers();
     }
 
     /**
      * create new player
      * 
-     * @param playerName String
+     * @param nickname String
      * @return Player
      */
     @PostMapping(value = "/new")
-    public Player createNewPlayer(@RequestBody(required = true) String playerName) {
-        return null;
+    public Player createNewPlayer(@RequestBody(required = true) Nickname nickname) {
+        int maxNameLen = Validator.getMaxLength(new Player(), "nickname");
+        if (maxNameLen > 0 && nickname.getNickname().length() > maxNameLen) {
+            throw new BadRequestException("nickname is more than " + maxNameLen + ".");
+        }
+        return playerService.createNewPlayer(nickname.getNickname());
     }
 
 }
