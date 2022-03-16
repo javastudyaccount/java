@@ -23,41 +23,27 @@ public class Room implements Serializable {
 
     /** デフォルトシリアルバージョンID */
     private static final long serialVersionUID = 1L;
-    /**  */
+    /** room_id */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=YES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // sqlTypeName: BIGINT
     private long roomId;
-    /**  */
+    /** room_name */
     @Column(length = 50, nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
     private String roomName;
-    /**  */
+    /** deleted_flg */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: BIT
     private boolean deletedFlg;
-    /**  */
+    /** created_timestamp */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: TIMESTAMP
     private java.sql.Timestamp createdTimestamp;
-    /**  */
+    /** created_user */
     @Column(length = 20, nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
     private String createdUser;
-    /**  */
+    /** updated_timestamp */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: TIMESTAMP
     private java.sql.Timestamp updatedTimestamp;
-    /**  */
+    /** updated_user */
     @Column(length = 20, nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
     private String updatedUser;
 }

@@ -7,6 +7,7 @@ application:
     hands: /hands
     shuffled: /shuffled
     rooms: /room/all
+    players: /player/all
 spring:
   thymeleaf:
     check-template-location: true

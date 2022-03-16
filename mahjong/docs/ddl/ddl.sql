@@ -52,7 +52,7 @@ CREATE TABLE game_player (
 drop table player cascade;
 CREATE TABLE player (
     player_id bigint NOT NULL AUTO_INCREMENT,
-    nickename varchar(20) NOT NULL,
+    nickname varchar(20) NOT NULL,
     deleted_flg boolean DEFAULT false NOT NULL,
     created_timestamp timestamp NOT NULL,
     created_user varchar(20) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE player (
     PRIMARY KEY (player_id)
 );
 CREATE UNIQUE INDEX player_name_unique
-    ON player (nickename);
+    ON player (nickname);
 
 drop table room cascade;
 CREATE TABLE room (

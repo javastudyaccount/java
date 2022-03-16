@@ -36,5 +36,9 @@ public class ApplicationProperties {
          * rooms
          */
         private String rooms;
+        /**
+         * players
+         */
+        private String players;
     }
 }

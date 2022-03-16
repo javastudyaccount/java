@@ -49,7 +49,7 @@ public class PlayerService {
             throw new RuntimeException("Nicke name can not be null.");
         }
         Player player = new Player();
-        player.setNickename(nickname);
+        player.setNickname(nickname);
         Validator.validate(player);
 
         int playerId = 0;
