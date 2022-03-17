@@ -74,6 +74,6 @@ public class PlayersController {
                                                                                    * get input data from browser
                                                                                    */) {
         playerService.createPlayer(playerForm.getNickname());
-        return "players";
+        return "redirect:/players";
     }
 }
