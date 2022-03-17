@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.repository;
+package jp.btsol.mahjong.application.repository;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

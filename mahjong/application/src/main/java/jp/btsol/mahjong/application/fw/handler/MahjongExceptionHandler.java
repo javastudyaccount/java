@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.fw.handler;
+package jp.btsol.mahjong.application.fw.handler;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import jp.btsol.mahjong.application.fw.exception.BadRequestException;
 import jp.btsol.mahjong.entity.ErrorDataEntity;
-import jp.btsol.mahjong.fw.exception.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice

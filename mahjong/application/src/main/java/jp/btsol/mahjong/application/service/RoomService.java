@@ -1,13 +1,13 @@
-package jp.btsol.mahjong.service;
+package jp.btsol.mahjong.application.service;
 
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
+import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
+import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Room;
-import jp.btsol.mahjong.fw.exception.DuplicateKeyException;
-import jp.btsol.mahjong.repository.BaseRepository;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 

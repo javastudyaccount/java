@@ -31,10 +31,11 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.btsol.mahjong.application.controller.RoomController;
+import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
+import jp.btsol.mahjong.application.service.RoomService;
 import jp.btsol.mahjong.controller.RoomControllerTest.TestConfig;
 import jp.btsol.mahjong.entity.Room;
-import jp.btsol.mahjong.fw.exception.DuplicateKeyException;
-import jp.btsol.mahjong.service.RoomService;
 
 @DirtiesContext
 @SpringBootTest(classes = {TestConfig.class})

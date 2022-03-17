@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.service;
+package jp.btsol.mahjong.application.service;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;

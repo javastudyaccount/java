@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.btsol.mahjong.service.MahjongService;
+import jp.btsol.mahjong.application.service.MahjongService;
 
 /**
  * Mahjong application

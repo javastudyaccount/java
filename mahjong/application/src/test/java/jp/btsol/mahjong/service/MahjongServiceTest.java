@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import jp.btsol.mahjong.application.service.MahjongService;
+
 @SpringBootTest("service.message=Hello")
 public class MahjongServiceTest {
 

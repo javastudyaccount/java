@@ -25,8 +25,9 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
+import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
+import jp.btsol.mahjong.application.service.RoomService;
 import jp.btsol.mahjong.entity.Room;
-import jp.btsol.mahjong.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.loader.XlsDataSetLoader;
 import jp.btsol.mahjong.service.RoomServiceTest.TestConfig;
 

@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.utils;
+package jp.btsol.mahjong.application.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 
-import jp.btsol.mahjong.fw.token.XMahjongUser;
+import jp.btsol.mahjong.application.fw.token.XMahjongUser;
 
 public class Utils {
     /**

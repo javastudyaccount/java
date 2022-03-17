@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.fw.handler;
+package jp.btsol.mahjong.application.fw.handler;
 
 import java.util.Objects;
 
@@ -11,7 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import jp.btsol.mahjong.fw.exception.BadRequestException;
+import jp.btsol.mahjong.application.fw.exception.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 
 @Component

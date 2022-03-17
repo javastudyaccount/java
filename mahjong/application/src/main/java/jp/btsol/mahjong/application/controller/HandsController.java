@@ -1,10 +1,10 @@
-package jp.btsol.mahjong.controller;
+package jp.btsol.mahjong.application.controller;
 
 import org.mahjong4j.hands.Hands;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.btsol.mahjong.service.HandsService;
+import jp.btsol.mahjong.application.service.HandsService;
 
 /**
  * Hands controller

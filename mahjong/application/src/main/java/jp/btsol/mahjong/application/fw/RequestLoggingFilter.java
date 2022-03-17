@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.fw;
+package jp.btsol.mahjong.application.fw;
 
 import java.util.List;
 import java.util.UUID;

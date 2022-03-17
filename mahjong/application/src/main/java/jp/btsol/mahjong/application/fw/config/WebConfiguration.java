@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.fw.config;
+package jp.btsol.mahjong.application.fw.config;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import jp.btsol.mahjong.fw.RequestLoggingFilter;
+import jp.btsol.mahjong.application.fw.RequestLoggingFilter;
 
 @Component
 public class WebConfiguration implements WebMvcConfigurer {

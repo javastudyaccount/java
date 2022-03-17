@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.controller;
+package jp.btsol.mahjong.application.controller;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.btsol.mahjong.application.fw.exception.BadRequestException;
+import jp.btsol.mahjong.application.service.PlayerService;
 import jp.btsol.mahjong.entity.Player;
-import jp.btsol.mahjong.fw.exception.BadRequestException;
 import jp.btsol.mahjong.model.Nickname;
-import jp.btsol.mahjong.service.PlayerService;
 import jp.btsol.mahjong.utils.validator.Validator;
 
 /**

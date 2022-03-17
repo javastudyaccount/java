@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.fw.config;
+package jp.btsol.mahjong.application.fw.config;
 
 import javax.servlet.http.HttpServletResponse;
 

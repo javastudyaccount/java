@@ -1,11 +1,11 @@
-package jp.btsol.mahjong.controller;
+package jp.btsol.mahjong.application.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.btsol.mahjong.application.service.ShuffledService;
 import jp.btsol.mahjong.model.GameId;
-import jp.btsol.mahjong.service.ShuffledService;
 
 /**
  * Shuffled controller
