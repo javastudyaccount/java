@@ -32,6 +32,8 @@ Paste [ddl.sql](./ddl/ddl.sql)
 
 `mysql> GRANT ALL ON *.* TO game;`
 
+`mysql> GRANT ALL ON *.* TO game@localhost;`
+
 `mysql> exit;`
 
 #### Connection
