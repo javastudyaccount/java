@@ -22,6 +22,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,8 +41,18 @@ public class MahjongRestTemplate {
     private static final String REQUEST_ID = "request-id";
 
     /** REST連携用 */
+    private final RestTemplate restTemplate;
+    /**
+     * to convert error object
+     */
+    private final ObjectMapper om;
+
     @Autowired
-    private RestTemplate restTemplate;
+    public MahjongRestTemplate(RestTemplate restTemplate, //
+            ObjectMapper om) {
+        this.restTemplate = restTemplate;
+        this.om = om;
+    }
 
     /**
      * 
@@ -130,14 +142,6 @@ public class MahjongRestTemplate {
         try {
             response = restTemplate.exchange(path, HttpMethod.POST, request, clazz);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
-            HttpHeaders headers = e.getResponseHeaders();
-            String requestId = "";
-            if (Objects.nonNull(headers)) {
-                List<String> requestIds = headers.get(REQUEST_ID);
-                if (Objects.nonNull(requestIds)) {
-                    requestId = requestIds.toString();
-                }
-            }
             errorHandler.handle(e.getStatusCode().value(), e);
             throw new RuntimeException(e.getLocalizedMessage(), e);
         }

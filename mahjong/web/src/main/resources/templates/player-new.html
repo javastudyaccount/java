@@ -8,19 +8,20 @@
 <h1>Players</h1>
 <div layout:fragment="content">
 <h4 th:text="${message}"></h4>
+<form th:action="@{/player/create}" method="post" th:object="${playerForm}">
 <table>
-<tr th:each="player, playerStat: ${players}">
+<tr>
 <td>
-   	<span th:text="${player.playerId}">
-   	</span>
+   	Player's nickname:
 </td>
 <td>
-    <span th:text="${player.nickname}">
-    </span>
+    <input type="text" th:field="*{nickname}">
 </td>
 </tr>
 </table>
-<a href="/player/new">Add new player</a>
+<button>New</button>
+</form>
+<a href="/players">Back to players list</a>
 </div>
 </body>
 </html>

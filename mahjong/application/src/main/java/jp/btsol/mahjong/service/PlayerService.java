@@ -46,7 +46,7 @@ public class PlayerService {
      */
     public Player createNewPlayer(String nickname) {
         if (Objects.isNull(nickname)) {
-            throw new RuntimeException("Nicke name can not be null.");
+            throw new RuntimeException("Nickname can not be null.");
         }
         Player player = new Player();
         player.setNickname(nickname);
@@ -58,7 +58,7 @@ public class PlayerService {
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
 
-            throw new DuplicateKeyException("Player nickname exists.", e);
+            throw new DuplicateKeyException("Player's nickname exists.", e);
         }
         return baseRepository.findById(playerId, Player.class);
     }

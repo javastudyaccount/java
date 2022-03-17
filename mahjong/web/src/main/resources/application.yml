@@ -8,6 +8,7 @@ application:
     shuffled: /shuffled
     rooms: /room/all
     players: /player/all
+    createPlayer: /player/new
 spring:
   thymeleaf:
     check-template-location: true

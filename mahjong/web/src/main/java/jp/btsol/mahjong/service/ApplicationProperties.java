@@ -40,5 +40,9 @@ public class ApplicationProperties {
          * players
          */
         private String players;
+        /**
+         * createPlayer
+         */
+        private String createPlayer;
     }
 }

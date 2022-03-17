@@ -12,6 +12,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.fw.MahjongRestErrorHandler;
 import jp.btsol.mahjong.fw.MahjongRestTemplate;
+import jp.btsol.mahjong.model.Nickname;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -74,5 +75,29 @@ public class PlayerService {
 
         List<Player> playersList = Arrays.asList(players);
         return playersList;
+    }
+
+    /**
+     * create new player
+     * 
+     * @param nickname String
+     * @return Player
+     */
+    public Player createPlayer(String nickname) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getCreatePlayer();
+        Nickname nicknameModel = new Nickname();
+        nicknameModel.setNickname(nickname);
+        Player player = mahjongRestTemplate.post(url, nicknameModel, Player.class, new MahjongRestErrorHandler() {
+
+            @Override
+            public void handle(int statusCode, HttpStatusCodeException e) throws RuntimeException {
+                log.error(e.getLocalizedMessage());
+            }
+
+        });
+
+        return player;
     }
 }
