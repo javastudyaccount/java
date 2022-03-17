@@ -59,6 +59,7 @@ public class MahjongErrorController implements ErrorController {
         ModelAndView mav = new ModelAndView();
         mav.setStatus(status); // HTTP ステータスをセットする
         mav.setViewName("error"); // error.html
+        mav.addObject("myErrorMessage", "Page not found.");
         mav.addObject("timestamp", new Date());
         mav.addObject("status", status.value());
         mav.addObject("path", request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI));

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Mahjong</title>
+  <meta charset="UTF-8">
+  <title>Mahjong</title>
 </head>
 <body>
-<h1>Error</h1>
-<h4>Error</h4>
-<span th:text="${error}"></span>
+  <div th:text="'myErrorMessage: ' + ${myErrorMessage}"></div>
+  <div th:text="'timestamp: ' + ${timestamp}"></div>
+  <div th:text="'status: ' + ${status}"></div>
+  <div th:text="'path: ' + ${path}"></div>
 </body>
 </html>
