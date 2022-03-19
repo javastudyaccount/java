@@ -2,6 +2,8 @@ package jp.btsol.mahjong.application.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,7 +56,7 @@ public class PlayerController {
      * @return Player
      */
     @PostMapping(value = "/new")
-    public Player createNewPlayer(@RequestBody(required = true) Nickname nickname) {
+    public Player createNewPlayer(@Valid @RequestBody(required = true) Nickname nickname) {
         int maxNameLen = Validator.getMaxLength(new Player(), "nickname");
         if (maxNameLen > 0 && nickname.getNickname().length() > maxNameLen) {
             throw new BadRequestException("nickname is more than " + maxNameLen + ".");

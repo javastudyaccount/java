@@ -10,6 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import jp.btsol.mahjong.application.fw.exception.BadRequestException;
+import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.entity.ErrorDataEntity;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +31,7 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDataEntity errorData = new ErrorDataEntity();
         errorData.setErrorDetail(exception.getLocalizedMessage());
         errorData.setErrorCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
+        errorData.setPath(request.getContextPath());
         return errorData;
     }
 
@@ -40,6 +42,15 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetails.setErrorCode(HttpStatus.BAD_REQUEST.toString());
         errorDetails.setErrorDetail(ex.getLocalizedMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({DuplicateKeyException.class})
+    protected ResponseEntity<Object> handleDuplicateKeyException(DuplicateKeyException ex) {
+        ErrorDataEntity errorDetails = new ErrorDataEntity();
+        errorDetails.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        errorDetails.setErrorDetail(ex.getLocalizedMessage());
+        errorDetails.setPath(ex.getPath());
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({Exception.class})

@@ -58,7 +58,9 @@ public class RoomService {
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
 
-            throw new DuplicateKeyException("Room name exists.", e);
+            DuplicateKeyException dke = new DuplicateKeyException("Room name exists.", e);
+            dke.setPath("/room/new");
+            throw dke;
         }
         return baseRepository.findById(roomId, Room.class);
     }

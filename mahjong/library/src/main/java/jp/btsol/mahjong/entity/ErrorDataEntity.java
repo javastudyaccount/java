@@ -16,4 +16,8 @@ public class ErrorDataEntity {
      */
     private String errorDetail;
 
+    /**
+     * path
+     */
+    private String path;
 }

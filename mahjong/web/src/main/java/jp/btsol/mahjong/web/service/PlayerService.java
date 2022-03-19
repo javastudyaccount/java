@@ -89,14 +89,7 @@ public class PlayerService {
         final String url = endpoint + applicationProperties.getPath().getCreatePlayer();
         Nickname nicknameModel = new Nickname();
         nicknameModel.setNickname(nickname);
-        Player player = mahjongRestTemplate.post(url, nicknameModel, Player.class, new MahjongRestErrorHandler() {
-
-            @Override
-            public void handle(int statusCode, HttpStatusCodeException e) throws RuntimeException {
-                log.error(e.getLocalizedMessage());
-            }
-
-        });
+        Player player = mahjongRestTemplate.post(url, nicknameModel, Player.class);
 
         return player;
     }

@@ -139,12 +139,12 @@ public class MahjongRestTemplate {
         RequestEntity<P> request = createRequest(path, RequestEntity.post(path)).contentType(MediaType.APPLICATION_JSON)
                 .body(paramater);
         ResponseEntity<R> response = null;
-        try {
-            response = restTemplate.exchange(path, HttpMethod.POST, request, clazz);
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            errorHandler.handle(e.getStatusCode().value(), e);
-            throw new RuntimeException(e.getLocalizedMessage(), e);
-        }
+//        try {
+        response = restTemplate.exchange(path, HttpMethod.POST, request, clazz);
+//        } catch (HttpClientErrorException | HttpServerErrorException e) {
+//            errorHandler.handle(e.getStatusCode().value(), e);
+//            throw new RuntimeException(e.getLocalizedMessage(), e);
+//        }
 
         return response.getBody();
     }

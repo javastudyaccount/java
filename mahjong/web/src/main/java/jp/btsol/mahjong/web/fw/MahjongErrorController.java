@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * アプリケーション全体のエラーコントローラー
+ * アプリケーション全体のエラーコントローラー //
+ * https://qiita.com/niwasawa/items/f3479ef16efa488039fb
  */
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
@@ -58,7 +59,7 @@ public class MahjongErrorController implements ErrorController {
         // 出力したい情報をセットする
         ModelAndView mav = new ModelAndView();
         mav.setStatus(status); // HTTP ステータスをセットする
-        mav.setViewName("error"); // error.html
+        mav.setViewName("404"); // 404.html
         mav.addObject("myErrorMessage", "Page not found.");
         mav.addObject("timestamp", new Date());
         mav.addObject("status", status.value());

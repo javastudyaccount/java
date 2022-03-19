@@ -7,5 +7,6 @@ public class Nickname {
     /**
      * nickname
      */
+//    @NotEmpty
     private String nickname;
 }

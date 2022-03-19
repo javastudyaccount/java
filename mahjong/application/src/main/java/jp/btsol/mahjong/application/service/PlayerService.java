@@ -57,8 +57,9 @@ public class PlayerService {
             playerId = baseRepository.insert(player);
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
-
-            throw new DuplicateKeyException("Player's nickname exists.", e);
+            DuplicateKeyException dke = new DuplicateKeyException("Player's nickname exists.", e);
+            dke.setPath("/player/new");
+            throw dke;
         }
         return baseRepository.findById(playerId, Player.class);
     }
