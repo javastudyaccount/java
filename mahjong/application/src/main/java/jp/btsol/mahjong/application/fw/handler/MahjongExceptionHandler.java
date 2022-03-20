@@ -88,7 +88,7 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status, WebRequest request) {
         ErrorDataEntity errorDetail = new ErrorDataEntity();
         errorDetail.setErrorCode(HttpStatus.NOT_FOUND.toString());
-//        errorDetail.setErrorDetail(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        errorDetail.setErrorDetail("Page not found.");
         errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
 //        errorDetail.setBindingResult(ex.getBindingResult());
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
