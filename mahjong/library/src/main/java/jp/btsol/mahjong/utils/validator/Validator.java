@@ -20,7 +20,7 @@ public class Validator {
         return 0;
     }
 
-    public static void validate(Object entity) {
+    public static void validateMaxLength(Object entity) {
         for (Field f : entity.getClass().getDeclaredFields()) {
             Column column = f.getAnnotation(Column.class);
             if (Objects.nonNull(column) && column.length() > 0) {

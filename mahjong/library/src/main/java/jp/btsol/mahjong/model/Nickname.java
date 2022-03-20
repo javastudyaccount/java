@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.model;
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.Data;
 
 @Data
@@ -7,6 +9,6 @@ public class Nickname {
     /**
      * nickname
      */
-//    @NotEmpty
+    @NotBlank
     private String nickname;
 }

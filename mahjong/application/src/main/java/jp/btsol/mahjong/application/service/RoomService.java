@@ -50,7 +50,7 @@ public class RoomService {
         }
         Room room = new Room();
         room.setRoomName(roomName);
-        Validator.validate(room);
+        Validator.validateMaxLength(room);
 
         int roomId = 0;
         try {

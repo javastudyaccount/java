@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.entity;
 
+import org.springframework.validation.BindingResult;
+
 import lombok.Data;
 
 @Data
@@ -20,4 +22,8 @@ public class ErrorDataEntity {
      * path
      */
     private String path;
+    /**
+     * bindingResult
+     */
+    private BindingResult bindingResult;
 }

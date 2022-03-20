@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.application.fw;
+package jp.btsol.mahjong.application.fw.filter;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +32,7 @@ public class RequestLoggingFilter extends CommonsRequestLoggingFilter {
         this.setIncludeClientInfo(false);
         this.setIncludeQueryString(true);
         this.setIncludeHeaders(true);
-        this.setIncludePayload(false);
+        this.setIncludePayload(true);
         this.setMaxPayloadLength(1024);
         this.setHeaderPredicate(target -> HEADER_ALLOW_LIST.contains(target));
         this.basePath = basePath;

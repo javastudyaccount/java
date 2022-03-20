@@ -1,9 +1,11 @@
 package jp.btsol.mahjong.application.service;
 
 import java.util.List;
-import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
@@ -45,12 +47,12 @@ public class PlayerService {
      * @return Player
      */
     public Player createNewPlayer(String nickname) {
-        if (Objects.isNull(nickname)) {
-            throw new RuntimeException("Nickname can not be null.");
+        if (StringUtils.isEmpty(nickname)) {
+            throw new RuntimeException("Nickname can not be empty.");
         }
         Player player = new Player();
         player.setNickname(nickname);
-        Validator.validate(player);
+        Validator.validateMaxLength(player);
 
         int playerId = 0;
         try {
@@ -58,7 +60,8 @@ public class PlayerService {
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
             DuplicateKeyException dke = new DuplicateKeyException("Player's nickname exists.", e);
-            dke.setPath("/player/new");
+            dke.setPath(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                    .getServletPath());
             throw dke;
         }
         return baseRepository.findById(playerId, Player.class);

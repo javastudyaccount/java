@@ -4,8 +4,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -59,5 +61,16 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetails.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
         errorDetails.setErrorDetail(ex.getLocalizedMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ErrorDataEntity errorDetail = new ErrorDataEntity();
+        errorDetail.setErrorCode(HttpStatus.BAD_REQUEST.toString());
+        errorDetail.setErrorDetail(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
+        errorDetail.setBindingResult(ex.getBindingResult());
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 }
