@@ -7,6 +7,8 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedC
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -41,36 +43,31 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({PreAuthenticatedCredentialsNotFoundException.class})
     protected ResponseEntity<Object> handlePreAuthenticatedCredentialsNotFoundException(
             PreAuthenticatedCredentialsNotFoundException ex) {
-        ErrorDataEntity errorDetails = new ErrorDataEntity();
-        errorDetails.setErrorCode(HttpStatus.BAD_REQUEST.toString());
-        errorDetails.setErrorDetail(ex.getLocalizedMessage());
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+        ErrorDataEntity errorDetail = new ErrorDataEntity();
+        errorDetail.setErrorCode(HttpStatus.BAD_REQUEST.toString());
+        errorDetail.setErrorDetail(ex.getLocalizedMessage());
+        errorDetail.setPath(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+                .getServletPath());
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({DuplicateKeyException.class})
     protected ResponseEntity<Object> handleDuplicateKeyException(DuplicateKeyException ex) {
-        ErrorDataEntity errorDetails = new ErrorDataEntity();
-        errorDetails.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-        errorDetails.setErrorDetail(ex.getLocalizedMessage());
-        errorDetails.setPath(ex.getPath());
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+        ErrorDataEntity errorDetail = new ErrorDataEntity();
+        errorDetail.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        errorDetail.setErrorDetail(ex.getLocalizedMessage());
+        errorDetail.setPath(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+                .getServletPath());
+        return new ResponseEntity<>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({Exception.class})
     protected ResponseEntity<Object> handleException(Exception ex) {
-        ErrorDataEntity errorDetails = new ErrorDataEntity();
-        errorDetails.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-        errorDetails.setErrorDetail(ex.getLocalizedMessage());
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+        ErrorDataEntity errorDetail = new ErrorDataEntity();
+        errorDetail.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        errorDetail.setErrorDetail(ex.getLocalizedMessage());
+        return new ResponseEntity<>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-//    @ExceptionHandler({NoHandlerFoundException.class})
-//    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex) {
-//        ErrorDataEntity errorDetails = new ErrorDataEntity();
-//        errorDetails.setErrorCode(HttpStatus.NOT_FOUND.toString());
-//        errorDetails.setErrorDetail(ex.getLocalizedMessage());
-//        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-//    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

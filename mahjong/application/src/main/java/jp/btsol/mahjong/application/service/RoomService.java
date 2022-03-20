@@ -59,7 +59,6 @@ public class RoomService {
             log.error(e.getLocalizedMessage());
 
             DuplicateKeyException dke = new DuplicateKeyException("Room name exists.", e);
-            dke.setPath("/room/new");
             throw dke;
         }
         return baseRepository.findById(roomId, Room.class);

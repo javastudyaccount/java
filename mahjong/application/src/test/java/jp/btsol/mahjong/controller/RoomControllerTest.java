@@ -162,7 +162,7 @@ class RoomControllerTest {
             mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
                     .contentType(MediaType.APPLICATION_JSON)//
-                    .content("aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef"))//
+                    .content("{\"roomName\":\"aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef\"}"))//
                     .andDo(print())//
                     .andExpect(status().isBadRequest())//
                     .andExpect(result -> Assertions.assertEquals("room name is more than 50.",
@@ -183,7 +183,7 @@ class RoomControllerTest {
             MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
                     .contentType(MediaType.APPLICATION_JSON)//
-                    .content("test room"))//
+                    .content("{\"roomName\": \"test room\"}"))//
                     .andDo(print())//
                     .andExpect(status().isOk())//
                     .andReturn();
@@ -200,7 +200,7 @@ class RoomControllerTest {
             mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
                     .contentType(MediaType.APPLICATION_JSON)//
-                    .content("test room"))//
+                    .content("{\"roomName\":\"test room\"}"))//
                     .andDo(print())//
                     .andExpect(status().isInternalServerError())//
                     .andExpect(result -> Assertions.assertEquals("Room name exists.",

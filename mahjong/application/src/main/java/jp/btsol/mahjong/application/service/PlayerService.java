@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
@@ -60,8 +58,8 @@ public class PlayerService {
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
             DuplicateKeyException dke = new DuplicateKeyException("Player's nickname exists.", e);
-            dke.setPath(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getServletPath());
+//            dke.setPath(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+//                    .getServletPath());
             throw dke;
         }
         return baseRepository.findById(playerId, Player.class);
