@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import jp.btsol.mahjong.application.fw.exception.BadRequestException;
@@ -33,7 +34,7 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDataEntity errorData = new ErrorDataEntity();
         errorData.setErrorDetail(exception.getLocalizedMessage());
         errorData.setErrorCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
-        errorData.setPath(request.getContextPath());
+        errorData.setPath(((ServletWebRequest) request).getRequest().getServletPath());
         return errorData;
     }
 
@@ -63,6 +64,14 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+//    @ExceptionHandler({NoHandlerFoundException.class})
+//    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+//        ErrorDataEntity errorDetails = new ErrorDataEntity();
+//        errorDetails.setErrorCode(HttpStatus.NOT_FOUND.toString());
+//        errorDetails.setErrorDetail(ex.getLocalizedMessage());
+//        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+//    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -72,5 +81,16 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
         errorDetail.setBindingResult(ex.getBindingResult());
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
+        ErrorDataEntity errorDetail = new ErrorDataEntity();
+        errorDetail.setErrorCode(HttpStatus.NOT_FOUND.toString());
+//        errorDetail.setErrorDetail(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
+//        errorDetail.setBindingResult(ex.getBindingResult());
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
 }
