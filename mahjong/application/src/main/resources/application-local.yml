@@ -17,6 +17,17 @@ spring:
     url: jdbc:mysql://localhost:3306/game
     username: game
     password: game    
+  jackson:
+    #serialization:
+      #write-dates-as-timestamps: false
+# JSON出力時に改行・インデントを入れる
+      #INDENT_OUTPUT: true      
+# 値がnullのプロパティーを出力しない
+    default-property-inclusion: NON_NULL
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: true
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+
 # Actuatorを利用する際のPrefix
 management:
   endpoints:

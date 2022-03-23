@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +35,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jp.btsol.mahjong.application.controller.RoomController;
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.service.RoomService;
+import jp.btsol.mahjong.config.MahjongConfigBean;
 import jp.btsol.mahjong.controller.RoomControllerTest.TestConfig;
+import jp.btsol.mahjong.entity.ErrorDataEntity;
 import jp.btsol.mahjong.entity.Room;
 
 @DirtiesContext
-@SpringBootTest(classes = {TestConfig.class})
+@SpringBootTest(classes = {TestConfig.class, MahjongConfigBean.class})
 @AutoConfigureMockMvc
 @DisplayName("RoomControllerTestのテストケース")
 class RoomControllerTest {
@@ -46,20 +49,21 @@ class RoomControllerTest {
 
     @Autowired
     private RoomController roomController;
+
     @Autowired
     private HandlerExceptionResolver handlerExceptionResolver;
 
     @MockBean
     private RoomService roomService;
 
-    private ObjectMapper om;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /**
      * 各テストメソッド開始前に実行される.
      */
     @BeforeEach
     void beforeEach() {
-        om = new ObjectMapper();
         mockMvc = MockMvcBuilders.standaloneSetup(roomController).setHandlerExceptionResolvers(handlerExceptionResolver)
                 .build();
     }
@@ -98,7 +102,7 @@ class RoomControllerTest {
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-            Room[] roomsArr = om.readValue(content, Room[].class);
+            Room[] roomsArr = objectMapper.readValue(content, Room[].class);
 
             Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr);
         }
@@ -124,7 +128,7 @@ class RoomControllerTest {
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-            Room[] roomsArr = om.readValue(content, Room[].class);
+            Room[] roomsArr = objectMapper.readValue(content, Room[].class);
 
             Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr);
         }
@@ -159,14 +163,17 @@ class RoomControllerTest {
         @Test
         void testCreateNewRoomNameMoreThan50Error() throws Exception {
             // 実行、検証
-            mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
+            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
                     .contentType(MediaType.APPLICATION_JSON)//
                     .content("{\"roomName\":\"aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef\"}"))//
                     .andDo(print())//
                     .andExpect(status().isBadRequest())//
-                    .andExpect(result -> Assertions.assertEquals("room name is more than 50.",
-                            result.getResolvedException().getMessage()));
+                    .andReturn();
+            ErrorDataEntity error = objectMapper
+                    .readValue(result.getResponse().getContentAsString(StandardCharsets.UTF_8), ErrorDataEntity.class);
+
+            Assertions.assertEquals("size must be between 0 and 50", error.getErrorDetail());
         }
 
         @Test
@@ -174,9 +181,9 @@ class RoomControllerTest {
             Room room = new Room(1, //
                     "test room", //
                     false, //
-                    null, //
+                    new Timestamp(System.currentTimeMillis()), //
                     "test-id", //
-                    null, //
+                    new Timestamp(System.currentTimeMillis()), //
                     "test-id");
             when(roomService.createNewRoom("test room")).thenReturn(room);
             // 実行、検証
@@ -188,7 +195,7 @@ class RoomControllerTest {
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-            Room roomRet = om.readValue(content, Room.class);
+            Room roomRet = objectMapper.readValue(content, Room.class);
 
             Assertions.assertEquals(room, roomRet);
         }

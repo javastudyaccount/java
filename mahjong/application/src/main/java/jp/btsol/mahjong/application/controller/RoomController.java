@@ -2,17 +2,19 @@ package jp.btsol.mahjong.application.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.btsol.mahjong.application.fw.exception.BadRequestException;
 import jp.btsol.mahjong.application.service.RoomService;
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.model.RoomName;
-import jp.btsol.mahjong.utils.validator.Validator;
 
 /**
  * Room controller
@@ -54,11 +56,9 @@ public class RoomController {
      * @return Room
      */
     @PostMapping(value = "/new")
-    public Room createNewRoom(@RequestBody(required = true) RoomName roomName) {
-        int maxNameLen = Validator.getMaxLength(new Room(), "roomName");
-        if (maxNameLen > 0 && roomName.getRoomName().length() > maxNameLen) {
-            throw new BadRequestException("room name is more than " + maxNameLen + ".");
-        }
-        return roomService.createNewRoom(roomName.getRoomName());
+    public ResponseEntity<Room> createNewRoom(@Valid //
+    @RequestBody(required = true) RoomName roomName) {
+        Room room = roomService.createNewRoom(roomName.getRoomName());
+        return new ResponseEntity<>(room, HttpStatus.OK);
     }
 }

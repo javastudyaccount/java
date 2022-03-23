@@ -1,9 +1,13 @@
 package jp.btsol.mahjong.application.fw.handler;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Object> handleBadRequestException(BadRequestException exception, WebRequest request) {
@@ -89,5 +94,27 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
 //        errorDetail.setBindingResult(ex.getBindingResult());
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ErrorDataEntity errorDetail = new ErrorDataEntity();
+        errorDetail.setErrorCode(HttpStatus.METHOD_NOT_ALLOWED.toString());
+        errorDetail.setErrorDetail("Method not supported.");
+        errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
+//        errorDetail.setBindingResult(ex.getBindingResult());
+        return new ResponseEntity<>(errorDetail, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ErrorDataEntity errorDetail = new ErrorDataEntity();
+        errorDetail.setErrorCode(HttpStatus.BAD_REQUEST.toString());
+        errorDetail.setErrorDetail("Message not readable.");
+        errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
+//        errorDetail.setBindingResult(ex.getBindingResult());
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 }

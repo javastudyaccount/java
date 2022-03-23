@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.btsol.mahjong.application.fw.exception.BadRequestException;
 import jp.btsol.mahjong.application.service.PlayerService;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.Nickname;
-import jp.btsol.mahjong.utils.validator.Validator;
 
 /**
  * Player controller
@@ -55,13 +53,9 @@ public class PlayerController {
      * @param nickname String
      * @return Player
      */
-    @PostMapping(value = "/new")
+    @PostMapping(value = "/new", produces = {"application/json"}, consumes = {"application/json"})
     public Player createNewPlayer(@Valid // validate annotation
     @RequestBody(required = true) Nickname nickname) {
-        int maxNameLen = Validator.getMaxLength(new Player(), "nickname");
-        if (maxNameLen > 0 && nickname.getNickname().length() > maxNameLen) {
-            throw new BadRequestException("nickname is more than " + maxNameLen + ".");
-        }
         return playerService.createNewPlayer(nickname.getNickname());
     }
 

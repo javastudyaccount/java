@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public class Room implements Serializable {
 
     /** デフォルトシリアルバージョンID */
@@ -36,12 +40,14 @@ public class Room implements Serializable {
     private boolean deletedFlg;
     /** created_timestamp */
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private java.sql.Timestamp createdTimestamp;
     /** created_user */
     @Column(length = 20, nullable = false)
     private String createdUser;
     /** updated_timestamp */
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private java.sql.Timestamp updatedTimestamp;
     /** updated_user */
     @Column(length = 20, nullable = false)
