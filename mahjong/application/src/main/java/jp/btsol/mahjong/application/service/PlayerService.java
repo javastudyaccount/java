@@ -58,8 +58,6 @@ public class PlayerService {
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
             DuplicateKeyException dke = new DuplicateKeyException("Player's nickname exists.", e);
-//            dke.setPath(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
-//                    .getServletPath());
             throw dke;
         }
         return baseRepository.findById(playerId, Player.class);
