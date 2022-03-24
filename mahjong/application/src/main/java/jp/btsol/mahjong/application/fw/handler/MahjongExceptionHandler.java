@@ -82,7 +82,10 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDataEntity errorDetail = new ErrorDataEntity();
         errorDetail.setErrorCode(HttpStatus.BAD_REQUEST.toString());
         errorDetail.setErrorDetail(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
+//        errorDetail.setPath(((ServletWebRequest) request).getRequest().getServletPath());
+        errorDetail.setPath(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+                .getServletPath());
+        // path is "" for JUNIT
         errorDetail.setBindingResult(ex.getBindingResult());
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }

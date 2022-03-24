@@ -65,7 +65,7 @@ public class MahjongConfigBean {
     /**
      * DATETIME_FORMAT
      */
-    private static final String DATETIME_FORMAT = "dd-MM-yyyy HH:mm";
+    private static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm";
     /**
      * LOCAL_DATETIME_SERIALIZER
      */
@@ -92,7 +92,7 @@ public class MahjongConfigBean {
     public void config(ObjectMapper om) {
 //        om.configure(SerializationFeature.WRAP_ROOT_VALUE, true); //add {} as root
 //        SecurityJackson2Modules.enableDefaultTyping(om);
-        om.setDefaultTyping(createAllowlistedDefaultTyping()); // no type @class
+        om.setDefaultTyping(createAllowlistedDefaultTyping()); // add type @class
 
         om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false); // used
