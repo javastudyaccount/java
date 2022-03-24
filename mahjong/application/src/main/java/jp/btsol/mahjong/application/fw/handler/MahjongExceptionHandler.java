@@ -71,6 +71,8 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDataEntity errorDetail = new ErrorDataEntity();
         errorDetail.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
         errorDetail.setErrorDetail(ex.getLocalizedMessage());
+        errorDetail.setPath(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+                .getServletPath());
         return new ResponseEntity<>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

@@ -8,10 +8,18 @@ x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUi
 
 post http://localhost:8088/v1/player/new
 x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+content-type: application/json
+
+{"@class": "jp.btsol.mahjong.model.Nickname","nickname": "12345678901234567895"}
+
+###
+
+post http://localhost:8088/v1/player/new
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
 request-id: test-from-vscode
 content-type: application/json
 
-{"@class": "jp.btsol.mahjong.model.Nickname","nickname": "123456789012345678900"}
+{"@class": "jp.btsol.mahjong.model.Nickname","nickname": "12345678901234567895"}
 
 ###
 
@@ -29,7 +37,7 @@ x-mahjong-user:eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiL
 request-id:new
 Content-Type:application/json
 
-{"nickname":"player10"}
+{"@class": "jp.btsol.mahjong.model.Nickname", "nickname":"player10player10player10player10player10player10player10"}
 
 ###
 
@@ -38,17 +46,17 @@ x-mahjong-user:eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiL
 request-id:new
 Content-Type:application/json
 
-{@class:"", "nickname": "aaa"}
+{"@class":"jp.btsol.mahjong.model.Nickname", "nickname": "aaa"}
 
 
 ###
 
-POST http://localhost:8088/v1/player/new3
+POST http://localhost:8088/v1/player/new
 x-mahjong-user:eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0= 
 request-id:new
 Content-Type:application/json
 
-{"nickname":""}
+{"@class": "jp.btsol.mahjong.model.Nickname","nickname":""}
 
 ###
 
