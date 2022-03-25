@@ -1,5 +1,6 @@
 package jp.btsol.mahjong.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -7,11 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -25,9 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @EnableConfigurationProperties(ApplicationProperties.class)
 public class RoomService {
     /**
-     * Object mapper
+     * Rest template
      */
-    private final ObjectMapper objectMapper;
+    private final MahjongRestTemplate mahjongRestTemplate;
     /**
      * application properties
      */
@@ -37,11 +35,11 @@ public class RoomService {
      * Constructor
      * 
      * @param applicationProperties ApplicationProperties application properties
-     * @param objectMapper          ObjectMapper object mapper
      */
-    public RoomService(ApplicationProperties applicationProperties, ObjectMapper objectMapper) {
+    public RoomService(ApplicationProperties applicationProperties, //
+            MahjongRestTemplate mahjongRestTemplate) {
         this.applicationProperties = applicationProperties;
-        this.objectMapper = objectMapper;
+        this.mahjongRestTemplate = mahjongRestTemplate;
     }
 
     /**
@@ -58,14 +56,7 @@ public class RoomService {
 
         ResponseEntity<String> json = rest.getForEntity(url, String.class);
 
-        List<Room> rooms = null;
-        try {
-            Room[] roomsArr = objectMapper.readValue(json.getBody(), Room[].class);
-            rooms = Arrays.asList(roomsArr);
-        } catch (JsonProcessingException e) {
-            log.error("Rooms error: " + e.getLocalizedMessage());
-            e.printStackTrace();
-        }
+        List<Room> rooms = mahjongRestTemplate.get(url, ArrayList.class);
         return rooms;
     }
 }

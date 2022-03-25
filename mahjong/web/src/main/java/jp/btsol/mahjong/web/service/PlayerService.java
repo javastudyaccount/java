@@ -1,17 +1,13 @@
 package jp.btsol.mahjong.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.Nickname;
-import jp.btsol.mahjong.web.fw.MahjongRestErrorHandler;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,10 +26,6 @@ public class PlayerService {
      */
     private final MahjongRestTemplate mahjongRestTemplate;
     /**
-     * Object mapper
-     */
-    private final ObjectMapper objectMapper;
-    /**
      * application properties
      */
     private final ApplicationProperties applicationProperties;
@@ -42,14 +34,11 @@ public class PlayerService {
      * Constructor
      * 
      * @param applicationProperties ApplicationProperties application properties
-     * @param objectMapper          ObjectMapper object mapper
      * @param mahjongRestTemplate   MahjongRestTemplate
      */
     public PlayerService(ApplicationProperties applicationProperties, //
-            ObjectMapper objectMapper, //
             MahjongRestTemplate mahjongRestTemplate) {
         this.applicationProperties = applicationProperties;
-        this.objectMapper = objectMapper;
         this.mahjongRestTemplate = mahjongRestTemplate;
     }
 
@@ -64,17 +53,18 @@ public class PlayerService {
 
         final String url = endpoint + applicationProperties.getPath().getPlayers();
 
-        Player[] players = mahjongRestTemplate.get(url, Player[].class, new MahjongRestErrorHandler() {
+//        Player[] players1 = mahjongRestTemplate.get(url, Player[].class, new MahjongRestErrorHandler() {
+//
+//            @Override
+//            public void handle(int statusCode, HttpStatusCodeException e) throws RuntimeException {
+//                log.error(e.getLocalizedMessage());
+//            }
+//
+//        });
 
-            @Override
-            public void handle(int statusCode, HttpStatusCodeException e) throws RuntimeException {
-                log.error(e.getLocalizedMessage());
-            }
+        List<Player> players = mahjongRestTemplate.get(url, ArrayList.class);
 
-        });
-
-        List<Player> playersList = Arrays.asList(players);
-        return playersList;
+        return players;
     }
 
     /**

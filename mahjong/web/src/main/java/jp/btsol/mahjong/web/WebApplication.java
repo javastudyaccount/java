@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author B&T Solutions Inc.
  *
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "jp.btsol.mahjong")
 public class WebApplication {
     /**
      * objectMapper ObjectMapper
