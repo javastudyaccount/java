@@ -1,25 +1,19 @@
 package jp.btsol.mahjong.mixin;
 
-import org.mahjong4j.hands.Kantsu;
-import org.mahjong4j.hands.Kotsu;
-import org.mahjong4j.hands.Shuntsu;
-import org.mahjong4j.hands.Toitsu;
 import org.mahjong4j.tile.Tile;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "_type")
+//@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 // CHECKSTYLE:OFF
-@JsonSubTypes({//
-        @JsonSubTypes.Type(value = Kantsu.class, name = "_type"), //
-        @JsonSubTypes.Type(value = Kotsu.class, name = "_type"), //
-        @JsonSubTypes.Type(value = Shuntsu.class, name = "_type"), //
-        @JsonSubTypes.Type(value = Toitsu.class, name = "_type"),//
-})
+//@JsonSubTypes({//
+//        @JsonSubTypes.Type(value = Kantsu.class, name = "@class"), //
+//        @JsonSubTypes.Type(value = Kotsu.class, name = "@class"), //
+//        @JsonSubTypes.Type(value = Shuntsu.class, name = "@class"), //
+//        @JsonSubTypes.Type(value = Toitsu.class, name = "@class"),//
+//})
 //CHECKSTYLE:ON
 public abstract class MentsuMixin {
     // CHECKSTYLE:OFF

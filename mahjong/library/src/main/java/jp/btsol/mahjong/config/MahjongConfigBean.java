@@ -171,6 +171,8 @@ public class MahjongConfigBean {
 
         /** パッケージ名 */
         private static final String JP_BTSOL_MAHJONG = "jp.btsol.mahjong";
+        /** パッケージ名 */
+        private static final String ORG_MAHJONG4J = "org.mahjong4j";
         /** ALLOWLIST_CLASS_NAMES */
         private static final Set<String> ALLOWLIST_CLASS_NAMES;
         static {
@@ -237,6 +239,9 @@ public class MahjongConfigBean {
             JavaType result = this.delegate.typeFromId(context, id);
             String className = result.getRawClass().getName();
             if (className.startsWith(JP_BTSOL_MAHJONG)) {
+                return result;
+            }
+            if (className.startsWith(ORG_MAHJONG4J)) {
                 return result;
             }
             if (isInAllowlist(className)) {
