@@ -10,7 +10,7 @@
     <div layout:fragment="content">
 		<table>
 			<tr>
-			<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.tile.TileImage).values()}">
+			<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.web.tile.TileImage).values()}">
 			   	<span th:each="i : ${#numbers.sequence(0, 3)}">
 			   	<img th:src="@{${'/images/' + href}}" th:with="href=${tile.getImage()}"></img>
 			   	</span>

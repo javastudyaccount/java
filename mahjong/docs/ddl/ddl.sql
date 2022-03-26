@@ -3,16 +3,16 @@ drop table game cascade;
 CREATE TABLE game (
     game_id bigint NOT NULL AUTO_INCREMENT,
     roome_id bigint NOT NULL,
-    started_timestamp time NOT NULL,
-    ended_timestamp time,
+    started_timestamp timestamp,
+    ended_timestamp timestamp,
     shuffled_tiles json,
     from_direction varchar(20),
     from_column integer,
     deleted_flg boolean DEFAULT false NOT NULL,
-    created_timestamp time NOT NULL,
+    created_timestamp timestamp NOT NULL,
     created_user varchar(20) NOT NULL,
-    updated_timestamp time NOT NULL,
-    updated_user varchar(20),
+    updated_timestamp timestamp NOT NULL,
+    updated_user varchar(20) NOT NULL,
     PRIMARY KEY (game_id)
 );
 
@@ -26,9 +26,9 @@ CREATE TABLE game_log (
     tiles json NOT NULL,
     player_id_counterpart bigint,
     deleted_flg boolean DEFAULT false NOT NULL,
-    created_timestamp time NOT NULL,
+    created_timestamp timestamp NOT NULL,
     created_user varchar(20) NOT NULL,
-    updated_timestamp time NOT NULL,
+    updated_timestamp timestamp NOT NULL,
     updated_user varchar(20) NOT NULL,
     PRIMARY KEY (game_log_id)
 );
@@ -39,12 +39,12 @@ CREATE TABLE game_player (
     player_id bigint NOT NULL,
     mentsu json,
     last integer,
-    direction varchar(20) NOT NULL,
-    is_east boolean NOT NULL,
+    direction varchar(20),
+    is_east boolean,
     deleted_flg boolean DEFAULT false NOT NULL,
-    created_timestamp time NOT NULL,
+    created_timestamp timestamp NOT NULL,
     created_user varchar(20) NOT NULL,
-    updated_timestamp time NOT NULL,
+    updated_timestamp timestamp NOT NULL,
     updated_user varchar(20) NOT NULL,
     PRIMARY KEY (game_id, player_id)
 );
@@ -52,14 +52,16 @@ CREATE TABLE game_player (
 drop table player cascade;
 CREATE TABLE player (
     player_id bigint NOT NULL AUTO_INCREMENT,
-    nickename varchar(20) NOT NULL,
+    nickname varchar(20) NOT NULL,
     deleted_flg boolean DEFAULT false NOT NULL,
-    created_timestamp time NOT NULL,
+    created_timestamp timestamp NOT NULL,
     created_user varchar(20) NOT NULL,
-    updated_timestamp time NOT NULL,
+    updated_timestamp timestamp NOT NULL,
     updated_user varchar(20) NOT NULL,
     PRIMARY KEY (player_id)
 );
+CREATE UNIQUE INDEX player_name_unique
+    ON player (nickname);
 
 drop table room cascade;
 CREATE TABLE room (

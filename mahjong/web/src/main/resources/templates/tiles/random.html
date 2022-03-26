@@ -10,7 +10,7 @@
     <div layout:fragment="content">
     <table>
 		<tr>
-		<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.tile.TileImage).values()}">
+		<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.web.tile.TileImage).values()}">
 		   	<span th:each="i, iStat : ${#numbers.sequence(0, 3)}">
 		   	<img th:style="@{${'position:absolute; left: ' + positions[tileStat.index * 4 + iStat.index].center.x + 'px;top: ' + positions[tileStat.index * 4 + iStat.index].center.y + 'px'}}" th:src="@{${'/images/' + href}}" th:with="href=${tile.getImage()}"></img>
 		   	</span>
@@ -63,7 +63,7 @@ function randomIt(e) {
 	setTimeout(function(){
 	    var width = /*[[${WIDTH}]]*/ 1000;
 	    var height = /*[[${HEIGHT}]]*/ 1000;
-	    var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
+	    var count = /*[[${T(jp.btsol.mahjong.web.tile.TileImage).values().length}]]*/ 34;
 	    var repeat = 4;
 
 	    var index = Math.floor(Math.random() * count * 4);

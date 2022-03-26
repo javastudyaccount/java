@@ -6,11 +6,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,10 +33,12 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.btsol.mahjong.application.controller.RoomController;
+import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
+import jp.btsol.mahjong.application.service.RoomService;
 import jp.btsol.mahjong.controller.RoomControllerTest.TestConfig;
+import jp.btsol.mahjong.entity.ErrorDataEntity;
 import jp.btsol.mahjong.entity.Room;
-import jp.btsol.mahjong.fw.DuplicateKeyException;
-import jp.btsol.mahjong.service.RoomService;
 
 @DirtiesContext
 @SpringBootTest(classes = {TestConfig.class})
@@ -44,22 +49,27 @@ class RoomControllerTest {
 
     @Autowired
     private RoomController roomController;
+
     @Autowired
     private HandlerExceptionResolver handlerExceptionResolver;
 
     @MockBean
     private RoomService roomService;
 
-    private ObjectMapper om;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /**
      * 各テストメソッド開始前に実行される.
      */
     @BeforeEach
     void beforeEach() {
-        om = new ObjectMapper();
+//        mockMvc = MockMvcBuilders.standaloneSetup(roomController).setHandlerExceptionResolvers(handlerExceptionResolver)
+//                .build();
+        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
         mockMvc = MockMvcBuilders.standaloneSetup(roomController).setHandlerExceptionResolvers(handlerExceptionResolver)
-                .build();
+                .setMessageConverters(mappingJackson2HttpMessageConverter).build();
     }
 
     @Nested
@@ -77,7 +87,8 @@ class RoomControllerTest {
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString();
-            Assertions.assertEquals("[]", content);
+            List<Room> roomsArr = objectMapper.readValue(content, ArrayList.class);
+            Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr.toArray(new Room[0]));
         }
 
         @Test
@@ -96,9 +107,9 @@ class RoomControllerTest {
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-            Room[] roomsArr = om.readValue(content, Room[].class);
+            List<Room> roomsArr = objectMapper.readValue(content, ArrayList.class);
 
-            Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr);
+            Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr.toArray(new Room[0]));
         }
 
         @Test
@@ -122,9 +133,9 @@ class RoomControllerTest {
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-            Room[] roomsArr = om.readValue(content, Room[].class);
+            List<Room> roomsArr = objectMapper.readValue(content, ArrayList.class);
 
-            Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr);
+            Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr.toArray(new Room[0]));
         }
     }
 
@@ -132,6 +143,8 @@ class RoomControllerTest {
     @DisplayName("createNewRoomメソッドのテストケース")
     class createNewRoom {
         @Test
+        @Disabled
+        @DisplayName("request-id is checked by HandlerInterceptor")
         void testCreateNewRoomNoRequestIDError() throws Exception {
             // 実行、検証
             mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
@@ -155,14 +168,18 @@ class RoomControllerTest {
         @Test
         void testCreateNewRoomNameMoreThan50Error() throws Exception {
             // 実行、検証
-            mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
+            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
                     .contentType(MediaType.APPLICATION_JSON)//
-                    .content("aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef"))//
+                    .content(
+                            "{\"@class\" : \"jp.btsol.mahjong.model.RoomName\",\"roomName\":\"aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef\"}"))//
                     .andDo(print())//
                     .andExpect(status().isBadRequest())//
-                    .andExpect(result -> Assertions.assertEquals("room name is more than 50.",
-                            result.getResolvedException().getMessage()));
+                    .andReturn();
+            ErrorDataEntity error = objectMapper
+                    .readValue(result.getResponse().getContentAsString(StandardCharsets.UTF_8), ErrorDataEntity.class);
+
+            Assertions.assertEquals("size must be between 0 and 50", error.getErrorDetail());
         }
 
         @Test
@@ -170,34 +187,33 @@ class RoomControllerTest {
             Room room = new Room(1, //
                     "test room", //
                     false, //
-                    null, //
+                    new Timestamp(System.currentTimeMillis()), //
                     "test-id", //
-                    null, //
+                    new Timestamp(System.currentTimeMillis()), //
                     "test-id");
-            when(roomService.createNewRoom("test room", "test-id")).thenReturn(room);
+            when(roomService.createNewRoom("test room")).thenReturn(room);
             // 実行、検証
-            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
+            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/room/new")//
                     .header("request-id", "test-id")//
                     .contentType(MediaType.APPLICATION_JSON)//
-                    .content("test room"))//
+                    .content("{\"@class\" : \"jp.btsol.mahjong.model.RoomName\",\"roomName\": \"test room\"}"))//
                     .andDo(print())//
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-            Room roomRet = om.readValue(content, Room.class);
+            Room roomRet = objectMapper.readValue(content, Room.class);
 
             Assertions.assertEquals(room, roomRet);
         }
 
         @Test
         void testCreateNewRoomDuplicateNameError() throws Exception {
-            when(roomService.createNewRoom("test room", "test-id"))
-                    .thenThrow(new DuplicateKeyException("Room name exists."));
+            when(roomService.createNewRoom("test room")).thenThrow(new DuplicateKeyException("Room name exists."));
             // 実行、検証
             mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//
                     .contentType(MediaType.APPLICATION_JSON)//
-                    .content("test room"))//
+                    .content("{\"@class\" : \"jp.btsol.mahjong.model.RoomName\",\"roomName\":\"test room\"}"))//
                     .andDo(print())//
                     .andExpect(status().isInternalServerError())//
                     .andExpect(result -> Assertions.assertEquals("Room name exists.",
@@ -206,9 +222,7 @@ class RoomControllerTest {
     }
 
     @Configuration
-    // @formatter:off
     @ComponentScan(value = "jp.btsol.mahjong")
-    //@formatter:on
     public static class TestConfig {
     }
 }

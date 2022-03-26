@@ -3,9 +3,12 @@ server:
 application:
   uri: http://localhost:8088/v1
   path:
+    home: /
     hands: /hands
     shuffled: /shuffled
     rooms: /room/all
+    players: /player/all
+    createPlayer: /player/new
 spring:
   thymeleaf:
     check-template-location: true

@@ -12,7 +12,7 @@
 <td:block th:each="mentsu , mentsuStat: ${hands.handsComp}">
     <span th:if="${mentsu != 0}">
     	<span th:each="i : ${#numbers.sequence(0, mentsu - 1)}">
-    	<img th:src="@{${'/images/' + href}}" th:with="href=${T(jp.btsol.mahjong.tile.TileImage).valueOf(T(org.mahjong4j.tile.Tile).valueOf(mentsuStat.index)).getImage()}"></img>
+    	<img th:src="@{${'/images/' + href}}" th:with="href=${T(jp.btsol.mahjong.web.tile.TileImage).valueOf(T(org.mahjong4j.tile.Tile).valueOf(mentsuStat.index)).getImage()}"></img>
     	</span>
     </span>
 </td:block>

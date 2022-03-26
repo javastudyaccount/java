@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Players</title>
+</head>
+<body>
+<h1>Players</h1>
+<div layout:fragment="content">
+<h4 th:text="${message}"></h4>
+<form th:action="@{/player/create}" method="post" th:object="${playerForm}">
+<table>
+<tr>
+<td>
+   	Player's nickname:
+</td>
+<td>
+    <input type="text" th:field="*{nickname}">
+</td>
+</tr>
+</table>
+<button>New</button>
+</form>
+<a href="/players">Back to players list</a>
+</div>
+</body>
+</html>

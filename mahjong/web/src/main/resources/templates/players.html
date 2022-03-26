@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Players</title>
+</head>
+<body>
+<h1>Players</h1>
+<div layout:fragment="content">
+<h4 th:text="${message}"></h4>
+<table>
+<tr th:each="player, playerStat: ${players}">
+<td>
+   	<span th:text="${player.playerId}">
+   	</span>
+</td>
+<td>
+    <span th:text="${player.nickname}">
+    </span>
+</td>
+</tr>
+</table>
+<a href="/player/new">Add new player</a>
+</div>
+</body>
+</html>

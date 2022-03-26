@@ -1,5 +1,5 @@
  [mahjong4j github](https://github.com/mahjong4j/mahjong4j.git)
- 
+
 ## Beginner
 Make mvn project with multiple modules
 1. Google searh "mnv springboot create multiproject"
@@ -119,62 +119,8 @@ api --> database : use
 - CSS
 - JS
 
-### How to run
-1. Set environment variable
-   1. spring.profiles.active=local
-2. Install Java 1.11
+how-to-run.md
 
-3. Install SpringToolSuite4
-4. Intall lombok.jar
-   `java -jar lombok.jar`
-5. Start SpringToolSuite4
-
-    ![](image/Mahjiang/1644647950208.png)
-6. Select workspace
-   ![](image/Mahjiang/1644648159187.png)
-7. Import project
-   ![](image/Mahjiang/1644648227541.png)
-8. Import existing maven project
-   ![](image/Mahjiang/1644648290361.png)
-9.  Select mahjong project
-   ![](image/Mahjiang/1644648339201.png)
-11. Open project explorer
-   ![](image/Mahjiang/1644649057023.png)
-12. Three modules imported
-   ![](image/Mahjiang/1644649093770.png)   
-11. Import web as project
-   ![](image/Mahjiang/1644649124894.png)   
-   ![](image/Mahjiang/1644649146156.png)
-12. Run application
-   ![](image/Mahjiang/1644648497777.png)
-13. Application started at port 8088
-   ![](image/Mahjiang/1644648637371.png)
-
-chcp.com 932
-
-14. mvn
-   mvn clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
-15. [Spring Boot Actuatorで開発の効率化を図ってみた](https://qiita.com/HiroyaEnd/items/f640a6cd2657c42c69a2)
-   listup all paths:
-   `curl http://localhost:9999/admin/mappings | grep patterns`
-   Output example:
-   <pre>
-    "patterns" : [ "/error" ],
-    "patterns" : [ "/hands" ],
-    "patterns" : [ "/" ],
-    </pre>
-16. Test a api
-   http://localhost:8088/v1/hands
-   ![](image/Mahjiang/1644673441779.png)   
-17. Run web
-   ![](image/Mahjiang/1644649194603.png)
-18. Web started at port 8089
-   ![](image/Mahjiang/1644649247875.png)   
-19. Test a web page
-   http://localhost:8089/hands
-   ![](image/Mahjiang/1644673492424.png)
-   [Shuffling video](media/shuffling.mp4)
-   [Dicing video](media/dice.mp4)
 ### Mahjong room
 #### Create new room
 #### Invite player
@@ -196,16 +142,6 @@ chcp.com 932
 #### Record wins and loses
 
 [简单的麻将ai算法](https://doc.xuwenliang.com/docs/ai/1495)
-### Start web and application 
-`cd /c/app/java/mahjong`
-`chcp.com 932`
-`mvn install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true`
-
-`cd /c/app/java/mahjong/web`
-`mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8189"`
-
-`cd /c/app/java/mahjong/application`
-`mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8188"`
 
 ### List all branches
     $ git branch -a
@@ -314,99 +250,10 @@ Wenjing: Java
       - `$ echo "sudo /etc/init.d/docker start" >> ~/.bashrc`
    - Set default user as root
      - `PS> ubuntu config --default-user root` 
-### MySQL
-#### start ubuntu
-ubuntu
 
-#### Pull docker image
-`$ docker pull mysql`
-#### Start a mysql server instance
-`$ docker run -p 3306:3306 --name game -e MYSQL_ROOT_PASSWORD=game -d mysql:latest `
+mysql.md
 
-#### Docker CLI
-`$ docker exec -it /game /bin/bash`
-`$ mysql -h localhost -P 3306 -u root -p`
-Enter password: game
-
-#### How to continue a Docker container which has exited
-`$ docker start  `docker ps -q -l``
-
-#### Create database
-`mysql> create database game character set utf8;`
-`mysql> use game`
-Paste [ddl.sql](./ddl/ddl.sql)
-
-#### Create user
-`mysql> CREATE USER game IDENTIFIED BY 'game';`
-
-`mysql> GRANT ALL ON *.* TO game;`
-`mysql> exit;`
-
-#### Connection
-`$ mysql -h localhost -P 3306 -u game -p`
-Enter password: game
-`mysql> use game`
-`mysql> show tables;`
-
-| Tables_in_game |
-|----------------|
-| game           |
-| game_log       |
-| game_player    |
-| player         |
-| room           |
-
-```mermaid
-erDiagram
-room{
-    long room_id
-    varchar room_name 
-    boolean deleted_flg
-}
-
-player{
-    long player_id
-    varchar nick_name 
-    boolean deleted_flg
-}
-
-game{
-   long game_id
-   long room_id
-   timestamp started_timestamp
-   timestamp ended_timestamp
-   varchar shuffled_tiles
-   varchar from_direction
-   int from_column
-   boolean deleted_flg
-}
-
-game_player{
-   long game_id
-   long palyer_id
-   varchar mentsu
-   int last
-   varchar direction
-   boolean is_east
-   boolean deleted_flg
-}
-
-game_log{
-   long game_log_id
-   long game_id
-   long plyer_id
-   varchar operation
-   varchar tiles
-   long player_id_counterpart
-   boolean deleted_flg
-}
-
-game }|--|| room :in
-player }|--|| game_player : is
-game_player }|--|| game: play
-game ||--|{ game_log :has
-
-```
+er.md
 
 ### API Test
 #### Curl
@@ -469,19 +316,30 @@ mysql> select * from room;
 mysql> insert into room (room_name, deleted_flg, created_timestamp, created_user, updated_timestamp, updated_user) values ('東京', 0, current_timestamp, 'test', current_timestamp, 'test');
 ```
 
+![](image/Mahjong/1646538361565.png)
 ### Rest Cient
 
 GET http://localhost:8088/v1/room/all HTTP/1.1
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
 
+{"iss":"iss", "sub":"sub", "username":"username", "bizGroup":"bizGroup", "customParam":"customParam"}
+
+###
+
+POST http://localhost:8088/v1/shuffled HTTP/1.1
+content-type: application/json
+request-id: test-id
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+ 
+{"gameId": 1}
 ###
 
 POST http://localhost:8088/v1/room/new HTTP/1.1
 content-type: application/json
-request-id: request-id
-
-{
-    "roomName": "roomName"
-}
+request-id: test-id
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+ 
+{"roomName": "testRoom23"}
 
 ###
 
@@ -527,5 +385,16 @@ gantt
       create new game for room: create_new_game_for_room, after list_all_games_for_a_room, 1d
       junit for list: junit_for_list, after create_new_game_for_room, 2d
       junit for create: junit_for_create, after junit_for_list, 2d
-    
 ```
+
+registerObjectMappersForType
+
+### Majhong game
+
+- [ ] Player registration
+  - [ ] API
+  - [ ] View
+- [ ] Open a room
+- [ ] Begin a game
+- [ ] Play a game
+

@@ -19,45 +19,34 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+//@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public class Room implements Serializable {
 
     /** デフォルトシリアルバージョンID */
     private static final long serialVersionUID = 1L;
-    /**  */
+    /** room_id */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=YES
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // sqlTypeName: BIGINT
     private long roomId;
-    /**  */
+    /** room_name */
     @Column(length = 50, nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
     private String roomName;
-    /**  */
+    /** deleted_flg */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: BIT
     private boolean deletedFlg;
-    /**  */
+    /** created_timestamp */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: TIMESTAMP
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private java.sql.Timestamp createdTimestamp;
-    /**  */
+    /** created_user */
     @Column(length = 20, nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
     private String createdUser;
-    /**  */
+    /** updated_timestamp */
     @Column(nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: TIMESTAMP
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private java.sql.Timestamp updatedTimestamp;
-    /**  */
+    /** updated_user */
     @Column(length = 20, nullable = false)
-    // autoIncremnt: autoIncrement=NO
-    // sqlTypeName: VARCHAR
     private String updatedUser;
 }
