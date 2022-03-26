@@ -53,15 +53,6 @@ public class PlayerService {
 
         final String url = endpoint + applicationProperties.getPath().getPlayers();
 
-//        Player[] players1 = mahjongRestTemplate.get(url, Player[].class, new MahjongRestErrorHandler() {
-//
-//            @Override
-//            public void handle(int statusCode, HttpStatusCodeException e) throws RuntimeException {
-//                log.error(e.getLocalizedMessage());
-//            }
-//
-//        });
-
         List<Player> players = mahjongRestTemplate.get(url, ArrayList.class);
 
         return players;
