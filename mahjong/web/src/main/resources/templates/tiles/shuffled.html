@@ -147,9 +147,9 @@ $(document).ready(function() {
     dice2.click(diceFunc);
     var show = /*[[${show}]]*/ 'false';
     if(show){
-    	var images = /*[[${T(jp.btsol.mahjong.tile.TileImage).images()}]]*/ [];
+    	var images = /*[[${T(jp.btsol.mahjong.web.tile.TileImage).images()}]]*/ [];
     	var tiles = /*[[${tiles}]]*/ [];
-    	var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
+    	var count = /*[[${T(jp.btsol.mahjong.web.tile.TileImage).values().length}]]*/ 34;
     	jQuery.each( tiles, function( i, val ) {
     		$($("img")[i]).attr("src", '/images/' + images[val % count]);
     	})
@@ -176,14 +176,14 @@ function pick(direction, column, upperlower, count, todirection){
 function tileImage(direction, column, upperlower){
     var index = tileIndex(direction, column, upperlower)
     var tiles = /*[[${tiles}]]*/ [];
-    var images = /*[[${T(jp.btsol.mahjong.tile.TileImage).images()}]]*/ [];
-    var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
+    var images = /*[[${T(jp.btsol.mahjong.web.tile.TileImage).images()}]]*/ [];
+    var count = /*[[${T(jp.btsol.mahjong.web.tile.TileImage).values().length}]]*/ 34;
     return images[tiles[index] % count];
 }
 function tileIndex(direction, column, upperlower){
 	//var tiles = /*[[${tiles}]]*/ [];
-	//var images = /*[[${T(jp.btsol.mahjong.tile.TileImage).images()}]]*/ [];
-	var count = /*[[${T(jp.btsol.mahjong.tile.TileImage).values().length}]]*/ 34;
+	//var images = /*[[${T(jp.btsol.mahjong.web.tile.TileImage).images()}]]*/ [];
+	var count = /*[[${T(jp.btsol.mahjong.web.tile.TileImage).values().length}]]*/ 34;
 
     var index = 0;
     if(upperlower == "lower"){
