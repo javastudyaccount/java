@@ -40,6 +40,7 @@ public abstract class MentsuCompMixin {
          * serialVersionUID
          */
         private static final long serialVersionUID = -3037187443109861496L;
+        
         /**
          * Constructor
          */
@@ -95,23 +96,28 @@ public abstract class MentsuCompMixin {
 	            }
 	        }
 	        gen.writeFieldName(_name);
-	        WritableTypeId typeIdDef = new WritableTypeId(value, JsonToken.START_ARRAY);
-	        typeIdDef.include = WritableTypeId.Inclusion.METADATA_PROPERTY;
-            typeIdDef.asProperty = "@class";
-            typeIdDef.id = "java.util.ArrayList";
-            gen.writeTypePrefix(typeIdDef);
-            
-            gen.setCurrentValue(value);
-            
-            Method serializeContents = ser.getClass().getDeclaredMethod("serializeContents", Object.class, JsonGenerator.class, SerializerProvider.class);
-            serializeContents.setAccessible(true);
-            serializeContents.invoke(ser, value, gen, prov);
-//            ((IndexedListSerializer)ser).serializeContents(value, gen, prov);
+	        
+	        //TODO _typeSerializer is null
 //	        if (_typeSerializer == null) {
 //	            ser.serialize(value, gen, prov);
 //	        } else {
 //	            ser.serializeWithType(value, gen, prov, _typeSerializer);
 //	        }
+	        WritableTypeId typeIdDef = new WritableTypeId(value, JsonToken.START_ARRAY);
+	        typeIdDef.include = WritableTypeId.Inclusion.METADATA_PROPERTY;
+            typeIdDef.asProperty = "@class";
+            typeIdDef.id = "java.util.ArrayList";
+            
+            gen.writeTypePrefix(typeIdDef);
+            
+            gen.setCurrentValue(value);
+            //TODO
+            //can not cast ser to IndexedListSerializer
+            Method serializeContents = ser.getClass().getDeclaredMethod( //
+                    "serializeContents", //
+                    Object.class, JsonGenerator.class, SerializerProvider.class);
+            serializeContents.setAccessible(true);
+            serializeContents.invoke(ser, value, gen, prov);
 	        gen.writeTypeSuffix(typeIdDef);
 	    }
 		@Override
