@@ -141,7 +141,7 @@ public class MahjongConfigBean {
                 com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY);
     }
 
-    private static TypeResolverBuilder<? extends TypeResolverBuilder> createAllowlistedDefaultTyping() {
+    public static TypeResolverBuilder<? extends TypeResolverBuilder> createAllowlistedDefaultTyping() {
         TypeResolverBuilder<? extends TypeResolverBuilder> result = new AllowlistTypeResolverBuilder(
                 ObjectMapper.DefaultTyping.NON_FINAL); // EVERYTHING,NON_FINAL
         result = result.init(JsonTypeInfo.Id.CLASS, null);
@@ -149,16 +149,16 @@ public class MahjongConfigBean {
         return result;
     }
 
-    static class AllowlistTypeResolverBuilder extends ObjectMapper.DefaultTypeResolverBuilder {
+    public static class AllowlistTypeResolverBuilder extends ObjectMapper.DefaultTypeResolverBuilder {
 
-        AllowlistTypeResolverBuilder(ObjectMapper.DefaultTyping defaultTyping) {
+        public AllowlistTypeResolverBuilder(ObjectMapper.DefaultTyping defaultTyping) {
             super(defaultTyping,
                     // we do explicit validation in the TypeIdResolver
                     BasicPolymorphicTypeValidator.builder().allowIfSubType(Object.class).build());
         }
 
         @Override
-        protected TypeIdResolver idResolver(MapperConfig<?> config, JavaType baseType,
+        public TypeIdResolver idResolver(MapperConfig<?> config, JavaType baseType,
                 PolymorphicTypeValidator subtypeValidator, Collection<NamedType> subtypes, boolean forSer,
                 boolean forDeser) {
             TypeIdResolver result = super.idResolver(config, baseType, subtypeValidator, subtypes, forSer, forDeser);
@@ -276,38 +276,5 @@ public class MahjongConfigBean {
         public JsonTypeInfo.Id getMechanism() {
             return this.delegate.getMechanism();
         }
-
     }
-
-//    @Bean
-//    public com.fasterxml.jackson.databind.Module javaTimeModule() {
-//        JavaTimeModule module = new JavaTimeModule();
-//        module.addSerializer(LOCAL_DATETIME_SERIALIZER);
-//        return module;
-//    }
-
-//    @Bean
-//    public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
-//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-//
-//        // 値がnullのプロパティーを出力しない
-//        builder.serializationInclusion(JsonInclude.Include.NON_NULL);
-//
-//        // JSON出力時に改行・インデントを入れる
-//        builder.indentOutput(true);
-//        // builder.featuresToEnable(SerializationFeature.INDENT_OUTPUT);
-//        // builder.featuresToDisable(SerializationFeature.INDENT_OUTPUT); //
-//        // 改行・インデントを入れない
-//
-//        return builder;
-//    }
-
-//    @Bean
-//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-////        builder.serializers(LOCAL_DATETIME_SERIALIZER);
-//        builder.serializationInclusion(JsonInclude.Include.NON_NULL);
-////        builder.indentOutput(true);
-//        return new MappingJackson2HttpMessageConverter(builder.build());
-//    }
 }
