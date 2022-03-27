@@ -1,12 +1,16 @@
 package jp.btsol.mahjong.web.fw;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include;
@@ -21,6 +25,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.StringUtils;
 
 /**
  * アプリケーション全体のエラーコントローラー //
@@ -63,21 +68,27 @@ public class MahjongErrorController implements ErrorController {
             status = HttpStatus.NOT_FOUND;
         }
 
-        // 出力したい情報をセットする
-        ModelAndView mav = new ModelAndView();
-        mav.setStatus(status); // HTTP ステータスをセットする
-        mav.setViewName("404"); // 404.html
-
-        Map<String, Object> errors = MahjongErrorController.getErrorAttributes(request);
         Map<String, Object> bindingErrors = MahjongErrorController.getBindingErrorAttributes(request);
-        mav.addAllObjects(bindingErrors);
-//        mav.setViewName("redirect:/player/new");
-        mav = new ModelAndView("redirect:/player/new");
-//        if (bindingErrors.containsKey("errors")) {
-//            List<FieldError> fieldErrors = (List<FieldError>) bindingErrors.get("errors");
-//            mav.addObject("errors", fieldErrors);
-//            redirectAttributes.addFlashAttribute("errors", fieldErrors);
-//        }
+        if (bindingErrors.containsKey("errors")) {
+            redirectAttributes.addFlashAttribute("errors", bindingErrors.get("errors"));
+        }
+        Class formClazz = (Class) ((ServletWebRequest) request).getRequest().getSession().getAttribute("formClazz");
+        try {
+            Object form = formClazz.getDeclaredConstructor().newInstance();
+            Map<String, String[]> params = ((ServletWebRequest) request).getRequest().getParameterMap();
+            Map<String, String> result = params.entrySet().stream()
+                    .collect(Collectors.toMap(Entry::getKey, e -> e.getValue()[0]));
+            BeanUtils.populate(form, result);
+            String formName = StringUtils.unCapitalize(formClazz.getSimpleName());
+            redirectAttributes.addFlashAttribute(formName, form);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        }
+
+//        ModelAndView mav = new ModelAndView("redirect:/player/new");
+        String viewName = (String) ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
+        ModelAndView mav = new ModelAndView("redirect:" + viewName);
         return mav;
     }
 

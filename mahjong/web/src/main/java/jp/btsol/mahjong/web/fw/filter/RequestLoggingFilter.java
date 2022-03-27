@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.web.fw;
+package jp.btsol.mahjong.web.fw.filter;
 
 import java.util.List;
 import java.util.UUID;

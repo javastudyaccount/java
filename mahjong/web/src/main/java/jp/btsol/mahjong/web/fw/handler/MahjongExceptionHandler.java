@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,7 +16,7 @@ import jp.btsol.mahjong.entity.ErrorDataEntity;
 /**
  * コントローラ全体でのExceptionハンドラー
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class MahjongExceptionHandler {
     /**
      * ObjectMapper

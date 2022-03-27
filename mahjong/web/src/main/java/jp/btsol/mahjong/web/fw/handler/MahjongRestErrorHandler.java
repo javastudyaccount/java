@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.btsol.mahjong.web.fw;
+package jp.btsol.mahjong.web.fw.handler;
 
 import org.springframework.web.client.HttpStatusCodeException;
 
