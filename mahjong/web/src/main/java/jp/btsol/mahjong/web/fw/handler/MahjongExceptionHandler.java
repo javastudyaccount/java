@@ -1,8 +1,9 @@
-package jp.btsol.mahjong.web.fw;
+package jp.btsol.mahjong.web.fw.handler;
 
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpServerErrorException;
@@ -18,6 +19,9 @@ import jp.btsol.mahjong.entity.ErrorDataEntity;
  */
 @ControllerAdvice
 public class MahjongExceptionHandler {
+    /**
+     * ObjectMapper
+     */
     @Autowired
     private ObjectMapper om;
 
@@ -40,6 +44,11 @@ public class MahjongExceptionHandler {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("systemError", e.getLocalizedMessage());
         }
+        return "redirect:/system-error";
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected String handleMethodArgumentNotValid(RedirectAttributes redirectAttributes, HttpServerErrorException ex) {
         return "redirect:/system-error";
     }
 }
