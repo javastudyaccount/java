@@ -80,6 +80,7 @@ public class PlayersController {
             RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getFieldErrors());
+            redirectAttributes.addFlashAttribute("playerForm", playerForm);
             return "redirect:/player/new";
         }
         playerService.createPlayer(playerForm.getNickname());
