@@ -73,15 +73,8 @@ public class PlayersController {
      */
     @PostMapping("/player/create")
     public String createPlayer(@Valid //
-    @ModelAttribute("playerForm") PlayerForm playerForm// , // get input data from browser
-    // BindingResult bindingResult, //
-    // RedirectAttributes redirectAttributes
+    @ModelAttribute("playerForm") PlayerForm playerForm // get input data from browser
     ) {
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("errors", bindingResult.getFieldErrors());
-//            redirectAttributes.addFlashAttribute("playerForm", playerForm);
-//            return "redirect:/player/new";
-//        }
         playerService.createPlayer(playerForm.getNickname());
         return "redirect:/players";
     }
