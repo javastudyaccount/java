@@ -1,3 +1,6 @@
 target/
 bin/
 classes/
+/target/
+**/target/**
+library/target
