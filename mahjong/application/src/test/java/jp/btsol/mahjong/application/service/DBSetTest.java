@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.service;
+package jp.btsol.mahjong.application.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,8 +17,8 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
-import jp.btsol.mahjong.loader.XlsDataSetLoader;
-import jp.btsol.mahjong.service.DBSetTest.TestConfig;
+import jp.btsol.mahjong.application.loader.XlsDataSetLoader;
+import jp.btsol.mahjong.application.service.DBSetTest.TestConfig;
 
 @DirtiesContext
 @SpringBootTest(classes = {TestConfig.class})

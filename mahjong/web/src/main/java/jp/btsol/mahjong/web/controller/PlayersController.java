@@ -48,7 +48,7 @@ public class PlayersController {
     public String players(Model model) {
         List<Player> players = playerService.getPlayers();
         model.addAttribute("players", players);
-        return "players";
+        return "player/players";
     }
 
     /**
@@ -62,7 +62,7 @@ public class PlayersController {
                                                                                 * create a playerForm object in model
                                                                                 * for display an empty input form
                                                                                 */) {
-        return "player-new";
+        return "player/player-new";
     }
 
     /**

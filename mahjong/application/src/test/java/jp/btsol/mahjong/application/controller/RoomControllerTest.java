@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.controller;
+package jp.btsol.mahjong.application.controller;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,10 +33,9 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jp.btsol.mahjong.application.controller.RoomController;
+import jp.btsol.mahjong.application.controller.RoomControllerTest.TestConfig;
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.service.RoomService;
-import jp.btsol.mahjong.controller.RoomControllerTest.TestConfig;
 import jp.btsol.mahjong.entity.ErrorDataEntity;
 import jp.btsol.mahjong.entity.Room;
 

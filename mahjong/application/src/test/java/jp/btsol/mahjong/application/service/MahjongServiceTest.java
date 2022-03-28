@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.service;
+package jp.btsol.mahjong.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

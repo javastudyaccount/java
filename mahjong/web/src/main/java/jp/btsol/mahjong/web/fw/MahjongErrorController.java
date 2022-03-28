@@ -66,6 +66,11 @@ public class MahjongErrorController implements ErrorController {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (statusCode != null && statusCode.toString().equals("404")) {
             status = HttpStatus.NOT_FOUND;
+            ModelAndView mav = new ModelAndView();
+            Map<String, Object> errors = MahjongErrorController.getErrorAttributes(request);
+            mav.setViewName("404"); // 404.html
+            mav.addAllObjects(errors);
+            return mav;
         }
 
         Map<String, Object> bindingErrors = MahjongErrorController.getBindingErrorAttributes(request);
@@ -86,7 +91,6 @@ public class MahjongErrorController implements ErrorController {
             e.printStackTrace();
         }
 
-//        ModelAndView mav = new ModelAndView("redirect:/player/new");
         String viewName = (String) ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
         ModelAndView mav = new ModelAndView("redirect:" + viewName);
         return mav;

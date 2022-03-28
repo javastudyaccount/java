@@ -1,4 +1,4 @@
-package jp.btsol.mahjong;
+package jp.btsol.mahjong.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
