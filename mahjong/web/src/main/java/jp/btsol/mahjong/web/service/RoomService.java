@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
@@ -48,13 +46,9 @@ public class RoomService {
      * @return List<Room>
      */
     public List<Room> getRooms() {
-        RestTemplate rest = new RestTemplate();
-
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getRooms();
-
-        ResponseEntity<String> json = rest.getForEntity(url, String.class);
 
         List<Room> rooms = mahjongRestTemplate.get(url, ArrayList.class);
         return rooms;

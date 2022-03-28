@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.loader;
+package jp.btsol.mahjong.application.loader;
 
 import java.io.IOException;
 import java.io.InputStream;

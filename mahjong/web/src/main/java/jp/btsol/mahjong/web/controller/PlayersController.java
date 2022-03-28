@@ -2,6 +2,8 @@ package jp.btsol.mahjong.web.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +48,7 @@ public class PlayersController {
     public String players(Model model) {
         List<Player> players = playerService.getPlayers();
         model.addAttribute("players", players);
-        return "players";
+        return "player/players";
     }
 
     /**
@@ -60,7 +62,7 @@ public class PlayersController {
                                                                                 * create a playerForm object in model
                                                                                 * for display an empty input form
                                                                                 */) {
-        return "player-new";
+        return "player/player-new";
     }
 
     /**
@@ -70,9 +72,9 @@ public class PlayersController {
      * @return String template name
      */
     @PostMapping("/player/create")
-    public String createPlayer(@ModelAttribute("playerForm") PlayerForm playerForm/*
-                                                                                   * get input data from browser
-                                                                                   */) {
+    public String createPlayer(@Valid //
+    @ModelAttribute("playerForm") PlayerForm playerForm // get input data from browser
+    ) {
         playerService.createPlayer(playerForm.getNickname());
         return "redirect:/players";
     }

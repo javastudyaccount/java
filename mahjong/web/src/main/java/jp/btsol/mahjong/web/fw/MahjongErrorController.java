@@ -1,20 +1,31 @@
 package jp.btsol.mahjong.web.fw;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.error.ErrorAttributeOptions.Include;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.StringUtils;
 
 /**
  * アプリケーション全体のエラーコントローラー //
@@ -46,25 +57,42 @@ public class MahjongErrorController implements ErrorController {
      * @return HTML レスポンス用の ModelAndView オブジェクト
      */
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView myErrorHtml(HttpServletRequest request) {
+    public ModelAndView myErrorHtml(WebRequest request, RedirectAttributes redirectAttributes) {
 
         // HTTP ステータスを決める
         // ここでは 404 以外は全部 500 にする
-        Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        Object statusCode = ((ServletWebRequest) request).getRequest()
+                .getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (statusCode != null && statusCode.toString().equals("404")) {
             status = HttpStatus.NOT_FOUND;
+            ModelAndView mav = new ModelAndView();
+            Map<String, Object> errors = MahjongErrorController.getErrorAttributes(request);
+            mav.setViewName("404"); // 404.html
+            mav.addAllObjects(errors);
+            return mav;
         }
 
-        // 出力したい情報をセットする
-        ModelAndView mav = new ModelAndView();
-        mav.setStatus(status); // HTTP ステータスをセットする
-        mav.setViewName("404"); // 404.html
-        mav.addObject("myErrorMessage", "Page not found.");
-        mav.addObject("timestamp", new Date());
-        mav.addObject("status", status.value());
-        mav.addObject("path", request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI));
+        Map<String, Object> bindingErrors = MahjongErrorController.getBindingErrorAttributes(request);
+        if (bindingErrors.containsKey("errors")) {
+            redirectAttributes.addFlashAttribute("errors", bindingErrors.get("errors"));
+        }
+        Class formClazz = (Class) ((ServletWebRequest) request).getRequest().getSession().getAttribute("formClazz");
+        try {
+            Object form = formClazz.getDeclaredConstructor().newInstance();
+            Map<String, String[]> params = ((ServletWebRequest) request).getRequest().getParameterMap();
+            Map<String, String> result = params.entrySet().stream()
+                    .collect(Collectors.toMap(Entry::getKey, e -> e.getValue()[0]));
+            BeanUtils.populate(form, result);
+            String formName = StringUtils.unCapitalize(formClazz.getSimpleName());
+            redirectAttributes.addFlashAttribute(formName, form);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        }
 
+        String viewName = (String) ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
+        ModelAndView mav = new ModelAndView("redirect:" + viewName);
         return mav;
     }
 
@@ -92,5 +120,46 @@ public class MahjongErrorController implements ErrorController {
         body.put("path", request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI));
 
         return new ResponseEntity<>(body, status);
+    }
+
+    /**
+     * エラー情報を抽出する。
+     *
+     * @param req リクエスト情報
+     * @return エラー情報
+     */
+    private static Map<String, Object> getErrorAttributes(WebRequest req) {
+        // DefaultErrorAttributes クラスで詳細なエラー情報を取得する
+        DefaultErrorAttributes dea = new DefaultErrorAttributes();
+        return dea.getErrorAttributes(req, ErrorAttributeOptions.defaults());
+    }
+
+    /**
+     * bindingエラー情報を抽出する。
+     *
+     * @param req リクエスト情報
+     * @return bindingエラー情報
+     */
+    private static Map<String, Object> getBindingErrorAttributes(WebRequest req) {
+        // DefaultErrorAttributes クラスで詳細なエラー情報を取得する
+        DefaultErrorAttributes dea = new DefaultErrorAttributes();
+        return dea.getErrorAttributes(req, ErrorAttributeOptions.of(Include.BINDING_ERRORS));
+    }
+
+    /**
+     * レスポンス用の HTTP ステータスを決める。
+     *
+     * @param req リクエスト情報
+     * @return レスポンス用 HTTP ステータス
+     */
+    private static HttpStatus getHttpStatus(HttpServletRequest req) {
+        // HTTP ステータスを決める
+        // ここでは 404 以外は全部 500 にする
+        Object statusCode = req.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        if (statusCode != null && statusCode.toString().equals("404")) {
+            status = HttpStatus.NOT_FOUND;
+        }
+        return status;
     }
 }

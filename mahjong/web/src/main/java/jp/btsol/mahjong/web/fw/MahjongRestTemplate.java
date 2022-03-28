@@ -24,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.btsol.mahjong.web.fw.handler.MahjongRestErrorHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
