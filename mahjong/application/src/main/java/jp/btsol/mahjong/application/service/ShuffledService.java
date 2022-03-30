@@ -4,6 +4,8 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.constant.Constant;
@@ -17,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@Transactional
 public class ShuffledService {
     /**
      * Implementing Fisher–Yates shuffle

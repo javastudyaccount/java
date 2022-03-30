@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.application.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @EnableConfigurationProperties(ServiceProperties.class)
+@Transactional
 public class MahjongService {
     /**
      * ServiceProperties

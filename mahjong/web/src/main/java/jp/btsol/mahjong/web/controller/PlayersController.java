@@ -75,7 +75,7 @@ public class PlayersController {
     public String createPlayer(@Valid //
     @ModelAttribute("playerForm") PlayerForm playerForm // get input data from browser
     ) {
-        playerService.createPlayer(playerForm.getNickname());
+        playerService.createPlayer(playerForm.getNickname(), playerForm.getPassword());
         return "redirect:/players";
     }
 }

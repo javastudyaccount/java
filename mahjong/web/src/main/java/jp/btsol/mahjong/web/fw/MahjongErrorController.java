@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
@@ -53,7 +54,8 @@ public class MahjongErrorController implements ErrorController {
     /**
      * HTML レスポンス用の ModelAndView オブジェクトを返す。
      *
-     * @param request リクエスト情報
+     * @param request            リクエスト情報
+     * @param redirectAttributes RedirectAttributes
      * @return HTML レスポンス用の ModelAndView オブジェクト
      */
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
@@ -78,19 +80,20 @@ public class MahjongErrorController implements ErrorController {
             redirectAttributes.addFlashAttribute("errors", bindingErrors.get("errors"));
         }
         Class formClazz = (Class) ((ServletWebRequest) request).getRequest().getSession().getAttribute("formClazz");
-        try {
-            Object form = formClazz.getDeclaredConstructor().newInstance();
-            Map<String, String[]> params = ((ServletWebRequest) request).getRequest().getParameterMap();
-            Map<String, String> result = params.entrySet().stream()
-                    .collect(Collectors.toMap(Entry::getKey, e -> e.getValue()[0]));
-            BeanUtils.populate(form, result);
-            String formName = StringUtils.unCapitalize(formClazz.getSimpleName());
-            redirectAttributes.addFlashAttribute(formName, form);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
+        if (Objects.nonNull(formClazz)) {
+            try {
+                Object form = formClazz.getDeclaredConstructor().newInstance();
+                Map<String, String[]> params = ((ServletWebRequest) request).getRequest().getParameterMap();
+                Map<String, String> result = params.entrySet().stream()
+                        .collect(Collectors.toMap(Entry::getKey, e -> e.getValue()[0]));
+                BeanUtils.populate(form, result);
+                String formName = StringUtils.unCapitalize(formClazz.getSimpleName());
+                redirectAttributes.addFlashAttribute(formName, form);
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                e.printStackTrace();
+            }
         }
-
         String viewName = (String) ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
         ModelAndView mav = new ModelAndView("redirect:" + viewName);
         return mav;

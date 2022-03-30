@@ -2,11 +2,14 @@ package jp.btsol.mahjong.application.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
+import jp.btsol.mahjong.entity.Passwd;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@Transactional
 public class PlayerService {
     /**
      * baseRepository
@@ -44,7 +48,7 @@ public class PlayerService {
      * @param nickname String
      * @return Player
      */
-    public Player createNewPlayer(String nickname) {
+    public Player createNewPlayer(String nickname, String password) {
         if (StringUtils.isEmpty(nickname)) {
             throw new RuntimeException("Nickname can not be empty.");
         }
@@ -60,6 +64,11 @@ public class PlayerService {
             DuplicateKeyException dke = new DuplicateKeyException("Player's nickname exists.", e);
             throw dke;
         }
+        Passwd passwd = new Passwd();
+        passwd.setPlayerId(playerId);
+        passwd.setPassword(password);
+        baseRepository.insert(passwd);
+
         return baseRepository.findById(playerId, Player.class);
     }
 }

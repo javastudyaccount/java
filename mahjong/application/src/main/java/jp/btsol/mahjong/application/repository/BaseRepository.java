@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import javax.persistence.Id;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -211,13 +212,17 @@ public class BaseRepository {
         sql.append(")");
 
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(template.getJdbcTemplate().getDataSource());
-        jdbcInsert.withTableName(tableName).usingGeneratedKeyColumns(pk);
+        if (!StringUtils.isEmpty(pk)) {
+            jdbcInsert.withTableName(tableName).usingGeneratedKeyColumns(pk);
 
-        // execute insert
-        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(params));
-        // convert Number to Int using ((Number) key).intValue()
-        return ((Number) key).intValue();
-
+            // execute insert
+            Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(params));
+            // convert Number to Int using ((Number) key).intValue()
+            return ((Number) key).intValue();
+        } else {
+            int count = jdbcInsert.execute(new MapSqlParameterSource(params));
+            return count;
+        }
     }
 
     /**

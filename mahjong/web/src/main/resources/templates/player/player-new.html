@@ -9,13 +9,6 @@
 <body>
 <h1>Players</h1>
 <div layout:fragment="content">
-<h4 th:text="${message}"></h4>
-  <div th:if="${errors}" class="error-message-list width-100">
-    <div th:each="error,sts: ${errors}">
-    <span th:text="${error.field}"></span>:
-    <span th:text="${error.defaultMessage}"></span>
-    </div>
-  </div>
 <form th:action="@{/player/create}" method="post" th:object="${playerForm}">
 <table>
 <tr>
@@ -24,6 +17,14 @@
 </td>
 <td>
     <input type="text" th:field="*{nickname}">
+</td>
+</tr>
+<tr>
+<td>
+   	password:
+</td>
+<td>
+    <input type="password" th:field="*{password}">
 </td>
 </tr>
 </table>

@@ -79,3 +79,28 @@ CREATE UNIQUE INDEX room_name_unique
 
 
 
+drop table player_in_room cascade;
+create table player_in_room(
+    room_id bigint not null,
+    player_id bigint not null,
+    role_id integer not null, --0: creator, 1: player, 2: visitor
+    deleted_flg boolean DEFAULT false NOT NULL,
+    created_timestamp timestamp NOT NULL,
+    created_user varchar(20) NOT NULL,
+    updated_timestamp timestamp NOT NULL,
+    updated_user varchar(20) NOT NULL,
+    PRIMARY KEY (room_id, player_id)
+);
+
+drop table passwd cascade;
+create table passwd(
+    player_id bigint not null,
+    password varchar(20) not null,
+    deleted_flg boolean DEFAULT false NOT NULL,
+    created_timestamp timestamp NOT NULL,
+    created_user varchar(20) NOT NULL,
+    updated_timestamp timestamp NOT NULL,
+    updated_user varchar(20) NOT NULL,
+    PRIMARY KEY (player_id)
+);
+
