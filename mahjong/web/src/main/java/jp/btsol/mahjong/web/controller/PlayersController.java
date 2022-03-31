@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.web.form.PlayerForm;
 import jp.btsol.mahjong.web.service.PlayerService;
 
@@ -75,7 +76,11 @@ public class PlayersController {
     public String doSignin(@Valid //
     @ModelAttribute("playerForm") PlayerForm playerForm // get input data from browser
     ) {
-        playerService.createPlayer(playerForm.getNickname(), playerForm.getPassword());
+        PlayerRegistration playerRegistration = new PlayerRegistration();
+        playerRegistration.setLoginId(playerForm.getLoginId());
+        playerRegistration.setNickname(playerForm.getNickname());
+        playerRegistration.setPassword(playerForm.getPassword());
+        playerService.createPlayer(playerRegistration);
         return "redirect:/login";
     }
 }

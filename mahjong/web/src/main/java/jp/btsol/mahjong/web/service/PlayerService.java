@@ -61,16 +61,13 @@ public class PlayerService {
     /**
      * create new player
      * 
-     * @param nickname String
+     * @param playerRegistration PlayerRegistration
      * @return Player
      */
-    public Player createPlayer(String nickname, String password) {
+    public Player createPlayer(PlayerRegistration playerRegistration) {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getCreatePlayer();
-        PlayerRegistration playerRegistration = new PlayerRegistration();
-        playerRegistration.setNickname(nickname);
-        playerRegistration.setPassword(password);
         Player player = mahjongRestTemplate.post(url, playerRegistration, Player.class);
 
         return player;

@@ -29,6 +29,9 @@ public class Player implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long playerId;
     /**  */
+    @Column(length = 8, nullable = false)
+    private String loginId;
+    /**  */
     @Column(length = 20, nullable = false)
     private String nickname;
     /**  */

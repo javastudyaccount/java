@@ -16,7 +16,7 @@
     Login ID:
 </td>
 <td>
-    <input type="text" th:field="*{loginId}">
+    <input type="text" th:field="*{loginId}" maxlength=8>
 </td>
 </tr>
 <tr>
@@ -24,7 +24,7 @@
    	Player's nickname:
 </td>
 <td>
-    <input type="text" th:field="*{nickname}">
+    <input type="text" th:field="*{nickname}" maxlength=20>
 </td>
 </tr>
 <tr>
@@ -32,13 +32,13 @@
    	password:
 </td>
 <td>
-    <input type="password" th:field="*{password}">
+    <input type="password" th:field="*{password}" maxlength=16>
 </td>
 </tr>
 </table>
-<button>New</button>
+<button>Sign in</button>
 </form>
-<a href="/players">Back to players list</a>
+Are you signed in already?<a href="/login">Login</a>
 </div>
 </body>
 </html>

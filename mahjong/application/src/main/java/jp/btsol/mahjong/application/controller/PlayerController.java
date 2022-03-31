@@ -56,7 +56,7 @@ public class PlayerController {
     @PostMapping(value = "/new", produces = {"application/json"}, consumes = {"application/json"})
     public Player createNewPlayer(@Valid // validate annotation
     @RequestBody(required = true) PlayerRegistration playerRegistration) {
-        return playerService.createNewPlayer(playerRegistration.getNickname(), playerRegistration.getPassword());
+        return playerService.createNewPlayer(playerRegistration);
     }
 
 }
