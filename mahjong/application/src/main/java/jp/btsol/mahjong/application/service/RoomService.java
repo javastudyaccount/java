@@ -57,7 +57,7 @@ public class RoomService {
 
         int roomId = 0;
         try {
-            roomId = baseRepository.insert(room);
+            roomId = baseRepository.insertWithSurrogateKey(room);
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
 

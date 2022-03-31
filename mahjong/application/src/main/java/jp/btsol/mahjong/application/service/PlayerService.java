@@ -58,7 +58,7 @@ public class PlayerService {
 
         int playerId = 0;
         try {
-            playerId = baseRepository.insert(player);
+            playerId = baseRepository.insertWithSurrogateKey(player);
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
             DuplicateKeyException dke = new DuplicateKeyException("Player's nickname exists.", e);
