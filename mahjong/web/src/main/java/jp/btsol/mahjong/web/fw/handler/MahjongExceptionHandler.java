@@ -12,7 +12,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -46,13 +45,13 @@ public class MahjongExceptionHandler {
      * @param ex                 Exception
      * @return String
      */
-    @ExceptionHandler(HttpServerErrorException.class)
-    public ModelAndView handleHttpServerErrorException(WebRequest request, RedirectAttributes redirectAttributes,
-            HttpServerErrorException ex) {
-        return handleAPIError(request, redirectAttributes, ex);
-    }
-
-    private ModelAndView handleAPIError(WebRequest request, RedirectAttributes redirectAttributes,
+//    @ExceptionHandler(HttpServerErrorException.class)
+//    public ModelAndView handleHttpServerErrorException(WebRequest request, RedirectAttributes redirectAttributes,
+//            HttpServerErrorException ex) {
+//        return handleAPIError(request, redirectAttributes, ex);
+//    }
+    @ExceptionHandler(HttpStatusCodeException.class)
+    public ModelAndView handleHttpStatusCodeException(WebRequest request, RedirectAttributes redirectAttributes,
             HttpStatusCodeException ex) {
         try {
             ErrorDataEntity error = om.readValue(ex.getResponseBodyAsString(), ErrorDataEntity.class);
@@ -89,11 +88,11 @@ public class MahjongExceptionHandler {
      * @param ex                 Exception
      * @return String
      */
-    @ExceptionHandler(HttpClientErrorException.class)
-    public ModelAndView handleHttpClientErrorException(WebRequest request, RedirectAttributes redirectAttributes,
-            HttpClientErrorException ex) {
-        return handleAPIError(request, redirectAttributes, ex);
-    }
+//    @ExceptionHandler(HttpClientErrorException.class)
+//    public ModelAndView handleHttpClientErrorException(WebRequest request, RedirectAttributes redirectAttributes,
+//            HttpClientErrorException ex) {
+//        return handleAPIError(request, redirectAttributes, ex);
+//    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected String handleMethodArgumentNotValid(RedirectAttributes redirectAttributes, HttpServerErrorException ex) {
