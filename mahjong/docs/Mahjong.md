@@ -251,9 +251,9 @@ Wenjing: Java
    - Set default user as root
      - `PS> ubuntu config --default-user root` 
 
-mysql.md
+[mysql.md](./mysql.md)
 
-er.md
+[er.md](./er.md)
 
 ### API Test
 #### Curl
@@ -391,9 +391,9 @@ registerObjectMappersForType
 
 ### Majhong game
 
-- [ ] Player registration
-  - [ ] API
-  - [ ] View
+- [X] Player registration
+  - [X] API
+  - [X] Web
 - [ ] Open a room
 - [ ] Begin a game
 - [ ] Play a game

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.application.service.PlayerService;
 import jp.btsol.mahjong.entity.Player;
-import jp.btsol.mahjong.model.Nickname;
+import jp.btsol.mahjong.model.PlayerRegistration;
 
 /**
  * Player controller
@@ -50,13 +50,13 @@ public class PlayerController {
     /**
      * create new player
      * 
-     * @param nickname String
+     * @param playerRegistration String
      * @return Player
      */
     @PostMapping(value = "/new", produces = {"application/json"}, consumes = {"application/json"})
     public Player createNewPlayer(@Valid // validate annotation
-    @RequestBody(required = true) Nickname nickname) {
-        return playerService.createNewPlayer(nickname.getNickname());
+    @RequestBody(required = true) PlayerRegistration playerRegistration) {
+        return playerService.createNewPlayer(playerRegistration.getNickname(), playerRegistration.getPassword());
     }
 
 }

@@ -14,9 +14,11 @@
 ### web
 1. Page not found(404)
 1. Input validation error
-2. API error
+2. API error --- no error is shown
 3. Communication error
 4. Security error
+5. Web is restarted---
+![](image/Exception/1648560134489.png)
 
 ### 【SpringBoot入門】フォームのバリデーションチェック
 https://qiita.com/morioheisei/items/1d02fa6644d2c355df6e
@@ -30,3 +32,12 @@ https://grandbig.github.io/blog/2016/05/28/redirect-parameter-spring-boot/
 addAttribute（文字列のみ）⇒@RequestParameter⇒URLの末尾に?QueryStringとしてパラメータを受け取る
 
 addFlashAttribute（ModelMap型可）⇒@ModelAttribute("model")ModelMap modelMap⇒リロード時に保持されない
+
+### SpringBootの例外ハンドリング
+https://qiita.com/haseesah/items/6b0f0fcfe681734e2617
+#### HandlerExcepitonResolver
+![](image/Exception/1648561877116.png)
+#### ErrorPage
+![](image/Exception/1648561894869.png)
+#### ErrorController
+![](image/Exception/1648561903606.png)

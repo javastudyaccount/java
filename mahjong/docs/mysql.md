@@ -53,3 +53,6 @@ Enter password: game
 | game_player    |
 | player         |
 | room           |
+
+
+@enduml

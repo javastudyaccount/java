@@ -9,6 +9,8 @@ import static org.mahjong4j.tile.Tile.TON;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.mahjong4j.IllegalMentsuSizeException;
 import org.mahjong4j.MahjongTileOverFlowException;
 import org.mahjong4j.hands.Hands;
@@ -27,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@Transactional
 public class HandsService {
     /**
      * get hands

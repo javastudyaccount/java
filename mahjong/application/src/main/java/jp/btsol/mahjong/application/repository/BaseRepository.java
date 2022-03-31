@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import javax.persistence.Id;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -147,6 +148,90 @@ public class BaseRepository {
      * @param entity 検索エンティティ
      * @return 登録数
      */
+    public <T> int insertWithSurrogateKey(T entity) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("INSERT INTO ");
+        String tableName = camel2snake(entity.getClass().getSimpleName());
+        sql.append(tableName);
+        sql.append("( ");
+
+        String pk = "";
+        List<String> columnNames = new ArrayList<>();
+        List<String> paramNames = new ArrayList<>();
+        Map<String, Object> params = new HashMap<>();
+        for (Field f : entity.getClass().getDeclaredFields()) {
+            Id id = f.getAnnotation(Id.class);
+            if (Objects.nonNull(id)) {
+                pk = camel2snake(f.getName());
+                continue;
+            }
+            if (Modifier.isStatic(f.getModifiers())) {
+                continue;
+            }
+            columnNames.add(camel2snake(f.getName()));
+            paramNames.add(":" + f.getName());
+            f.setAccessible(true);
+            switch (f.getName()) {
+                case "deleteFlg":
+                    params.put(f.getName(), false);
+                    break;
+                case "createdTimestamp":
+                case "updatedTimestamp":
+                    java.util.Date date = new java.util.Date();
+                    java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+                    params.put(f.getName(), timestamp);
+                    break;
+                case "createdUser":
+                case "updatedUser":
+                    try {
+                        String requestId = (String) f.get(entity);
+                        if (Objects.isNull(f.get(entity))) {
+                            requestId = getRequestId();
+                            if (Objects.isNull(requestId)) {
+                                requestId = "default";
+                            }
+                        }
+
+                        params.put(f.getName(), requestId);
+                    } catch (IllegalArgumentException | IllegalAccessException e1) {
+                        e1.printStackTrace();
+                    }
+                    break;
+                default:
+                    try {
+                        params.put(f.getName(), f.get(entity));
+                    } catch (IllegalArgumentException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
+        sql.append(String.join(", ", columnNames));
+        // 登録値の生成
+        sql.append(") VALUES(");
+        sql.append(String.join(", ", paramNames));
+        sql.append(")");
+
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(template.getJdbcTemplate().getDataSource());
+        if (!StringUtils.isEmpty(pk)) {
+            jdbcInsert.withTableName(tableName).usingGeneratedKeyColumns(pk);
+
+            // execute insert
+            Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(params));
+            // convert Number to Int using ((Number) key).intValue()
+            return ((Number) key).intValue();
+        } else {
+            int count = jdbcInsert.execute(new MapSqlParameterSource(params));
+            return count;
+        }
+    }
+
+    /**
+     * エンティティを使用した登録
+     * 
+     * @param <T>    類推型
+     * @param entity 検索エンティティ
+     * @return 登録数
+     */
     public <T> int insert(T entity) {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO ");
@@ -211,13 +296,17 @@ public class BaseRepository {
         sql.append(")");
 
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(template.getJdbcTemplate().getDataSource());
+//        if (!StringUtils.isEmpty(pk)) {
         jdbcInsert.withTableName(tableName).usingGeneratedKeyColumns(pk);
 
         // execute insert
-        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(params));
+//            Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(params));
         // convert Number to Int using ((Number) key).intValue()
-        return ((Number) key).intValue();
-
+//            return ((Number) key).intValue();
+//        } else {
+        int count = jdbcInsert.execute(new MapSqlParameterSource(params));
+        return count;
+//        }
     }
 
     /**

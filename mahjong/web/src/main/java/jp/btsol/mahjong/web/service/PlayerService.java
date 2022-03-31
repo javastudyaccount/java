@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
-import jp.btsol.mahjong.model.Nickname;
+import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,13 +64,14 @@ public class PlayerService {
      * @param nickname String
      * @return Player
      */
-    public Player createPlayer(String nickname) {
+    public Player createPlayer(String nickname, String password) {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getCreatePlayer();
-        Nickname nicknameModel = new Nickname();
-        nicknameModel.setNickname(nickname);
-        Player player = mahjongRestTemplate.post(url, nicknameModel, Player.class);
+        PlayerRegistration playerRegistration = new PlayerRegistration();
+        playerRegistration.setNickname(nickname);
+        playerRegistration.setPassword(password);
+        Player player = mahjongRestTemplate.post(url, playerRegistration, Player.class);
 
         return player;
     }

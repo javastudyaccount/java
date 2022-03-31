@@ -3,6 +3,8 @@ package jp.btsol.mahjong.application.service;
 import java.util.List;
 import java.util.Objects;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
@@ -19,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@Transactional
 public class RoomService {
     /**
      * baseRepository
@@ -54,7 +57,7 @@ public class RoomService {
 
         int roomId = 0;
         try {
-            roomId = baseRepository.insert(room);
+            roomId = baseRepository.insertWithSurrogateKey(room);
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
 

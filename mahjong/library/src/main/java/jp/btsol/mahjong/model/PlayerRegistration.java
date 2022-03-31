@@ -1,23 +1,22 @@
-package jp.btsol.mahjong.web.form;
+package jp.btsol.mahjong.model;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
 
 @Data
-public class PlayerForm {
+public class PlayerRegistration {
     /**
      * nickname
      */
-    @NotEmpty
+    @NotBlank
     @Size(max = 20)
     private String nickname;
-
     /**
      * password
      */
-//    @NotEmpty
+    @NotBlank
     @Size(min = 8, max = 16)
     private String password;
 }
