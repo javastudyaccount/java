@@ -9,8 +9,16 @@
 <body>
 <h1>Players</h1>
 <div layout:fragment="content">
-<form th:action="@{/player/create}" method="post" th:object="${playerForm}">
+<form th:action="@{/signin}" method="post" th:object="${playerForm}">
 <table>
+<tr>
+<td>
+    Login ID:
+</td>
+<td>
+    <input type="text" th:field="*{loginId}">
+</td>
+</tr>
 <tr>
 <td>
    	Player's nickname:

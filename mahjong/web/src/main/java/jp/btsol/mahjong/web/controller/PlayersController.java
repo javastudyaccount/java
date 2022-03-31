@@ -57,12 +57,12 @@ public class PlayersController {
      * @param playerForm
      * @return String template name
      */
-    @GetMapping("/player/new")
-    public String newPlayer(@ModelAttribute("playerForm") PlayerForm playerForm/*
-                                                                                * create a playerForm object in model
-                                                                                * for display an empty input form
-                                                                                */) {
-        return "player/player-new";
+    @GetMapping("/signin")
+    public String signin(@ModelAttribute("playerForm") PlayerForm playerForm/*
+                                                                             * create a playerForm object in model for
+                                                                             * display an empty input form
+                                                                             */) {
+        return "player/signin";
     }
 
     /**
@@ -71,11 +71,11 @@ public class PlayersController {
      * @param playerForm
      * @return String template name
      */
-    @PostMapping("/player/create")
-    public String createPlayer(@Valid //
+    @PostMapping("/signin")
+    public String doSignin(@Valid //
     @ModelAttribute("playerForm") PlayerForm playerForm // get input data from browser
     ) {
         playerService.createPlayer(playerForm.getNickname(), playerForm.getPassword());
-        return "redirect:/players";
+        return "redirect:/login";
     }
 }
