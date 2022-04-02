@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.PlayerRegistration;
+import jp.btsol.mahjong.web.form.LoginForm;
 import jp.btsol.mahjong.web.form.PlayerForm;
 import jp.btsol.mahjong.web.service.PlayerService;
 
@@ -55,7 +56,7 @@ public class PlayersController {
     /**
      * display new player form
      * 
-     * @param playerForm
+     * @param playerForm PlayerForm
      * @return String template name
      */
     @GetMapping("/signin")
@@ -64,6 +65,20 @@ public class PlayersController {
                                                                              * display an empty input form
                                                                              */) {
         return "player/signin";
+    }
+
+    /**
+     * display login form
+     * 
+     * @param loginForm LoginForm
+     * @return String template name
+     */
+    @GetMapping("/login")
+    public String login(@ModelAttribute("loginForm") LoginForm loginForm/*
+                                                                         * create a playerForm object in model for
+                                                                         * display an empty input form
+                                                                         */) {
+        return "player/login";
     }
 
     /**
