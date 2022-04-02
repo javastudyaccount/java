@@ -74,10 +74,10 @@ public class PlayersController {
      * @return String template name
      */
     @GetMapping("/login")
-    public String login(@Valid @ModelAttribute("loginForm") LoginForm loginForm/*
-                                                                                * create a playerForm object in model
-                                                                                * for display an empty input form
-                                                                                */) {
+    public String login(@ModelAttribute("loginForm") LoginForm loginForm/*
+                                                                         * create a playerForm object in model for
+                                                                         * display an empty input form
+                                                                         */) {
         return "player/login";
     }
 
