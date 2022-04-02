@@ -16,9 +16,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/signin", "/login").permitAll()//
+        http.authorizeRequests().antMatchers("/signin", "/login", "/error").permitAll()//
                 .antMatchers("/admin/**").hasRole("ADMIN")//
                 .anyRequest().authenticated();
-        http.sessionManagement().invalidSessionUrl("/login");
+//        http.formLogin().loginProcessingUrl("/login").loginPage("/login").failureUrl("/error")
+//                .defaultSuccessUrl("/", false).usernameParameter("loginId").passwordParameter("password").and().logout()
+//                .logoutRequestMatcher(new AntPathRequestMatcher("signout")).logoutSuccessUrl("/login")
+//                .deleteCookies("JSESSIONID").invalidateHttpSession(true).permitAll();
+//        http.sessionManagement().invalidSessionUrl("/login");
     }
 }

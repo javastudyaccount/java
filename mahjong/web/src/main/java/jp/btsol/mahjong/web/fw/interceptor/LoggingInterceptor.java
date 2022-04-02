@@ -52,6 +52,9 @@ public class LoggingInterceptor implements HandlerInterceptor {
             HandlerMethod method = (HandlerMethod) handler;
             Annotation anno = method.getMethod().getAnnotation(GetMapping.class);
             log.info("method: " + method.getMethod().getName());
+            if ("myErrorHtml".equals(method.getMethod().getName())) {
+                return;
+            }
             String viewName = modelAndView.getViewName();
             log.info("return: " + viewName);
             if (Objects.nonNull(anno)) {

@@ -28,12 +28,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * アプリケーション全体のエラーコントローラー //
  * https://qiita.com/niwasawa/items/f3479ef16efa488039fb
  */
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
+@Slf4j
 public class MahjongErrorController implements ErrorController {
     /**
      * エラーページのパス。
@@ -65,6 +68,7 @@ public class MahjongErrorController implements ErrorController {
         // ここでは 404 以外は全部 500 にする
         Object statusCode = ((ServletWebRequest) request).getRequest()
                 .getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        log.info("status code: {}", statusCode);
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (statusCode != null && statusCode.toString().equals("404")) {
             status = HttpStatus.NOT_FOUND;
@@ -94,8 +98,11 @@ public class MahjongErrorController implements ErrorController {
                 e.printStackTrace();
             }
         }
-        String viewName = (String) ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
-        ModelAndView mav = new ModelAndView("redirect:" + viewName);
+        Object viewName = ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
+        if (Objects.isNull(viewName)) {
+            viewName = "/login";
+        }
+        ModelAndView mav = new ModelAndView("redirect:" + String.valueOf(viewName));
         return mav;
     }
 
