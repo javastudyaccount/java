@@ -38,4 +38,5 @@ management:
 # Actuatorを利用する際のポート番号
   server:
     port: 9999
-    
+service:
+  message: This is majhong application. 

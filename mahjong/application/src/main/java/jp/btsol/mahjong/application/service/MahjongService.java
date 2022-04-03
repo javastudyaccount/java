@@ -5,6 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
+import jp.btsol.mahjong.model.Message;
+
 /**
  * MahjongService
  * 
@@ -34,7 +36,7 @@ public class MahjongService {
      * 
      * @return String
      */
-    public String message() {
-        return this.serviceProperties.getMessage();
+    public Message message() {
+        return new Message(this.serviceProperties.getMessage());
     }
 }

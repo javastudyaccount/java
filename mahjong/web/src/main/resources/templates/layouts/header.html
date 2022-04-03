@@ -9,9 +9,13 @@
         <div class="navbar-inner">
             <!-- .container -->
             <div class="container">
-                <div sec:authorize="isAuthenticated()">
-                <button style="float: right;">Logout</button>
-                </div>
+                <span>
+                <button onclick="javascript:location.href='/';">Home</button>
+                </span>
+                
+                <span sec:authorize="isAuthenticated()">
+                <button style="float: right;" onclick="javascript:location.href='/logout';">Logout</button>
+                </span>
             </div>
             <!-- /.container -->
         </div>
