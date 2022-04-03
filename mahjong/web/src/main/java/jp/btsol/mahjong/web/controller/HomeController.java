@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import jp.btsol.mahjong.model.Message;
 import jp.btsol.mahjong.web.service.HomeService;
 
 /**
@@ -29,8 +30,8 @@ public class HomeController {
      */
     @GetMapping("/")
     public String home(Model model) {
-        String message = homeService.getHomeMessage();
-        model.addAttribute("message", message);
+        Message message = homeService.getHomeMessage();
+        model.addAttribute("message", message.getMessage());
         return "home";
     }
 }

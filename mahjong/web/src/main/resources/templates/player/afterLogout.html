@@ -4,23 +4,15 @@
     layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Players</title>
+<title>Login</title>
 </head>
 <body>
-<h1>Players</h1>
+<h1>Logged out</h1>
 <div layout:fragment="content">
-<table>
-<tr th:each="player, playerStat: ${players}">
-<td>
-   	<span th:text="${player.playerId}">
-   	</span>
-</td>
-<td>
-    <span th:text="${player.nickname}">
-    </span>
-</td>
-</tr>
-</table>
+
+<a href="/signin">Signin as a new player</a>
+<br/>
+<a href="/login">Login</a>
 </div>
 </body>
 </html>

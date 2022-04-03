@@ -11,6 +11,7 @@ import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Passwd;
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,15 +46,16 @@ public class PlayerService {
     /**
      * insert player
      * 
-     * @param nickname String
+     * @param playerRegistration PlayerRegistration
      * @return Player
      */
-    public Player createNewPlayer(String nickname, String password) {
-        if (StringUtils.isEmpty(nickname)) {
+    public Player createNewPlayer(PlayerRegistration playerRegistration) {
+        if (StringUtils.isEmpty(playerRegistration.getNickname())) {
             throw new RuntimeException("Nickname can not be empty.");
         }
         Player player = new Player();
-        player.setNickname(nickname);
+        player.setLoginId(playerRegistration.getLoginId());
+        player.setNickname(playerRegistration.getNickname());
         Validator.validateMaxLength(player);
 
         int playerId = 0;
@@ -61,12 +63,18 @@ public class PlayerService {
             playerId = baseRepository.insertWithSurrogateKey(player);
         } catch (org.springframework.dao.DuplicateKeyException e) {
             log.error(e.getLocalizedMessage());
-            DuplicateKeyException dke = new DuplicateKeyException("Player's nickname exists.", e);
+            String dupKey = "loginId";
+            if (e.getLocalizedMessage().contains("player_login_unique")) {
+                dupKey = "loginId";
+            } else {
+                dupKey = "nickname";
+            }
+            DuplicateKeyException dke = new DuplicateKeyException("Player's " + dupKey + " exists.", e);
             throw dke;
         }
         Passwd passwd = new Passwd();
         passwd.setPlayerId(playerId);
-        passwd.setPassword(password);
+        passwd.setPassword(playerRegistration.getPassword());
         baseRepository.insert(passwd);
 
         return baseRepository.findById(playerId, Player.class);

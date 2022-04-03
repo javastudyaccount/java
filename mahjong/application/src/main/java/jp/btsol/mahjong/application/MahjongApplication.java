@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.application.service.MahjongService;
+import jp.btsol.mahjong.model.Message;
 
 /**
  * Mahjong application
@@ -36,7 +37,7 @@ public class MahjongApplication {
      * @return String
      */
     @GetMapping("/")
-    public String home() {
+    public Message home() {
         return mahjongService.message();
     }
 

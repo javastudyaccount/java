@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Mahjong</title>
 </head>
 <body>
 <h1>Hello Mahjong</h1>
+<div layout:fragment="content">
 <h4 th:text="${message}"></h4>
+</div>
 </body>
 </html>

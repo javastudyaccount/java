@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
@@ -20,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @EnableConfigurationProperties(ApplicationProperties.class)
-public class PlayerService {
+public class PlayerService implements UserDetailsService {
     /**
      * Rest template
      */
@@ -61,18 +68,40 @@ public class PlayerService {
     /**
      * create new player
      * 
-     * @param nickname String
+     * @param playerRegistration PlayerRegistration
      * @return Player
      */
-    public Player createPlayer(String nickname, String password) {
+    public Player createPlayer(PlayerRegistration playerRegistration) {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getCreatePlayer();
-        PlayerRegistration playerRegistration = new PlayerRegistration();
-        playerRegistration.setNickname(nickname);
-        playerRegistration.setPassword(password);
         Player player = mahjongRestTemplate.post(url, playerRegistration, Player.class);
 
         return player;
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
+        Player user = new Player();
+        user.setLoginId(loginId);
+        user.setNickname("nickname001");
+        String password = "password";
+        if (user == null) {
+            throw new UsernameNotFoundException("User" + loginId + "was not found in the database");
+        }
+        // 権限のリスト
+        // AdminやUserなどが存在するが、今回は利用しないのでUSERのみを仮で設定
+        // 権限を利用する場合は、DB上で権限テーブル、ユーザ権限テーブルを作成し管理が必要
+        List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
+        GrantedAuthority authority = new SimpleGrantedAuthority("USER");
+        grantList.add(authority);
+
+        // rawDataのパスワードは渡すことができないので、暗号化
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        // UserDetailsはインタフェースなのでUserクラスのコンストラクタで生成したユーザオブジェクトをキャスト
+        UserDetails userDetails = (UserDetails) new User(user.getLoginId(), encoder.encode(password), grantList);
+        return userDetails;
+    }
+
 }

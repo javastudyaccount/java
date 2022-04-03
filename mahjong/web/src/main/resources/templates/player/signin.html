@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Sign in</title>
+</head>
+<body>
+<h1>Sign in</h1>
+<div layout:fragment="content">
+<form th:action="@{/signin}" method="post" th:object="${playerForm}">
+<table>
+<tr>
+<td>
+    Login ID:
+</td>
+<td>
+    <input type="text" th:field="*{loginId}" maxlength=8>
+</td>
+</tr>
+<tr>
+<td>
+   	Player's nickname:
+</td>
+<td>
+    <input type="text" th:field="*{nickname}" maxlength=20>
+</td>
+</tr>
+<tr>
+<td>
+   	password:
+</td>
+<td>
+    <input type="password" th:field="*{password}" maxlength=16>
+</td>
+</tr>
+</table>
+<button>Sign in</button>
+</form>
+Are you signed in already?<a href="/login">Login</a>
+</div>
+</body>
+</html>

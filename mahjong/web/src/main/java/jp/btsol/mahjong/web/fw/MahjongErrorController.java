@@ -28,12 +28,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * アプリケーション全体のエラーコントローラー //
  * https://qiita.com/niwasawa/items/f3479ef16efa488039fb
  */
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
+@Slf4j
 public class MahjongErrorController implements ErrorController {
     /**
      * エラーページのパス。
@@ -65,6 +68,7 @@ public class MahjongErrorController implements ErrorController {
         // ここでは 404 以外は全部 500 にする
         Object statusCode = ((ServletWebRequest) request).getRequest()
                 .getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        log.info("status code: {}", statusCode);
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (statusCode != null && statusCode.toString().equals("404")) {
             status = HttpStatus.NOT_FOUND;
@@ -94,13 +98,16 @@ public class MahjongErrorController implements ErrorController {
                 e.printStackTrace();
             }
         }
-        String viewName = (String) ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
-        ModelAndView mav = new ModelAndView("redirect:" + viewName);
+        Object viewName = ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
+        if (Objects.isNull(viewName)) {
+            viewName = "/login";
+        }
+        ModelAndView mav = new ModelAndView("redirect:" + String.valueOf(viewName));
         return mav;
     }
 
     /**
-     * JSON レスポンス用の ResponseEntity オブジェクトを返す。
+     * JSON レスポンス用の ResponseEntity オブジェクトを返す。(Example: favicon.ico not found)
      *
      * @param request リクエスト情報
      * @return JSON レスポンス用の ResponseEntity オブジェクト
@@ -110,19 +117,15 @@ public class MahjongErrorController implements ErrorController {
 
         // HTTP ステータスを決める
         // ここでは 404 以外は全部 500 にする
-        Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        if (statusCode != null && statusCode.toString().equals("404")) {
-            status = HttpStatus.NOT_FOUND;
-        }
+        HttpStatus statusCode = getHttpStatus(request);
 
         // 出力したい情報をセットする
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("timestamp", new Date());
-        body.put("status", status.value());
+        body.put("status", statusCode.value());
         body.put("path", request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI));
 
-        return new ResponseEntity<>(body, status);
+        return new ResponseEntity<>(body, statusCode);
     }
 
     /**

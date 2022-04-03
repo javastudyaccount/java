@@ -4,6 +4,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
+import jp.btsol.mahjong.model.Message;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 
 /**
@@ -40,9 +41,9 @@ public class HomeService {
      * 
      * @return String
      */
-    public String getHomeMessage() {
+    public Message getHomeMessage() {
         String path = applicationProperties.getUri() + applicationProperties.getPath().getHome();
-        return restTemplate.get(path, String.class);
+        return restTemplate.get(path, Message.class);
     }
 
     /**

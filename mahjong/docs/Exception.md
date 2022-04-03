@@ -13,11 +13,14 @@
    
 ### web
 1. Page not found(404)
-1. Input validation error
-2. API error --- no error is shown
-3. Communication error
-4. Security error
-5. Web is restarted---
+   1. login page
+2. Input validation error
+   1. show erros
+3. API error --- no error is shown
+   1. show api error
+4. Communication error
+5. Security error
+6. Web is restarted---
 ![](image/Exception/1648560134489.png)
 
 ### 【SpringBoot入門】フォームのバリデーションチェック
@@ -41,3 +44,9 @@ https://qiita.com/haseesah/items/6b0f0fcfe681734e2617
 ![](image/Exception/1648561894869.png)
 #### ErrorController
 ![](image/Exception/1648561903606.png)
+
+#### SpringBootログイン認証の実装
+https://qiita.com/curry__30/items/276ba2b9236066683ba4
+
+### Spring-Bootでログイン機能を実装してみる
+https://qiita.com/a-pompom/items/80b3f4bb6414e8678829

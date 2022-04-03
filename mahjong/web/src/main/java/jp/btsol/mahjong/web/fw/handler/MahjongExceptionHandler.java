@@ -45,11 +45,6 @@ public class MahjongExceptionHandler {
      * @param ex                 Exception
      * @return String
      */
-//    @ExceptionHandler(HttpServerErrorException.class)
-//    public ModelAndView handleHttpServerErrorException(WebRequest request, RedirectAttributes redirectAttributes,
-//            HttpServerErrorException ex) {
-//        return handleAPIError(request, redirectAttributes, ex);
-//    }
     @ExceptionHandler(HttpStatusCodeException.class)
     public ModelAndView handleHttpStatusCodeException(WebRequest request, RedirectAttributes redirectAttributes,
             HttpStatusCodeException ex) {
@@ -60,7 +55,6 @@ public class MahjongExceptionHandler {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("systemError", e.getLocalizedMessage());
         }
-//        return "redirect:/system-error";
         Class formClazz = (Class) ((ServletWebRequest) request).getRequest().getSession().getAttribute("formClazz");
         try {
             Object form = formClazz.getDeclaredConstructor().newInstance();
@@ -79,20 +73,6 @@ public class MahjongExceptionHandler {
         ModelAndView mav = new ModelAndView("redirect:" + viewName);
         return mav;
     }
-
-    /**
-     * Exceptionハンドラー
-     * 
-     * @param request            WebRequest
-     * @param redirectAttributes RedirectAttributes
-     * @param ex                 Exception
-     * @return String
-     */
-//    @ExceptionHandler(HttpClientErrorException.class)
-//    public ModelAndView handleHttpClientErrorException(WebRequest request, RedirectAttributes redirectAttributes,
-//            HttpClientErrorException ex) {
-//        return handleAPIError(request, redirectAttributes, ex);
-//    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected String handleMethodArgumentNotValid(RedirectAttributes redirectAttributes, HttpServerErrorException ex) {

@@ -4,19 +4,19 @@
     layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Players</title>
+<title>Login</title>
 </head>
 <body>
-<h1>Players</h1>
+<h1>Login</h1>
 <div layout:fragment="content">
-<form th:action="@{/player/create}" method="post" th:object="${playerForm}">
+<form th:action="@{/login}" method="post" th:object="${loginForm}">
 <table>
 <tr>
 <td>
-   	Player's nickname:
+    Login ID:
 </td>
 <td>
-    <input type="text" th:field="*{nickname}">
+    <input type="text" th:field="*{loginId}" maxlength=8>
 </td>
 </tr>
 <tr>
@@ -24,13 +24,14 @@
    	password:
 </td>
 <td>
-    <input type="password" th:field="*{password}">
+    <input type="password" th:field="*{password}" maxlength=16>
 </td>
 </tr>
 </table>
-<button>New</button>
+<button>Login</button>
 </form>
-<a href="/players">Back to players list</a>
+
+<a href="/signin">Signin as a new player</a>
 </div>
 </body>
 </html>
