@@ -83,7 +83,7 @@ public class PlayerService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         Player user = new Player();
-        user.setLoginId("login100");
+        user.setLoginId(loginId);
         user.setNickname("nickname001");
         String password = "password";
         if (user == null) {
