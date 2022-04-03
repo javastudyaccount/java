@@ -13,11 +13,14 @@
    
 ### web
 1. Page not found(404)
-1. Input validation error
-2. API error --- no error is shown
-3. Communication error
-4. Security error
-5. Web is restarted---
+   1. login page
+2. Input validation error
+   1. show erros
+3. API error --- no error is shown
+   1. show api error
+4. Communication error
+5. Security error
+6. Web is restarted---
 ![](image/Exception/1648560134489.png)
 
 ### 【SpringBoot入門】フォームのバリデーションチェック
