@@ -3,6 +3,7 @@ package jp.btsol.mahjong.web.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,6 +37,11 @@ public class PlayerService implements UserDetailsService {
      * application properties
      */
     private final ApplicationProperties applicationProperties;
+    /**
+     * passwordEncoder BCryptPasswordEncoder
+     */
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     /**
      * Constructor
@@ -97,13 +103,11 @@ public class PlayerService implements UserDetailsService {
         grantList.add(authority);
 
         // rawDataのパスワードは渡すことができないので、暗号化
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         // UserDetailsはインタフェースなのでUserクラスのコンストラクタで生成したユーザオブジェクトをキャスト
-//        UserDetails userDetails = (UserDetails) new User(user.getLoginId(), encoder.encode("{noop}" + password),
-//                grantList);
-        UserDetails userDetails = (UserDetails) new User(user.getLoginId(), encoder.encode(password), grantList);
-
+        UserDetails userDetails = (UserDetails) new User(user.getLoginId(), passwordEncoder.encode(password),
+                grantList);
         return userDetails;
     }
+
 }
