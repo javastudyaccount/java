@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja"
     xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 <header id="banner" role="banner" layout:fragment="header">
@@ -8,7 +9,9 @@
         <div class="navbar-inner">
             <!-- .container -->
             <div class="container">
-                
+                <div sec:authorize="isAuthenticated()">
+                <button style="float: right;">Logout</button>
+                </div>
             </div>
             <!-- /.container -->
         </div>

@@ -29,19 +29,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().antMatchers("/signin", "/login", "/error").permitAll()//
-//                .antMatchers("/admin/**").hasRole("ADMIN")//
-//                .anyRequest().authenticated();
-//        http.formLogin().loginProcessingUrl("/login").loginPage("/login").failureUrl("/error")
-//                .defaultSuccessUrl("/", false).usernameParameter("loginId").passwordParameter("password").and().logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("signout")).logoutSuccessUrl("/login")
-//                .deleteCookies("JSESSIONID").invalidateHttpSession(true).permitAll();
-//        http.sessionManagement().invalidSessionUrl("/login");
         http.authorizeRequests()
                 // 「login.html」はログイン不要でアクセス可能に設定
-                .antMatchers("/login").permitAll()
+                .antMatchers("/signin", "/login", "/error", "/system-error").permitAll()
                 // 上記以外は直リンク禁止
-                .anyRequest().authenticated().and().formLogin()
+                .anyRequest().authenticated().and() //
+                .formLogin()
                 // ログイン処理のパス
                 .loginProcessingUrl("/login")
                 // ログインページ
@@ -53,7 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // ログイン時のキー：名前
                 .usernameParameter("loginId")
                 // ログイン時のパスワード
-                .passwordParameter("password").and()
+                .passwordParameter("password") //
+                .and()
                 // Logout
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")) //
                 .logoutUrl("/logout") // ログアウトのURL
