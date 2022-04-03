@@ -33,7 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 「login.html」はログイン不要でアクセス可能に設定
                 .antMatchers("/signin", "/login", "/error", "/system-error").permitAll()
                 // 上記以外は直リンク禁止
-                .anyRequest().authenticated().and() //
+                .anyRequest().authenticated()//
+                .and() //
                 .formLogin()
                 // ログイン処理のパス
                 .loginProcessingUrl("/login")
