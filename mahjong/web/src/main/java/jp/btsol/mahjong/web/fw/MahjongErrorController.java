@@ -99,15 +99,15 @@ public class MahjongErrorController implements ErrorController {
             }
         }
         Object viewName = ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
-//        if (Objects.isNull(viewName)) {
-//            viewName = "/login";
-//        }
+        if (Objects.isNull(viewName)) {
+            viewName = "/login";
+        }
         ModelAndView mav = new ModelAndView("redirect:" + String.valueOf(viewName));
         return mav;
     }
 
     /**
-     * JSON レスポンス用の ResponseEntity オブジェクトを返す。
+     * JSON レスポンス用の ResponseEntity オブジェクトを返す。(Example: favicon.ico not found)
      *
      * @param request リクエスト情報
      * @return JSON レスポンス用の ResponseEntity オブジェクト
@@ -117,19 +117,15 @@ public class MahjongErrorController implements ErrorController {
 
         // HTTP ステータスを決める
         // ここでは 404 以外は全部 500 にする
-        Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        if (statusCode != null && statusCode.toString().equals("404")) {
-            status = HttpStatus.NOT_FOUND;
-        }
+        HttpStatus statusCode = getHttpStatus(request);
 
         // 出力したい情報をセットする
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("timestamp", new Date());
-        body.put("status", status.value());
+        body.put("status", statusCode.value());
         body.put("path", request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI));
 
-        return new ResponseEntity<>(body, status);
+        return new ResponseEntity<>(body, statusCode);
     }
 
     /**

@@ -89,7 +89,7 @@ public class PlayersController {
      */
     @PostMapping("/login")
     public String doLogin(@Valid @ModelAttribute("loginForm") LoginForm loginForm) {
-        return "player/players";
+        return "redirect:/players";
     }
 
     /**

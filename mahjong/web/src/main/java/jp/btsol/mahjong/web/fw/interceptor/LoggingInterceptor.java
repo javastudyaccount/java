@@ -51,16 +51,21 @@ public class LoggingInterceptor implements HandlerInterceptor {
         if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
             Annotation anno = method.getMethod().getAnnotation(GetMapping.class);
-            log.info("method: " + method.getMethod().getName());
-            if ("myErrorHtml".equals(method.getMethod().getName())) {
-                return;
-            }
-            String viewName = modelAndView.getViewName();
-            log.info("return: " + viewName);
+//            log.info("method: " + method.getMethod().getName());
+//            if ("myErrorHtml".equals(method.getMethod().getName())) {
+//                return;
+//            }
+//            String viewName = "";
+//            if (Objects.nonNull(modelAndView)) {
+//                viewName = modelAndView.getViewName();
+//            }
+//            log.info("return: " + viewName);
             if (Objects.nonNull(anno)) {
-                viewName = ((GetMapping) anno).value()[0];
+                String viewName = ((GetMapping) anno).value()[0];
+                request.getSession().setAttribute("viewName", viewName);
+            } else {
+                request.getSession().removeAttribute("viewName");
             }
-            request.getSession().setAttribute("viewName", viewName);
         }
     }
 
