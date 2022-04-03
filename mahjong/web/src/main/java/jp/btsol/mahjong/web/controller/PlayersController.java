@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.PlayerRegistration;
@@ -96,18 +94,18 @@ public class PlayersController {
      * 
      * @return String template name
      */
-    @GetMapping("/logout")
-    public String logout() {
-        ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession()
-                .invalidate();
-        return "redirect:/afterLogout";
-    }
+//    @PostMapping("/logout")
+//    public String logout() {
+//        ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession()
+//                .invalidate();
+//        return "redirect:/afterLogout";
+//    }
 
     // ログアウト成功時の画面へ遷移
-    @GetMapping("/afterLogout")
-    String afterLogout() {
-        return "player/afterLogout";
-    }
+//    @GetMapping("/afterLogout")
+//    String afterLogout() {
+//        return "player/afterLogout";
+//    }
 
     /**
      * do login
@@ -115,11 +113,11 @@ public class PlayersController {
      * @param loginForm LoginForm
      * @return String view name
      */
-    @PostMapping("/login")
-    public String doLogin(@Valid @ModelAttribute("loginForm") LoginForm loginForm) {
-        playerService.loadUserByUsername(loginForm.getLoginId());
-        return "redirect:/players";
-    }
+//    @PostMapping("/login")
+//    public String doLogin(@Valid @ModelAttribute("loginForm") LoginForm loginForm) {
+//        playerService.loadUserByUsername(loginForm.getLoginId());
+//        return "redirect:/players";
+//    }
 
     /**
      * create new player

@@ -14,7 +14,9 @@
                 </span>
                 
                 <span sec:authorize="isAuthenticated()">
-                <button style="float: right;" onclick="javascript:location.href='/logout';">Logout</button>
+                <form id="formLogout" method="post" th:action="@{/logout}">
+                <button style="float: right;">Logout</button>
+                </form>
                 </span>
             </div>
             <!-- /.container -->
