@@ -50,3 +50,6 @@ https://qiita.com/curry__30/items/276ba2b9236066683ba4
 
 ### Spring-Bootでログイン機能を実装してみる
 https://qiita.com/a-pompom/items/80b3f4bb6414e8678829
+
+### Spring Security Remember Me
+https://www.baeldung.com/spring-security-remember-me

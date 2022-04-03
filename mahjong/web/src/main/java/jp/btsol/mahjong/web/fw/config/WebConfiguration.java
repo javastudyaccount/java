@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jp.btsol.mahjong.web.fw.filter.RequestLoggingFilter;
@@ -34,5 +35,13 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Bean
     public CommonsRequestLoggingFilter requestLoggingFilter() {
         return new RequestLoggingFilter(majhongBasePath);
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/home").setViewName("home");
+//        registry.addViewController("/").setViewName("home");
+//        registry.addViewController("/hello").setViewName("hello");
+//        registry.addViewController("/login").setViewName("login");
     }
 }
