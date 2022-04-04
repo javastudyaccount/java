@@ -23,6 +23,66 @@
 6. Web is restarted---
 ![](image/Exception/1648560134489.png)
 
+### test case
+1. URL not exists
+   1. http://localhost:8089/login
+      1. http://localhost:8089/login
+2. No login ID, password and login
+   1. Please confirm your login ID and password. 
+3. Not valid login ID, password
+   1. Please confirm your login ID and password.
+4. Valid login ID and password
+      1. http://localhost:8089/players
+      2. Home
+         1. This is majhong application.
+      3. Logout
+         1. http://localhost:8089/afterLogout
+      4. Signin as a new player
+         1. http://localhost:8089/signin
+      5. Existing url
+         1. http://localhost:8089/login
+5. Existing url after login
+   1. http://localhost:8089/hands OK 
+6. URL not exists after login
+   1. http://localhost:8089/hands3
+      1. Error: Not Found
+         timestamp: Mon Apr 04 20:20:24 JST 2022
+         status: 404
+         path: /hands3
+
+```mermaid
+stateDiagram-v2
+   state "/login(login page)" as notLogin
+   state "/players(players list page)" as loggedIn
+   state "http://localhost:8089/{any}" as anyURL
+   state "/hands(example: hands page)" as correctURL
+   state "/signin(Sign In Page)" as signIn
+   state "Error: Not Found" as Error
+   [*] --> anyURL
+   anyURL --> notLogin
+   notLogin --> [*] : Close browser
+
+   notLogin --> notLogin: Incorrect login ID <br/>or password
+   notLogin --> loggedIn: correct login ID <br/>and password
+   loggedIn --> notLogin: logout
+   loggedIn --> Error: Incorrect URL<br/>(example：/hands3)
+   loggedIn --> correctURL: correctURL
+   correctURL --> correctURL: correctURL<br/>(example： hands)
+   correctURL --> [*]: Close browser
+   Error --> correctURL: correctURL<br/>(example： hands)
+   Error --> [*]: Close browser
+
+   notLogin --> signIn : Signin as a <br/>new player
+   signIn --> notLogin: login ID(8 letters, digits <br/>or underbar, not exists), <br/>nickname(not empty, not exists) <br/>and password(8-16)
+   signIn --> signIn: input check <br/>error
+   signIn --> notLogin: Login
+```
+1. No redirect after logged in
+2. Remember me
+
+
+
+
 ### 【SpringBoot入門】フォームのバリデーションチェック
 https://qiita.com/morioheisei/items/1d02fa6644d2c355df6e
 

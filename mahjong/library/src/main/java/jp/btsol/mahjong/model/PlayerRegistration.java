@@ -15,8 +15,6 @@ public class PlayerRegistration {
     /**
      * loginId
      */
-//    @NotEmpty
-//    @Length(min = 8, max = 8)
     @Pattern(regexp = "[a-zA-Z_0-9]{8,8}", message = "{majhong.loginid.pattern.error}")
     private String loginId;
     /**

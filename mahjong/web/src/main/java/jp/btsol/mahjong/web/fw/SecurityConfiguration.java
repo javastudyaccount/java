@@ -55,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout") // ログアウトのURL
                 .invalidateHttpSession(true)
                 // ログアウト時の遷移先 POSTでアクセス
-                .logoutSuccessUrl("/afterLogout.html");
+                .logoutSuccessUrl("/afterLogout");
     }
 
     @Override
