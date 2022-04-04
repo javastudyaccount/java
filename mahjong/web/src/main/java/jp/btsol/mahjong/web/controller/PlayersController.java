@@ -90,36 +90,6 @@ public class PlayersController {
     }
 
     /**
-     * logout
-     * 
-     * @return String template name
-     */
-//    @PostMapping("/logout")
-//    public String logout() {
-//        ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession()
-//                .invalidate();
-//        return "redirect:/afterLogout";
-//    }
-
-    // ログアウト成功時の画面へ遷移
-//    @GetMapping("/afterLogout")
-//    String afterLogout() {
-//        return "player/afterLogout";
-//    }
-
-    /**
-     * do login
-     * 
-     * @param loginForm LoginForm
-     * @return String view name
-     */
-//    @PostMapping("/login")
-//    public String doLogin(@Valid @ModelAttribute("loginForm") LoginForm loginForm) {
-//        playerService.loadUserByUsername(loginForm.getLoginId());
-//        return "redirect:/players";
-//    }
-
-    /**
      * create new player
      * 
      * @param playerForm
