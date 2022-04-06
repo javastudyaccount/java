@@ -19,6 +19,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import jp.btsol.mahjong.application.fw.exception.BadRequestException;
+import jp.btsol.mahjong.application.fw.exception.DataNotFoundException;
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.entity.ErrorDataEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,16 @@ public class MahjongExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({DuplicateKeyException.class})
     protected ResponseEntity<Object> handleDuplicateKeyException(DuplicateKeyException ex) {
+        ErrorDataEntity errorDetail = new ErrorDataEntity();
+        errorDetail.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        errorDetail.setErrorDetail(ex.getLocalizedMessage());
+        errorDetail.setPath(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+                .getServletPath());
+        return new ResponseEntity<>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({DataNotFoundException.class})
+    protected ResponseEntity<Object> handleDataNotFoundException(DataNotFoundException ex) {
         ErrorDataEntity errorDetail = new ErrorDataEntity();
         errorDetail.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
         errorDetail.setErrorDetail(ex.getLocalizedMessage());

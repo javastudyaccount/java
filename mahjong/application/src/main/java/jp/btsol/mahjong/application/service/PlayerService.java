@@ -7,8 +7,10 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import jp.btsol.mahjong.application.fw.exception.DataNotFoundException;
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Passwd;
@@ -55,16 +57,23 @@ public class PlayerService {
     public PlayerAuthentication getPlayerAuthentication(String loginId) {
         Map<String, Object> params = new HashMap<>();
         params.put("loginId", loginId);
-        return baseRepository.findForObject(//
-                "select " + //
-                        " player.login_id, nickname, password " + //
-                        "from player " + //
-                        "join passwd " + //
-                        "on player.player_id = passwd.player_id " + //
-                        "where player.deleted_flg = 0 and " + //
-                        "passwd.deleted_flg = 0 and " + //
-                        "player.login_id = :loginId", //
-                params, PlayerAuthentication.class);
+        try {
+            return baseRepository.findForObject(//
+                    "select " + //
+                            " player.login_id, nickname, password " + //
+                            "from player " + //
+                            "join passwd " + //
+                            "on player.player_id = passwd.player_id " + //
+                            "where player.deleted_flg = 0 and " + //
+                            "passwd.deleted_flg = 0 and " + //
+                            "player.login_id = :loginId", //
+                    params, PlayerAuthentication.class);
+        } catch (EmptyResultDataAccessException e) {
+            log.error(e.getLocalizedMessage());
+            DataNotFoundException dnf = new DataNotFoundException(String.format("Player %s does not exists.", loginId),
+                    e);
+            throw dnf;
+        }
     }
 
     /**
