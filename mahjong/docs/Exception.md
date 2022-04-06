@@ -49,17 +49,29 @@
          timestamp: Mon Apr 04 20:20:24 JST 2022
          status: 404
          path: /hands3
+7. EmptyResultDataAccessException
+   1. DataNotFoundException
+
+
+```mermaid
+stateDiagram-v2
+   state "/login(login page)" as notLogin
+   state "http://localhost:8089/hands3(incorrect url)" as hands3
+
+   [*] --> hands3
+   hands3 --> notLogin
+   notLogin --> Error : hands3
+
+```
 
 ```mermaid
 stateDiagram-v2
    state "/login(login page)" as notLogin
    state "/players(players list page)" as loggedIn
-   state "http://localhost:8089/{any}" as anyURL
    state "/hands(example: hands page)" as correctURL
    state "/signin(Sign In Page)" as signIn
    state "Error: Not Found" as Error
-   [*] --> anyURL
-   anyURL --> notLogin
+   [*] --> notLogin
    notLogin --> [*] : Close browser
 
    notLogin --> notLogin: Incorrect login ID <br/>or password
