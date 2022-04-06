@@ -9,6 +9,7 @@ application:
     rooms: /room/all
     players: /player/all
     createPlayer: /player/new
+    playerAuthentication: /player/authentication
 spring:
   thymeleaf:
     check-template-location: true

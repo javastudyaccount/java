@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.LoginId;
+import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
@@ -82,11 +84,13 @@ public class PlayerService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        Player user = new Player();
-        user.setLoginId(loginId);
-        user.setNickname("nickname001");
-        String password = "password";
-        if (user == null) {
+        LoginId loginIdModel = new LoginId(loginId);
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getPlayerAuthentication() + "?loginId=" + loginId;
+        PlayerAuthentication playerAuthentication = mahjongRestTemplate.get(url, PlayerAuthentication.class);
+
+        if (playerAuthentication == null) {
             throw new UsernameNotFoundException("User" + loginId + "was not found in the database");
         }
         // 権限のリスト
@@ -100,7 +104,8 @@ public class PlayerService implements UserDetailsService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         // UserDetailsはインタフェースなのでUserクラスのコンストラクタで生成したユーザオブジェクトをキャスト
-        UserDetails userDetails = (UserDetails) new User(user.getLoginId(), encoder.encode(password), grantList);
+        UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
+                encoder.encode(playerAuthentication.getPassword()), grantList);
         return userDetails;
     }
 

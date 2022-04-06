@@ -1,6 +1,8 @@
 package jp.btsol.mahjong.application.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +13,7 @@ import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Passwd;
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +44,27 @@ public class PlayerService {
      */
     public List<Player> getPlayers() {
         return baseRepository.findForList("select * from player", Player.class);
+    }
+
+    /**
+     * get player authentication
+     * 
+     * @param loginId String
+     * @return PlayerAuthentication
+     */
+    public PlayerAuthentication getPlayerAuthentication(String loginId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("loginId", loginId);
+        return baseRepository.findForObject(//
+                "select " + //
+                        " player.login_id, nickname, password " + //
+                        "from player " + //
+                        "join passwd " + //
+                        "on player.player_id = passwd.player_id " + //
+                        "where player.deleted_flg = 0 and " + //
+                        "passwd.deleted_flg = 0 and " + //
+                        "player.login_id = :loginId", //
+                params, PlayerAuthentication.class);
     }
 
     /**
