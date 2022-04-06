@@ -50,6 +50,21 @@ public class BaseRepository {
      * 
      * @param <T>   返却カラム型類推
      * @param sql   実行対象SQL
+     * @param clazz 返却カラム型
+     * @return 検索結果
+     */
+    public <T> T findForObject(String sql, Class<T> clazz) {
+        if (log.isDebugEnabled()) {
+            log.debug(sql.toString());
+        }
+        return template.queryForObject(sql, new HashMap<String, Object>(), new BeanPropertyRowMapper<T>(clazz));
+    }
+
+    /**
+     * １件分のデータを参照します。
+     * 
+     * @param <T>   返却カラム型類推
+     * @param sql   実行対象SQL
      * @param param バインドパラメータ
      * @param clazz 返却カラム型
      * @return 検索結果
