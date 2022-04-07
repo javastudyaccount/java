@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
@@ -101,11 +100,13 @@ public class PlayerService implements UserDetailsService {
         grantList.add(authority);
 
         // rawDataのパスワードは渡すことができないので、暗号化
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         // UserDetailsはインタフェースなのでUserクラスのコンストラクタで生成したユーザオブジェクトをキャスト
+//        UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
+//                encoder.encode(playerAuthentication.getPassword()), grantList);
         UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
-                encoder.encode(playerAuthentication.getPassword()), grantList);
+                "{noop}" + playerAuthentication.getPassword(), grantList);
         return userDetails;
     }
 

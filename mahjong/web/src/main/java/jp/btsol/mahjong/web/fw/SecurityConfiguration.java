@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import jp.btsol.mahjong.web.service.PlayerService;
@@ -34,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 「login.html」はログイン不要でアクセス可能に設定
                 .antMatchers("/signin", "/login", "/error", "/system-error", "/logout", "/afterLogout").permitAll()
                 // 上記以外は直リンク禁止
-                .anyRequest().authenticated()//
+                .anyRequest().authenticated()// Remember-Me認証も許可する
                 .and() //
                 .formLogin()
                 // ログイン処理のパス
@@ -53,17 +52,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // Logout
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")) //
                 .logoutUrl("/logout") // ログアウトのURL
-                .invalidateHttpSession(true)
+//                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 // ログアウト時の遷移先 POSTでアクセス
-                .logoutSuccessUrl("/afterLogout");
+                .logoutSuccessUrl("/afterLogout")//
+                .and()//
+                .rememberMe() // ログイン状態を保持する
+//                .tokenValiditySeconds(604800) //秒数。デフォルトでは前回のアクセスから 2 週間は 有効です。
+//                .key("uniqueAndSecret")//
+//                .alwaysRemember(true)//
+        ;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // フォームの値と比較するDBから取得したパスワードは暗号化されているのでフォームの値も暗号化するために利用
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        auth.userDetailsService(service).passwordEncoder(encoder);
+        auth.userDetailsService(service);
     }
 
 }

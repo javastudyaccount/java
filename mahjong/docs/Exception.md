@@ -51,8 +51,10 @@
          path: /hands3
 7. EmptyResultDataAccessException
    1. DataNotFoundException
-
-
+8. Session timeout ?
+9. Show login page twice after restart server
+10. focus on the first input field
+11. 
 ```mermaid
 stateDiagram-v2
    state "/login(login page)" as notLogin
@@ -92,7 +94,8 @@ stateDiagram-v2
 1. No redirect after logged in
 2. Remember me
 
-
+TokenBasedRememberMeServices:
+   makeTokenSignature
 
 
 ### 【SpringBoot入門】フォームのバリデーションチェック
@@ -125,3 +128,9 @@ https://qiita.com/a-pompom/items/80b3f4bb6414e8678829
 
 ### Spring Security Remember Me
 https://www.baeldung.com/spring-security-remember-me
+
+### Spring Securityでログインした状態を残す
+https://eatsmart.hatenablog.com/entry/2021/01/15/172838
+
+### spring boot その9 - spring security で Remember-Me認証を行う
+https://huruyosi.hatenablog.com/entry/2015/08/16/132503
