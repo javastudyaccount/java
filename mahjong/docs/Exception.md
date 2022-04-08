@@ -134,3 +134,23 @@ https://eatsmart.hatenablog.com/entry/2021/01/15/172838
 
 ### spring boot その9 - spring security で Remember-Me認証を行う
 https://huruyosi.hatenablog.com/entry/2015/08/16/132503
+
+
+### Spring Security 使い方メモ　Remember-Me
+https://qiita.com/opengl-8080/items/7c34053c74448d39e8f5
+   - Remember-Me によるログインの場合は重要な処理の実行を許可しない
+   - Cookie が盗まれたことを検知できるようにする
+  ![](image/Exception/1649339080669.png)
+  ![](image/Exception/1649339153025.png)
+
+### 暗号ハッシュ関数
+   - 一貫性：同じデータが与えられた場合、ハッシュ関数は常に同じ値を返します。すなわち、X = Yの場合、f（x）は常にハッシュ関数fに対してf（y）に等しい。
+
+   - 一意性：ハッシュ関数への2つの入力は、同じ出力をもたらすことはありません。つまり、XとYの任意の値に対して、X！= Y、f（x）！= f（y）ならば、
+
+   - 不可逆性：不可能ではないにしても、ハッシュ関数を「逆転する」ことは非実用的です。すなわち、f（X）のみが与えられれば、元のXが関数f（ブルートフォース）を介してすべての可能な値をとるのを忘れることはできません。 f1（f（X））= Xとなるような関数f1は存在してはならない。
+
+現在セキュアであると考えられる機能の中には、SHA-256とSHA-512があります。
+
+### パスワードハッシュ化
+https://terasolunaorg.github.io/guideline/public_review/Security/PasswordHashing.html
