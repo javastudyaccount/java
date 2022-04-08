@@ -120,5 +120,4 @@ public class PlayerService implements UserDetailsService {
 //                "{noop}" + playerAuthentication.getPassword(), grantList);
         return userDetails;
     }
-
 }

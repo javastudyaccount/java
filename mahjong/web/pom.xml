@@ -77,6 +77,12 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-ext-debug-jdk15on</artifactId>
+		    <version>1.70</version>
+		</dependency>
+		<!-- Thanks for using https://jar-download.com -->
 
 	</dependencies>
 

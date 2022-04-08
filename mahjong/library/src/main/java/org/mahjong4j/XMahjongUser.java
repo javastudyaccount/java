@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.application.fw.token;
+package org.mahjong4j;
 
 import lombok.Data;
 

@@ -154,3 +154,10 @@ https://qiita.com/opengl-8080/items/7c34053c74448d39e8f5
 
 ### パスワードハッシュ化
 https://terasolunaorg.github.io/guideline/public_review/Security/PasswordHashing.html
+
+### Spring Security の DelegatingPasswordEncoder について調べた
+https://qiita.com/d-yosh/items/bb52152318391e5e07aa
+
+### JavaでAES（ECB／CBC）を使う
+https://kazuhira-r.hatenablog.com/entry/2021/01/10/200607
+
