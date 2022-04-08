@@ -3,6 +3,7 @@ package jp.btsol.mahjong.web.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
@@ -29,6 +31,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @EnableConfigurationProperties(ApplicationProperties.class)
 public class PlayerService implements UserDetailsService {
+    /**
+     * passwordEncoder PasswordEncoder
+     */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     /**
      * Rest template
      */
@@ -99,15 +106,18 @@ public class PlayerService implements UserDetailsService {
         GrantedAuthority authority = new SimpleGrantedAuthority("USER");
         grantList.add(authority);
 
-        // rawDataのパスワードは渡すことができないので、暗号化
+//        // rawDataのパスワードは渡すことができないので、暗号化
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        // UserDetailsはインタフェースなのでUserクラスのコンストラクタで生成したユーザオブジェクトをキャスト
+//
+//        // UserDetailsはインタフェースなのでUserクラスのコンストラクタで生成したユーザオブジェクトをキャスト
 //        UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
 //                encoder.encode(playerAuthentication.getPassword()), grantList);
+
         UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
-                "{noop}" + playerAuthentication.getPassword(), grantList);
+                passwordEncoder.encode(playerAuthentication.getPassword()), grantList);
+
+//        UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
+//                "{noop}" + playerAuthentication.getPassword(), grantList);
         return userDetails;
     }
-
 }

@@ -5,14 +5,14 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mahjong4j.Utils;
+import org.mahjong4j.XMahjongUser;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import jp.btsol.mahjong.application.fw.token.XMahjongUser;
-import jp.btsol.mahjong.application.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
