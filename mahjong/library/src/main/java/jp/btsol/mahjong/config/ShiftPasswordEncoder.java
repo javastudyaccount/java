@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.web.fw;
+package jp.btsol.mahjong.config;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;

@@ -114,7 +114,7 @@ public class PlayerService implements UserDetailsService {
 //                encoder.encode(playerAuthentication.getPassword()), grantList);
 
         UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
-                passwordEncoder.encode(playerAuthentication.getPassword()), grantList);
+                playerAuthentication.getPassword(), grantList);
 
 //        UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
 //                "{noop}" + playerAuthentication.getPassword(), grantList);
