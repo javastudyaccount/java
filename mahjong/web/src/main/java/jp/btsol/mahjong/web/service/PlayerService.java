@@ -3,7 +3,6 @@ package jp.btsol.mahjong.web.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
-import jp.btsol.mahjong.model.LoginId;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
@@ -34,7 +32,6 @@ public class PlayerService implements UserDetailsService {
     /**
      * passwordEncoder PasswordEncoder
      */
-    @Autowired
     private PasswordEncoder passwordEncoder;
     /**
      * Rest template
@@ -50,11 +47,14 @@ public class PlayerService implements UserDetailsService {
      * 
      * @param applicationProperties ApplicationProperties application properties
      * @param mahjongRestTemplate   MahjongRestTemplate
+     * @param passwordEncoder       PasswordEncoder
      */
     public PlayerService(ApplicationProperties applicationProperties, //
-            MahjongRestTemplate mahjongRestTemplate) {
+            MahjongRestTemplate mahjongRestTemplate, //
+            PasswordEncoder passwordEncoder) {
         this.applicationProperties = applicationProperties;
         this.mahjongRestTemplate = mahjongRestTemplate;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -83,6 +83,7 @@ public class PlayerService implements UserDetailsService {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getCreatePlayer();
+        playerRegistration.setPassword(passwordEncoder.encode(playerRegistration.getPassword()));
         Player player = mahjongRestTemplate.post(url, playerRegistration, Player.class);
 
         return player;
@@ -90,7 +91,6 @@ public class PlayerService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        LoginId loginIdModel = new LoginId(loginId);
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getPlayerAuthentication() + "?loginId=" + loginId;
@@ -106,18 +106,9 @@ public class PlayerService implements UserDetailsService {
         GrantedAuthority authority = new SimpleGrantedAuthority("USER");
         grantList.add(authority);
 
-//        // rawDataのパスワードは渡すことができないので、暗号化
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//
-//        // UserDetailsはインタフェースなのでUserクラスのコンストラクタで生成したユーザオブジェクトをキャスト
-//        UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
-//                encoder.encode(playerAuthentication.getPassword()), grantList);
-
         UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
                 playerAuthentication.getPassword(), grantList);
 
-//        UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
-//                "{noop}" + playerAuthentication.getPassword(), grantList);
         return userDetails;
     }
 }

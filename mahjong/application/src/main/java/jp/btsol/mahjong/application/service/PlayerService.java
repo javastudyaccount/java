@@ -120,7 +120,7 @@ public class PlayerService {
         Passwd passwd = new Passwd();
         passwd.setPlayerId(playerId);
 
-        passwd.setPassword(passwordEncoder.encode(playerRegistration.getPassword()));
+        passwd.setPassword(playerRegistration.getPassword());
         baseRepository.insert(passwd);
 
         return baseRepository.findById(playerId, Player.class);
