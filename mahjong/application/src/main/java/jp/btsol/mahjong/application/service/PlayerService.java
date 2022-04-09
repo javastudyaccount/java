@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.application.fw.exception.DataNotFoundException;
@@ -31,12 +32,23 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class PlayerService {
     /**
+     * passwordEncoder PasswordEncoder
+     */
+    private final PasswordEncoder passwordEncoder;
+    /**
      * baseRepository
      */
     private final BaseRepository baseRepository;
 
-    public PlayerService(BaseRepository baseRepository) {
+    /**
+     * Constructor
+     * 
+     * @param baseRepository  BaseRepository
+     * @param passwordEncoder PasswordEncoder
+     */
+    public PlayerService(BaseRepository baseRepository, PasswordEncoder passwordEncoder) {
         this.baseRepository = baseRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -107,7 +119,8 @@ public class PlayerService {
         }
         Passwd passwd = new Passwd();
         passwd.setPlayerId(playerId);
-        passwd.setPassword(playerRegistration.getPassword());
+
+        passwd.setPassword(passwordEncoder.encode(playerRegistration.getPassword()));
         baseRepository.insert(passwd);
 
         return baseRepository.findById(playerId, Player.class);

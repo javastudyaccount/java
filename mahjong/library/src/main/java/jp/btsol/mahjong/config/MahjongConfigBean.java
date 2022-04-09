@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
@@ -20,6 +22,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.FieldError;
 
@@ -276,5 +285,21 @@ public class MahjongConfigBean {
         public JsonTypeInfo.Id getMechanism() {
             return this.delegate.getMechanism();
         }
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        String idForEncode = "bcrypt";
+        Map encoders = new HashMap<>();
+        encoders.put("bcrypt", new BCryptPasswordEncoder());
+        encoders.put("noop", NoOpPasswordEncoder.getInstance());
+        encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
+        encoders.put("scrypt", new SCryptPasswordEncoder());
+        encoders.put("sha256", new StandardPasswordEncoder());
+        encoders.put("AES", new AESPasswordEncoder());
+        encoders.put("shift", ShiftPasswordEncoder.getInstance());
+
+        PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder(idForEncode, encoders);
+        return passwordEncoder;
     }
 }

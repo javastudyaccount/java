@@ -80,8 +80,6 @@ CREATE TABLE room (
 CREATE UNIQUE INDEX room_name_unique
     ON room (room_name);
 
-
-
 drop table player_in_room cascade;
 create table player_in_room(
     room_id bigint not null,
@@ -98,7 +96,7 @@ create table player_in_room(
 drop table passwd cascade;
 create table passwd(
     player_id bigint not null,
-    password varchar(20) not null,
+    password varchar(256) not null,
     deleted_flg boolean DEFAULT false NOT NULL,
     created_timestamp timestamp NOT NULL,
     created_user varchar(20) NOT NULL,

@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.web.fw;
+package jp.btsol.mahjong.config;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
