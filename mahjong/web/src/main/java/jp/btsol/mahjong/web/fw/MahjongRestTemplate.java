@@ -86,6 +86,20 @@ public class MahjongRestTemplate {
     }
 
     /**
+     * POSTでデータの送信を行います。
+     * 
+     * @param <P>       パラメータ型
+     * @param path      送信先
+     * @param paramater ボディパラメータ
+     * @throws RuntimeException 業務例外
+     */
+    public <P> void post(String path, P paramater) throws RuntimeException {
+        RequestEntity<P> request = createRequest(path, RequestEntity.post(path)).contentType(MediaType.APPLICATION_JSON)
+                .body(paramater);
+        restTemplate.exchange(path, HttpMethod.POST, request, Void.class);
+    }
+
+    /**
      * POSTでファイルデータの送信を行います。
      * 
      * @param <R>   レスポンス型
@@ -129,6 +143,20 @@ public class MahjongRestTemplate {
     }
 
     /**
+     * PUTでデータの送信を行います。
+     * 
+     * @param <P>       パラメータ型
+     * @param path      送信先
+     * @param paramater ボディパラメータ
+     * @throws RuntimeException 業務例外
+     */
+    public <P> void put(String path, P paramater) throws RuntimeException {
+        RequestEntity<P> request = createRequest(path, RequestEntity.put(path)).contentType(MediaType.APPLICATION_JSON)
+                .body(paramater);
+        restTemplate.exchange(path, HttpMethod.PUT, request, Void.class);
+    }
+
+    /**
      * PUTでファイルデータの送信を行います。
      * 
      * @param <R>   レスポンス型
@@ -169,6 +197,18 @@ public class MahjongRestTemplate {
         response = restTemplate.exchange(request, clazz);
 
         return response.getBody();
+    }
+
+    /**
+     * 
+     * DELETEでデータの送信を行います。
+     * 
+     * @param path 送信先
+     * @throws RuntimeException 業務例外
+     */
+    public void delete(String path) throws RuntimeException {
+        RequestEntity<?> request = createRequest(path, RequestEntity.delete(path)).build();
+        restTemplate.exchange(request, Void.class);
     }
 
     /**

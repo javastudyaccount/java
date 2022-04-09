@@ -1,16 +1,20 @@
 package jp.btsol.mahjong.web.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
@@ -110,5 +114,36 @@ public class PlayerService implements UserDetailsService {
                 playerAuthentication.getPassword(), grantList);
 
         return userDetails;
+    }
+
+    public void createToken(PersistentRememberMeToken token) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getCreateToken();
+        mahjongRestTemplate.post(url, token);
+    }
+
+    public void updateToken(String series, String tokenValue, Date lastUsed) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getUpdateToken();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loginId = (String) auth.getPrincipal();
+        PersistentRememberMeToken token = new PersistentRememberMeToken(loginId, series, tokenValue, lastUsed);
+        mahjongRestTemplate.put(url, token);
+    }
+
+    public PersistentRememberMeToken getTokenForSeries(String series) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getTokenForSeries() + "?series=" + series;
+        return mahjongRestTemplate.get(url, PersistentRememberMeToken.class);
+    }
+
+    public void removeUserTokens(String username) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getRemoveToken() + "?loginId=" + username;
+        mahjongRestTemplate.delete(url);
     }
 }

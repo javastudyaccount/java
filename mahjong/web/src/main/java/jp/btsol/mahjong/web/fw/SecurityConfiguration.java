@@ -28,6 +28,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * rememberMeTokenRepositoryImpl RememberMeTokenRepositoryImpl
+     */
+    @Autowired
+    RememberMeTokenRepositoryImpl rememberMeTokenRepositoryImpl;
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/favicon.ico", "/css/**", "/image/**", "/js/**");
@@ -39,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 「login.html」はログイン不要でアクセス可能に設定
                 .antMatchers("/signin", "/login", "/error", "/system-error", "/logout", "/afterLogout").permitAll()
                 // disable remember-me authentication for important page
-                .antMatchers("/remember-me/high-level").fullyAuthenticated()//
+                .antMatchers("/remember-me/high-level").fullyAuthenticated()// Remember-Me によるログインの場合は重要な処理の実行を許可しない
                 // 上記以外は直リンク禁止
                 .anyRequest().authenticated()// Remember-Me認証も許可する
                 .and() //
@@ -69,8 +75,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .tokenValiditySeconds(604800) //秒数。デフォルトでは前回のアクセスから 2 週間は 有効です。
 //                .key("uniqueAndSecret")//
 //                .alwaysRemember(true)//
-                .useSecureCookie(true)//
-        ;
+                .useSecureCookie(true)// Cookie の secure 属性を有効にする
+
+                .tokenRepository(rememberMeTokenRepositoryImpl);
     }
 
     @Override

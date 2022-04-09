@@ -1,5 +1,6 @@
 package jp.btsol.mahjong.application.service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +10,14 @@ import javax.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.application.fw.exception.DataNotFoundException;
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Passwd;
+import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerRegistration;
@@ -124,5 +127,22 @@ public class PlayerService {
         baseRepository.insert(passwd);
 
         return baseRepository.findById(playerId, Player.class);
+    }
+
+    public void createNewToken(PersistentRememberMeToken token) {
+        PersistentLogins login = new PersistentLogins();
+        login.setLoginId(token.getUsername());
+        login.setSeries(token.getSeries());
+        login.setToken(token.getTokenValue());
+        login.setLastUsed(new Timestamp(token.getDate().getTime()));
+        baseRepository.insert(login);
+    }
+
+    public void updateToken(PersistentRememberMeToken token) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("series", token.getSeries());
+        param.put("token", token.getTokenValue());
+        param.put("lastUsed", new Timestamp(token.getDate().getTime()));
+        baseRepository.update("update persistent_logins set series=:series, token=:token, last_used=:lastUsed", param);
     }
 }
