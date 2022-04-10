@@ -216,6 +216,7 @@ public class MahjongConfigBean {
             names.add("java.math.BigDecimal");
             names.add("java.sql.Timestamp");
             names.add("org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken");
+            names.add("java.sql.Date");
             ALLOWLIST_CLASS_NAMES = Collections.unmodifiableSet(names);
         }
 

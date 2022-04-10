@@ -8,17 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import jp.btsol.mahjong.application.service.MahjongService;
+import jp.btsol.mahjong.application.service.MahjongNoticeService;
 
 @SpringBootTest("service.message=Hello")
-public class MahjongServiceTest {
+public class MahjongNoticeServiceTest {
 
   @Autowired
-  private MahjongService myService;
+  private MahjongNoticeService myService;
 
   @Test
   public void contextLoads() {
-    assertThat(myService.message()).isNotNull();
+    assertThat(myService.messages()).isNotNull();
   }
 
   @SpringBootApplication

@@ -106,9 +106,25 @@ create table passwd(
 );
 -- alter table passwd modify password varchar(256) not null;
 
-CREATE TABLE PERSISTENT_LOGINS (
+CREATE TABLE persistent_logins (
     login_id  VARCHAR(64) NOT NULL,
-    SERIES    VARCHAR(64) NOT NULL PRIMARY KEY,
-    TOKEN     VARCHAR(64) NOT NULL,
-    LAST_USED TIMESTAMP   NOT NULL
+    series    VARCHAR(64) NOT NULL PRIMARY KEY,
+    token     VARCHAR(64) NOT NULL,
+    last_used TIMESTAMP   NOT NULL
 );
+
+drop table notice cascade;
+create table notice(
+    notice_id bigint not null AUTO_INCREMENT PRIMARY KEY,
+    title varchar(200) not null,
+    detail varchar(5000) not null,
+    start_date date not null,
+    end_date date,
+    deleted_flg boolean DEFAULT false NOT NULL,
+    created_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_user varchar(20) NOT NULL,
+    updated_timestamp timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    updated_user varchar(20) NOT NULL
+);
+
+insert into notice (title, detail, start_date, created_user, updated_user) values ('notice', 'notice detail', '2022-04-10', 'SE', 'SE');

@@ -1,11 +1,13 @@
 package jp.btsol.mahjong.application;
 
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.btsol.mahjong.application.service.MahjongService;
+import jp.btsol.mahjong.application.service.MahjongNoticeService;
 import jp.btsol.mahjong.model.Message;
 
 /**
@@ -20,15 +22,15 @@ public class MahjongApplication {
     /**
      * service
      */
-    private final MahjongService mahjongService;
+    private final MahjongNoticeService mahjongNoticeService;
 
     /**
      * Constructor
      * 
-     * @param mahjongService MahjongService
+     * @param mahjongNoticeService MahjongNoticeService
      */
-    public MahjongApplication(MahjongService mahjongService) {
-        this.mahjongService = mahjongService;
+    public MahjongApplication(MahjongNoticeService mahjongNoticeService) {
+        this.mahjongNoticeService = mahjongNoticeService;
     }
 
     /**
@@ -37,8 +39,8 @@ public class MahjongApplication {
      * @return String
      */
     @GetMapping("/")
-    public Message home() {
-        return mahjongService.message();
+    public List<Message> messages() {
+        return mahjongNoticeService.messages();
     }
 
     /**
