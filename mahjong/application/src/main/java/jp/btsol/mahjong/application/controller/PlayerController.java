@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.application.service.PlayerService;
+import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerRegistration;
@@ -82,6 +84,31 @@ public class PlayerController {
     public void updateToken(@Valid // validate annotation
     @RequestBody(required = true) PersistentRememberMeToken persistentRememberMeToken) {
         playerService.updateToken(persistentRememberMeToken);
+    }
+
+    /**
+     * get token
+     * 
+     * @param series String
+     * @return PersistentRememberMeToken
+     */
+    @GetMapping(value = "/token/get", produces = {"application/json"})
+    public PersistentRememberMeToken getToken(@Valid // validate annotation
+    @RequestParam(required = true) String series) {
+        PersistentLogins persistentLogin = playerService.getToken(series);
+        return new PersistentRememberMeToken(persistentLogin.getLoginId(), persistentLogin.getSeries(),
+                persistentLogin.getToken(), persistentLogin.getLastUsed());
+    }
+
+    /**
+     * delete token
+     * 
+     * @param loginId String
+     */
+    @DeleteMapping(value = "/token/delete", produces = {"application/json"}, consumes = {"application/json"})
+    public void deleteToken(@Valid // validate annotation
+    @RequestParam(required = true) String loginId) {
+        playerService.deleteToken(loginId);
     }
 
     /**

@@ -2,13 +2,13 @@ package jp.btsol.mahjong.web.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -123,12 +123,10 @@ public class PlayerService implements UserDetailsService {
         mahjongRestTemplate.post(url, token);
     }
 
-    public void updateToken(String series, String tokenValue, Date lastUsed) {
+    public void updateToken(String loginId, String series, String tokenValue, Date lastUsed) {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getUpdateToken();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String loginId = (String) auth.getPrincipal();
         PersistentRememberMeToken token = new PersistentRememberMeToken(loginId, series, tokenValue, lastUsed);
         mahjongRestTemplate.put(url, token);
     }
@@ -136,8 +134,10 @@ public class PlayerService implements UserDetailsService {
     public PersistentRememberMeToken getTokenForSeries(String series) {
         final String endpoint = applicationProperties.getUri();
 
-        final String url = endpoint + applicationProperties.getPath().getTokenForSeries() + "?series=" + series;
-        return mahjongRestTemplate.get(url, PersistentRememberMeToken.class);
+        final String url = endpoint + applicationProperties.getPath().getTokenForSeries();
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("series", series);
+        return mahjongRestTemplate.get(url, param, PersistentRememberMeToken.class);
     }
 
     public void removeUserTokens(String username) {

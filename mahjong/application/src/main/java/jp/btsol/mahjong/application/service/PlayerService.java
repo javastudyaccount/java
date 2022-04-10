@@ -143,6 +143,22 @@ public class PlayerService {
         param.put("series", token.getSeries());
         param.put("token", token.getTokenValue());
         param.put("lastUsed", new Timestamp(token.getDate().getTime()));
-        baseRepository.update("update persistent_logins set series=:series, token=:token, last_used=:lastUsed", param);
+        param.put("loginId", token.getUsername());
+        baseRepository.update(
+                "update persistent_logins set series=:series, token=:token, last_used=:lastUsed where login_id = :loginId",
+                param);
+    }
+
+    public PersistentLogins getToken(String series) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("series", series);
+        return baseRepository.findForObject("select * from persistent_logins where series=:series", param,
+                PersistentLogins.class);
+    }
+
+    public void deleteToken(String loginId) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("loginId", loginId);
+        baseRepository.update("delete from persistent_logins where login_id=:loginId", param);
     }
 }
