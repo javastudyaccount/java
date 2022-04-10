@@ -104,4 +104,11 @@ create table passwd(
     updated_user varchar(20) NOT NULL,
     PRIMARY KEY (player_id)
 );
+-- alter table passwd modify password varchar(256) not null;
 
+CREATE TABLE PERSISTENT_LOGINS (
+    login_id  VARCHAR(64) NOT NULL,
+    SERIES    VARCHAR(64) NOT NULL PRIMARY KEY,
+    TOKEN     VARCHAR(64) NOT NULL,
+    LAST_USED TIMESTAMP   NOT NULL
+);

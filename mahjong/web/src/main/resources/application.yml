@@ -10,6 +10,10 @@ application:
     players: /player/all
     createPlayer: /player/new
     playerAuthentication: /player/authentication
+    createToken: /token/new
+    updateToken: /token/update
+    tokenForSeries: /token/get
+    removeToken: /token/delete
 spring:
   thymeleaf:
     check-template-location: true

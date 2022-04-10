@@ -48,5 +48,21 @@ public class ApplicationProperties {
          * player authentication
          */
         private String playerAuthentication;
+        /**
+         * new token
+         */
+        private String createToken;
+        /**
+         * update token
+         */
+        private String updateToken;
+        /**
+         * get token for series
+         */
+        private String tokenForSeries;
+        /**
+         * remove token for logid_id
+         */
+        private String removeToken;
     }
 }

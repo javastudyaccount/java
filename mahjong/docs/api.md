@@ -1,4 +1,34 @@
 ![](image/api/1648043814429.png)
+
+![](image/api/1648262137040.png)
+
+###
+http://localhost:8088/v1/token/get?series=isI6nqeG+s+7vgpy73GbLQ==
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+request-id: test-from-vscode
+content-type: application/json
+
+
+###
+http://localhost:8088/v1/token/get?series=isI6nqeG%2Bs%2B7vgpy73GbLQ==
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+request-id: test-from-vscode
+content-type: application/json
+
+###
+
+post http://localhost:8088/v1/shuffled
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+request-id: test-from-vscode
+content-type: application/json
+
+{"@class": "jp.btsol.mahjong.model.GameId","gameId": "1"}
+
+###
+
+http://localhost:8088/v1/hands
+x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+
 ###
 
 http://localhost:8088/v1/player/all
@@ -28,7 +58,7 @@ x-mahjong-user:eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiL
 request-id:new
 Content-Type:application/json
 
-{"playerId":0, "nickname":"player7", "deletedFlg":false, "createdTimestamp":null, "createdUser":null, "updatedTimestamp":null, "updatedUser":null}
+{"@class":"", jp.btsol.mahjong.model.PlayerRegistration"playerId":0, "nickname":"player7", "deletedFlg":false, "createdTimestamp":null, "createdUser":null, "updatedTimestamp":null, "updatedUser":null}
 
 ###
 
@@ -56,7 +86,7 @@ x-mahjong-user:eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiL
 request-id:new
 Content-Type:application/json
 
-{"@class": "jp.btsol.mahjong.model.Nickname","nickname":""}
+{"@class": "jp.btsol.mahjong.model.Nickname","nickname":"ddd"}
 
 ###
 
@@ -125,7 +155,7 @@ x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUi
 request-id: test-from-vscode
 content-type: application/json
 
-{"roomName": "testroom1"}
+{"@class":"jp.btsol.mahjong.model.RoomName","roomName": "testroom4"}
 
 ###
 

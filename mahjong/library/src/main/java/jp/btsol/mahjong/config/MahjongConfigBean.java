@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.FieldError;
 
@@ -57,6 +58,7 @@ import jp.btsol.mahjong.mixin.KotsuMixin;
 import jp.btsol.mahjong.mixin.MentsuCompMixin;
 import jp.btsol.mahjong.mixin.MentsuMixin;
 import jp.btsol.mahjong.mixin.NodeImplMixin;
+import jp.btsol.mahjong.mixin.PersistentRememberMeTokenMixin;
 import jp.btsol.mahjong.mixin.ResolvableAttributeMixin;
 import jp.btsol.mahjong.mixin.ShuntsuMixin;
 import jp.btsol.mahjong.mixin.ToitsuMixin;
@@ -143,6 +145,7 @@ public class MahjongConfigBean {
         om.addMixIn(ConstraintViolationImpl.class, ConstraintViolationImplMixin.class);
         om.addMixIn(NodeImpl.class, NodeImplMixin.class);
         om.addMixIn(FieldError.class, FieldErrorMixin.class);
+        om.addMixIn(PersistentRememberMeToken.class, PersistentRememberMeTokenMixin.class);
 
         om.setVisibility(com.fasterxml.jackson.annotation.PropertyAccessor.ALL,
                 com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE);
@@ -212,6 +215,7 @@ public class MahjongConfigBean {
             names.add("com.github.pagehelper.PageInfo");
             names.add("java.math.BigDecimal");
             names.add("java.sql.Timestamp");
+            names.add("org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken");
             ALLOWLIST_CLASS_NAMES = Collections.unmodifiableSet(names);
         }
 
