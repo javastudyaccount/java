@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import jp.btsol.mahjong.model.Message;
 import jp.btsol.mahjong.web.service.HomeService;
@@ -32,6 +33,19 @@ public class HomeController {
      */
     @GetMapping("/")
     public String home(Model model) {
+        List<Message> messages = homeService.getMessages();
+        model.addAttribute("messages", messages);
+        return "home";
+    }
+
+    /**
+     * show home message
+     * 
+     * @param model Model
+     * @return String home template
+     */
+    @PostMapping("/")
+    public String postHome(Model model) {
         List<Message> messages = homeService.getMessages();
         model.addAttribute("messages", messages);
         return "home";

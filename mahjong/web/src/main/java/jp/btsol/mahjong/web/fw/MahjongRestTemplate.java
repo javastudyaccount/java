@@ -239,7 +239,8 @@ public class MahjongRestTemplate {
      * @throws RuntimeException 業務例外
      */
     public void delete(String path) throws RuntimeException {
-        RequestEntity<?> request = createRequest(path, RequestEntity.delete(path)).build();
+        RequestEntity<?> request = createRequest(path, RequestEntity.delete(path))
+                .header("request-id", path.replaceAll(".*/", "").replaceAll("\\?.*", "")).build();
         restTemplate.exchange(request, Void.class);
     }
 

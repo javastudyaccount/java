@@ -1,17 +1,47 @@
+[Broswer]
+http://localhost:8089
+==> Home
+
 [Home]
-welcome
-news
+notices
 --
+click login
+==> Login
 click signin
 ==> SignIn
 
 [SignIn]
+loginId
+nickname
+password
 --
-submit
-==> Dashboard
+Sign in
+==> Login
+Login
+==> Login
 
-[Dashboard]
-inbox
+[Login]
+loginId
+password
+remember me
 --
-click signout
+Login
+==> Players
+Signin
+==> SignIn
+
+[Players]
+list of players
+--
+click logout
 ==> Home
+close browser
+==> Close browser
+
+[Close browser]
+open browser
+==> New browser
+
+[New browser]
+/players
+==> Players
