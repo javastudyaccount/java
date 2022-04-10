@@ -73,6 +73,7 @@ chcp.com 932
    [Shuffling video](media/shuffling.mp4)
    [Dicing video](media/dice.mp4)
 
+
 ### Start web and application 
 `cd /c/app/java/mahjong`
 `chcp.com 932`
