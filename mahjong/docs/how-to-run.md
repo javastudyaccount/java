@@ -44,17 +44,35 @@ chcp.com 932
     "patterns" : [ "/" ],
     </pre>
 16. Test a api
+
+   *Authentication header is required.*
+   - VSCode:
+   Use Rest Client plugin to send following request.
+   ```
    http://localhost:8088/v1/hands
-   ![](image/Mahjiang/1644673441779.png)   
-17. Run web
+   x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
+   ```
+
+   Response:
+   
+   HTTP/1.1 200 
+   ...(omitted)
+
+   - Advanced REST client for Chrome
+   ![](image/how-to-run/1649557941120.png)
+1.  Run web
    ![](image/Mahjiang/1644649194603.png)
 18. Web started at port 8089
    ![](image/Mahjiang/1644649247875.png)   
 19. Test a web page
+
+   *Login is required*
+   You can sign in first.
    http://localhost:8089/hands
    ![](image/Mahjiang/1644673492424.png)
    [Shuffling video](media/shuffling.mp4)
    [Dicing video](media/dice.mp4)
+
 
 ### Start web and application 
 `cd /c/app/java/mahjong`

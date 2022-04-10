@@ -34,3 +34,7 @@ img {
 .dice_s{background-position:-5px -763px}
 .dice_e{background-position:-5px -876px}
 #dice_mask{width:90px; height:90px; background:#fff; opacity:0; position:absolute; top:0; left:0; z-index:999}
+
+span.hint-required{
+	color:red
+}

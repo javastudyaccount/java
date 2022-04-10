@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.stereotype.Service;
 
@@ -35,10 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class PlayerService {
     /**
-     * passwordEncoder PasswordEncoder
-     */
-    private final PasswordEncoder passwordEncoder;
-    /**
      * baseRepository
      */
     private final BaseRepository baseRepository;
@@ -46,12 +41,10 @@ public class PlayerService {
     /**
      * Constructor
      * 
-     * @param baseRepository  BaseRepository
-     * @param passwordEncoder PasswordEncoder
+     * @param baseRepository BaseRepository
      */
-    public PlayerService(BaseRepository baseRepository, PasswordEncoder passwordEncoder) {
+    public PlayerService(BaseRepository baseRepository) {
         this.baseRepository = baseRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
