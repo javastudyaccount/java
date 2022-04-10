@@ -16,7 +16,7 @@
     Login ID:
 </td>
 <td>
-    <input type="text" th:field="*{loginId}" maxlength=8>
+    <input type="text" th:field="*{loginId}" maxlength=8><span class="hint-required">*8 letters, digits or symbols</span>
 </td>
 </tr>
 <tr>
@@ -24,7 +24,7 @@
    	Player's nickname:
 </td>
 <td>
-    <input type="text" th:field="*{nickname}" maxlength=20>
+    <input type="text" th:field="*{nickname}" maxlength=20><span class="hint-required">*not empty, up to 20 letters, digits or symbols</span>
 </td>
 </tr>
 <tr>
@@ -32,7 +32,7 @@
    	password:
 </td>
 <td>
-    <input type="password" th:field="*{password}" maxlength=16>
+    <input type="password" th:field="*{password}" maxlength=16><span class="hint-required">*8 to 16 letters, digits or symbols</span>
 </td>
 </tr>
 </table>

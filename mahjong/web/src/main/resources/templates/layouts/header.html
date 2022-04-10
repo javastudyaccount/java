@@ -14,7 +14,7 @@
                 </span>
                 
                 <span sec:authorize="isAuthenticated()">
-                <form id="formLogout" method="post" th:action="@{/logout}">
+                <form style="display: inline" id="formLogout" method="post" th:action="@{/logout}">
                 <button style="float: right;">Logout</button>
                 </form>
                 </span>
