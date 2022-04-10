@@ -1,5 +1,8 @@
 package jp.btsol.mahjong.web.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
@@ -39,11 +42,11 @@ public class HomeService {
     /**
      * get home message
      * 
-     * @return String
+     * @return List<Message>
      */
-    public Message getHomeMessage() {
+    public List<Message> getMessages() {
         String path = applicationProperties.getUri() + applicationProperties.getPath().getHome();
-        return restTemplate.get(path, Message.class);
+        return restTemplate.get(path, ArrayList.class);
     }
 
     /**

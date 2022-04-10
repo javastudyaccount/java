@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +32,8 @@ public class HomeController {
      */
     @GetMapping("/")
     public String home(Model model) {
-        Message message = homeService.getHomeMessage();
-        model.addAttribute("message", message.getMessage());
+        List<Message> messages = homeService.getMessages();
+        model.addAttribute("messages", messages);
         return "home";
     }
 }
