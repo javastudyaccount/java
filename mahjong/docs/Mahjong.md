@@ -1,4 +1,5 @@
- [mahjong4j github](https://github.com/mahjong4j/mahjong4j.git)
+[mahjong4j github](https://github.com/mahjong4j/mahjong4j.git)
+[Java study](https://github.com/javastudyaccount/java)
 
 ## Beginner
 Make mvn project with multiple modules

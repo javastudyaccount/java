@@ -20,19 +20,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     /**
      * service PlayerService
      */
-    @Autowired
-    private PlayerService service;
+    private final PlayerService service;
     /**
      * passwordEncoder PasswordEncoder
      */
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * rememberMeTokenRepositoryImpl RememberMeTokenRepositoryImpl
      */
+    private final RememberMeTokenRepositoryImpl rememberMeTokenRepositoryImpl;
+
     @Autowired
-    RememberMeTokenRepositoryImpl rememberMeTokenRepositoryImpl;
+    public SecurityConfiguration(PlayerService service, PasswordEncoder passwordEncoder,
+            RememberMeTokenRepositoryImpl rememberMeTokenRepositoryImpl) {
+        this.service = service;
+        this.passwordEncoder = passwordEncoder;
+        this.rememberMeTokenRepositoryImpl = rememberMeTokenRepositoryImpl;
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -82,12 +87,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // フォームの値と比較するDBから取得したパスワードは暗号化されているのでフォームの値も暗号化するために利用
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//
-//        auth.userDetailsService(service).passwordEncoder(encoder);
-
         auth.userDetailsService(service).passwordEncoder(passwordEncoder);
     }
-
 }

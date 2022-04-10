@@ -32,6 +32,7 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.FieldError;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -306,5 +307,10 @@ public class MahjongConfigBean {
 
         PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder(idForEncode, encoders);
         return passwordEncoder;
+    }
+
+    @Bean
+    public SpringSecurityDialect springSecurityDialect() {
+        return new SpringSecurityDialect();
     }
 }

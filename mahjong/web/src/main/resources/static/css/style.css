@@ -38,3 +38,6 @@ img {
 span.hint-required{
 	color:red
 }
+.button-right{
+	float: right;
+}
