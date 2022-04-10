@@ -69,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 // ログアウト時の遷移先 POSTでアクセス
-                .logoutSuccessUrl("/afterLogout")//
+                .logoutSuccessUrl("/")//
                 .and()//
                 .rememberMe() // ログイン状態を保持する
 //                .tokenValiditySeconds(604800) //秒数。デフォルトでは前回のアクセスから 2 週間は 有効です。

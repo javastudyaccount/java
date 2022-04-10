@@ -105,7 +105,7 @@ public class PlayerController {
      * 
      * @param loginId String
      */
-    @DeleteMapping(value = "/token/delete", produces = {"application/json"}, consumes = {"application/json"})
+    @DeleteMapping(value = "/token/delete", produces = {"application/json"})
     public void deleteToken(@Valid // validate annotation
     @RequestParam(required = true) String loginId) {
         playerService.deleteToken(loginId);
