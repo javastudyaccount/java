@@ -1,28 +1,32 @@
-<html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}">
+
 <head>
-<meta charset="UTF-8">
-<title>Mahjong</title>
+  <meta charset="UTF-8">
+  <title>Mahjong</title>
 </head>
+
 <body>
-<h1>Hello Mahjong</h1>
-<div layout:fragment="content">
-<div>Notices</div>
-<table class="tbtest" border="1">
-<tr>
-<th>Start Date</th>
-<th>Title</th>
-<th>Detail</th>
-</tr>
-<tr th:each="message : ${messages}">
-<td th:text="${message.startDate}" class="tdtest"></td>
-  <td th:text="${message.title}" class="tdtest"></td>
-  <td th:text="${message.detail}" class="tdtest"></td>
-</tr>
-</table>
-<a href="/login">Login</a><br/>
-<a href="/signin">Signin as a new player</a>
-</div>
+  <h1>Hello Mahjong</h1>
+  <div layout:fragment="content">
+    <div>Notices</div>
+    <table class="tbtest" border="1">
+      <tr>
+        <th>Start Date</th>
+        <th>Title</th>
+        <th>Detail</th>
+      </tr>
+      <tr th:each="message : ${messages}">
+        <td th:text="${message.startDate}" class="tdtest"></td>
+        <td th:text="${message.title}" class="tdtest"></td>
+        <td th:text="${message.detail}" class="tdtest"></td>
+      </tr>
+    </table>
+    <div sec:authorize="!isAuthenticated()">
+      <a href="/login">Login</a><br />
+      <a href="/signin">Signin as a new player</a>
+    </div>
+  </div>
 </body>
+
 </html>

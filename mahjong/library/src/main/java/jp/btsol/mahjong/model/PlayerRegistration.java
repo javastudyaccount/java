@@ -27,6 +27,6 @@ public class PlayerRegistration {
      * password
      */
     @NotBlank
-    @Size(min = 8, max = 16)
+//    @Size(min = 8, max = 16)
     private String password;
 }
