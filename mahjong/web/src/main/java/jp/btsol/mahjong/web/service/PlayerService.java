@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -67,7 +69,7 @@ public class PlayerService implements UserDetailsService {
      * @return List<Player>
      */
     public List<Player> getPlayers() {
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getPlayers();
@@ -123,11 +125,11 @@ public class PlayerService implements UserDetailsService {
         mahjongRestTemplate.post(url, token);
     }
 
-    public void updateToken(String loginId, String series, String tokenValue, Date lastUsed) {
+    public void updateToken(String series, String tokenValue, Date lastUsed) {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getUpdateToken();
-        PersistentRememberMeToken token = new PersistentRememberMeToken(loginId, series, tokenValue, lastUsed);
+        PersistentRememberMeToken token = new PersistentRememberMeToken("", series, tokenValue, lastUsed);
         mahjongRestTemplate.put(url, token);
     }
 

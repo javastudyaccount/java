@@ -136,9 +136,7 @@ public class PlayerService {
         param.put("series", token.getSeries());
         param.put("token", token.getTokenValue());
         param.put("lastUsed", new Timestamp(token.getDate().getTime()));
-        param.put("loginId", token.getUsername());
-        baseRepository.update(
-                "update persistent_logins set series=:series, token=:token, last_used=:lastUsed where login_id = :loginId",
+        baseRepository.update("update persistent_logins set token=:token, last_used=:lastUsed where series = :series",
                 param);
     }
 

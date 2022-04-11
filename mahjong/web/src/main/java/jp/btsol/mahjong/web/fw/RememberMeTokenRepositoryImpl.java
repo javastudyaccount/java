@@ -37,6 +37,12 @@ public class RememberMeTokenRepositoryImpl implements PersistentTokenRepository 
 
     @Override
     public void updateToken(String series, String tokenValue, Date lastUsed) {
+//        PersistentRememberMeToken token = getUser();
+
+        playerService.updateToken(series, tokenValue, lastUsed);
+    }
+
+    public PersistentRememberMeToken getUser() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         String rememberMeCookie = Utils.extractCookie(request, COOKIE_NAME);
@@ -52,8 +58,7 @@ public class RememberMeTokenRepositoryImpl implements PersistentTokenRepository 
             // No series match, so we can't authenticate using this cookie
             throw new RememberMeAuthenticationException("No persistent token found for series id: " + presentedSeries);
         }
-
-        playerService.updateToken(token.getUsername(), series, tokenValue, lastUsed);
+        return token;
     }
 
     @Override

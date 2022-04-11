@@ -26,7 +26,12 @@
       <a href="/login">Login</a><br />
       <a href="/signin">Signin as a new player</a>
     </div>
-  </div>
+
+    <div sec:authorize="isAuthenticated()">
+      <a href="/rooms">Rooms</a><br />
+      <a href="/players">Players</a>
+    </div>
+   </div>
 </body>
 
 </html>

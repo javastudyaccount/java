@@ -1,28 +1,26 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Players</title>
+<title>Rooms</title>
 </head>
 <body>
-<h1>Players</h1>
+<h1>Rooms</h1>
 <div layout:fragment="content">
-<table>
-<tr th:each="player, playerStat: ${players}">
+<table style="width:100%">
+<tr>
 <td>
-   	<span th:text="${player.playerId}">
+   	<span th:text="${room.roomId}">
    	</span>
 </td>
 <td>
-    <span th:text="${player.nickname}">
+    <span th:text="${room.roomName}">
     </span>
 </td>
 </tr>
 </table>
-
-      <a href="/rooms">Rooms</a><br />
+      <a href="/players">Players</a>
 </div>
 </body>
 </html>
