@@ -73,25 +73,7 @@ chcp.com 932
    [Shuffling video](media/shuffling.mp4)
    [Dicing video](media/dice.mp4)
 
-```uiflow
-[Home]
-welcome
-news
---
-click signin
-==> SignIn
-
-[SignIn]
---
-submit
-==> Dashboard
-
-[Dashboard]
-inbox
---
-click signout
-==> Home
-```
+[uiflow](./uiflow.uif)
 
 ### Start web and application 
 `cd /c/app/java/mahjong`

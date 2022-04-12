@@ -161,3 +161,5 @@ https://qiita.com/d-yosh/items/bb52152318391e5e07aa
 ### JavaでAES（ECB／CBC）を使う
 https://kazuhira-r.hatenablog.com/entry/2021/01/10/200607
 
+### Spring Bootでリダイレクト先のURLを組み立てる
+https://qiita.com/rubytomato@github/items/8d132dec042f695e50f6

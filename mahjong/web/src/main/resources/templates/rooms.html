@@ -8,7 +8,7 @@
 <body>
 <h1>Rooms</h1>
 <div layout:fragment="content">
-<table>
+<table style="width:100%">
 <tr th:each="room, roomStat: ${rooms}">
 <td>
    	<span th:text="${room.roomId}">
@@ -18,8 +18,15 @@
     <span th:text="${room.roomName}">
     </span>
 </td>
+<td>
+    <form style="display: inline" id="formEnterRoom" method="post" th:action="@{/enterRoom}">
+    <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
+    <button class="button-right">Enter</button>
+    </form>
+</td>
 </tr>
 </table>
+      <a href="/players">Players</a>
 </div>
 </body>
 </html>
