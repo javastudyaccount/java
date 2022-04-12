@@ -14,6 +14,7 @@
                 </span>
                 
                 <span sec:authorize="isAuthenticated()">
+                <span th:text="${#authentication.getPrincipal().getNickname()}"></span>
                 <form style="display: inline" id="formLogout" method="post" th:action="@{/logout}">
                 <button class="button-right">Logout</button>
                 </form>

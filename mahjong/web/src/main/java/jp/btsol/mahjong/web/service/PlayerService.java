@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +19,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentReme
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.MahjongUser;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
@@ -111,10 +111,10 @@ public class PlayerService implements UserDetailsService {
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         GrantedAuthority authority = new SimpleGrantedAuthority("USER");
         grantList.add(authority);
-
-        UserDetails userDetails = (UserDetails) new User(playerAuthentication.getLoginId(),
-                playerAuthentication.getPassword(), grantList);
-
+        MahjongUser mahjongUser = new MahjongUser(playerAuthentication.getLoginId(), playerAuthentication.getPassword(),
+                grantList);
+        UserDetails userDetails = (UserDetails) mahjongUser;
+        mahjongUser.setNickname(playerAuthentication.getNickname());
         return userDetails;
     }
 
