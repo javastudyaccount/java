@@ -42,6 +42,13 @@ public class RoomService {
     }
 
     /**
+     * enter room
+     * 
+     */
+    public void enterRoom(long roomId) {
+    }
+
+    /**
      * insert room
      * 
      * @param roomName String

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.application.service.RoomService;
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.model.RoomId;
 import jp.btsol.mahjong.model.RoomName;
 
 /**
@@ -47,6 +48,16 @@ public class RoomController {
     @GetMapping("/all")
     public List<Room> getRooms() {
         return roomService.getRooms();
+    }
+
+    /**
+     * enter room
+     * 
+     * @param roomId RoomId
+     */
+    @PostMapping("/enter")
+    public void enterRoom(@Valid @RequestBody(required = true) RoomId roomId) {
+        roomService.enterRoom(roomId.getRoomId());
     }
 
     /**

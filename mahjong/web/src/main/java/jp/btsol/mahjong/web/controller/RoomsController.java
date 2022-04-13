@@ -66,7 +66,7 @@ public class RoomsController {
     @PostMapping("/enterRoom")
     public String enterRoom(@Valid @RequestParam long roomId) {
         log.info("roomId: {}", roomId);
-//      roomService.enterRoom(roomId);
+        roomService.enterRoom(roomId);
 
         UriComponents uriComponents = MvcUriComponentsBuilder
                 .fromMethodName(RoomsController.class, "room", Model.class, roomId).build();

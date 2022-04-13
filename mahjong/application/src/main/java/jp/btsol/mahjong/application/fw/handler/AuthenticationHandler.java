@@ -6,13 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mahjong4j.Utils;
-import org.mahjong4j.XMahjongUser;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import jp.btsol.mahjong.model.MahjongAuthenticationHeader;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -41,9 +41,9 @@ public class AuthenticationHandler implements HandlerInterceptor {
                     throw new PreAuthenticatedCredentialsNotFoundException(X_MAHJONG_USER + "ヘッダが認識できませんでした。");
                 }
                 try {
-                    XMahjongUser mahjongUser = Utils.parseXMahjongUser(mahjongUserStr);
-                    log.info("sub:{} , url:{} , method:{}", mahjongUser.getSub(), request.getServletPath(),
-                            request.getMethod());
+                    MahjongAuthenticationHeader header = Utils.parseXMahjongUser(mahjongUserStr);
+                    log.info("sub:{} , iss:{}, loginId:{}, url:{} , method:{}", header.getSub(), header.getIss(),
+                            header.getLoginId(), request.getServletPath(), request.getMethod());
                     return true;
                 } catch (JSONException e) {
                     log.error("パースに失敗しました。：" + mahjongUserStr);

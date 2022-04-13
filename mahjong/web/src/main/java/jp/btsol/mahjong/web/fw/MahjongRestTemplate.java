@@ -5,8 +5,10 @@ package jp.btsol.mahjong.web.fw;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,13 +18,19 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.RequestEntity.BodyBuilder;
 import org.springframework.http.RequestEntity.HeadersBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.btsol.mahjong.model.MahjongAuthenticationHeader;
+import jp.btsol.mahjong.model.MahjongUser;
+import jp.btsol.mahjong.web.service.ApplicationProperties;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -34,6 +42,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class MahjongRestTemplate {
+    /**
+     * application properties
+     */
+    private final ApplicationProperties applicationProperties;
     /** ヘッダのキー(x-mahjong-user) */
     private static final String X_MAHJONG_USER = "x-mahjong-user";
     /** ヘッダのキー(request-id) */
@@ -48,9 +60,11 @@ public class MahjongRestTemplate {
 
     @Autowired
     public MahjongRestTemplate(RestTemplate restTemplate, //
-            ObjectMapper om) {
+            ObjectMapper om, //
+            ApplicationProperties applicationProperties) {
         this.restTemplate = restTemplate;
         this.om = om;
+        this.applicationProperties = applicationProperties;
     }
 
     /**
@@ -265,9 +279,23 @@ public class MahjongRestTemplate {
      * @return header リクエストヘッダ
      */
     private BodyBuilder createRequest(String path, BodyBuilder header) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MahjongAuthenticationHeader mahjongHeader = new MahjongAuthenticationHeader();
+        mahjongHeader.setSub(applicationProperties.getSub());
+        mahjongHeader.setIss(applicationProperties.getIss());
+        mahjongHeader.setLoginId(applicationProperties.getLoginId());
+        if (Objects.nonNull(authentication)) {
+            String loginId = ((MahjongUser) authentication.getPrincipal()).getUsername();
+            mahjongHeader.setLoginId(loginId);
+        }
+        String mahjongUser = "";
+        try {
+            mahjongUser = new String(Base64.encodeBase64(om.writeValueAsBytes(mahjongHeader)));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         // キーの設定
-        header.header(X_MAHJONG_USER,
-                "eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=");
+        header.header(X_MAHJONG_USER, mahjongUser);
         header.header("request-id", path.replaceAll(".*/", ""));
         return header;
     }
