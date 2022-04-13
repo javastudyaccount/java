@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,12 +25,18 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class RoomService {
     /**
+     * userContext アプリユーザー情報コンテキスト
+     */
+    private final UserContext userContext;
+    /**
      * baseRepository
      */
     private final BaseRepository baseRepository;
 
-    public RoomService(BaseRepository baseRepository) {
+    public RoomService(BaseRepository baseRepository, //
+            UserContext userContext) {
         this.baseRepository = baseRepository;
+        this.userContext = userContext;
     }
 
     /**
@@ -44,8 +51,12 @@ public class RoomService {
     /**
      * enter room
      * 
+     * @param roomId long
+     * 
      */
     public void enterRoom(long roomId) {
+        log.info("player id {}", userContext.playerId());
+
     }
 
     /**

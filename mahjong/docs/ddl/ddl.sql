@@ -128,3 +128,18 @@ create table notice(
 );
 
 insert into notice (title, detail, start_date, created_user, updated_user) values ('notice', 'notice detail', '2022-04-10', 'SE', 'SE');
+
+drop table room_player cascade;
+create table room_player(
+    long room_id,
+    long player_id,
+    long role,
+    deleted_flg boolean DEFAULT false NOT NULL,
+    created_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_user varchar(20) NOT NULL,
+    updated_timestamp timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    updated_user varchar(20) NOT NULL,
+    PRIMARY KEY (room_id, player_id)
+);
+
+

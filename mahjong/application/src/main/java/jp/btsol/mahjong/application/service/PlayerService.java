@@ -57,6 +57,18 @@ public class PlayerService {
     }
 
     /**
+     * get player
+     * 
+     * @param loginId String
+     * @return Player
+     */
+    public Player getPlayer(String loginId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("loginId", loginId);
+        return baseRepository.findForObject("select * from player where login_id = :loginId", param, Player.class);
+    }
+
+    /**
      * get player authentication
      * 
      * @param loginId String
