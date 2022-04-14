@@ -54,9 +54,7 @@ public class BaseRepository {
      * @return 検索結果
      */
     public <T> T findForObject(String sql, Class<T> clazz) {
-        if (log.isDebugEnabled()) {
-            log.debug(sql.toString());
-        }
+        sqlPrint(sql, null);
         return template.queryForObject(sql, new HashMap<String, Object>(), new BeanPropertyRowMapper<T>(clazz));
     }
 
@@ -69,11 +67,8 @@ public class BaseRepository {
      * @param clazz 返却カラム型
      * @return 検索結果
      */
-    public <T> T findForObject(String sql, Map<String, Object> param, Class<T> clazz) {
-        if (log.isDebugEnabled()) {
-            log.debug(sql.toString());
-            log.debug("PARAM:" + param.toString());
-        }
+    public <T> T findForObject(String sql, MapSqlParameterSource param, Class<T> clazz) {
+        sqlPrint(sql, param);
         return template.queryForObject(sql, param, new BeanPropertyRowMapper<T>(clazz));
     }
 
@@ -86,9 +81,7 @@ public class BaseRepository {
      * @return 検索結果
      */
     public <T> List<T> findForList(String sql, Class<T> clazz) {
-        if (log.isDebugEnabled()) {
-            log.debug(sql.toString());
-        }
+        sqlPrint(sql, null);
         return template.query(sql, new HashMap<String, Object>(), new BeanPropertyRowMapper<T>(clazz));
     }
 
@@ -101,11 +94,8 @@ public class BaseRepository {
      * @param clazz 返却カラム型
      * @return 検索結果
      */
-    public <T> List<T> findForList(String sql, Map<String, Object> param, Class<T> clazz) {
-        if (log.isDebugEnabled()) {
-            log.debug(sql.toString());
-            log.debug("PARAM:" + param.toString());
-        }
+    public <T> List<T> findForList(String sql, MapSqlParameterSource param, Class<T> clazz) {
+        sqlPrint(sql, param);
         return template.query(sql, param, new BeanPropertyRowMapper<T>(clazz));
     }
 
@@ -116,11 +106,8 @@ public class BaseRepository {
      * @param param パラメータ
      * @return 結果
      */
-    public int update(String sql, Map<String, Object> param) {
-        if (log.isDebugEnabled()) {
-            log.info(sql.toString());
-            log.debug("PARAM:" + param.toString());
-        }
+    public int update(String sql, MapSqlParameterSource param) {
+        sqlPrint(sql, param);
         return template.update(sql, param);
     }
 
@@ -131,9 +118,7 @@ public class BaseRepository {
      * @return 結果
      */
     public int update(String sql) {
-        if (log.isDebugEnabled()) {
-            log.debug(sql.toString());
-        }
+        sqlPrint(sql, null);
         return template.update(sql, new HashMap<String, Object>());
     }
 
@@ -145,9 +130,7 @@ public class BaseRepository {
      * @return 更新件数
      */
     public int[] batchUpdate(String sql, SqlParameterSource[] batchArgs) {
-        if (log.isDebugEnabled()) {
-            log.debug(sql.toString());
-        }
+        sqlPrint(sql, (MapSqlParameterSource) batchArgs[0]);
         return template.batchUpdate(sql, batchArgs);
     }
 
@@ -226,6 +209,7 @@ public class BaseRepository {
         sql.append(String.join(", ", paramNames));
         sql.append(")");
 
+        sqlPrint(sql.toString(), null);
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(template.getJdbcTemplate().getDataSource());
         if (!StringUtils.isEmpty(pk)) {
             jdbcInsert.withTableName(tableName).usingGeneratedKeyColumns(pk);
@@ -310,6 +294,7 @@ public class BaseRepository {
         sql.append(String.join(", ", paramNames));
         sql.append(")");
 
+        sqlPrint(sql.toString(), null);
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(template.getJdbcTemplate().getDataSource());
 //        if (!StringUtils.isEmpty(pk)) {
         jdbcInsert.withTableName(tableName).usingGeneratedKeyColumns(pk);
@@ -347,8 +332,9 @@ public class BaseRepository {
                 break;
             }
         }
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", id);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+        sqlPrint(sql.toString(), params);
         return (T) findForObject(sql.toString(), params, clazz);
     }
 
@@ -360,5 +346,21 @@ public class BaseRepository {
             // "リクエストを処理するスレッド以外から呼び出さないで下さい。"
         }
         return "default";
+    }
+
+    /**
+     * SQL文を標準出力する
+     * 
+     * @param sql    SQLクエリ文字列
+     * @param params パラメータ
+     */
+    private void sqlPrint(String sql, MapSqlParameterSource params) {
+        if (Objects.nonNull(params)) {
+            Map<String, Object> param = params.getValues();
+            for (String key : param.keySet()) {
+                sql = sql.replaceAll(":" + key, "'" + param.get(key).toString() + "'");
+            }
+        }
+        log.info(sql);
     }
 }

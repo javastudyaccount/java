@@ -1,5 +1,6 @@
 package jp.btsol.mahjong.application.service;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import jp.btsol.mahjong.application.service.DBSetTest.TestConfig;
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
         TransactionDbUnitTestExecutionListener.class, DbUnitTestExecutionListener.class})
 //@Transactional
+@Disabled
 @DisplayName("DBSetTestのテストケース")
 class DBSetTest {
     @Nested

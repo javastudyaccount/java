@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.util.UriComponents;
 
 import jp.btsol.mahjong.entity.Player;
-import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.model.RoomModel;
 import jp.btsol.mahjong.web.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,7 +52,7 @@ public class RoomsController {
      */
     @GetMapping("/rooms")
     public String rooms(Model model) {
-        List<Room> rooms = roomService.getRooms();
+        List<RoomModel> rooms = roomService.getRooms();
         model.addAttribute("rooms", rooms);
         return "rooms";
     }

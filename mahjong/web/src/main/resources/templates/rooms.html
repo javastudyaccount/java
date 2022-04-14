@@ -21,7 +21,8 @@
 <td>
     <form style="display: inline" id="formEnterRoom" method="post" th:action="@{/enterRoom}">
     <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
-    <button class="button-right">Enter</button>
+    <button th:if="${room.entered}" class="button-right">Exit</button>
+    <button th:unless="${room.entered}" class="button-right">Enter</button>
     </form>
 </td>
 </tr>

@@ -58,6 +58,9 @@ public class AuthenticationHandler implements HandlerInterceptor {
             throws Exception {
         if (handler instanceof HandlerMethod) {
             if (Objects.nonNull(request)) {
+                if (request.getRequestURI().contains("/authentication")) {
+                    return true;
+                }
                 String mahjongHeaderStr = request.getHeader(X_MAHJONG_USER);
                 if (Objects.isNull(mahjongHeaderStr)) {
                     log.error(X_MAHJONG_USER + "ヘッダが認識できませんでした。");

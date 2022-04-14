@@ -1,12 +1,11 @@
 package jp.btsol.mahjong.application.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
@@ -15,6 +14,7 @@ import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.entity.RoomPlayer;
 import jp.btsol.mahjong.fw.UserContext;
+import jp.btsol.mahjong.model.RoomModel;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,10 +46,16 @@ public class RoomService {
     /**
      * get rooms
      * 
-     * @return List<Room>
+     * @return List<RoomModel>
      */
-    public List<Room> getRooms() {
-        return baseRepository.findForList("select * from room", Room.class);
+    public List<RoomModel> getRooms() {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("playerId", userContext.playerId());
+        return baseRepository.findForList("select room.room_id, room.room_name, "//
+                + "(my_room.room_id is not null) as entered from room "//
+                + "left join (select room_id from room_player " //
+                + "where player_id = :playerId) my_room "//
+                + "on room.room_id = my_room.room_id order by room.room_id", param, RoomModel.class);
     }
 
     /**
@@ -59,8 +65,8 @@ public class RoomService {
      * @return List<Player>
      */
     public List<Player> getPlayers(long roomId) {
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("roomId", roomId);
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("roomId", roomId);
         return baseRepository.findForList(//
                 "select * from player where player.player_id in "//
                         + "(select player_id from room_player where room_id = :roomId) "//

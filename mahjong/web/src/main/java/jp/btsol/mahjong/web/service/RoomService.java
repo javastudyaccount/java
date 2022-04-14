@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
-import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.model.RoomId;
+import jp.btsol.mahjong.model.RoomModel;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,14 +47,14 @@ public class RoomService {
     /**
      * get room list
      * 
-     * @return List<Room>
+     * @return List<RoomModel>
      */
-    public List<Room> getRooms() {
+    public List<RoomModel> getRooms() {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getRooms();
 
-        List<Room> rooms = mahjongRestTemplate.get(url, ArrayList.class);
+        List<RoomModel> rooms = mahjongRestTemplate.get(url, ArrayList.class);
         return rooms;
     }
 

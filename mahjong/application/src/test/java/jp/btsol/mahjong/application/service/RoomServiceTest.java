@@ -29,6 +29,7 @@ import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.loader.XlsDataSetLoader;
 import jp.btsol.mahjong.application.service.RoomServiceTest.TestConfig;
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.model.RoomModel;
 
 @DirtiesContext
 @SpringBootTest(classes = {TestConfig.class})
@@ -49,7 +50,7 @@ class RoomServiceTest {
         // testdata/room/in/rooms-empty.xlsx
         @DatabaseSetup(value = {"/testdata/room/in/rooms-empty.xlsx"}, type = DatabaseOperation.CLEAN_INSERT)
         void testGetRoomsEmtpty() {
-            List<Room> rooms = roomService.getRooms();
+            List<RoomModel> rooms = roomService.getRooms();
             Assertions.assertEquals(0, rooms.size());
         }
 
@@ -58,9 +59,9 @@ class RoomServiceTest {
         // testdata/room/in/rooms-1.xlsx
         @DatabaseSetup(value = {"/testdata/room/in/rooms-1.xlsx"}, type = DatabaseOperation.CLEAN_INSERT)
         void testGetRooms1() {
-            List<Room> rooms = roomService.getRooms();
+            List<RoomModel> rooms = roomService.getRooms();
             Assertions.assertEquals(1, rooms.size());
-            Room room = rooms.get(0);
+            RoomModel room = rooms.get(0);
             // テストを途中で止めずに一気に評価したい
             Assertions.assertAll(() -> Assertions.assertEquals(1, room.getRoomId()),
                     () -> Assertions.assertEquals("testRoom", room.getRoomName()));
@@ -71,10 +72,10 @@ class RoomServiceTest {
         // testdata/room/in/rooms.xlsx
         @DatabaseSetup(value = {"/testdata/room/in/rooms.xlsx"}, type = DatabaseOperation.CLEAN_INSERT)
         void testGetRooms() {
-            List<Room> rooms = roomService.getRooms();
+            List<RoomModel> rooms = roomService.getRooms();
             Assertions.assertEquals(33, rooms.size());
-            Room room = rooms.get(0);
-            Room room33 = rooms.get(32);
+            RoomModel room = rooms.get(0);
+            RoomModel room33 = rooms.get(32);
             // テストを途中で止めずに一気に評価したい
             Assertions.assertAll(() -> Assertions.assertEquals(1, room.getRoomId()),
                     () -> Assertions.assertEquals("testRoom1", room.getRoomName()),

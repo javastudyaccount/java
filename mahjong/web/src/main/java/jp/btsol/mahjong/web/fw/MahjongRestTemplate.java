@@ -107,10 +107,11 @@ public class MahjongRestTemplate {
         // エンコード後のクエリに置き換える
         URI uri = UriComponentsBuilder.fromUri(uriWithNoEscapedPlus).replaceQuery(strictlyEscapedQuery).build(true)
                 .toUri();
+
+        String mahjongUser = mahjongHeader();
+
         // リクエスト情報の作成
-        RequestEntity<?> request = RequestEntity.get(uri).header(X_MAHJONG_USER,
-                "eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=")
-                .build();
+        RequestEntity<?> request = RequestEntity.get(uri).header(X_MAHJONG_USER, mahjongUser).build();
         ResponseEntity<R> response = restTemplate.exchange(uri, HttpMethod.GET, request, clazz);
         return response.getBody();
     }
@@ -161,8 +162,9 @@ public class MahjongRestTemplate {
             throws RuntimeException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        String mahjongUser = mahjongHeader();
         // キーの設定
-        headers.add(X_MAHJONG_USER, "");
+        headers.add(X_MAHJONG_USER, mahjongUser);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         ResponseEntity<R> response = restTemplate.exchange(path, HttpMethod.POST, requestEntity, clazz);
@@ -197,7 +199,11 @@ public class MahjongRestTemplate {
      * @throws RuntimeException 業務例外
      */
     public <P> void put(String path, P parameter) throws RuntimeException {
-        log.info("param: {}", parameter);
+        try {
+            log.info("param: {}", om.writeValueAsString(parameter));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         RequestEntity<P> request = createRequest(path, RequestEntity.put(path)).contentType(MediaType.APPLICATION_JSON)
                 .body(parameter);
         restTemplate.exchange(path, HttpMethod.PUT, request, Void.class);
@@ -218,8 +224,9 @@ public class MahjongRestTemplate {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        String mahjongUser = mahjongHeader();
         // キーの設定
-        headers.add(X_MAHJONG_USER, "");
+        headers.add(X_MAHJONG_USER, mahjongUser);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         ResponseEntity<R> response = restTemplate.exchange(path, HttpMethod.PUT, requestEntity, clazz);
@@ -265,8 +272,8 @@ public class MahjongRestTemplate {
      * @return header リクエストヘッダ
      */
     private HeadersBuilder<?> createRequest(String path, HeadersBuilder<?> header) {
-        header.header(X_MAHJONG_USER,
-                "eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=");
+        String mahjongUser = mahjongHeader();
+        header.header(X_MAHJONG_USER, mahjongUser);
         return header;
     }
 
@@ -278,6 +285,14 @@ public class MahjongRestTemplate {
      * @return header リクエストヘッダ
      */
     private BodyBuilder createRequest(String path, BodyBuilder header) {
+        String mahjongUser = mahjongHeader();
+        // キーの設定
+        header.header(X_MAHJONG_USER, mahjongUser);
+        header.header("request-id", path.replaceAll(".*/", ""));
+        return header;
+    }
+
+    private String mahjongHeader() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MahjongAuthenticationHeader mahjongHeader = new MahjongAuthenticationHeader();
         mahjongHeader.setSub(applicationProperties.getSub());
@@ -293,10 +308,7 @@ public class MahjongRestTemplate {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        // キーの設定
-        header.header(X_MAHJONG_USER, mahjongUser);
-        header.header("request-id", path.replaceAll(".*/", ""));
-        return header;
+        return mahjongUser;
     }
 
 }

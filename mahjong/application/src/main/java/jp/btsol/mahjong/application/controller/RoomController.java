@@ -17,6 +17,7 @@ import jp.btsol.mahjong.application.service.RoomService;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.model.RoomId;
+import jp.btsol.mahjong.model.RoomModel;
 import jp.btsol.mahjong.model.RoomName;
 
 /**
@@ -48,7 +49,7 @@ public class RoomController {
      * @return List<Room>
      */
     @GetMapping("/all")
-    public List<Room> getRooms() {
+    public List<RoomModel> getRooms() {
         return roomService.getRooms();
     }
 
