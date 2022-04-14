@@ -8,14 +8,16 @@
 <body>
 <h1>Rooms</h1>
 <div layout:fragment="content">
-<table style="width:100%">
-<tr>
+<h3>Players in room</h3><span th:text="${room.roomId}">
+    </span>
+<table>
+<tr th:each="player, playerStat: ${players}">
 <td>
-   	<span th:text="${room.roomId}">
-   	</span>
+    <span th:text="${player.playerId}">
+    </span>
 </td>
 <td>
-    <span th:text="${room.roomName}">
+    <span th:text="${player.nickname}">
     </span>
 </td>
 </tr>

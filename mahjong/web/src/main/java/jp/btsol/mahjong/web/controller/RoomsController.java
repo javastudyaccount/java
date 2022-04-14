@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
+import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.web.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +60,6 @@ public class RoomsController {
     /**
      * enter room
      * 
-     * @param model  Model
      * @param roomId long
      * @return String view name
      */
@@ -85,8 +85,8 @@ public class RoomsController {
      */
     @GetMapping("/room/{roomId}")
     public String room(Model model, @Valid @PathVariable("roomId") long roomId) {
-        Room room = new Room();
-        model.addAttribute("room", room);
+        List<Player> playersInRoom = roomService.getPlayers(roomId);
+        model.addAttribute("players", playersInRoom);
         return "room";
     }
 }

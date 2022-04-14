@@ -8,6 +8,7 @@ application:
     shuffled: /shuffled
     rooms: /room/all
     enterRoom: /room/enter
+    playersInRoom: /room/players
     
     players: /player/all
     createPlayer: /player/new

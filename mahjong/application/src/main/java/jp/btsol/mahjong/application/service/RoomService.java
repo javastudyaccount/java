@@ -1,6 +1,8 @@
 package jp.btsol.mahjong.application.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
+import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.entity.RoomPlayer;
 import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +53,22 @@ public class RoomService {
     }
 
     /**
+     * get players in room
+     * 
+     * @param roomId long
+     * @return List<Player>
+     */
+    public List<Player> getPlayers(long roomId) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("roomId", roomId);
+        return baseRepository.findForList(//
+                "select * from player where player.player_id in "//
+                        + "(select player_id from room_player where room_id = :roomId) "//
+                        + "order by player_id",
+                param, Player.class);
+    }
+
+    /**
      * enter room
      * 
      * @param roomId long
@@ -56,7 +76,11 @@ public class RoomService {
      */
     public void enterRoom(long roomId) {
         log.info("player id {}", userContext.playerId());
-
+        RoomPlayer roomPlayer = new RoomPlayer();
+        roomPlayer.setRoleId(roomId);
+        roomPlayer.setPlayerId(userContext.playerId());
+        roomPlayer.setRoleId(0); // visitor
+        baseRepository.insert(roomPlayer);
     }
 
     /**

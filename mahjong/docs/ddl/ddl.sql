@@ -142,4 +142,5 @@ create table room_player(
     PRIMARY KEY (room_id, player_id)
 );
 
-
+CREATE UNIQUE INDEX room_player_unique
+    ON room_player (player_id);

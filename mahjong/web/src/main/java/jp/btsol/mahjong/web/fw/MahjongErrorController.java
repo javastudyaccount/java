@@ -99,6 +99,7 @@ public class MahjongErrorController implements ErrorController {
             }
         }
         Object viewName = ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
+        log.info("viewName {}", viewName);
         if (Objects.isNull(viewName)) {
             viewName = "/login";
         }

@@ -42,14 +42,12 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class MahjongRestTemplate {
+    /** ヘッダのキー(x-mahjong-user) */
+    private static final String X_MAHJONG_USER = "x-mahjong-user";
     /**
      * application properties
      */
     private final ApplicationProperties applicationProperties;
-    /** ヘッダのキー(x-mahjong-user) */
-    private static final String X_MAHJONG_USER = "x-mahjong-user";
-    /** ヘッダのキー(request-id) */
-    private static final String REQUEST_ID = "request-id";
 
     /** REST連携用 */
     private final RestTemplate restTemplate;
@@ -123,14 +121,14 @@ public class MahjongRestTemplate {
      * @param <P>       パラメータ型
      * @param <R>       レスポンス型
      * @param path      送信先
-     * @param paramater ボディパラメータ
+     * @param parameter ボディパラメータ
      * @param clazz     レスポンスのクラス型
      * @return レスポンス
      * @throws RuntimeException 業務例外
      */
-    public <P, R> R post(String path, P paramater, Class<R> clazz) throws RuntimeException {
+    public <P, R> R post(String path, P parameter, Class<R> clazz) throws RuntimeException {
         RequestEntity<P> request = createRequest(path, RequestEntity.post(path)).contentType(MediaType.APPLICATION_JSON)
-                .body(paramater);
+                .body(parameter);
         ResponseEntity<R> response = restTemplate.exchange(path, HttpMethod.POST, request, clazz);
         return response.getBody();
     }
@@ -140,12 +138,12 @@ public class MahjongRestTemplate {
      * 
      * @param <P>       パラメータ型
      * @param path      送信先
-     * @param paramater ボディパラメータ
+     * @param parameter ボディパラメータ
      * @throws RuntimeException 業務例外
      */
-    public <P> void post(String path, P paramater) throws RuntimeException {
+    public <P> void post(String path, P parameter) throws RuntimeException {
         RequestEntity<P> request = createRequest(path, RequestEntity.post(path)).contentType(MediaType.APPLICATION_JSON)
-                .body(paramater);
+                .body(parameter);
         restTemplate.exchange(path, HttpMethod.POST, request, Void.class);
     }
 
@@ -177,14 +175,14 @@ public class MahjongRestTemplate {
      * @param <P>       パラメータ型
      * @param <R>       レスポンス型
      * @param path      送信先
-     * @param paramater ボディパラメータ
+     * @param parameter ボディパラメータ
      * @param clazz     レスポンスのクラス型
      * @return レスポンス
      * @throws RuntimeException 業務例外
      */
-    public <P, R> R put(String path, P paramater, Class<R> clazz) throws RuntimeException {
+    public <P, R> R put(String path, P parameter, Class<R> clazz) throws RuntimeException {
         RequestEntity<P> request = createRequest(path, RequestEntity.put(path)).contentType(MediaType.APPLICATION_JSON)
-                .body(paramater);
+                .body(parameter);
         ResponseEntity<R> response = restTemplate.exchange(path, HttpMethod.PUT, request, clazz);
 
         return response.getBody();
@@ -195,12 +193,13 @@ public class MahjongRestTemplate {
      * 
      * @param <P>       パラメータ型
      * @param path      送信先
-     * @param paramater ボディパラメータ
+     * @param parameter ボディパラメータ
      * @throws RuntimeException 業務例外
      */
-    public <P> void put(String path, P paramater) throws RuntimeException {
+    public <P> void put(String path, P parameter) throws RuntimeException {
+        log.info("param: {}", parameter);
         RequestEntity<P> request = createRequest(path, RequestEntity.put(path)).contentType(MediaType.APPLICATION_JSON)
-                .body(paramater);
+                .body(parameter);
         restTemplate.exchange(path, HttpMethod.PUT, request, Void.class);
     }
 

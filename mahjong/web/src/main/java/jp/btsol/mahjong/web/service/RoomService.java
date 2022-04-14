@@ -1,11 +1,14 @@
 package jp.btsol.mahjong.web.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
+import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.model.RoomId;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
@@ -53,6 +56,22 @@ public class RoomService {
 
         List<Room> rooms = mahjongRestTemplate.get(url, ArrayList.class);
         return rooms;
+    }
+
+    /**
+     * get player list
+     * 
+     * @param roomId long
+     * @return List<Player>
+     */
+    public List<Player> getPlayers(long roomId) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getPlayersInRoom();
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("roomId", roomId);
+        List<Player> players = mahjongRestTemplate.get(url, param, ArrayList.class);
+        return players;
     }
 
     /**

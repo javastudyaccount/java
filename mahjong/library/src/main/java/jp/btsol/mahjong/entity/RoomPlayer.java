@@ -3,9 +3,6 @@ package jp.btsol.mahjong.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,33 +10,25 @@ import lombok.NoArgsConstructor;
 
 /**
  * 
- * notice table
+ * room_player table
  * 
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notice implements Serializable {
+public class RoomPlayer implements Serializable {
 
     /** デフォルトシリアルバージョンID */
     private static final long serialVersionUID = 1L;
     /**  */
     @Column(nullable = false)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long noticeId;
-    /**  */
-    @Column(length = 200, nullable = false)
-    private String title;
-    /**  */
-    @Column(length = 5000, nullable = false)
-    private String detail;
+    private long roomId;
     /**  */
     @Column(nullable = false)
-    private java.sql.Date startDate;
+    private long playerId;
     /**  */
-    @Column(nullable = true)
-    private java.sql.Date endDate;
+    @Column(nullable = false)
+    private long roleId;
     /**  */
     @Column(nullable = false)
     private boolean deletedFlg;
