@@ -90,7 +90,7 @@ public class PlayerController {
     }
 
     /**
-     * create new player
+     * create player
      * 
      * @param playerForm
      * @return String template name

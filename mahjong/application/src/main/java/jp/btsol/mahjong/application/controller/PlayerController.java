@@ -53,7 +53,7 @@ public class PlayerController {
     }
 
     /**
-     * create new player
+     * create player
      * 
      * @param playerRegistration PlayerRegistration
      * @return Player
@@ -65,7 +65,7 @@ public class PlayerController {
     }
 
     /**
-     * create new token
+     * create token
      * 
      * @param persistentRememberMeToken PersistentRememberMeToken
      */

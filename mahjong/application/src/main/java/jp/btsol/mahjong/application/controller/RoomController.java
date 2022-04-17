@@ -99,7 +99,7 @@ public class RoomController {
     }
 
     /**
-     * create new room
+     * create room
      * 
      * @param roomName String
      * @return Room

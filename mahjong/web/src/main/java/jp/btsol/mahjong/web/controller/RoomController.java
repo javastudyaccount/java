@@ -69,7 +69,11 @@ public class RoomController {
     public String enterRoom(@Valid //
     @RequestParam long roomId) {
         log.info("roomId: {}", roomId);
+//        try {
         roomService.enterRoom(roomId);
+//        } catch (HttpServerErrorException e) {
+//            log.error(e.getLocalizedMessage());
+//        }
 
         UriComponents uriComponents = MvcUriComponentsBuilder
                 .fromMethodName(RoomController.class, "room", Model.class, roomId).build();
@@ -95,18 +99,18 @@ public class RoomController {
     }
 
     /**
-     * create new room
+     * create room
      * 
      * @param roomForm RoomForm
      * @return String template name
      */
     @GetMapping("/createRoom")
     public String createRoom(@ModelAttribute("roomForm") RoomForm roomForm) {
-        return "room/new";
+        return "room/create";
     }
 
     /**
-     * create new room
+     * create room
      * 
      * @param roomForm RoomForm
      * @return String template name

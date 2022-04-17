@@ -108,7 +108,7 @@ public class RoomService {
         try {
             baseRepository.insert(roomPlayer);
         } catch (org.springframework.dao.DuplicateKeyException e) {
-            DuplicateKeyException dke = new DuplicateKeyException("You are alreay entered aother room.", e);
+            DuplicateKeyException dke = new DuplicateKeyException("You are alreay entered another room.", e);
             throw dke;
         }
     }

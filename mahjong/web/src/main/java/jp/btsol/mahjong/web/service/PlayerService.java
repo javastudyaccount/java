@@ -77,7 +77,7 @@ public class PlayerService implements UserDetailsService {
     }
 
     /**
-     * create new player
+     * create player
      * 
      * @param playerRegistration PlayerRegistration
      * @return Player
