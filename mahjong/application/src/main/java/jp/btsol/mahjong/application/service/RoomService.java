@@ -105,7 +105,12 @@ public class RoomService {
         roomPlayer.setRoomId(roomId);
         roomPlayer.setPlayerId(userContext.playerId());
         roomPlayer.setRoleId(0); // visitor
-        baseRepository.insert(roomPlayer);
+        try {
+            baseRepository.insert(roomPlayer);
+        } catch (org.springframework.dao.DuplicateKeyException e) {
+            DuplicateKeyException dke = new DuplicateKeyException("You are alreay entered aother room.", e);
+            throw dke;
+        }
     }
 
     /**
