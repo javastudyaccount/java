@@ -11,7 +11,7 @@
 <h3>Players in room: <span th:text="${room.roomName}">
     </span></h3>
     <span th:if="${players.size()==0}">None</span>
-<table>
+<table style="width:100%">
 <tr th:each="player, playerStat: ${players}">
 <td>
     <span th:text="${player.playerId}">
@@ -21,8 +21,15 @@
     <span th:text="${player.nickname}">
     </span>
 </td>
+<td align="right">
+    <form th:if="${#authentication.principal.playerId==player.playerId}" style="display: inline" id="formExitRoom" method="post" th:action="@{/exitRoom}">
+    <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
+    <button class="button-right">Exit room</button>
+    </form>
+</td>
 </tr>
 </table>
+<button th:if="${players.size>=4 && room.entered}">Begin a game</button><br/>
       <a href="/players">Players</a><br/>
       <a href="/rooms">Rooms</a>
 </div>

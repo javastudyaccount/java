@@ -78,7 +78,7 @@ public class PlayerService {
         params.addValue("loginId", loginId);
         try {
             return baseRepository.findForObject(//
-                    "select " + //
+                    "select player.player_id, " + //
                             " player.login_id, nickname, password " + //
                             "from player " + //
                             "join passwd " + //

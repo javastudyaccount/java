@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PlayerAuthentication {
     /**
+     * playerId
+     */
+    private long playerId;
+    /**
      * loginId
      */
     @Pattern(regexp = "[a-zA-Z_0-9]{8,8}", message = "{majhong.loginid.pattern.error}")

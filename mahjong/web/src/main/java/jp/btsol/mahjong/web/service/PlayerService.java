@@ -108,8 +108,8 @@ public class PlayerService implements UserDetailsService {
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         GrantedAuthority authority = new SimpleGrantedAuthority("USER");
         grantList.add(authority);
-        MahjongUser mahjongUser = new MahjongUser(playerAuthentication.getLoginId(), playerAuthentication.getPassword(),
-                grantList);
+        MahjongUser mahjongUser = new MahjongUser(playerAuthentication.getPlayerId(), playerAuthentication.getLoginId(),
+                playerAuthentication.getPassword(), grantList);
         UserDetails userDetails = (UserDetails) mahjongUser;
         mahjongUser.setNickname(playerAuthentication.getNickname());
         return userDetails;
