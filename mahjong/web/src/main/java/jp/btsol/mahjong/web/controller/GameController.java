@@ -61,6 +61,23 @@ public class GameController {
     }
 
     /**
+     * enter game
+     * 
+     * @param gameId long
+     * @return String template name
+     */
+    @PostMapping("/enterGame")
+    public String enterGame(@RequestParam long gameId) {
+        gameService.enterGame(gameId);
+        UriComponents uriComponents = MvcUriComponentsBuilder
+                .fromMethodName(GameController.class, "game", Model.class, gameId).build();
+
+        URI location = uriComponents.toUri();
+
+        return "redirect:" + location.toString();
+    }
+
+    /**
      * show game
      * 
      * @param model  Model

@@ -53,6 +53,17 @@ public class GameController {
     }
 
     /**
+     * enter game
+     * 
+     * @param gameId GameId
+     */
+    @PostMapping(value = "/enter")
+    public void enterGame(@Valid //
+    @RequestBody(required = true) GameId gameId) {
+        gameService.enterGame(gameId.getGameId());
+    }
+
+    /**
      * get game
      * 
      * @return GameModel

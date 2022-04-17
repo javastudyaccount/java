@@ -95,6 +95,10 @@ public class ApplicationProperties {
          * get game
          */
         private String game;
+        /**
+         * enter game
+         */
+        private String enterGame;
     }
 
     /**

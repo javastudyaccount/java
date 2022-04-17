@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
+import jp.btsol.mahjong.application.fw.exception.TooManyPlayersException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Game;
 import jp.btsol.mahjong.fw.UserContext;
@@ -64,11 +65,29 @@ public class GameService {
             DuplicateKeyException dke = new DuplicateKeyException("Only one game in a room.", e);
             throw dke;
         }
+//        MapSqlParameterSource param = new MapSqlParameterSource();
+//        param.addValue("gameId", gameId);
+//        param.addValue("playerId", userContext.playerId());
+//        baseRepository.update("insert into game_player (game_id, player_id) values (:gameId, :playerId)", param);
+        enterGame(gameId);
+        return new GameId(gameId);
+    }
+
+    /**
+     * enter game
+     * 
+     * @param gameId long
+     */
+    public void enterGame(long gameId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("gameId", gameId);
         param.addValue("playerId", userContext.playerId());
-        baseRepository.update("insert into game_player (game_id, player_id) values (:gameId, :playerId)", param);
-        return new GameId(gameId);
+        baseRepository.update("insert into game_player (game_id, player_id) values(:gameId, :playerId)", param);
+        int count = baseRepository.findForObject("select count(1) from game_player where game_id = :gameId", param,
+                int.class);
+        if (count > 4) {
+            throw new TooManyPlayersException("The game already has 4 players.");
+        }
     }
 
     /**

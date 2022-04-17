@@ -24,6 +24,7 @@ application:
     
     createGame: /game/new
     game: /game/get
+    enterGame: /game/enter
   iss: iss
   sub: sub
   loginId: anonymous

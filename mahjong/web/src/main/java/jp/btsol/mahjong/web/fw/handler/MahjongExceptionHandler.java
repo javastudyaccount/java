@@ -56,17 +56,19 @@ public class MahjongExceptionHandler {
             redirectAttributes.addFlashAttribute("systemError", e.getLocalizedMessage());
         }
         Class formClazz = (Class) ((ServletWebRequest) request).getRequest().getSession().getAttribute("formClazz");
-        try {
-            Object form = formClazz.getDeclaredConstructor().newInstance();
-            Map<String, String[]> params = ((ServletWebRequest) request).getRequest().getParameterMap();
-            Map<String, String> result = params.entrySet().stream()
-                    .collect(Collectors.toMap(Entry::getKey, e -> e.getValue()[0]));
-            BeanUtils.populate(form, result);
-            String formName = StringUtils.unCapitalize(formClazz.getSimpleName());
-            redirectAttributes.addFlashAttribute(formName, form);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
+        if (!formClazz.isPrimitive()) {
+            try {
+                Object form = formClazz.getDeclaredConstructor().newInstance();
+                Map<String, String[]> params = ((ServletWebRequest) request).getRequest().getParameterMap();
+                Map<String, String> result = params.entrySet().stream()
+                        .collect(Collectors.toMap(Entry::getKey, e -> e.getValue()[0]));
+                BeanUtils.populate(form, result);
+                String formName = StringUtils.unCapitalize(formClazz.getSimpleName());
+                redirectAttributes.addFlashAttribute(formName, form);
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                e.printStackTrace();
+            }
         }
 
         String viewName = (String) ((ServletWebRequest) request).getRequest().getSession().getAttribute("viewName");
