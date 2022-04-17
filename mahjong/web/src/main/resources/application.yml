@@ -9,6 +9,7 @@ application:
     rooms: /room/all
     enterRoom: /room/enter
     playersInRoom: /room/players
+    createRoom: /room/new
     
     players: /player/all
     createPlayer: /player/new

@@ -1,6 +1,5 @@
 package jp.btsol.mahjong.model;
 
-import jp.btsol.mahjong.entity.Room;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomModel extends Room {
+public class RoomModel {
+    /**
+     * roomId
+     */
+    private long roomId;
+    /**
+     * roomName
+     */
+    private String roomName;
     /**
      * indicated if I entered the room
      */

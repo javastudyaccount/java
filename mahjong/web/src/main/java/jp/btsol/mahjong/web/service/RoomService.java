@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.RoomId;
 import jp.btsol.mahjong.model.RoomModel;
+import jp.btsol.mahjong.model.RoomName;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,5 +87,18 @@ public class RoomService {
         RoomId roomIdModel = new RoomId();
         roomIdModel.setRoomId(roomId);
         mahjongRestTemplate.post(url, roomIdModel);
+    }
+
+    /**
+     * create room
+     * 
+     * @param roomName String
+     */
+    public void createRoom(String roomName) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getCreateRoom();
+        RoomName roomNameModel = new RoomName(roomName);
+        mahjongRestTemplate.post(url, roomNameModel);
     }
 }

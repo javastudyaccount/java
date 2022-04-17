@@ -42,6 +42,10 @@ public class ApplicationProperties {
          */
         private String enterRoom;
         /**
+         * create room
+         */
+        private String createRoom;
+        /**
          * players in room
          */
         private String playersInRoom;
