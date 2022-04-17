@@ -36,11 +36,20 @@ public class ApplicationProperties {
          * rooms
          */
         private String rooms;
+        /**
+         * room
+         */
+        private String room;
 
         /**
          * enter room
          */
         private String enterRoom;
+
+        /**
+         * exit room
+         */
+        private String exitRoom;
         /**
          * create room
          */

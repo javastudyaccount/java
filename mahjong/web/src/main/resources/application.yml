@@ -7,7 +7,9 @@ application:
     hands: /hands
     shuffled: /shuffled
     rooms: /room/all
+    room: /room/get
     enterRoom: /room/enter
+    exitRoom: /room/exit
     playersInRoom: /room/players
     createRoom: /room/new
     

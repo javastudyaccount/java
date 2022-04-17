@@ -46,11 +46,22 @@ public class RoomController {
     /**
      * get room list
      * 
-     * @return List<Room>
+     * @return List<RoomModel>
      */
     @GetMapping("/all")
     public List<RoomModel> getRooms() {
         return roomService.getRooms();
+    }
+
+    /**
+     * get room
+     * 
+     * @return RoomModel
+     */
+    @GetMapping("/get")
+    public RoomModel getRoom(@Valid //
+    @RequestParam(required = true) long roomId) {
+        return roomService.getRoom(roomId);
     }
 
     /**
@@ -60,7 +71,8 @@ public class RoomController {
      * @return List<Player>
      */
     @GetMapping("/players")
-    public List<Player> getPlayers(@Valid @RequestParam(required = true) long roomId) {
+    public List<Player> getPlayers(@Valid //
+    @RequestParam(required = true) long roomId) {
         return roomService.getPlayers(roomId);
     }
 
@@ -70,8 +82,20 @@ public class RoomController {
      * @param roomId RoomId
      */
     @PostMapping("/enter")
-    public void enterRoom(@Valid @RequestBody(required = true) RoomId roomId) {
+    public void enterRoom(@Valid //
+    @RequestBody(required = true) RoomId roomId) {
         roomService.enterRoom(roomId.getRoomId());
+    }
+
+    /**
+     * exit room
+     * 
+     * @param roomId RoomId
+     */
+    @PostMapping("/exit")
+    public void exitRoom(@Valid //
+    @RequestBody(required = true) RoomId roomId) {
+        roomService.exitRoom(roomId.getRoomId());
     }
 
     /**

@@ -3,13 +3,14 @@
     layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Rooms</title>
+<title>Room</title>
 </head>
 <body>
-<h1>Rooms</h1>
+<h1>Room</h1>
 <div layout:fragment="content">
-<h3>Players in room</h3><span th:text="${room.roomId}">
-    </span>
+<h3>Players in room: <span th:text="${room.roomName}">
+    </span></h3>
+    <span th:if="${players.size()==0}">None</span>
 <table>
 <tr th:each="player, playerStat: ${players}">
 <td>
@@ -22,7 +23,8 @@
 </td>
 </tr>
 </table>
-      <a href="/players">Players</a>
+      <a href="/players">Players</a><br/>
+      <a href="/rooms">Rooms</a>
 </div>
 </body>
 </html>

@@ -59,6 +59,25 @@ public class RoomService {
     }
 
     /**
+     * get room
+     * 
+     * @param roomId long
+     * @return RoomModel
+     */
+    public RoomModel getRoom(long roomId) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("playerId", userContext.playerId());
+        param.addValue("roomId", roomId);
+        return baseRepository.findForObject("select room.room_id, room.room_name, "//
+                + "(my_room.room_id is not null) as entered from room "//
+                + "left join (select room_id from room_player " //
+                + "where player_id = :playerId) my_room "//
+                + "on room.room_id = my_room.room_id "//
+                + "where room.room_id = :roomId "//
+                + "order by room.room_id", param, RoomModel.class);
+    }
+
+    /**
      * get players in room
      * 
      * @param roomId long
@@ -83,10 +102,23 @@ public class RoomService {
     public void enterRoom(long roomId) {
         log.info("player id {}", userContext.playerId());
         RoomPlayer roomPlayer = new RoomPlayer();
-        roomPlayer.setRoleId(roomId);
+        roomPlayer.setRoomId(roomId);
         roomPlayer.setPlayerId(userContext.playerId());
         roomPlayer.setRoleId(0); // visitor
         baseRepository.insert(roomPlayer);
+    }
+
+    /**
+     * exit room
+     * 
+     * @param roomId long
+     * 
+     */
+    public void exitRoom(long roomId) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("roomId", roomId);
+        param.addValue("playerId", userContext.playerId());
+        baseRepository.update("delete from room_player where room_id = :roomId and player_id = :playerId", param);
     }
 
     /**

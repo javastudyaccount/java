@@ -28,18 +28,18 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.btsol.mahjong.entity.Player;
-import jp.btsol.mahjong.web.controller.PlayersControllerTest.TestConfig;
+import jp.btsol.mahjong.web.controller.PlayerControllerTest.TestConfig;
 import jp.btsol.mahjong.web.service.PlayerService;
 
 @DirtiesContext
 @SpringBootTest(classes = {TestConfig.class})
 @AutoConfigureMockMvc
 @DisplayName("PlayersControllerTestのテストケース")
-class PlayersControllerTest {
+class PlayerControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private PlayersController playersController;
+    private PlayerController playersController;
 
     @Autowired
     private HandlerExceptionResolver handlerExceptionResolver;

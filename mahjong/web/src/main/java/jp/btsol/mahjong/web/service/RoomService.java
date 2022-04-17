@@ -60,6 +60,22 @@ public class RoomService {
     }
 
     /**
+     * get room
+     * 
+     * @param roomId long
+     * @return RoomModel
+     */
+    public RoomModel getRoom(long roomId) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getRoom();
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("roomId", roomId);
+        RoomModel room = mahjongRestTemplate.get(url, param, RoomModel.class);
+        return room;
+    }
+
+    /**
      * get player list
      * 
      * @param roomId long
@@ -84,6 +100,20 @@ public class RoomService {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getEnterRoom();
+        RoomId roomIdModel = new RoomId();
+        roomIdModel.setRoomId(roomId);
+        mahjongRestTemplate.post(url, roomIdModel);
+    }
+
+    /**
+     * exit room
+     * 
+     * @param roomId long
+     */
+    public void exitRoom(long roomId) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getExitRoom();
         RoomId roomIdModel = new RoomId();
         roomIdModel.setRoomId(roomId);
         mahjongRestTemplate.post(url, roomIdModel);

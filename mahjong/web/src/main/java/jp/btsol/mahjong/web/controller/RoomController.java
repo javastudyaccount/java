@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Controller
 @Slf4j
-public class RoomsController {
+public class RoomController {
     /**
      * Service roomService
      */
@@ -42,7 +42,7 @@ public class RoomsController {
      * @param roomService RoomService
      */
     @Autowired
-    public RoomsController(RoomService roomService) {
+    public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }
 
@@ -66,16 +66,32 @@ public class RoomsController {
      * @return String view name
      */
     @PostMapping("/enterRoom")
-    public String enterRoom(@Valid @RequestParam long roomId) {
+    public String enterRoom(@Valid //
+    @RequestParam long roomId) {
         log.info("roomId: {}", roomId);
         roomService.enterRoom(roomId);
 
         UriComponents uriComponents = MvcUriComponentsBuilder
-                .fromMethodName(RoomsController.class, "room", Model.class, roomId).build();
+                .fromMethodName(RoomController.class, "room", Model.class, roomId).build();
 
         URI location = uriComponents.toUri();
 
         return "redirect:" + location.toString();
+    }
+
+    /**
+     * exit room
+     * 
+     * @param roomId long
+     * @return String view name
+     */
+    @PostMapping("/exitRoom")
+    public String exitRoom(@Valid //
+    @RequestParam long roomId) {
+        log.info("roomId: {}", roomId);
+        roomService.exitRoom(roomId);
+
+        return "redirect:/rooms";
     }
 
     /**
@@ -96,7 +112,8 @@ public class RoomsController {
      * @return String template name
      */
     @PostMapping("/createRoom")
-    public String postCreateRoom(@Valid @ModelAttribute("roomForm") RoomForm roomForm) {
+    public String postCreateRoom(@Valid //
+    @ModelAttribute("roomForm") RoomForm roomForm) {
         roomService.createRoom(roomForm.getRoomName());
         return "redirect:/rooms";
     }
@@ -110,6 +127,8 @@ public class RoomsController {
      */
     @GetMapping("/room/{roomId}")
     public String room(Model model, @Valid @PathVariable("roomId") long roomId) {
+        RoomModel room = roomService.getRoom(roomId);
+        model.addAttribute("room", room);
         List<Player> playersInRoom = roomService.getPlayers(roomId);
         model.addAttribute("players", playersInRoom);
         return "room/room";
