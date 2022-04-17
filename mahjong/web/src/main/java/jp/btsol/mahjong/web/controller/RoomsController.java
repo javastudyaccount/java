@@ -54,7 +54,7 @@ public class RoomsController {
     public String rooms(Model model) {
         List<RoomModel> rooms = roomService.getRooms();
         model.addAttribute("rooms", rooms);
-        return "rooms";
+        return "room/rooms";
     }
 
     /**
@@ -87,6 +87,6 @@ public class RoomsController {
     public String room(Model model, @Valid @PathVariable("roomId") long roomId) {
         List<Player> playersInRoom = roomService.getPlayers(roomId);
         model.addAttribute("players", playersInRoom);
-        return "room";
+        return "room/room";
     }
 }
