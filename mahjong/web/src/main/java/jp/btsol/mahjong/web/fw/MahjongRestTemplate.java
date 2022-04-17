@@ -299,8 +299,10 @@ public class MahjongRestTemplate {
         mahjongHeader.setIss(applicationProperties.getIss());
         mahjongHeader.setLoginId(applicationProperties.getLoginId());
         if (Objects.nonNull(authentication)) {
-            String loginId = ((MahjongUser) authentication.getPrincipal()).getUsername();
-            mahjongHeader.setLoginId(loginId);
+            if (authentication.getPrincipal() instanceof MahjongUser) {
+                String loginId = ((MahjongUser) authentication.getPrincipal()).getUsername();
+                mahjongHeader.setLoginId(loginId);
+            }
         }
         String mahjongUser = "";
         try {

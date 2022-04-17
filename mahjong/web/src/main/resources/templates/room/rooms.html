@@ -11,8 +11,8 @@
 <table style="width:100%">
 <tr th:each="room, roomStat: ${rooms}">
 <td>
-   	<span th:text="${room.roomId}">
-   	</span>
+   	<a th:href="${'/room/'+room.roomId}" th:text="${room.roomId}">
+   	</a>
 </td>
 <td>
     <span th:text="${room.roomName}">
