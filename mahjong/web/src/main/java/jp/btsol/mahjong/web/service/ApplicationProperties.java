@@ -37,6 +37,28 @@ public class ApplicationProperties {
          */
         private String rooms;
         /**
+         * room
+         */
+        private String room;
+
+        /**
+         * enter room
+         */
+        private String enterRoom;
+
+        /**
+         * exit room
+         */
+        private String exitRoom;
+        /**
+         * create room
+         */
+        private String createRoom;
+        /**
+         * players in room
+         */
+        private String playersInRoom;
+        /**
          * players
          */
         private String players;
@@ -65,4 +87,17 @@ public class ApplicationProperties {
          */
         private String removeToken;
     }
+
+    /**
+     * default sub
+     */
+    private String sub;
+    /**
+     * default iss
+     */
+    private String iss;
+    /**
+     * default loginId
+     */
+    private String loginId;
 }

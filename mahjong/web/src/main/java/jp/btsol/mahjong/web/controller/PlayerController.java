@@ -26,7 +26,7 @@ import jp.btsol.mahjong.web.service.PlayerService;
  *
  */
 @Controller
-public class PlayersController {
+public class PlayerController {
     /**
      * Service playerService
      */
@@ -38,7 +38,7 @@ public class PlayersController {
      * @param playerService PlayerService
      */
     @Autowired
-    public PlayersController(PlayerService playerService) {
+    public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
     }
 
@@ -96,7 +96,7 @@ public class PlayersController {
      * @return String template name
      */
     @PostMapping("/signin")
-    public String doSignin(@Valid //
+    public String postSignin(@Valid //
     @ModelAttribute("playerForm") PlayerForm playerForm // get input data from browser
     ) {
         PlayerRegistration playerRegistration = new PlayerRegistration();

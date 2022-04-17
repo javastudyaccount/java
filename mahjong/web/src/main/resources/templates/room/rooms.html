@@ -11,22 +11,27 @@
 <table style="width:100%">
 <tr th:each="room, roomStat: ${rooms}">
 <td>
-   	<span th:text="${room.roomId}">
-   	</span>
+   	<a th:href="${'/room/'+room.roomId}" th:text="${room.roomId}">
+   	</a>
 </td>
 <td>
     <span th:text="${room.roomName}">
     </span>
 </td>
 <td>
-    <form style="display: inline" id="formEnterRoom" method="post" th:action="@{/enterRoom}">
+    <form th:if="${room.entered}" style="display: inline" id="formExitRoom" method="post" th:action="@{/exitRoom}">
+    <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
+    <button class="button-right">Exit</button>
+    </form>
+    <form th:unless="${room.entered}" style="display: inline" id="formEnterRoom" method="post" th:action="@{/enterRoom}">
     <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
     <button class="button-right">Enter</button>
     </form>
 </td>
 </tr>
 </table>
-      <a href="/players">Players</a>
+      <a href="/players">Players</a><br/>
+      <a href="/createRoom">Create new room</a>
 </div>
 </body>
 </html>

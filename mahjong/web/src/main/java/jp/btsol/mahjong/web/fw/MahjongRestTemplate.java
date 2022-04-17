@@ -5,8 +5,10 @@ package jp.btsol.mahjong.web.fw;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,13 +18,19 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.RequestEntity.BodyBuilder;
 import org.springframework.http.RequestEntity.HeadersBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.btsol.mahjong.model.MahjongAuthenticationHeader;
+import jp.btsol.mahjong.model.MahjongUser;
+import jp.btsol.mahjong.web.service.ApplicationProperties;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -36,8 +44,10 @@ import lombok.extern.slf4j.Slf4j;
 public class MahjongRestTemplate {
     /** ヘッダのキー(x-mahjong-user) */
     private static final String X_MAHJONG_USER = "x-mahjong-user";
-    /** ヘッダのキー(request-id) */
-    private static final String REQUEST_ID = "request-id";
+    /**
+     * application properties
+     */
+    private final ApplicationProperties applicationProperties;
 
     /** REST連携用 */
     private final RestTemplate restTemplate;
@@ -48,9 +58,11 @@ public class MahjongRestTemplate {
 
     @Autowired
     public MahjongRestTemplate(RestTemplate restTemplate, //
-            ObjectMapper om) {
+            ObjectMapper om, //
+            ApplicationProperties applicationProperties) {
         this.restTemplate = restTemplate;
         this.om = om;
+        this.applicationProperties = applicationProperties;
     }
 
     /**
@@ -95,10 +107,11 @@ public class MahjongRestTemplate {
         // エンコード後のクエリに置き換える
         URI uri = UriComponentsBuilder.fromUri(uriWithNoEscapedPlus).replaceQuery(strictlyEscapedQuery).build(true)
                 .toUri();
+
+        String mahjongUser = mahjongHeader();
+
         // リクエスト情報の作成
-        RequestEntity<?> request = RequestEntity.get(uri).header(X_MAHJONG_USER,
-                "eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=")
-                .build();
+        RequestEntity<?> request = RequestEntity.get(uri).header(X_MAHJONG_USER, mahjongUser).build();
         ResponseEntity<R> response = restTemplate.exchange(uri, HttpMethod.GET, request, clazz);
         return response.getBody();
     }
@@ -109,14 +122,14 @@ public class MahjongRestTemplate {
      * @param <P>       パラメータ型
      * @param <R>       レスポンス型
      * @param path      送信先
-     * @param paramater ボディパラメータ
+     * @param parameter ボディパラメータ
      * @param clazz     レスポンスのクラス型
      * @return レスポンス
      * @throws RuntimeException 業務例外
      */
-    public <P, R> R post(String path, P paramater, Class<R> clazz) throws RuntimeException {
+    public <P, R> R post(String path, P parameter, Class<R> clazz) throws RuntimeException {
         RequestEntity<P> request = createRequest(path, RequestEntity.post(path)).contentType(MediaType.APPLICATION_JSON)
-                .body(paramater);
+                .body(parameter);
         ResponseEntity<R> response = restTemplate.exchange(path, HttpMethod.POST, request, clazz);
         return response.getBody();
     }
@@ -126,12 +139,12 @@ public class MahjongRestTemplate {
      * 
      * @param <P>       パラメータ型
      * @param path      送信先
-     * @param paramater ボディパラメータ
+     * @param parameter ボディパラメータ
      * @throws RuntimeException 業務例外
      */
-    public <P> void post(String path, P paramater) throws RuntimeException {
+    public <P> void post(String path, P parameter) throws RuntimeException {
         RequestEntity<P> request = createRequest(path, RequestEntity.post(path)).contentType(MediaType.APPLICATION_JSON)
-                .body(paramater);
+                .body(parameter);
         restTemplate.exchange(path, HttpMethod.POST, request, Void.class);
     }
 
@@ -149,8 +162,9 @@ public class MahjongRestTemplate {
             throws RuntimeException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        String mahjongUser = mahjongHeader();
         // キーの設定
-        headers.add(X_MAHJONG_USER, "");
+        headers.add(X_MAHJONG_USER, mahjongUser);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         ResponseEntity<R> response = restTemplate.exchange(path, HttpMethod.POST, requestEntity, clazz);
@@ -163,14 +177,14 @@ public class MahjongRestTemplate {
      * @param <P>       パラメータ型
      * @param <R>       レスポンス型
      * @param path      送信先
-     * @param paramater ボディパラメータ
+     * @param parameter ボディパラメータ
      * @param clazz     レスポンスのクラス型
      * @return レスポンス
      * @throws RuntimeException 業務例外
      */
-    public <P, R> R put(String path, P paramater, Class<R> clazz) throws RuntimeException {
+    public <P, R> R put(String path, P parameter, Class<R> clazz) throws RuntimeException {
         RequestEntity<P> request = createRequest(path, RequestEntity.put(path)).contentType(MediaType.APPLICATION_JSON)
-                .body(paramater);
+                .body(parameter);
         ResponseEntity<R> response = restTemplate.exchange(path, HttpMethod.PUT, request, clazz);
 
         return response.getBody();
@@ -181,12 +195,17 @@ public class MahjongRestTemplate {
      * 
      * @param <P>       パラメータ型
      * @param path      送信先
-     * @param paramater ボディパラメータ
+     * @param parameter ボディパラメータ
      * @throws RuntimeException 業務例外
      */
-    public <P> void put(String path, P paramater) throws RuntimeException {
+    public <P> void put(String path, P parameter) throws RuntimeException {
+        try {
+            log.info("param: {}", om.writeValueAsString(parameter));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         RequestEntity<P> request = createRequest(path, RequestEntity.put(path)).contentType(MediaType.APPLICATION_JSON)
-                .body(paramater);
+                .body(parameter);
         restTemplate.exchange(path, HttpMethod.PUT, request, Void.class);
     }
 
@@ -205,8 +224,9 @@ public class MahjongRestTemplate {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        String mahjongUser = mahjongHeader();
         // キーの設定
-        headers.add(X_MAHJONG_USER, "");
+        headers.add(X_MAHJONG_USER, mahjongUser);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         ResponseEntity<R> response = restTemplate.exchange(path, HttpMethod.PUT, requestEntity, clazz);
@@ -252,8 +272,8 @@ public class MahjongRestTemplate {
      * @return header リクエストヘッダ
      */
     private HeadersBuilder<?> createRequest(String path, HeadersBuilder<?> header) {
-        header.header(X_MAHJONG_USER,
-                "eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=");
+        String mahjongUser = mahjongHeader();
+        header.header(X_MAHJONG_USER, mahjongUser);
         return header;
     }
 
@@ -265,11 +285,32 @@ public class MahjongRestTemplate {
      * @return header リクエストヘッダ
      */
     private BodyBuilder createRequest(String path, BodyBuilder header) {
+        String mahjongUser = mahjongHeader();
         // キーの設定
-        header.header(X_MAHJONG_USER,
-                "eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=");
+        header.header(X_MAHJONG_USER, mahjongUser);
         header.header("request-id", path.replaceAll(".*/", ""));
         return header;
+    }
+
+    private String mahjongHeader() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MahjongAuthenticationHeader mahjongHeader = new MahjongAuthenticationHeader();
+        mahjongHeader.setSub(applicationProperties.getSub());
+        mahjongHeader.setIss(applicationProperties.getIss());
+        mahjongHeader.setLoginId(applicationProperties.getLoginId());
+        if (Objects.nonNull(authentication)) {
+            if (authentication.getPrincipal() instanceof MahjongUser) {
+                String loginId = ((MahjongUser) authentication.getPrincipal()).getUsername();
+                mahjongHeader.setLoginId(loginId);
+            }
+        }
+        String mahjongUser = "";
+        try {
+            mahjongUser = new String(Base64.encodeBase64(om.writeValueAsBytes(mahjongHeader)));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return mahjongUser;
     }
 
 }

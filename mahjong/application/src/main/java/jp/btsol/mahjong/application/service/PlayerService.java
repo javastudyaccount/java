@@ -1,14 +1,13 @@
 package jp.btsol.mahjong.application.service;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.stereotype.Service;
 
@@ -57,14 +56,26 @@ public class PlayerService {
     }
 
     /**
+     * get player
+     * 
+     * @param loginId String
+     * @return Player
+     */
+    public Player getPlayer(String loginId) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("loginId", loginId);
+        return baseRepository.findForObject("select * from player where login_id = :loginId", param, Player.class);
+    }
+
+    /**
      * get player authentication
      * 
      * @param loginId String
      * @return PlayerAuthentication
      */
     public PlayerAuthentication getPlayerAuthentication(String loginId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("loginId", loginId);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("loginId", loginId);
         try {
             return baseRepository.findForObject(//
                     "select " + //
@@ -132,24 +143,24 @@ public class PlayerService {
     }
 
     public void updateToken(PersistentRememberMeToken token) {
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("series", token.getSeries());
-        param.put("token", token.getTokenValue());
-        param.put("lastUsed", new Timestamp(token.getDate().getTime()));
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("series", token.getSeries());
+        param.addValue("token", token.getTokenValue());
+        param.addValue("lastUsed", new Timestamp(token.getDate().getTime()));
         baseRepository.update("update persistent_logins set token=:token, last_used=:lastUsed where series = :series",
                 param);
     }
 
     public PersistentLogins getToken(String series) {
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("series", series);
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("series", series);
         return baseRepository.findForObject("select * from persistent_logins where series=:series", param,
                 PersistentLogins.class);
     }
 
     public void deleteToken(String loginId) {
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("loginId", loginId);
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("loginId", loginId);
         baseRepository.update("delete from persistent_logins where login_id=:loginId", param);
     }
 }

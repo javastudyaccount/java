@@ -16,6 +16,8 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.security.web.authentication.rememberme.InvalidCookieException;
 import org.springframework.util.StringUtils;
 
+import jp.btsol.mahjong.model.MahjongAuthenticationHeader;
+
 public class Utils {
     /**
      * DELIMITER String
@@ -29,23 +31,20 @@ public class Utils {
      * @return xMahjongUserのクラス
      * @throws JSONException
      */
-    public static XMahjongUser parseXMahjongUser(String xMahjongUserNoDec) throws JSONException {
+    public static MahjongAuthenticationHeader parseXMahjongUser(String xMahjongUserNoDec) throws JSONException {
         String xMahjongUserJsonStr = new String(Base64.getUrlDecoder().decode(xMahjongUserNoDec),
                 StandardCharsets.UTF_8);
         if (Objects.nonNull(xMahjongUserJsonStr)) {
             JSONObject xMahjongUserJson = new JSONObject(xMahjongUserJsonStr);
-            XMahjongUser token = new XMahjongUser();
+            MahjongAuthenticationHeader token = new MahjongAuthenticationHeader();
             token.setIss(xMahjongUserJson.getString("iss"));
             token.setSub(xMahjongUserJson.getString("sub"));
-            if (xMahjongUserJson.has("username")) {
-                token.setUsername(xMahjongUserJson.getString("username"));
+            if (xMahjongUserJson.has("loginId")) {
+                token.setLoginId(xMahjongUserJson.getString("loginId"));
             }
-            if (xMahjongUserJson.has("bizGroup")) {
-                token.setBizGroup(xMahjongUserJson.getString("bizGroup"));
-            }
-            if (xMahjongUserJson.has("customParam")) {
-                token.setCustomParam(xMahjongUserJson.getString("customParam"));
-            }
+//            if (xMahjongUserJson.has("customParam")) {
+//                token.setCustomParam(xMahjongUserJson.getString("customParam"));
+//            }
             return token;
         }
         return null;

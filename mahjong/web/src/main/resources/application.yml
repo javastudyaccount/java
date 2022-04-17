@@ -7,6 +7,12 @@ application:
     hands: /hands
     shuffled: /shuffled
     rooms: /room/all
+    room: /room/get
+    enterRoom: /room/enter
+    exitRoom: /room/exit
+    playersInRoom: /room/players
+    createRoom: /room/new
+    
     players: /player/all
     createPlayer: /player/new
     playerAuthentication: /player/authentication
@@ -14,6 +20,9 @@ application:
     updateToken: /token/update
     tokenForSeries: /token/get
     removeToken: /token/delete
+  iss: iss
+  sub: sub
+  loginId: anonymous
 spring:
   thymeleaf:
     check-template-location: true

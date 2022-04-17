@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Room</title>
+</head>
+<body>
+<h1>Room</h1>
+<div layout:fragment="content">
+<h3>Players in room: <span th:text="${room.roomName}">
+    </span></h3>
+    <span th:if="${players.size()==0}">None</span>
+<table>
+<tr th:each="player, playerStat: ${players}">
+<td>
+    <span th:text="${player.playerId}">
+    </span>
+</td>
+<td>
+    <span th:text="${player.nickname}">
+    </span>
+</td>
+</tr>
+</table>
+      <a href="/players">Players</a><br/>
+      <a href="/rooms">Rooms</a>
+</div>
+</body>
+</html>

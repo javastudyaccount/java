@@ -17,8 +17,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jp.btsol.mahjong.web.service.PlayerService;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class RememberMeTokenRepositoryImpl implements PersistentTokenRepository {
     /**
      * COOKIE_NAME
@@ -63,7 +65,14 @@ public class RememberMeTokenRepositoryImpl implements PersistentTokenRepository 
 
     @Override
     public PersistentRememberMeToken getTokenForSeries(String seriesId) {
-        return playerService.getTokenForSeries(seriesId);
+        try {
+            return playerService.getTokenForSeries(seriesId);
+            // CHECKSTYLE:OFF
+        } catch (Exception e) {
+            // CHECKSTYLE:ON
+            log.error(e.getLocalizedMessage());
+        }
+        return null;
     }
 
     @Override

@@ -3,24 +3,27 @@
     layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Rooms</title>
+<title>Create new room</title>
 </head>
 <body>
-<h1>Rooms</h1>
+<h1>Create new room</h1>
 <div layout:fragment="content">
-<table style="width:100%">
+
+<form th:action="@{/createRoom}" method="post" th:object="${roomForm}">
+<table>
 <tr>
 <td>
-   	<span th:text="${room.roomId}">
-   	</span>
+    Room name:
 </td>
 <td>
-    <span th:text="${room.roomName}">
-    </span>
+    <input type="text" th:field="*{roomName}" maxlength=20><span class="hint-required">*up to 20 chars</span>
 </td>
 </tr>
 </table>
+<button>Create</button>
+</form>
       <a href="/players">Players</a>
+      <a href="/rooms">Rooms</a>
 </div>
 </body>
 </html>

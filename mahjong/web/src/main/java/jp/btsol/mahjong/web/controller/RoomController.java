@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
-import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.RoomModel;
+import jp.btsol.mahjong.web.form.RoomForm;
 import jp.btsol.mahjong.web.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Controller
 @Slf4j
-public class RoomsController {
+public class RoomController {
     /**
      * Service roomService
      */
@@ -39,7 +42,7 @@ public class RoomsController {
      * @param roomService RoomService
      */
     @Autowired
-    public RoomsController(RoomService roomService) {
+    public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }
 
@@ -51,29 +54,68 @@ public class RoomsController {
      */
     @GetMapping("/rooms")
     public String rooms(Model model) {
-        List<Room> rooms = roomService.getRooms();
+        List<RoomModel> rooms = roomService.getRooms();
         model.addAttribute("rooms", rooms);
-        return "rooms";
+        return "room/rooms";
     }
 
     /**
      * enter room
      * 
-     * @param model  Model
      * @param roomId long
      * @return String view name
      */
     @PostMapping("/enterRoom")
-    public String enterRoom(@Valid @RequestParam long roomId) {
+    public String enterRoom(@Valid //
+    @RequestParam long roomId) {
         log.info("roomId: {}", roomId);
-//      roomService.enterRoom(roomId);
+        roomService.enterRoom(roomId);
 
         UriComponents uriComponents = MvcUriComponentsBuilder
-                .fromMethodName(RoomsController.class, "room", Model.class, roomId).build();
+                .fromMethodName(RoomController.class, "room", Model.class, roomId).build();
 
         URI location = uriComponents.toUri();
 
         return "redirect:" + location.toString();
+    }
+
+    /**
+     * exit room
+     * 
+     * @param roomId long
+     * @return String view name
+     */
+    @PostMapping("/exitRoom")
+    public String exitRoom(@Valid //
+    @RequestParam long roomId) {
+        log.info("roomId: {}", roomId);
+        roomService.exitRoom(roomId);
+
+        return "redirect:/rooms";
+    }
+
+    /**
+     * create new room
+     * 
+     * @param roomForm RoomForm
+     * @return String template name
+     */
+    @GetMapping("/createRoom")
+    public String createRoom(@ModelAttribute("roomForm") RoomForm roomForm) {
+        return "room/new";
+    }
+
+    /**
+     * create new room
+     * 
+     * @param roomForm RoomForm
+     * @return String template name
+     */
+    @PostMapping("/createRoom")
+    public String postCreateRoom(@Valid //
+    @ModelAttribute("roomForm") RoomForm roomForm) {
+        roomService.createRoom(roomForm.getRoomName());
+        return "redirect:/rooms";
     }
 
     /**
@@ -85,8 +127,10 @@ public class RoomsController {
      */
     @GetMapping("/room/{roomId}")
     public String room(Model model, @Valid @PathVariable("roomId") long roomId) {
-        Room room = new Room();
+        RoomModel room = roomService.getRoom(roomId);
         model.addAttribute("room", room);
-        return "room";
+        List<Player> playersInRoom = roomService.getPlayers(roomId);
+        model.addAttribute("players", playersInRoom);
+        return "room/room";
     }
 }

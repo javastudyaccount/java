@@ -38,6 +38,7 @@ import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.service.RoomService;
 import jp.btsol.mahjong.entity.ErrorDataEntity;
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.model.RoomModel;
 
 @DirtiesContext
 @SpringBootTest(classes = {TestConfig.class})
@@ -77,7 +78,7 @@ class RoomControllerTest {
         @Test
         void testGetRoomsEmpty() throws Exception {
             // モック設定
-            List<Room> rooms = new ArrayList<>();
+            List<RoomModel> rooms = new ArrayList<>();
             when(roomService.getRooms()).thenReturn(rooms);
 
             // 実行、検証
@@ -93,8 +94,8 @@ class RoomControllerTest {
         @Test
         void testGetRoomsKanji() throws Exception {
             // モック設定
-            List<Room> rooms = new ArrayList<>();
-            Room room = new Room();
+            List<RoomModel> rooms = new ArrayList<>();
+            RoomModel room = new RoomModel();
             room.setRoomId(1);
             room.setRoomName("日本語");
             rooms.add(room);
@@ -114,13 +115,13 @@ class RoomControllerTest {
         @Test
         void testGetRooms() throws Exception {
             // モック設定
-            List<Room> rooms = new ArrayList<>();
-            Room room = new Room();
+            List<RoomModel> rooms = new ArrayList<>();
+            RoomModel room = new RoomModel();
             room.setRoomId(1);
             room.setRoomName("日本語");
             rooms.add(room);
 
-            room = new Room();
+            room = new RoomModel();
             room.setRoomId(2);
             rooms.add(room);
             room.setRoomName("Test room");

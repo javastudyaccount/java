@@ -118,7 +118,8 @@ public class PlayerController {
      * @return PlayerAuthentication
      */
     @GetMapping("/player/authentication")
-    public PlayerAuthentication getPlayerAuthentication(@Valid @RequestParam(required = true) String loginId) {
+    public PlayerAuthentication getPlayerAuthentication(@Valid //
+    @RequestParam(required = true) String loginId) {
         return playerService.getPlayerAuthentication(loginId);
     }
 }
