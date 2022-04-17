@@ -29,6 +29,11 @@
 </td>
 </tr>
 </table>
+    <form th:unless="${room.entered}" style="display: inline" id="formEnterRoom" method="post" th:action="@{/enterRoom}">
+    <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
+    <button class="button-left">Enter</button>
+    </form>
+
 <button th:if="${players.size>=4 && room.entered}">Begin a game</button><br/>
       <a href="/players">Players</a><br/>
       <a href="/rooms">Rooms</a>
