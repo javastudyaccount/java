@@ -29,5 +29,5 @@ public class RoomModel {
     /**
      * game id
      */
-    private long gameId;
+    private Long gameId;
 }
