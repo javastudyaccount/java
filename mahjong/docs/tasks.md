@@ -6,3 +6,5 @@
 
 - [ ] begin a game
 
+    - [ ] show game status for rooms or players
+    - [ ] /room/1 error 

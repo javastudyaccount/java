@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
-import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.entity.Room;
 import jp.btsol.mahjong.entity.RoomPlayer;
 import jp.btsol.mahjong.fw.UserContext;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.RoomModel;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -68,13 +68,20 @@ public class RoomService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("playerId", userContext.playerId());
         param.addValue("roomId", roomId);
-        return baseRepository.findForObject("select room.room_id, room.room_name, "//
-                + "(my_room.room_id is not null) as entered from room "//
-                + "left join (select room_id from room_player " //
-                + "where player_id = :playerId) my_room "//
-                + "on room.room_id = my_room.room_id "//
-                + "where room.room_id = :roomId "//
-                + "order by room.room_id", param, RoomModel.class);
+        RoomModel roomModel = baseRepository.findForObject(//
+                "select room.room_id, room.room_name, "//
+                        + "(my_room.room_id is not null) as entered, "//
+                        + "game.game_id " + "from room "//
+                        + "left join (select room_id from room_player " //
+                        + "            where player_id = :playerId) my_room "//
+                        + "on room.room_id = my_room.room_id "//
+                        + "left join game "//
+                        + "on room.room_id = game.room_id " + "where room.room_id = :roomId "//
+                        + "order by room.room_id",
+                param, RoomModel.class);
+        List<PlayerModel> players = getPlayers(roomId);
+        roomModel.setPlayersInRoom(players);
+        return roomModel;
     }
 
     /**
@@ -83,14 +90,19 @@ public class RoomService {
      * @param roomId long
      * @return List<Player>
      */
-    public List<Player> getPlayers(long roomId) {
+    public List<PlayerModel> getPlayers(long roomId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("roomId", roomId);
         return baseRepository.findForList(//
-                "select * from player where player.player_id in "//
-                        + "(select player_id from room_player where room_id = :roomId) "//
+                "select player.player_id, player.nickname, room_player.room_id, game_player.game_id "//
+                        + "from player "//
+                        + "left join room_player "//
+                        + "on player.player_id = room_player.player_id "//
+                        + "left join game_player "//
+                        + "on player.player_id = game_player.player_id "//
+                        + "where room_player.room_id = :roomId "//
                         + "order by player_id",
-                param, Player.class);
+                param, PlayerModel.class);
     }
 
     /**
@@ -127,24 +139,12 @@ public class RoomService {
     }
 
     /**
-     * new room
-     * 
-     * @param roomName String
-     * 
-     */
-    public void newRoom(String roomName) {
-        Room room = new Room();
-        room.setRoomName(roomName);
-        baseRepository.insertWithSurrogateKey(room);
-    }
-
-    /**
      * insert room
      * 
      * @param roomName String
      * @return Room
      */
-    public Room createNewRoom(String roomName) {
+    public Room createRoom(String roomName) {
         if (Objects.isNull(roomName)) {
             throw new RuntimeException("room name can not be null.");
         }

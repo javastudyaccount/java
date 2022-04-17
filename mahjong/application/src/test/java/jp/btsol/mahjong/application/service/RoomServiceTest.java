@@ -93,7 +93,7 @@ class RoomServiceTest {
 
         @Test
         void testCreateNewRoomNameIsNullError() {
-            RuntimeException e = Assertions.assertThrows(RuntimeException.class, () -> roomService.createNewRoom(null));
+            RuntimeException e = Assertions.assertThrows(RuntimeException.class, () -> roomService.createRoom(null));
             Assertions.assertEquals("room name can not be null.", e.getLocalizedMessage());
         }
 
@@ -101,14 +101,14 @@ class RoomServiceTest {
         void testCreateNewRoomNameIsTooLongError() {
             String nameIsMoreThan50 = "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeef";
             RuntimeException e = Assertions.assertThrows(RuntimeException.class,
-                    () -> roomService.createNewRoom(nameIsMoreThan50));
+                    () -> roomService.createRoom(nameIsMoreThan50));
             Assertions.assertEquals("Lenght of column roomName is more than 50.", e.getLocalizedMessage());
         }
 
         @Test
         void testCreateNewRoomKanji() {
             String name = "お楽しみ室";
-            Room room = roomService.createNewRoom(name);
+            Room room = roomService.createRoom(name);
             Assertions.assertNotNull(room);
             Assertions.assertEquals("お楽しみ室", room.getRoomName());
         }
@@ -116,7 +116,7 @@ class RoomServiceTest {
         @Test
         void testCreateNewRoomMaxLength() {
             String name = "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeee";
-            Room room = roomService.createNewRoom(name);
+            Room room = roomService.createRoom(name);
             Assertions.assertNotNull(room);
             Assertions.assertEquals("aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeee", room.getRoomName());
         }
@@ -125,14 +125,14 @@ class RoomServiceTest {
         void testCreateNewRoomKanjiTooLongError() {
             String nameIsMoreThan50 = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十・";
             RuntimeException e = Assertions.assertThrows(RuntimeException.class,
-                    () -> roomService.createNewRoom(nameIsMoreThan50));
+                    () -> roomService.createRoom(nameIsMoreThan50));
             Assertions.assertEquals("Lenght of column roomName is more than 50.", e.getLocalizedMessage());
         }
 
         @Test
         void testCreateNewRoomKanjiMaxLength() {
             String name = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十";
-            Room room = roomService.createNewRoom(name);
+            Room room = roomService.createRoom(name);
             Assertions.assertNotNull(room);
             Assertions.assertEquals("一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十", room.getRoomName());
         }
@@ -143,7 +143,7 @@ class RoomServiceTest {
         @ExpectedDatabase(value = "/testdata/room/out/rooms-1.xlsx", assertionMode = DatabaseAssertionMode.NON_STRICT)
         void testCreateNewRoomAssertionByExcel() {
             String name = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十";
-            Room room = roomService.createNewRoom(name);
+            Room room = roomService.createRoom(name);
             Assertions.assertNotNull(room);
 //            Assertions.assertEquals("一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十", room.getRoomName());
         }
@@ -151,9 +151,9 @@ class RoomServiceTest {
         @Test
         void testCreateNewRoomNameUniqueError() {
             String name = "一二三四五六七八九十";
-            Room room = roomService.createNewRoom(name);
+            Room room = roomService.createRoom(name);
             RuntimeException e = Assertions.assertThrows(DuplicateKeyException.class,
-                    () -> roomService.createNewRoom(name));
+                    () -> roomService.createRoom(name));
             Assertions.assertEquals("Room name exists.", e.getLocalizedMessage());
         }
     }

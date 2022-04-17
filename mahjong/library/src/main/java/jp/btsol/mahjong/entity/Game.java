@@ -30,7 +30,7 @@ public class Game implements Serializable {
     private long gameId;
     /**  */
     @Column(nullable = false)
-    private long roomeId;
+    private long roomId;
     /**  */
     @Column(nullable = true)
     private java.sql.Timestamp startedTimestamp;

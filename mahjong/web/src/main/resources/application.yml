@@ -6,6 +6,7 @@ application:
     home: /
     hands: /hands
     shuffled: /shuffled
+    
     rooms: /room/all
     room: /room/get
     enterRoom: /room/enter
@@ -20,6 +21,9 @@ application:
     updateToken: /token/update
     tokenForSeries: /token/get
     removeToken: /token/delete
+    
+    createGame: /game/new
+    game: /game/get
   iss: iss
   sub: sub
   loginId: anonymous

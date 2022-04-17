@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Game</title>
+</head>
+<body>
+<h1>Game</h1>
+<div layout:fragment="content">
+<h3>Players in room: <span th:text="${game.roomModel.roomName}">
+    </span></h3>
+<table style="width:100%">
+<tr th:each="player, playerStat: ${game.roomModel.playersInRoom}">
+<td>
+    <span th:text="${player.playerId}">
+    </span>
+</td>
+<td>
+    <span th:text="${player.nickname}">
+    </span>
+</td>
+<td align="right">
+    <form th:if="${#authentication.principal.playerId!=player.playerId && player.gameId==null && game.countOfPlayers<4}" style="display: inline" id="formInvite" method="post" th:action="@{/inviteGame}">
+    <input type="hidden" name="gameId" th:value="*{game.gameId}"/>
+    <input type="hidden" name="playerId" th:value="*{player.playerId}"/>
+    <button class="button-right">Invite</button>
+    </form>
+    <form th:if="${#authentication.principal.playerId==player.playerId && player.gameId==null && game.countOfPlayers<4}" style="display: inline" id="formEnterGame" method="post" th:action="@{/enterGame}">
+    <input type="hidden" name="gameId" th:value="*{game.gameId}"/>
+    <button class="button-right">Enter game</button>
+    </form>
+</td>
+</tr>
+</table>
+
+      <a href="/players">Players</a><br/>
+      <a href="/rooms">Rooms</a>
+</div>
+</body>
+</html>

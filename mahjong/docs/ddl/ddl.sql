@@ -2,7 +2,7 @@
 drop table game cascade;
 CREATE TABLE game (
     game_id bigint NOT NULL AUTO_INCREMENT,
-    roome_id bigint NOT NULL,
+    room_id bigint NOT NULL,
     started_timestamp timestamp,
     ended_timestamp timestamp,
     shuffled_tiles json,
@@ -15,7 +15,8 @@ CREATE TABLE game (
     updated_user varchar(20) NOT NULL,
     PRIMARY KEY (game_id)
 );
-
+CREATE UNIQUE INDEX game_room_unique
+    ON game (room_id);
 
 drop table game_log cascade;
 CREATE TABLE game_log (
@@ -48,7 +49,9 @@ CREATE TABLE game_player (
     updated_user varchar(20) NOT NULL,
     PRIMARY KEY (game_id, player_id)
 );
-
+CREATE UNIQUE INDEX game_player_unique
+    ON game_player (player_id);
+    
 drop table player cascade;
 CREATE TABLE player (
     player_id bigint NOT NULL AUTO_INCREMENT,
@@ -131,9 +134,9 @@ insert into notice (title, detail, start_date, created_user, updated_user) value
 
 drop table room_player cascade;
 create table room_player(
-    long room_id,
-    long player_id,
-    long role,
+    room_id bigint not null,
+    player_id bigint not null,
+    role_id bigint default 0 not null,
     deleted_flg boolean DEFAULT false NOT NULL,
     created_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_user varchar(20) NOT NULL,

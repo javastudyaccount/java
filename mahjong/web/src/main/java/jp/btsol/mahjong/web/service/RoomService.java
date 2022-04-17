@@ -38,6 +38,7 @@ public class RoomService {
      * Constructor
      * 
      * @param applicationProperties ApplicationProperties application properties
+     * @param mahjongRestTemplate   MahjongRestTemplate
      */
     public RoomService(ApplicationProperties applicationProperties, //
             MahjongRestTemplate mahjongRestTemplate) {

@@ -10,9 +10,9 @@
 <div layout:fragment="content">
 <h3>Players in room: <span th:text="${room.roomName}">
     </span></h3>
-    <span th:if="${players.size()==0}">None</span>
+    <span th:if="${room.playersInRoom.size()==0}">None</span>
 <table style="width:100%">
-<tr th:each="player, playerStat: ${players}">
+<tr th:each="player, playerStat: ${room.playersInRoom}">
 <td>
     <span th:text="${player.playerId}">
     </span>
@@ -34,10 +34,15 @@
     <button class="button-left">Enter</button>
     </form>
 
-    <form th:if="${players.size>=4 && room.entered}" style="display: inline" id="formCreateGame" method="post" th:action="@{/createGame}">
+    <div th:if="${room.gameId}">
+    <a th:href="${'/game/' + room.gameId}">Game</a>
+    </div>
+    <div th:unless="${room.gameId}">
+    <form th:if="${room.playersInRoom.size>=4 && room.entered}" style="display: inline" id="formCreateGame" method="post" th:action="@{/createGame}">
     <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
     <button class="button-left">Begin a game</button>
     </form> <br/>
+    </div>
       <a href="/players">Players</a><br/>
       <a href="/rooms">Rooms</a>
 </div>

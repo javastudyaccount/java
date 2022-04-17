@@ -86,6 +86,15 @@ public class ApplicationProperties {
          * remove token for logid_id
          */
         private String removeToken;
+
+        /**
+         * create game
+         */
+        private String createGame;
+        /**
+         * get game
+         */
+        private String game;
     }
 
     /**

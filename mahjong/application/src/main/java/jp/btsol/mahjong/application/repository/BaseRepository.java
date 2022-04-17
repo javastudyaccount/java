@@ -358,7 +358,8 @@ public class BaseRepository {
         if (Objects.nonNull(params)) {
             Map<String, Object> param = params.getValues();
             for (String key : param.keySet()) {
-                sql = sql.replaceAll(":" + key, "'" + param.get(key).toString() + "'");
+                sql = sql.replaceAll(":" + key,
+                        "'" + (Objects.isNull(param.get(key)) ? "<<null>>" : param.get(key).toString()) + "'");
             }
         }
         log.info(sql);

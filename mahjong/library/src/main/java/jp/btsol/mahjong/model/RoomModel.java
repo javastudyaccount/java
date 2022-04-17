@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +22,12 @@ public class RoomModel {
      * indicated if I entered the room
      */
     private boolean entered;
+    /**
+     * players in room
+     */
+    private List<PlayerModel> playersInRoom;
+    /**
+     * game id
+     */
+    private long gameId;
 }

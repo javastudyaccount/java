@@ -61,7 +61,7 @@ public class PlayerController {
     @PostMapping(value = "/player/new", produces = {"application/json"}, consumes = {"application/json"})
     public Player createNewPlayer(@Valid // validate annotation
     @RequestBody(required = true) PlayerRegistration playerRegistration) {
-        return playerService.createNewPlayer(playerRegistration);
+        return playerService.createPlayer(playerRegistration);
     }
 
     /**
@@ -72,7 +72,7 @@ public class PlayerController {
     @PostMapping(value = "/token/new", produces = {"application/json"}, consumes = {"application/json"})
     public void createNewToken(@Valid // validate annotation
     @RequestBody(required = true) PersistentRememberMeToken persistentRememberMeToken) {
-        playerService.createNewToken(persistentRememberMeToken);
+        playerService.createToken(persistentRememberMeToken);
     }
 
     /**

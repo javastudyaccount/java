@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.btsol.mahjong.application.service.RoomService;
-import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.entity.Room;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.RoomId;
 import jp.btsol.mahjong.model.RoomModel;
 import jp.btsol.mahjong.model.RoomName;
@@ -71,7 +71,7 @@ public class RoomController {
      * @return List<Player>
      */
     @GetMapping("/players")
-    public List<Player> getPlayers(@Valid //
+    public List<PlayerModel> getPlayers(@Valid //
     @RequestParam(required = true) long roomId) {
         return roomService.getPlayers(roomId);
     }
@@ -107,7 +107,7 @@ public class RoomController {
     @PostMapping(value = "/new")
     public ResponseEntity<Room> newRoom(@Valid //
     @RequestBody(required = true) RoomName roomName) {
-        Room room = roomService.createNewRoom(roomName.getRoomName());
+        Room room = roomService.createRoom(roomName.getRoomName());
         return new ResponseEntity<>(room, HttpStatus.OK);
     }
 }

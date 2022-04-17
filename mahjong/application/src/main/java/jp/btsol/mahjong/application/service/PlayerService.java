@@ -101,7 +101,7 @@ public class PlayerService {
      * @param playerRegistration PlayerRegistration
      * @return Player
      */
-    public Player createNewPlayer(PlayerRegistration playerRegistration) {
+    public Player createPlayer(PlayerRegistration playerRegistration) {
         if (StringUtils.isEmpty(playerRegistration.getNickname())) {
             throw new RuntimeException("Nickname can not be empty.");
         }
@@ -133,7 +133,7 @@ public class PlayerService {
         return baseRepository.findById(playerId, Player.class);
     }
 
-    public void createNewToken(PersistentRememberMeToken token) {
+    public void createToken(PersistentRememberMeToken token) {
         PersistentLogins login = new PersistentLogins();
         login.setLoginId(token.getUsername());
         login.setSeries(token.getSeries());
