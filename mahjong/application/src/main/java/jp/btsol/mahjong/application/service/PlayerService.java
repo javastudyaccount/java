@@ -18,6 +18,7 @@ import jp.btsol.mahjong.entity.Passwd;
 import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.PlayerAuthentication;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +50,22 @@ public class PlayerService {
     /**
      * get players
      * 
-     * @return List<Player>
+     * @return List<PlayerModel>
      */
-    public List<Player> getPlayers() {
-        return baseRepository.findForList("select * from player", Player.class);
+    public List<PlayerModel> getPlayers() {
+        return baseRepository.findForList(//
+                "select player.player_id, player.nickname, room_player.room_id, room.room_name, game_player.game_id "//
+                        + "from player "//
+                        + "left join room_player "//
+                        + "on player.player_id = room_player.player_id "//
+                        + "left join game "//
+                        + "on room_player.room_id = game.room_id "//
+                        + "left join game_player "//
+                        + "on game.game_id = game_player.game_id "//
+                        + "and game_player.player_id = player.player_id "//
+                        + "left join room " //
+                        + "on room_player.room_id = room.room_id ",
+                PlayerModel.class);
     }
 
     /**

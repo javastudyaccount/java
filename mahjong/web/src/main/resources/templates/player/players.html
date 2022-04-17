@@ -9,7 +9,18 @@
 <body>
 <h1>Players</h1>
 <div layout:fragment="content">
-<table>
+<table width="100%">
+<tr>
+<th>
+Player ID
+</th>
+<th>
+Nickname
+</th>
+<th>
+In room
+</th>
+</tr>
 <tr th:each="player, playerStat: ${players}">
 <td>
    	<span th:text="${player.playerId}">
@@ -17,6 +28,10 @@
 </td>
 <td>
     <span th:text="${player.nickname}">
+    </span>
+</td>
+<td>
+    <span th:text="${player.roomName}">
     </span>
 </td>
 </tr>

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.MahjongUser;
 import jp.btsol.mahjong.model.PlayerAuthentication;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
@@ -64,14 +65,14 @@ public class PlayerService implements UserDetailsService {
     /**
      * get player list
      * 
-     * @return List<Player>
+     * @return List<PlayerModel>
      */
-    public List<Player> getPlayers() {
+    public List<PlayerModel> getPlayers() {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getPlayers();
 
-        List<Player> players = mahjongRestTemplate.get(url, ArrayList.class);
+        List<PlayerModel> players = mahjongRestTemplate.get(url, ArrayList.class);
 
         return players;
     }

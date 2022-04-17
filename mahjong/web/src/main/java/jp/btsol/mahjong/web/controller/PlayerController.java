@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.web.form.LoginForm;
 import jp.btsol.mahjong.web.form.PlayerForm;
@@ -50,7 +50,7 @@ public class PlayerController {
      */
     @GetMapping("/players")
     public String players(Model model) {
-        List<Player> players = playerService.getPlayers();
+        List<PlayerModel> players = playerService.getPlayers();
         model.addAttribute("players", players);
         return "player/players";
     }

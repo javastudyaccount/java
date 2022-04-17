@@ -113,7 +113,12 @@ CREATE TABLE persistent_logins (
     login_id  VARCHAR(64) NOT NULL,
     series    VARCHAR(64) NOT NULL PRIMARY KEY,
     token     VARCHAR(64) NOT NULL,
-    last_used TIMESTAMP   NOT NULL
+    last_used TIMESTAMP   NOT NULL,
+    deleted_flg boolean DEFAULT false NOT NULL,
+    created_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_user varchar(20) NOT NULL,
+    updated_timestamp timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    updated_user varchar(20) NOT NULL
 );
 
 drop table notice cascade;
@@ -147,6 +152,18 @@ create table room_player(
 
 CREATE UNIQUE INDEX room_player_unique
     ON room_player (player_id);
+
+drop table invite_player cascade;
+create table invite_player(
+    invite_from bigint not null,
+    invite_to bigint not null, 
+    invite_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    deleted_flg boolean DEFAULT false NOT NULL,
+    created_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_user varchar(20) NOT NULL,
+    updated_timestamp timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    updated_user varchar(20) NOT NULL
+);
 
 /*
 select 'game' tname, count(1) from game union

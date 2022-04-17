@@ -17,6 +17,7 @@ import jp.btsol.mahjong.application.service.PlayerService;
 import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.PlayerAuthentication;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
 
 /**
@@ -45,10 +46,10 @@ public class PlayerController {
     /**
      * get player list
      * 
-     * @return List<Player>
+     * @return List<PlayerModel>
      */
     @GetMapping("/player/all")
-    public List<Player> getPlayers() {
+    public List<PlayerModel> getPlayers() {
         return playerService.getPlayers();
     }
 

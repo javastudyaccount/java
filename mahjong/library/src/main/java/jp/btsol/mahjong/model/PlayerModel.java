@@ -21,6 +21,10 @@ public class PlayerModel {
      */
     private Long roomId;
     /**
+     * room name
+     */
+    private String roomName;
+    /**
      * game id
      */
     private Long gameId;
