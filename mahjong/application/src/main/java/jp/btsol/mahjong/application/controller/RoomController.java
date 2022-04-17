@@ -75,23 +75,13 @@ public class RoomController {
     }
 
     /**
-     * create room
-     * 
-     * @param roomName RoomName
-     */
-    @PostMapping("/new")
-    public void newRoom(@Valid @RequestBody(required = true) RoomName roomName) {
-        roomService.newRoom(roomName.getRoomName());
-    }
-
-    /**
      * create new room
      * 
      * @param roomName String
      * @return Room
      */
     @PostMapping(value = "/new")
-    public ResponseEntity<Room> createNewRoom(@Valid //
+    public ResponseEntity<Room> newRoom(@Valid //
     @RequestBody(required = true) RoomName roomName) {
         Room room = roomService.createNewRoom(roomName.getRoomName());
         return new ResponseEntity<>(room, HttpStatus.OK);

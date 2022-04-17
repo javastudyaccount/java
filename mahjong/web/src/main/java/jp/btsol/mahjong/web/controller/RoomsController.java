@@ -97,7 +97,7 @@ public class RoomsController {
      */
     @PostMapping("/createRoom")
     public String postCreateRoom(@Valid @ModelAttribute("roomForm") RoomForm roomForm) {
-
+        roomService.createRoom(roomForm.getRoomName());
         return "redirect:/rooms";
     }
 
