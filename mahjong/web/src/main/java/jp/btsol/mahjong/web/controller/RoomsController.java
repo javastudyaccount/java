@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.util.UriComponents;
 
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.RoomModel;
+import jp.btsol.mahjong.web.form.RoomForm;
 import jp.btsol.mahjong.web.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -74,6 +76,28 @@ public class RoomsController {
         URI location = uriComponents.toUri();
 
         return "redirect:" + location.toString();
+    }
+
+    /**
+     * create new room
+     * 
+     * @param roomForm RoomForm
+     * @return String template name
+     */
+    @GetMapping("/createRoom")
+    public String createRoom(@ModelAttribute("roomForm") RoomForm roomForm) {
+        return "room/new";
+    }
+
+    /**
+     * create new room
+     * 
+     * @param roomForm RoomForm
+     * @return String template name
+     */
+    @PostMapping("/createRoom")
+    public String postCreateRoom(@Valid @ModelAttribute("roomForm") RoomForm roomForm) {
+        return "redirect:/rooms";
     }
 
     /**

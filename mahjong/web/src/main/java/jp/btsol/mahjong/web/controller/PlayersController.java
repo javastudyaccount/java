@@ -96,7 +96,7 @@ public class PlayersController {
      * @return String template name
      */
     @PostMapping("/signin")
-    public String doSignin(@Valid //
+    public String postSignin(@Valid //
     @ModelAttribute("playerForm") PlayerForm playerForm // get input data from browser
     ) {
         PlayerRegistration playerRegistration = new PlayerRegistration();
