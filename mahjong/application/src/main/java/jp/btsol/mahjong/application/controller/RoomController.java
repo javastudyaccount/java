@@ -75,6 +75,16 @@ public class RoomController {
     }
 
     /**
+     * create room
+     * 
+     * @param roomName RoomName
+     */
+    @PostMapping("/new")
+    public void newRoom(@Valid @RequestBody(required = true) RoomName roomName) {
+        roomService.newRoom(roomName.getRoomName());
+    }
+
+    /**
      * create new room
      * 
      * @param roomName String

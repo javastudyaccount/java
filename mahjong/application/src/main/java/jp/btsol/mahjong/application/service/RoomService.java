@@ -90,6 +90,18 @@ public class RoomService {
     }
 
     /**
+     * new room
+     * 
+     * @param roomName String
+     * 
+     */
+    public void newRoom(String roomName) {
+        Room room = new Room();
+        room.setRoomName(roomName);
+        baseRepository.insertWithSurrogateKey(room);
+    }
+
+    /**
      * insert room
      * 
      * @param roomName String

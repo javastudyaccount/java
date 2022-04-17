@@ -8,4 +8,6 @@
 4. mahjong/web/src/main/java/jp/btsol/mahjong/web/service/RoomService.java
 5. mahjong/web/src/main/java/jp/btsol/mahjong/web/service/ApplicationProperties.java
 6. mahjong/web/src/main/java/jp/btsol/mahjong/web/service/RoomService.java
-7. 
+7. mahjong/application/src/main/java/jp/btsol/mahjong/application/controller/RoomController.java
+8. mahjong/application/src/main/java/jp/btsol/mahjong/application/service/RoomService.java
+9. 
