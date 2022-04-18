@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
+import jp.btsol.mahjong.web.form.InviteForm;
 import jp.btsol.mahjong.web.form.LoginForm;
 import jp.btsol.mahjong.web.form.PlayerForm;
 import jp.btsol.mahjong.web.service.PlayerService;
@@ -53,6 +54,34 @@ public class PlayerController {
         List<PlayerModel> players = playerService.getPlayers();
         model.addAttribute("players", players);
         return "player/players";
+    }
+
+    /**
+     * invite players
+     * 
+     * @param inviteForm InviteForm
+     * @param model      Model
+     * @return String template name
+     */
+    @GetMapping("/invitePlayer")
+    public String invitePlayer(@ModelAttribute("inviteForm") InviteForm inviteForm, Model model) {
+        List<PlayerModel> players = playerService.getPlayers();
+        model.addAttribute("players", players);
+        return "player/invite";
+    }
+
+    /**
+     * invite players
+     * 
+     * @param inviteForm InviteForm
+     * @param model      Model
+     * @return String template name
+     */
+    @PostMapping("/invitePlayer")
+    public String postInvitePlayer(@Valid //
+    @ModelAttribute("inviteForm") InviteForm inviteForm, //
+            Model model) {
+        return "redirect:/invitePlayer";
     }
 
     /**

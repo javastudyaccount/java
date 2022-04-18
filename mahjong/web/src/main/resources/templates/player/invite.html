@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Players</title>
+</head>
+<body>
+	<h1>Players</h1>
+	<div layout:fragment="content">
+		<form th:action="@{/invitePlayer}" method="post"
+			th:object="${inviteForm}">
+			<table width="100%">
+				<tr>
+					<th>Invite</th>
+					<th>Player ID</th>
+					<th>Nickname</th>
+					<th>In room</th>
+				</tr>
+				<tr th:each="player, playerStat: ${players}">
+				<td>
+						<input th:id="${player.playerId}" th:unless="${player.roomId}" type="checkbox" class="custom-control-input" th:value="${player.playerId}" th:field="*{inviteChecks}" />
+						</td>
+					<td><span th:text="${player.playerId}"> </span></td>
+					<td><span th:text="${player.nickname}"> </span></td>
+					<td><a th:if="${player.roomId}"
+						th:href="${'/room/' + player.roomId}" th:text="${player.roomName}">
+					</a></td>
+				</tr>
+			</table>
+			<button>Invite</button>
+			<br /> <a href="/rooms">Rooms</a><br />
+		</form>
+	</div>
+</body>
+</html>

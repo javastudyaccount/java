@@ -31,8 +31,9 @@ In room
     </span>
 </td>
 <td>
-    <span th:text="${player.roomName}">
-    </span>
+    <a th:if="${player.roomId}" th:href="${'/room/' + player.roomId}" th:text="${player.roomName}">
+    </a>
+    <a th:unless="${player.roomId}" href="/invitePlayer">Invite</a>
 </td>
 </tr>
 </table>

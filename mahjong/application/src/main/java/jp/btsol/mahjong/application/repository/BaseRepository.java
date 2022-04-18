@@ -241,7 +241,7 @@ public class BaseRepository {
         String pk = "";
         List<String> columnNames = new ArrayList<>();
         List<String> paramNames = new ArrayList<>();
-        Map<String, Object> params = new HashMap<>();
+        MapSqlParameterSource params = new MapSqlParameterSource();
         for (Field f : entity.getClass().getDeclaredFields()) {
             Id id = f.getAnnotation(Id.class);
             if (Objects.nonNull(id)) {
@@ -256,13 +256,13 @@ public class BaseRepository {
             f.setAccessible(true);
             switch (f.getName()) {
                 case "deleteFlg":
-                    params.put(f.getName(), false);
+                    params.addValue(f.getName(), false);
                     break;
                 case "createdTimestamp":
                 case "updatedTimestamp":
                     java.util.Date date = new java.util.Date();
                     java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
-                    params.put(f.getName(), timestamp);
+                    params.addValue(f.getName(), timestamp);
                     break;
                 case "createdUser":
                 case "updatedUser":
@@ -275,14 +275,14 @@ public class BaseRepository {
                             }
                         }
 
-                        params.put(f.getName(), requestId);
+                        params.addValue(f.getName(), requestId);
                     } catch (IllegalArgumentException | IllegalAccessException e1) {
                         e1.printStackTrace();
                     }
                     break;
                 default:
                     try {
-                        params.put(f.getName(), f.get(entity));
+                        params.addValue(f.getName(), f.get(entity));
                     } catch (IllegalArgumentException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -294,7 +294,7 @@ public class BaseRepository {
         sql.append(String.join(", ", paramNames));
         sql.append(")");
 
-        sqlPrint(sql.toString(), null);
+        sqlPrint(sql.toString(), params);
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(template.getJdbcTemplate().getDataSource());
 //        if (!StringUtils.isEmpty(pk)) {
         jdbcInsert.withTableName(tableName).usingGeneratedKeyColumns(pk);
@@ -304,7 +304,7 @@ public class BaseRepository {
         // convert Number to Int using ((Number) key).intValue()
 //            return ((Number) key).intValue();
 //        } else {
-        int count = jdbcInsert.execute(new MapSqlParameterSource(params));
+        int count = jdbcInsert.execute(params);
         return count;
 //        }
     }
