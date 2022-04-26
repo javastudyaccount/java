@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentReme
 import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.InvitePlayerModel;
 import jp.btsol.mahjong.model.MahjongUser;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerModel;
@@ -97,8 +98,12 @@ public class PlayerService implements UserDetailsService {
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         final String endpoint = applicationProperties.getUri();
 
-        final String url = endpoint + applicationProperties.getPath().getPlayerAuthentication() + "?loginId=" + loginId;
-        PlayerAuthentication playerAuthentication = mahjongRestTemplate.get(url, PlayerAuthentication.class);
+        final String url = endpoint + applicationProperties.getPath().getPlayerAuthentication(); // + "?loginId=" +
+                                                                                                 // loginId;
+        Map<String, Object> param = new HashMap<>();
+        param.put("loginId", loginId);
+
+        PlayerAuthentication playerAuthentication = mahjongRestTemplate.get(url, param, PlayerAuthentication.class);
 
         if (playerAuthentication == null) {
             throw new UsernameNotFoundException("User" + loginId + "was not found in the database");
@@ -143,7 +148,16 @@ public class PlayerService implements UserDetailsService {
     public void removeUserTokens(String username) {
         final String endpoint = applicationProperties.getUri();
 
-        final String url = endpoint + applicationProperties.getPath().getRemoveToken() + "?loginId=" + username;
-        mahjongRestTemplate.delete(url);
+        final String url = endpoint + applicationProperties.getPath().getRemoveToken(); // + "?loginId=" + username;
+        Map<String, Object> param = new HashMap<>();
+        param.put("loginId", username);
+        mahjongRestTemplate.delete(url, param);
+    }
+
+    public void invitePlayer(InvitePlayerModel invitePlayerModel) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getInvitePlayers();
+        mahjongRestTemplate.post(url, invitePlayerModel);
     }
 }

@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.btsol.mahjong.application.service.PlayerService;
 import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.InvitePlayerModel;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Player controller
@@ -28,6 +30,7 @@ import jp.btsol.mahjong.model.PlayerRegistration;
  */
 @RestController
 //@RequestMapping("/player")
+@Slf4j
 public class PlayerController {
     /**
      * Player service
@@ -122,5 +125,17 @@ public class PlayerController {
     public PlayerAuthentication getPlayerAuthentication(@Valid //
     @RequestParam(required = true) String loginId) {
         return playerService.getPlayerAuthentication(loginId);
+    }
+
+    /**
+     * invite players
+     * 
+     * @param InvitePlayerModel player IDs
+     */
+    @PostMapping("/player/invite")
+    public void invite(@Valid //
+    @RequestBody(required = true) InvitePlayerModel invitePlayerModel) {
+        log.info("invite players {}", invitePlayerModel);
+        playerService.invite(invitePlayerModel.getInvitePlayers());
     }
 }

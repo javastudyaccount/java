@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jp.btsol.mahjong.model.InvitePlayerModel;
 import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.web.form.InviteForm;
@@ -81,6 +82,14 @@ public class PlayerController {
     public String postInvitePlayer(@Valid //
     @ModelAttribute("inviteForm") InviteForm inviteForm, //
             Model model) {
+        InvitePlayerModel invitePlayerModel = new InvitePlayerModel();
+        invitePlayerModel.setInvitePlayers(new long[inviteForm.getInviteChecks().length]);
+        int index = 0;
+        for (String id : inviteForm.getInviteChecks()) {
+            invitePlayerModel.getInvitePlayers()[index] = Long.parseLong(id);
+            index++;
+        }
+        playerService.invitePlayer(invitePlayerModel);
         return "redirect:/invitePlayer";
     }
 

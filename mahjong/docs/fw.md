@@ -168,3 +168,5 @@ https://kazuhira-r.hatenablog.com/entry/2021/01/10/200607
 ### Spring Bootでリダイレクト先のURLを組み立てる
 https://qiita.com/rubytomato@github/items/8d132dec042f695e50f6
 
+### Thymeleaf 3.0を使用した入力フォームのサンプル
+https://qiita.com/rubytomato@github/items/8da1bb19537bbfc9c2ea

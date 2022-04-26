@@ -338,7 +338,7 @@ public class BaseRepository {
         return (T) findForObject(sql.toString(), params, clazz);
     }
 
-    private String getRequestId() {
+    public String getRequestId() {
         try {
             return (String) RequestContextHolder.currentRequestAttributes().getAttribute("request-id",
                     RequestAttributes.SCOPE_REQUEST);

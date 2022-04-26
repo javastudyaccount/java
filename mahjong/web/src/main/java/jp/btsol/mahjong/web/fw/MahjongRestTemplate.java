@@ -94,6 +94,17 @@ public class MahjongRestTemplate {
      * @throws RuntimeException 業務例外
      */
     public <R> R get(String path, Map<String, Object> param, Class<R> clazz) throws RuntimeException {
+        URI uri = buildURI(path, param);
+
+        String mahjongUser = mahjongHeader();
+
+        // リクエスト情報の作成
+        RequestEntity<?> request = RequestEntity.get(uri).header(X_MAHJONG_USER, mahjongUser).build();
+        ResponseEntity<R> response = restTemplate.exchange(uri, HttpMethod.GET, request, clazz);
+        return response.getBody();
+    }
+
+    private URI buildURI(String path, Map<String, Object> param) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(path);
         param.forEach((key, value) -> {
             builder.queryParam(key, value);
@@ -107,13 +118,7 @@ public class MahjongRestTemplate {
         // エンコード後のクエリに置き換える
         URI uri = UriComponentsBuilder.fromUri(uriWithNoEscapedPlus).replaceQuery(strictlyEscapedQuery).build(true)
                 .toUri();
-
-        String mahjongUser = mahjongHeader();
-
-        // リクエスト情報の作成
-        RequestEntity<?> request = RequestEntity.get(uri).header(X_MAHJONG_USER, mahjongUser).build();
-        ResponseEntity<R> response = restTemplate.exchange(uri, HttpMethod.GET, request, clazz);
-        return response.getBody();
+        return uri;
     }
 
     /**
@@ -260,6 +265,21 @@ public class MahjongRestTemplate {
      */
     public void delete(String path) throws RuntimeException {
         RequestEntity<?> request = createRequest(path, RequestEntity.delete(path))
+                .header("request-id", path.replaceAll(".*/", "").replaceAll("\\?.*", "")).build();
+        restTemplate.exchange(request, Void.class);
+    }
+
+    /**
+     * 
+     * DELETEでデータの送信を行います。
+     * 
+     * @param path  送信先
+     * @param param Map<String, Object>
+     * @throws RuntimeException 業務例外
+     */
+    public void delete(String path, Map<String, Object> param) throws RuntimeException {
+        URI uri = buildURI(path, param);
+        RequestEntity<?> request = createRequest(path, RequestEntity.delete(uri))
                 .header("request-id", path.replaceAll(".*/", "").replaceAll("\\?.*", "")).build();
         restTemplate.exchange(request, Void.class);
     }

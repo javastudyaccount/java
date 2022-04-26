@@ -2,12 +2,15 @@ package jp.btsol.mahjong.application.service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,7 @@ import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Passwd;
 import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
@@ -34,6 +38,10 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class PlayerService {
     /**
+     * userContext アプリユーザー情報コンテキスト
+     */
+    private final UserContext userContext;
+    /**
      * baseRepository
      */
     private final BaseRepository baseRepository;
@@ -42,9 +50,12 @@ public class PlayerService {
      * Constructor
      * 
      * @param baseRepository BaseRepository
+     * @param userContext    UserContext
      */
-    public PlayerService(BaseRepository baseRepository) {
+    public PlayerService(BaseRepository baseRepository, //
+            UserContext userContext) {
         this.baseRepository = baseRepository;
+        this.userContext = userContext;
     }
 
     /**
@@ -175,5 +186,26 @@ public class PlayerService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("loginId", loginId);
         baseRepository.update("delete from persistent_logins where login_id=:loginId", param);
+    }
+
+    public void invite(long[] players) {
+//        List<MapSqlParameterSource> paramsList = Stream.of(players)
+//                .map(p -> new MapSqlParameterSource().addValue("inviteFrom", userContext.playerId())
+//                        .addValue("inviteTo", p).addValue("requestId", baseRepository.getRequestId()))
+//                .collect(Collectors.toList());
+//        SqlParameterSource[] params = paramsList.toArray(SqlParameterSource[]::new);
+//        baseRepository.batchUpdate(//
+//                "insert into invite_player "//
+//                        + "(invite_from, invite_to, created_user, updated_user) " //
+//                        + "values(:inviteFrom, :inviteTo, :requestId, :requestId)", //
+//                params);
+        baseRepository.batchUpdate(//
+                "insert into invite_player "//
+                        + "(invite_from, invite_to, created_user, updated_user) " //
+                        + "values(:inviteFrom, :inviteTo, :requestId, :requestId)", //
+                Stream.of(players)
+                        .map(p -> new MapSqlParameterSource().addValue("inviteFrom", userContext.playerId())
+                                .addValue("inviteTo", p).addValue("requestId", baseRepository.getRequestId()))
+                        .collect(Collectors.toList()).toArray(SqlParameterSource[]::new));
     }
 }
