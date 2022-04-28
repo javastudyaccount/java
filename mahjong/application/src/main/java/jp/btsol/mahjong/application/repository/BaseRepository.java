@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.Id;
 
@@ -358,10 +360,33 @@ public class BaseRepository {
         if (Objects.nonNull(params)) {
             Map<String, Object> param = params.getValues();
             for (String key : param.keySet()) {
-                sql = sql.replaceAll(":" + key,
-                        "'" + (Objects.isNull(param.get(key)) ? "<<null>>" : param.get(key).toString()) + "'");
+                String value = escapeDollarSign(String.valueOf(param.get(key)));
+                sql = sql.replaceAll(":" + key, "'" + (Objects.isNull(param.get(key)) ? "<<null>>" : value) + "'");
             }
         }
         log.info(sql);
+    }
+
+    /**
+     * escape dollar sing
+     * 
+     * @param value string
+     * @return string
+     */
+    private String escapeDollarSign(String value) {
+        Pattern p = Pattern.compile("\\$");
+        int off = 0;
+        while (true) {
+            Matcher m = p.matcher(value.substring(off));
+            if (!m.find())
+                break;
+            int moff = m.start();
+            String left = value.substring(0, off + moff);
+            String right = value.substring(off + moff + 1, value.length());
+            value = left + "\\$" + right;
+            off += moff + 1 + 1;
+        }
+
+        return value;
     }
 }

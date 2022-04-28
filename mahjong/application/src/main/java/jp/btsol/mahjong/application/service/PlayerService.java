@@ -1,9 +1,9 @@
 package jp.btsol.mahjong.application.service;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
@@ -64,8 +64,15 @@ public class PlayerService {
      * @return List<PlayerModel>
      */
     public List<PlayerModel> getPlayers() {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("playerId", userContext.playerId());
         return baseRepository.findForList(//
-                "select player.player_id, player.nickname, room_player.room_id, room.room_name, game_player.game_id "//
+                "select player.player_id, " //
+                        + "player.nickname, " //
+                        + "room_player.room_id, " //
+                        + "room.room_name, " //
+                        + "game_player.game_id, " //
+                        + "invite_player.invite_to is not null as invited_flg "//
                         + "from player "//
                         + "left join room_player "//
                         + "on player.player_id = room_player.player_id "//
@@ -75,8 +82,12 @@ public class PlayerService {
                         + "on game.game_id = game_player.game_id "//
                         + "and game_player.player_id = player.player_id "//
                         + "left join room " //
-                        + "on room_player.room_id = room.room_id ",
-                PlayerModel.class);
+                        + "on room_player.room_id = room.room_id " //
+                        + "left join invite_player " //
+                        + "on invite_player.invite_from = :playerId " //
+                        + "and invite_player.invite_to = player.player_id " //
+//                        + "and invite_player.invite_timestamp > " //
+                , param, PlayerModel.class);
     }
 
     /**
@@ -199,13 +210,16 @@ public class PlayerService {
 //                        + "(invite_from, invite_to, created_user, updated_user) " //
 //                        + "values(:inviteFrom, :inviteTo, :requestId, :requestId)", //
 //                params);
+
         baseRepository.batchUpdate(//
                 "insert into invite_player "//
                         + "(invite_from, invite_to, created_user, updated_user) " //
                         + "values(:inviteFrom, :inviteTo, :requestId, :requestId)", //
-                Stream.of(players)
-                        .map(p -> new MapSqlParameterSource().addValue("inviteFrom", userContext.playerId())
-                                .addValue("inviteTo", p).addValue("requestId", baseRepository.getRequestId()))
-                        .collect(Collectors.toList()).toArray(SqlParameterSource[]::new));
+                Arrays.stream(players).mapToObj(p -> new MapSqlParameterSource()//
+                        .addValue("inviteFrom", userContext.playerId())//
+                        .addValue("inviteTo", p)//
+                        .addValue("requestId", baseRepository.getRequestId()))//
+                        .collect(Collectors.toList())//
+                        .toArray(SqlParameterSource[]::new));
     }
 }

@@ -28,4 +28,8 @@ public class PlayerModel {
      * game id
      */
     private Long gameId;
+    /**
+     * invited flag
+     */
+    private boolean invitedFlg;
 }

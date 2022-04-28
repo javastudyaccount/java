@@ -37,7 +37,7 @@ Paste [ddl.sql](./ddl/ddl.sql)
 
 `mysql> exit;`
 
-#### Connection
+#### Connect mysql
 
 `$ docker exec -it /game /bin/bash`
 
@@ -57,3 +57,15 @@ Enter password: game
 
 
 @enduml
+
+### Restart docker 
+`$ docker ps -a`
+<pre>
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS                       PORTS                                                  NAMES
+8b28914fcd7f   mysql:latest   "docker-entrypoint.s…"   2 months ago   Exited (255) 4 minutes ago   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   game
+</pre>
+`$ docker start 8b28914fcd7f`
+<pre>
+8b28914fcd7f
+</pre>
+then [Connect mysql](#connect-mysql)
