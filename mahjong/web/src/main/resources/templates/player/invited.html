@@ -9,7 +9,26 @@
 <body>
 	<h1>Invited</h1>
 	<div layout:fragment="content">
-		
+		<table width="100%">
+			<tr>
+				<th>Player ID</th>
+				<th>Nickname</th>
+				<th>In room</th>
+                <th>Action</th>
+			</tr>
+			<tr th:each="player, playerStat: ${players}">
+				<td><span th:text="${player.playerId}"> </span></td>
+				<td><span th:text="${player.nickname}"> </span></td>
+				<td><span th:text="${player.roomName}"> </span></td>
+				<td>
+				<form id="formEnterRoom" style="display:inline" method="post" th:action="@{/enterRoom}">
+				<input type="hidden" name="roomId" th:value="*{player.roomId}"/>
+				<input type="hidden" name="invitorId" th:value="*{player.playerId}"/>
+				<button class="button-right">Enter</button>
+				</form>
+				</td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>

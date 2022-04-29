@@ -158,12 +158,14 @@ create table invite_player(
     invite_from bigint not null,
     invite_to bigint not null, 
     invite_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    status varchar(200) default 'invited' not null,
     deleted_flg boolean DEFAULT false NOT NULL,
     created_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_user varchar(20) NOT NULL,
     updated_timestamp timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
     updated_user varchar(20) NOT NULL
 );
+
 
 /*
 select 'game' tname, count(1) from game union

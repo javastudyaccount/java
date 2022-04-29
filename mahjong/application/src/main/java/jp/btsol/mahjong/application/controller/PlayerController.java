@@ -141,7 +141,7 @@ public class PlayerController {
     }
 
     /**
-     * invites for player
+     * invites for player(show badge button)
      * 
      * @param playerId long
      * @return Invites
@@ -151,5 +151,15 @@ public class PlayerController {
     @RequestParam(required = true) long playerId) {
         log.info("invites for player {}", playerId);
         return new Invites(playerService.getInvites4Player(playerId));
+    }
+
+    /**
+     * my invites
+     * 
+     * @return List<PlayerModel>
+     */
+    @GetMapping("/player/invited")
+    public List<PlayerModel> invited() {
+        return playerService.getInvited();
     }
 }

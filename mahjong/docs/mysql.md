@@ -108,3 +108,15 @@ DBコンテナ% sed -i -e "1i [mysqld]\n    default-time-zone='Asia/Tokyo'" /etc
 DBコンテナ% exit
 #### DBコンテナの再起動（MySQL単体の再起動ができないので）
 ホストOS% docker restart ＜作成したDBコンテナ名＞
+
+```sql
+select nickname, room_name from invite_player
+join player on player.player_id = invite_player.invite_from
+join room_player on room_player.player_id = invite_player.invite_from
+join room on room_player.room_id = room_player.room_id
+where invite_to = 3
+and invite_timestamp >= NOW() - INTERVAL 1 HOUR
+```
+
+
+

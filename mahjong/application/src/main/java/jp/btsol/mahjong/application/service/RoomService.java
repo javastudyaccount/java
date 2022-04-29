@@ -108,10 +108,10 @@ public class RoomService {
     /**
      * enter room
      * 
-     * @param roomId long
-     * 
+     * @param roomId    long
+     * @param invitorId long
      */
-    public void enterRoom(long roomId) {
+    public void enterRoom(long roomId, Long invitorId) {
         log.info("player id {}", userContext.playerId());
         RoomPlayer roomPlayer = new RoomPlayer();
         roomPlayer.setRoomId(roomId);
@@ -122,6 +122,20 @@ public class RoomService {
         } catch (org.springframework.dao.DuplicateKeyException e) {
             DuplicateKeyException dke = new DuplicateKeyException("You are alreay entered another room.", e);
             throw dke;
+        }
+        if (Objects.nonNull(invitorId)) {
+            // update invite
+            MapSqlParameterSource param = new MapSqlParameterSource();
+            param.addValue("inviteFrom", invitorId);
+            param.addValue("roomId", roomId);
+            param.addValue("me", userContext.playerId());
+            param.addValue("requestId", baseRepository.getRequestId());
+            baseRepository.update(//
+                    "update invite_player "//
+                            + "set status=concat(concat('enter room ', :roomId), concat(' invited by ', :inviteFrom)) "//
+                            + ", updated_user = :requestId " //
+                            + "where invite_to = :me ",
+                    param);
         }
     }
 

@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.application.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Assertions;
@@ -21,6 +23,8 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 import jp.btsol.mahjong.application.loader.XlsDataSetLoader;
 import jp.btsol.mahjong.application.service.PlayerServiceTest.TestConfig;
+import jp.btsol.mahjong.fw.UserContext;
+import jp.btsol.mahjong.model.PlayerModel;
 
 @DirtiesContext
 @SpringBootTest(classes = {TestConfig.class})
@@ -44,6 +48,28 @@ class PlayerServiceTest {
         void test_getInvites4Player() {
             int invites = playerService.getInvites4Player(3);
             Assertions.assertEquals(1, invites);
+
+        }
+    }
+
+    @Nested
+    @DisplayName("getInvitedメソッドのテストケース")
+    @DbUnitConfiguration(dataSetLoader = XlsDataSetLoader.class)
+    class getInvited {
+        @Autowired
+        PlayerService playerService;
+        @Autowired
+        UserContext userContext;
+
+        @Test
+        @DisplayName("データが複数件のテストケース")
+        // testdata/room/in/rooms.xlsx
+        // @DatabaseSetup(value = {"/testdata/room/in/rooms.xlsx"}, type =
+        // DatabaseOperation.CLEAN_INSERT)
+        void test_getInvited() {
+            userContext.playerId(3);
+            List<PlayerModel> invites = playerService.getInvited();
+            Assertions.assertEquals(1, invites.size());
 
         }
     }

@@ -95,6 +95,10 @@ public class ApplicationProperties {
          * invites for player
          */
         private String invites4Player;
+        /**
+         * invited
+         */
+        private String invited;
 
         /**
          * create game

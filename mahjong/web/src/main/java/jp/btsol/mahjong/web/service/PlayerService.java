@@ -179,4 +179,11 @@ public class PlayerService implements UserDetailsService {
         final String url = endpoint + applicationProperties.getPath().getInvitePlayers();
         mahjongRestTemplate.post(url, invitePlayerModel);
     }
+
+    public List<PlayerModel> getInvited() {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getInvited();
+        return mahjongRestTemplate.get(url, ArrayList.class);
+    }
 }

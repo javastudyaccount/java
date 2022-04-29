@@ -2,6 +2,7 @@ package jp.btsol.mahjong.web.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -61,15 +62,17 @@ public class RoomController {
     /**
      * enter room
      * 
-     * @param roomId long
+     * @param roomId    long
+     * @param invitorId long
      * @return String view name
      */
     @PostMapping("/enterRoom")
     public String enterRoom(@Valid //
-    @RequestParam long roomId) {
+    @RequestParam long roomId, //
+            @RequestParam(name = "invitorId", required = false) Optional<Long> invitorId) {
         log.info("roomId: {}", roomId);
 //        try {
-        roomService.enterRoom(roomId);
+        roomService.enterRoom(roomId, invitorId);
 //        } catch (HttpServerErrorException e) {
 //            log.error(e.getLocalizedMessage());
 //        }

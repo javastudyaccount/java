@@ -84,7 +84,7 @@ public class RoomController {
     @PostMapping("/enter")
     public void enterRoom(@Valid //
     @RequestBody(required = true) RoomId roomId) {
-        roomService.enterRoom(roomId.getRoomId());
+        roomService.enterRoom(roomId.getRoomId(), roomId.getInvitorId());
     }
 
     /**

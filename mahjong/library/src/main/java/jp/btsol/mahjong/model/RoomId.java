@@ -12,4 +12,8 @@ public class RoomId {
      * roomId long
      */
     private long roomId;
+    /**
+     * invitorId Long
+     */
+    private Long invitorId;
 }

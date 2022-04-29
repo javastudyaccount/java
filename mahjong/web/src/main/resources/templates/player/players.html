@@ -1,44 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Players</title>
 </head>
 <body>
-<h1>Players</h1>
-<div layout:fragment="content">
-<table width="100%">
-<tr>
-<th>
-Player ID
-</th>
-<th>
-Nickname
-</th>
-<th>
-In room
-</th>
-</tr>
-<tr th:each="player, playerStat: ${players}">
-<td>
-   	<span th:text="${player.playerId}">
-   	</span>
-</td>
-<td>
-    <span th:text="${player.nickname}">
-    </span>
-</td>
-<td>
-    <a th:if="${player.roomId}" th:href="${'/room/' + player.roomId}" th:text="${player.roomName}">
-    </a>
-    <a th:if="${player.roomId == null && player.playerId != #authentication.principal.playerId}" href="/invitePlayer">Invite</a>
-</td>
-</tr>
-</table>
+	<h1>Players</h1>
+	<div layout:fragment="content">
+		<table width="100%">
+			<tr>
+				<th>Player ID</th>
+				<th>Nickname</th>
+				<th>In room</th>
+			</tr>
+			<tr th:each="player, playerStat: ${players}">
+				<td><span th:text="${player.playerId}"> </span></td>
+				<td><span th:text="${player.nickname}"> </span></td>
+				<td><a th:if="${player.roomId}"
+					th:href="${'/room/' + player.roomId}" th:text="${player.roomName}">
+				</a> <a
+					th:if="${player.roomId == null && player.playerId != #authentication.principal.playerId}"
+					href="/invitePlayer">Invite</a></td>
+			</tr>
+		</table>
 
-      <a href="/rooms">Rooms</a><br />
-</div>
+		<a href="/rooms">Rooms</a><br />
+	</div>
 </body>
 </html>

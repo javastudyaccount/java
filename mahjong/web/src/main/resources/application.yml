@@ -23,6 +23,7 @@ application:
     removeToken: /token/delete
     invitePlayers: /player/invite
     invites4Player: /player/invites
+    invited: /player/invited
     
     createGame: /game/new
     game: /game/get
