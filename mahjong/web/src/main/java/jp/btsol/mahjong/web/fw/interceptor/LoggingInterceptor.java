@@ -50,7 +50,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
             HandlerMethod method = (HandlerMethod) handler;
             Annotation anno = method.getMethod().getAnnotation(GetMapping.class);
             if (Objects.nonNull(anno)) {
-                String viewName = ((GetMapping) anno).value()[0];
+//                String viewName = ((GetMapping) anno).value()[0];
                 // replace path variable
 //                request.getSession().setAttribute("viewName", viewName);
 

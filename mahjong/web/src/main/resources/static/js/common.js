@@ -72,3 +72,8 @@ function checkFile(allowExts, file, errorDiv){
     }
     return true;
 }
+
+// badge button
+$(document).on('click', '#button-badge', function () {
+    window.location.href="/invited";
+});

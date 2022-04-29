@@ -70,6 +70,7 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS    
 </pre>
 then [Connect mysql](#connect-mysql)
 
+
 ```sql
 select
     player.player_id,
@@ -89,3 +90,21 @@ from
     and invite_player.invite_to = player.player_id
     and invite_timestamp >= NOW() - INTERVAL 1 HOUR
 ```
+
+### MySQLのタイムゾーンを日本時間にする
+https://qiita.com/rowpure/items/dbedbe2b98e91a34d0d5
+以下のコマンドを実行する
+
+#### DBコンテナ作成＆起動（DBコンテナがなければ）
+ホストOS% docker run --name ＜好きなDBコンテナ名＞ -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
+#### DBコンテナに入る
+ホストOS% docker exec -it ＜作成したDBコンテナ名＞ bash
+#### タイムゾーンのテーブルを取得
+DBコンテナ% mysql_tzinfo_to_sql /usr/share/zoneinfo/
+#### タイムゾーンを日本時間にする設定ファイルを新規作成（conf.dディレクトリの配下であればファイル名は何でもOK）
+DBコンテナ% echo "" >> /etc/mysql/conf.d/etc-mysql.cnf
+DBコンテナ% sed -i -e "1i [mysqld]\n    default-time-zone='Asia/Tokyo'" /etc/mysql/conf.d/etc-mysql.cnf
+
+DBコンテナ% exit
+#### DBコンテナの再起動（MySQL単体の再起動ができないので）
+ホストOS% docker restart ＜作成したDBコンテナ名＞

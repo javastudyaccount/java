@@ -94,6 +94,17 @@ public class PlayerController {
     }
 
     /**
+     * show invited
+     * 
+     * @param model Model
+     * @return String template name
+     */
+    @GetMapping("/invited")
+    public String showInvited(Model model) {
+        return "player/invited";
+    }
+
+    /**
      * display new player form
      * 
      * @param playerForm PlayerForm

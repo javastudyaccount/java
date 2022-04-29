@@ -269,7 +269,7 @@ public class BaseRepository {
             paramNames.add(":" + f.getName());
             f.setAccessible(true);
             switch (f.getName()) {
-                case "deleteFlg":
+                case "deletedFlg":
                     params.addValue(f.getName(), false);
                     break;
                 case "createdTimestamp":
