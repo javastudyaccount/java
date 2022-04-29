@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.InvitePlayerModel;
+import jp.btsol.mahjong.model.Invites;
 import jp.btsol.mahjong.model.MahjongUser;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerModel;
@@ -96,14 +97,7 @@ public class PlayerService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        final String endpoint = applicationProperties.getUri();
-
-        final String url = endpoint + applicationProperties.getPath().getPlayerAuthentication(); // + "?loginId=" +
-                                                                                                 // loginId;
-        Map<String, Object> param = new HashMap<>();
-        param.put("loginId", loginId);
-
-        PlayerAuthentication playerAuthentication = mahjongRestTemplate.get(url, param, PlayerAuthentication.class);
+        PlayerAuthentication playerAuthentication = getPlayerAuthentication(loginId);
 
         if (playerAuthentication == null) {
             throw new UsernameNotFoundException("User" + loginId + "was not found in the database");
@@ -114,11 +108,36 @@ public class PlayerService implements UserDetailsService {
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         GrantedAuthority authority = new SimpleGrantedAuthority("USER");
         grantList.add(authority);
+        // get invites
+        int invites = getInvites(playerAuthentication.getPlayerId());
         MahjongUser mahjongUser = new MahjongUser(playerAuthentication.getPlayerId(), playerAuthentication.getLoginId(),
-                playerAuthentication.getPassword(), grantList);
+                playerAuthentication.getPassword(), grantList, invites);
         UserDetails userDetails = (UserDetails) mahjongUser;
         mahjongUser.setNickname(playerAuthentication.getNickname());
         return userDetails;
+    }
+
+    private PlayerAuthentication getPlayerAuthentication(String loginId) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getPlayerAuthentication(); // + "?loginId=" +
+                                                                                                 // loginId;
+        Map<String, Object> param = new HashMap<>();
+        param.put("loginId", loginId);
+
+        PlayerAuthentication playerAuthentication = mahjongRestTemplate.get(url, param, PlayerAuthentication.class);
+        return playerAuthentication;
+    }
+
+    public int getInvites(long playerId) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getInvites4Player();
+        Map<String, Object> param = new HashMap<>();
+        param.put("playerId", playerId);
+
+        Invites invites = mahjongRestTemplate.get(url, param, Invites.class);
+        return invites.getInvites();
     }
 
     public void createToken(PersistentRememberMeToken token) {

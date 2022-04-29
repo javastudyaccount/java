@@ -59,6 +59,23 @@ public class PlayerService {
     }
 
     /**
+     * get invites for player
+     * 
+     * @param playerId long
+     * @return int
+     */
+    public int getInvites4Player(long playerId) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("playerId", playerId);
+        return baseRepository.queryForInt(//
+                "select count(1) "//
+                        + "from invite_player "//
+                        + "where invite_to = :playerId "//
+                        + "and invite_timestamp >= NOW() - INTERVAL 1 HOUR ",
+                param);
+    }
+
+    /**
      * get players
      * 
      * @return List<PlayerModel>
@@ -86,12 +103,12 @@ public class PlayerService {
                         + "left join invite_player " //
                         + "on invite_player.invite_from = :playerId " //
                         + "and invite_player.invite_to = player.player_id " //
-//                        + "and invite_player.invite_timestamp > " //
+                        + "and invite_timestamp >= NOW() - INTERVAL 1 HOUR" //
                 , param, PlayerModel.class);
     }
 
     /**
-     * get player
+     * get player from loginId
      * 
      * @param loginId String
      * @return Player

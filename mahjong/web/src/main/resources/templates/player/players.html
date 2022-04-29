@@ -33,7 +33,7 @@ In room
 <td>
     <a th:if="${player.roomId}" th:href="${'/room/' + player.roomId}" th:text="${player.roomName}">
     </a>
-    <a th:unless="${player.roomId}" href="/invitePlayer">Invite</a>
+    <a th:if="${player.roomId == null && player.playerId != #authentication.principal.playerId}" href="/invitePlayer">Invite</a>
 </td>
 </tr>
 </table>

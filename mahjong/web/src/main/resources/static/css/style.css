@@ -41,3 +41,20 @@ span.hint-required{
 .button-right{
 	float: right;
 }
+
+.button-badge {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 2px 2px;
+  position: relative;
+  top: -10px;
+}
+.button-round {
+	border-radius: 50%;
+}

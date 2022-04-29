@@ -48,7 +48,7 @@ Enter password: game
 `mysql> show tables;`
 
 | Tables_in_game |
-|----------------|
+| -------------- |
 | game           |
 | game_log       |
 | game_player    |
@@ -69,3 +69,23 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS    
 8b28914fcd7f
 </pre>
 then [Connect mysql](#connect-mysql)
+
+```sql
+select
+    player.player_id,
+    player.nickname,
+    room_player.room_id,
+    room.room_name,
+    game_player.game_id,
+    invite_player.invite_to is not null as invited_flg
+from
+    player
+    left join room_player on player.player_id = room_player.player_id
+    left join game on room_player.room_id = game.room_id
+    left join game_player on game.game_id = game_player.game_id
+    and game_player.player_id = player.player_id
+    left join room on room_player.room_id = room.room_id
+    left join invite_player on invite_player.invite_from = '1'
+    and invite_player.invite_to = player.player_id
+    and invite_timestamp >= NOW() - INTERVAL 1 HOUR
+```

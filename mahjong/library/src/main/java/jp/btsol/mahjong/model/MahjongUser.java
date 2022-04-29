@@ -19,10 +19,25 @@ public class MahjongUser extends User {
      */
     private String nickname;
 
+    /**
+     * invites
+     */
+    private int invites;
+
+    /**
+     * Constructor
+     * 
+     * @param playerId    long
+     * @param username    String
+     * @param password    String
+     * @param authorities Collection<? extends GrantedAuthority>
+     * @param invites     int
+     */
     public MahjongUser(long playerId, String username, String password,
-            Collection<? extends GrantedAuthority> authorities) {
+            Collection<? extends GrantedAuthority> authorities, int invites) {
         super(username, password, authorities);
         this.playerId = playerId;
+        this.invites = invites;
     }
 
     public String getNickname() {
@@ -39,5 +54,13 @@ public class MahjongUser extends User {
 
     public void setPlayerId(long playerId) {
         this.playerId = playerId;
+    }
+
+    public int getInvites() {
+        return invites;
+    }
+
+    public void setInvites(int invites) {
+        this.invites = invites;
     }
 }

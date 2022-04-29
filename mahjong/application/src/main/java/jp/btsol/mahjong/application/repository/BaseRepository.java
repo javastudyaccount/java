@@ -61,6 +61,18 @@ public class BaseRepository {
     }
 
     /**
+     * Get count。
+     * 
+     * @param sql   実行対象SQL
+     * @param param バインドパラメータ
+     * @return 検索結果
+     */
+    public int queryForInt(String sql, MapSqlParameterSource param) {
+        sqlPrint(sql, param);
+        return template.queryForObject(sql, param, Integer.class);
+    }
+
+    /**
      * １件分のデータを参照します。
      * 
      * @param <T>   返却カラム型類推

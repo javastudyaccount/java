@@ -19,13 +19,13 @@
 					<th>In room</th>
 				</tr>
 				<tr th:each="player, playerStat: ${players}">
-				<span th:text="${player.invitedFlg}"></span>
+				    <td th:if="${player.playerId == #authentication.principal.playerId}"></td>
 					<td th:if="${player.invitedFlg}"><input
 						th:id="${player.playerId}" th:unless="${player.roomId}"
 						type="checkbox" class="custom-control-input"
 						th:value="${player.playerId}" name="inviteChecks"
 						th:checked="${player.invitedFlg}" disabled="disabled"/></td>
-					<td th:unless="${player.invitedFlg}"><input
+					<td th:if="${!player.invitedFlg && player.playerId != #authentication.principal.playerId}"><input
 						th:id="${player.playerId}" th:unless="${player.roomId}"
 						type="checkbox" class="custom-control-input"
 						th:value="${player.playerId}" th:field="*{inviteChecks}" /></td>

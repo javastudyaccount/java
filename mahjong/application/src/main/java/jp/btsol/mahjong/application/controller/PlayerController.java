@@ -17,6 +17,7 @@ import jp.btsol.mahjong.application.service.PlayerService;
 import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
 import jp.btsol.mahjong.model.InvitePlayerModel;
+import jp.btsol.mahjong.model.Invites;
 import jp.btsol.mahjong.model.PlayerAuthentication;
 import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
@@ -130,12 +131,25 @@ public class PlayerController {
     /**
      * invite players
      * 
-     * @param InvitePlayerModel player IDs
+     * @param invitePlayerModel player IDs
      */
     @PostMapping("/player/invite")
     public void invite(@Valid //
     @RequestBody(required = true) InvitePlayerModel invitePlayerModel) {
         log.info("invite players {}", invitePlayerModel);
         playerService.invite(invitePlayerModel.getInvitePlayers());
+    }
+
+    /**
+     * invites for player
+     * 
+     * @param playerId long
+     * @return Invites
+     */
+    @GetMapping("/player/invites")
+    public Invites invites(@Valid //
+    @RequestParam(required = true) long playerId) {
+        log.info("invites for player {}", playerId);
+        return new Invites(playerService.getInvites4Player(playerId));
     }
 }

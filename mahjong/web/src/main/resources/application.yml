@@ -22,6 +22,7 @@ application:
     tokenForSeries: /token/get
     removeToken: /token/delete
     invitePlayers: /player/invite
+    invites4Player: /player/invites
     
     createGame: /game/new
     game: /game/get
