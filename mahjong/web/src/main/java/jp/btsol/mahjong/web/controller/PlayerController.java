@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.InvitePlayerModel;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
+import jp.btsol.mahjong.web.form.InviteForm;
 import jp.btsol.mahjong.web.form.LoginForm;
 import jp.btsol.mahjong.web.form.PlayerForm;
 import jp.btsol.mahjong.web.service.PlayerService;
@@ -50,9 +52,45 @@ public class PlayerController {
      */
     @GetMapping("/players")
     public String players(Model model) {
-        List<Player> players = playerService.getPlayers();
+        List<PlayerModel> players = playerService.getPlayers();
         model.addAttribute("players", players);
         return "player/players";
+    }
+
+    /**
+     * invite players
+     * 
+     * @param inviteForm InviteForm
+     * @param model      Model
+     * @return String template name
+     */
+    @GetMapping("/invitePlayer")
+    public String invitePlayer(@ModelAttribute("inviteForm") InviteForm inviteForm, Model model) {
+        List<PlayerModel> players = playerService.getPlayers();
+        model.addAttribute("players", players);
+        return "player/invite";
+    }
+
+    /**
+     * invite players
+     * 
+     * @param inviteForm InviteForm
+     * @param model      Model
+     * @return String template name
+     */
+    @PostMapping("/invitePlayer")
+    public String postInvitePlayer(@Valid //
+    @ModelAttribute("inviteForm") InviteForm inviteForm, //
+            Model model) {
+        InvitePlayerModel invitePlayerModel = new InvitePlayerModel();
+        invitePlayerModel.setInvitePlayers(new long[inviteForm.getInviteChecks().length]);
+        int index = 0;
+        for (String id : inviteForm.getInviteChecks()) {
+            invitePlayerModel.getInvitePlayers()[index] = Long.parseLong(id);
+            index++;
+        }
+        playerService.invitePlayer(invitePlayerModel);
+        return "redirect:/invitePlayer";
     }
 
     /**
@@ -90,7 +128,7 @@ public class PlayerController {
     }
 
     /**
-     * create new player
+     * create player
      * 
      * @param playerForm
      * @return String template name
@@ -105,5 +143,18 @@ public class PlayerController {
         playerRegistration.setPassword(playerForm.getPassword());
         playerService.createPlayer(playerRegistration);
         return "redirect:/login";
+    }
+
+    /**
+     * show invited
+     * 
+     * @param model Model
+     * @return String template name
+     */
+    @GetMapping("/invited")
+    public String invited(Model model) {
+        List<PlayerModel> players = playerService.getInvited();
+        model.addAttribute("players", players);
+        return "player/invited";
     }
 }

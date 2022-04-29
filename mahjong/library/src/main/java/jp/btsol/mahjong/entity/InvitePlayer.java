@@ -10,28 +10,25 @@ import lombok.NoArgsConstructor;
 
 /**
  * 
- * persistent_logins table
+ * invite_player table
  * 
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersistentLogins implements Serializable {
+public class InvitePlayer implements Serializable {
 
     /** デフォルトシリアルバージョンID */
     private static final long serialVersionUID = 1L;
-    /** login_id */
-    @Column(length = 64, nullable = false)
-    private String loginId;
-    /** series */
-    @Column(length = 64, nullable = false)
-    private String series;
-    /** token */
-    @Column(length = 64, nullable = false)
-    private String token;
-    /** last_used */
+    /** invite_from */
     @Column(nullable = false)
-    private java.sql.Timestamp lastUsed;
+    private long inviteFrom;
+    /** invite_to */
+    @Column(nullable = false)
+    private long inviteTo;
+    /** invite_timestamp */
+    @Column(nullable = false)
+    private java.sql.Timestamp inviteTimestamp;
     /** deleted_flg */
     @Column(nullable = false)
     private boolean deletedFlg;

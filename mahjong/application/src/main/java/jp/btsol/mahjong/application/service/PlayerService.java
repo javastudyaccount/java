@@ -1,13 +1,16 @@
 package jp.btsol.mahjong.application.service;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,9 @@ import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Passwd;
 import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.model.PlayerAuthentication;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +38,10 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class PlayerService {
     /**
+     * userContext アプリユーザー情報コンテキスト
+     */
+    private final UserContext userContext;
+    /**
      * baseRepository
      */
     private final BaseRepository baseRepository;
@@ -41,22 +50,67 @@ public class PlayerService {
      * Constructor
      * 
      * @param baseRepository BaseRepository
+     * @param userContext    UserContext
      */
-    public PlayerService(BaseRepository baseRepository) {
+    public PlayerService(BaseRepository baseRepository, //
+            UserContext userContext) {
         this.baseRepository = baseRepository;
+        this.userContext = userContext;
+    }
+
+    /**
+     * get invites for player
+     * 
+     * @param playerId long
+     * @return int
+     */
+    public int getInvites4Player(long playerId) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("playerId", playerId);
+        return baseRepository.queryForInt(//
+                "select count(1) "//
+                        + "from invite_player "//
+                        + "where invite_to = :playerId "//
+                        + "and status = 'invited' " //
+                        + "and invite_timestamp >= NOW() - INTERVAL 1 HOUR ",
+                param);
     }
 
     /**
      * get players
      * 
-     * @return List<Player>
+     * @return List<PlayerModel>
      */
-    public List<Player> getPlayers() {
-        return baseRepository.findForList("select * from player", Player.class);
+    public List<PlayerModel> getPlayers() {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("playerId", userContext.playerId());
+        return baseRepository.findForList(//
+                "select player.player_id, " //
+                        + "player.nickname, " //
+                        + "room_player.room_id, " //
+                        + "room.room_name, " //
+                        + "game_player.game_id, " //
+                        + "invite_player.invite_to is not null as invited_flg "//
+                        + "from player "//
+                        + "left join room_player "//
+                        + "on player.player_id = room_player.player_id "//
+                        + "left join game "//
+                        + "on room_player.room_id = game.room_id "//
+                        + "left join game_player "//
+                        + "on game.game_id = game_player.game_id "//
+                        + "and game_player.player_id = player.player_id "//
+                        + "left join room " //
+                        + "on room_player.room_id = room.room_id " //
+                        + "left join invite_player " //
+                        + "on invite_player.invite_from = :playerId " //
+                        + "and status = 'invited' " //
+                        + "and invite_player.invite_to = player.player_id " //
+                        + "and invite_timestamp >= NOW() - INTERVAL 1 HOUR" //
+                , param, PlayerModel.class);
     }
 
     /**
-     * get player
+     * get player from loginId
      * 
      * @param loginId String
      * @return Player
@@ -78,7 +132,7 @@ public class PlayerService {
         params.addValue("loginId", loginId);
         try {
             return baseRepository.findForObject(//
-                    "select " + //
+                    "select player.player_id, " + //
                             " player.login_id, nickname, password " + //
                             "from player " + //
                             "join passwd " + //
@@ -101,7 +155,7 @@ public class PlayerService {
      * @param playerRegistration PlayerRegistration
      * @return Player
      */
-    public Player createNewPlayer(PlayerRegistration playerRegistration) {
+    public Player createPlayer(PlayerRegistration playerRegistration) {
         if (StringUtils.isEmpty(playerRegistration.getNickname())) {
             throw new RuntimeException("Nickname can not be empty.");
         }
@@ -133,7 +187,7 @@ public class PlayerService {
         return baseRepository.findById(playerId, Player.class);
     }
 
-    public void createNewToken(PersistentRememberMeToken token) {
+    public void createToken(PersistentRememberMeToken token) {
         PersistentLogins login = new PersistentLogins();
         login.setLoginId(token.getUsername());
         login.setSeries(token.getSeries());
@@ -162,5 +216,43 @@ public class PlayerService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("loginId", loginId);
         baseRepository.update("delete from persistent_logins where login_id=:loginId", param);
+    }
+
+    public void invite(long[] players) {
+//        List<MapSqlParameterSource> paramsList = Stream.of(players)
+//                .map(p -> new MapSqlParameterSource().addValue("inviteFrom", userContext.playerId())
+//                        .addValue("inviteTo", p).addValue("requestId", baseRepository.getRequestId()))
+//                .collect(Collectors.toList());
+//        SqlParameterSource[] params = paramsList.toArray(SqlParameterSource[]::new);
+//        baseRepository.batchUpdate(//
+//                "insert into invite_player "//
+//                        + "(invite_from, invite_to, created_user, updated_user) " //
+//                        + "values(:inviteFrom, :inviteTo, :requestId, :requestId)", //
+//                params);
+
+        baseRepository.batchUpdate(//
+                "insert into invite_player "//
+                        + "(invite_from, invite_to, created_user, updated_user) " //
+                        + "values(:inviteFrom, :inviteTo, :requestId, :requestId)", //
+                Arrays.stream(players).mapToObj(p -> new MapSqlParameterSource()//
+                        .addValue("inviteFrom", userContext.playerId())//
+                        .addValue("inviteTo", p)//
+                        .addValue("requestId", baseRepository.getRequestId()))//
+                        .collect(Collectors.toList())//
+                        .toArray(SqlParameterSource[]::new));
+    }
+
+    public List<PlayerModel> getInvited() {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("playerId", userContext.playerId());
+        return baseRepository.findForList(//
+                "select player.player_id, room.room_id, nickname, room_name from invite_player "//
+                        + "join player on player.player_id = invite_player.invite_from "//
+                        + "join room_player on room_player.player_id = invite_player.invite_from "//
+                        + "join room on room_player.room_id = room_player.room_id "//
+                        + "where invite_to = :playerId "//
+                        + "and status = 'invited' " //
+                        + "and invite_timestamp >= NOW() - INTERVAL 1 HOUR ",
+                param, PlayerModel.class);
     }
 }

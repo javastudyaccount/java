@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.btsol.mahjong.application.service.PlayerService;
 import jp.btsol.mahjong.entity.PersistentLogins;
 import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.InvitePlayerModel;
+import jp.btsol.mahjong.model.Invites;
 import jp.btsol.mahjong.model.PlayerAuthentication;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.PlayerRegistration;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Player controller
@@ -27,6 +31,7 @@ import jp.btsol.mahjong.model.PlayerRegistration;
  */
 @RestController
 //@RequestMapping("/player")
+@Slf4j
 public class PlayerController {
     /**
      * Player service
@@ -45,15 +50,15 @@ public class PlayerController {
     /**
      * get player list
      * 
-     * @return List<Player>
+     * @return List<PlayerModel>
      */
     @GetMapping("/player/all")
-    public List<Player> getPlayers() {
+    public List<PlayerModel> getPlayers() {
         return playerService.getPlayers();
     }
 
     /**
-     * create new player
+     * create player
      * 
      * @param playerRegistration PlayerRegistration
      * @return Player
@@ -61,18 +66,18 @@ public class PlayerController {
     @PostMapping(value = "/player/new", produces = {"application/json"}, consumes = {"application/json"})
     public Player createNewPlayer(@Valid // validate annotation
     @RequestBody(required = true) PlayerRegistration playerRegistration) {
-        return playerService.createNewPlayer(playerRegistration);
+        return playerService.createPlayer(playerRegistration);
     }
 
     /**
-     * create new token
+     * create token
      * 
      * @param persistentRememberMeToken PersistentRememberMeToken
      */
     @PostMapping(value = "/token/new", produces = {"application/json"}, consumes = {"application/json"})
     public void createNewToken(@Valid // validate annotation
     @RequestBody(required = true) PersistentRememberMeToken persistentRememberMeToken) {
-        playerService.createNewToken(persistentRememberMeToken);
+        playerService.createToken(persistentRememberMeToken);
     }
 
     /**
@@ -121,5 +126,40 @@ public class PlayerController {
     public PlayerAuthentication getPlayerAuthentication(@Valid //
     @RequestParam(required = true) String loginId) {
         return playerService.getPlayerAuthentication(loginId);
+    }
+
+    /**
+     * invite players
+     * 
+     * @param invitePlayerModel player IDs
+     */
+    @PostMapping("/player/invite")
+    public void invite(@Valid //
+    @RequestBody(required = true) InvitePlayerModel invitePlayerModel) {
+        log.info("invite players {}", invitePlayerModel);
+        playerService.invite(invitePlayerModel.getInvitePlayers());
+    }
+
+    /**
+     * invites for player(show badge button)
+     * 
+     * @param playerId long
+     * @return Invites
+     */
+    @GetMapping("/player/invites")
+    public Invites invites(@Valid //
+    @RequestParam(required = true) long playerId) {
+        log.info("invites for player {}", playerId);
+        return new Invites(playerService.getInvites4Player(playerId));
+    }
+
+    /**
+     * my invites
+     * 
+     * @return List<PlayerModel>
+     */
+    @GetMapping("/player/invited")
+    public List<PlayerModel> invited() {
+        return playerService.getInvited();
     }
 }

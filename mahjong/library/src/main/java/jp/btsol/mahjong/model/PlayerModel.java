@@ -1,7 +1,5 @@
 package jp.btsol.mahjong.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,25 +7,29 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomModel {
+public class PlayerModel {
+    /**
+     * playerId
+     */
+    private long playerId;
+    /**
+     * nickname
+     */
+    private String nickname;
     /**
      * roomId
      */
-    private long roomId;
+    private Long roomId;
     /**
-     * roomName
+     * room name
      */
     private String roomName;
-    /**
-     * indicated if I entered the room
-     */
-    private boolean entered;
-    /**
-     * players in room
-     */
-    private List<PlayerModel> playersInRoom;
     /**
      * game id
      */
     private Long gameId;
+    /**
+     * invited flag
+     */
+    private boolean invitedFlg;
 }

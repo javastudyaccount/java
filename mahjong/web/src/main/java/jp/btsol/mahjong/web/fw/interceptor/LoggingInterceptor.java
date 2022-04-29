@@ -35,8 +35,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
             HandlerMethod hm = (HandlerMethod) handler;
             log.info("Class name: " + hm.getMethod().getDeclaringClass().getName() + " Method name: "
                     + hm.getMethod().getName());
-//            Map<String, String[]> parameterMap = request.getParameterMap();
-//            request.getSession().setAttribute("params", parameterMap);
             if (Objects.nonNull(hm.getMethod().getAnnotation(PostMapping.class))) {
                 Class formClazz = hm.getMethod().getParameterTypes()[0];
                 request.getSession().setAttribute("formClazz", formClazz);
@@ -51,18 +49,12 @@ public class LoggingInterceptor implements HandlerInterceptor {
         if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
             Annotation anno = method.getMethod().getAnnotation(GetMapping.class);
-//            log.info("method: " + method.getMethod().getName());
-//            if ("myErrorHtml".equals(method.getMethod().getName())) {
-//                return;
-//            }
-//            String viewName = "";
-//            if (Objects.nonNull(modelAndView)) {
-//                viewName = modelAndView.getViewName();
-//            }
-//            log.info("return: " + viewName);
             if (Objects.nonNull(anno)) {
-                String viewName = ((GetMapping) anno).value()[0];
-                request.getSession().setAttribute("viewName", viewName);
+//                String viewName = ((GetMapping) anno).value()[0];
+                // replace path variable
+//                request.getSession().setAttribute("viewName", viewName);
+
+                request.getSession().setAttribute("viewName", request.getRequestURI());
             } else {
                 request.getSession().removeAttribute("viewName");
             }

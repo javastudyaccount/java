@@ -23,39 +23,39 @@ public class GameLog implements Serializable {
 
     /** デフォルトシリアルバージョンID */
     private static final long serialVersionUID = 1L;
-    /**  */
+    /** game_log_id */
     @Column(nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long gameLogId;
-    /**  */
+    /** game_id */
     @Column(nullable = false)
     private long gameId;
-    /**  */
+    /** player_id */
     @Column(nullable = false)
     private long playerId;
-    /**  */
+    /** operation */
     @Column(length = 20, nullable = false)
     private String operation;
-    /**  */
+    /** tiles */
     @Column(nullable = false)
     private String tiles;
-    /**  */
+    /** player_id_counterpart */
     @Column(nullable = true)
     private long playerIdCounterpart;
-    /**  */
+    /** deleted_flg */
     @Column(nullable = false)
     private boolean deletedFlg;
-    /**  */
+    /** created_timestamp */
     @Column(nullable = false)
     private java.sql.Timestamp createdTimestamp;
-    /**  */
+    /** created_user */
     @Column(length = 20, nullable = false)
     private String createdUser;
-    /**  */
+    /** updated_timestamp */
     @Column(nullable = false)
     private java.sql.Timestamp updatedTimestamp;
-    /**  */
+    /** updated_user */
     @Column(length = 20, nullable = false)
     private String updatedUser;
 }

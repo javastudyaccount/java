@@ -191,7 +191,7 @@ class RoomControllerTest {
                     "test-id", //
                     new Timestamp(System.currentTimeMillis()), //
                     "test-id");
-            when(roomService.createNewRoom("test room")).thenReturn(room);
+            when(roomService.createRoom("test room")).thenReturn(room);
             // 実行、検証
             MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/room/new")//
                     .header("request-id", "test-id")//
@@ -208,7 +208,7 @@ class RoomControllerTest {
 
         @Test
         void testCreateNewRoomDuplicateNameError() throws Exception {
-            when(roomService.createNewRoom("test room")).thenThrow(new DuplicateKeyException("Room name exists."));
+            when(roomService.createRoom("test room")).thenThrow(new DuplicateKeyException("Room name exists."));
             // 実行、検証
             mockMvc.perform(MockMvcRequestBuilders.multipart("/room/new")//
                     .header("request-id", "test-id")//

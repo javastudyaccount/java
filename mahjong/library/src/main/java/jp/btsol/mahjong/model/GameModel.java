@@ -7,13 +7,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomId {
+public class GameModel {
     /**
-     * roomId long
+     * gameId long
+     */
+    private long gameId;
+    /**
+     * roomId
      */
     private long roomId;
     /**
-     * invitorId Long
+     * roomModel
      */
-    private Long invitorId;
+    private RoomModel roomModel;
+    /**
+     * count of players
+     */
+    private int countOfPlayers;
 }

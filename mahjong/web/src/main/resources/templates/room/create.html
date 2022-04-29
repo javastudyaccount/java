@@ -3,10 +3,10 @@
     layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Create new room</title>
+<title>Create room</title>
 </head>
 <body>
-<h1>Create new room</h1>
+<h1>Create room</h1>
 <div layout:fragment="content">
 
 <form th:action="@{/createRoom}" method="post" th:object="${roomForm}">
@@ -22,7 +22,7 @@
 </table>
 <button>Create</button>
 </form>
-      <a href="/players">Players</a>
+      <a href="/players">Players</a><br/>
       <a href="/rooms">Rooms</a>
 </div>
 </body>

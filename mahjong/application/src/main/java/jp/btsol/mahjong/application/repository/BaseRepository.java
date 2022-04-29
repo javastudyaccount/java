@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.Id;
 
@@ -56,6 +58,18 @@ public class BaseRepository {
     public <T> T findForObject(String sql, Class<T> clazz) {
         sqlPrint(sql, null);
         return template.queryForObject(sql, new HashMap<String, Object>(), new BeanPropertyRowMapper<T>(clazz));
+    }
+
+    /**
+     * Get count。
+     * 
+     * @param sql   実行対象SQL
+     * @param param バインドパラメータ
+     * @return 検索結果
+     */
+    public int queryForInt(String sql, MapSqlParameterSource param) {
+        sqlPrint(sql, param);
+        return template.queryForObject(sql, param, Integer.class);
     }
 
     /**
@@ -241,7 +255,7 @@ public class BaseRepository {
         String pk = "";
         List<String> columnNames = new ArrayList<>();
         List<String> paramNames = new ArrayList<>();
-        Map<String, Object> params = new HashMap<>();
+        MapSqlParameterSource params = new MapSqlParameterSource();
         for (Field f : entity.getClass().getDeclaredFields()) {
             Id id = f.getAnnotation(Id.class);
             if (Objects.nonNull(id)) {
@@ -255,14 +269,14 @@ public class BaseRepository {
             paramNames.add(":" + f.getName());
             f.setAccessible(true);
             switch (f.getName()) {
-                case "deleteFlg":
-                    params.put(f.getName(), false);
+                case "deletedFlg":
+                    params.addValue(f.getName(), false);
                     break;
                 case "createdTimestamp":
                 case "updatedTimestamp":
                     java.util.Date date = new java.util.Date();
                     java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
-                    params.put(f.getName(), timestamp);
+                    params.addValue(f.getName(), timestamp);
                     break;
                 case "createdUser":
                 case "updatedUser":
@@ -275,14 +289,14 @@ public class BaseRepository {
                             }
                         }
 
-                        params.put(f.getName(), requestId);
+                        params.addValue(f.getName(), requestId);
                     } catch (IllegalArgumentException | IllegalAccessException e1) {
                         e1.printStackTrace();
                     }
                     break;
                 default:
                     try {
-                        params.put(f.getName(), f.get(entity));
+                        params.addValue(f.getName(), f.get(entity));
                     } catch (IllegalArgumentException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -294,7 +308,7 @@ public class BaseRepository {
         sql.append(String.join(", ", paramNames));
         sql.append(")");
 
-        sqlPrint(sql.toString(), null);
+        sqlPrint(sql.toString(), params);
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(template.getJdbcTemplate().getDataSource());
 //        if (!StringUtils.isEmpty(pk)) {
         jdbcInsert.withTableName(tableName).usingGeneratedKeyColumns(pk);
@@ -304,7 +318,7 @@ public class BaseRepository {
         // convert Number to Int using ((Number) key).intValue()
 //            return ((Number) key).intValue();
 //        } else {
-        int count = jdbcInsert.execute(new MapSqlParameterSource(params));
+        int count = jdbcInsert.execute(params);
         return count;
 //        }
     }
@@ -338,7 +352,7 @@ public class BaseRepository {
         return (T) findForObject(sql.toString(), params, clazz);
     }
 
-    private String getRequestId() {
+    public String getRequestId() {
         try {
             return (String) RequestContextHolder.currentRequestAttributes().getAttribute("request-id",
                     RequestAttributes.SCOPE_REQUEST);
@@ -358,9 +372,33 @@ public class BaseRepository {
         if (Objects.nonNull(params)) {
             Map<String, Object> param = params.getValues();
             for (String key : param.keySet()) {
-                sql = sql.replaceAll(":" + key, "'" + param.get(key).toString() + "'");
+                String value = escapeDollarSign(String.valueOf(param.get(key)));
+                sql = sql.replaceAll(":" + key, "'" + (Objects.isNull(param.get(key)) ? "<<null>>" : value) + "'");
             }
         }
         log.info(sql);
+    }
+
+    /**
+     * escape dollar sing
+     * 
+     * @param value string
+     * @return string
+     */
+    private String escapeDollarSign(String value) {
+        Pattern p = Pattern.compile("\\$");
+        int off = 0;
+        while (true) {
+            Matcher m = p.matcher(value.substring(off));
+            if (!m.find())
+                break;
+            int moff = m.start();
+            String left = value.substring(0, off + moff);
+            String right = value.substring(off + moff + 1, value.length());
+            value = left + "\\$" + right;
+            off += moff + 1 + 1;
+        }
+
+        return value;
     }
 }

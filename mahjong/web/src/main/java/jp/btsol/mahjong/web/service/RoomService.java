@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ public class RoomService {
      * Constructor
      * 
      * @param applicationProperties ApplicationProperties application properties
+     * @param mahjongRestTemplate   MahjongRestTemplate
      */
     public RoomService(ApplicationProperties applicationProperties, //
             MahjongRestTemplate mahjongRestTemplate) {
@@ -94,14 +96,16 @@ public class RoomService {
     /**
      * enter room
      * 
-     * @param roomId long
+     * @param roomId    long
+     * @param invitorId long
      */
-    public void enterRoom(long roomId) {
+    public void enterRoom(long roomId, Optional<Long> invitorId) {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getEnterRoom();
         RoomId roomIdModel = new RoomId();
         roomIdModel.setRoomId(roomId);
+        roomIdModel.setInvitorId(invitorId.get());
         mahjongRestTemplate.post(url, roomIdModel);
     }
 

@@ -7,13 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomId {
+public class Invites {
     /**
-     * roomId long
+     * int invites
      */
-    private long roomId;
-    /**
-     * invitorId Long
-     */
-    private Long invitorId;
+    private int invites;
 }

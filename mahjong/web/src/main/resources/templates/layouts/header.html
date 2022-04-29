@@ -1,52 +1,56 @@
 <!DOCTYPE html>
-<html lang="ja"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
-<header id="banner" role="banner" layout:fragment="header">
-    <div id="heading" class="navbar">
-        <div class="navbar-inner">
-            <!-- .container -->
-            <div class="container">
-                <span>
-                <button onclick="javascript:location.href='/';">Home</button>
-                </span>
-                
-                <span sec:authorize="isAuthenticated()">
-                <span th:text="${#authentication.getPrincipal().getNickname()}"></span>
-                <form style="display: inline" id="formLogout" method="post" th:action="@{/logout}">
-                <button class="button-right">Logout</button>
-                </form>
-                </span>
-            </div>
-            <!-- /.container -->
-        </div>
-    </div>
-    <div style="clear: both;"></div>
-    
-    <h4 th:text="${message}"></h4>
-	  <div th:if="${errors}" class="error-message-list width-100">
-	    <div th:each="error,sts: ${errors}">
-	    <span th:text="${error.field}"></span>:
-	    <span th:text="${error.defaultMessage}"></span>
-	    </div>
-	  </div>
-	  <div th:if="${apierror}" class="error-message-list width-100">
-        <div th:if="${apierror.bindingResult}" >
-        <div th:if="${apierror.bindingResult.fieldErrors}" >
-        <div th:each="error,sts: ${apierror.bindingResult.fieldErrors}">
-        <span th:text="${error.field}"></span>:
-        <span th:text="${error.defaultMessage}"></span>
-        </div>
-        </div>
-        </div>
-        
-        <div th:unless="${apierror.bindingResult}" >
-        <span th:text="${apierror.errorCode}"></span>:
-        <span th:text="${apierror.errorDetail}"></span>
-        </div>
-      </div>
-</header>
+	<header id="banner" role="banner" layout:fragment="header">
+		<div id="heading" class="navbar">
+			<div class="navbar-inner">
+				<!-- .container -->
+				<div class="container">
+					<span>
+						<button onclick="javascript:location.href='/';">Home</button>
+					</span> <span sec:authorize="isAuthenticated()"> <span
+						th:text="${#authentication.principal.nickname}"></span>
+						<button id="button-badge"
+							th:if="${#authentication.principal.invites>0}"
+							class="button-badge button-round">
+							<span th:text="${#authentication.principal.invites}"></span>
+						</button>
+
+						<form style="display: inline" id="formLogout" method="post"
+							th:action="@{/logout}">
+							<button class="button-right">Logout</button>
+						</form>
+					</span>
+				</div>
+				<!-- /.container -->
+			</div>
+		</div>
+		<div style="clear: both;"></div>
+
+		<h4 th:text="${message}"></h4>
+		<div th:if="${errors}" class="error-message-list width-100">
+			<div th:each="error,sts: ${errors}">
+				<span th:text="${error.field}"></span>: <span
+					th:text="${error.defaultMessage}"></span>
+			</div>
+		</div>
+		<div th:if="${apierror}" class="error-message-list width-100">
+			<div th:if="${apierror.bindingResult}">
+				<div th:if="${apierror.bindingResult.fieldErrors}">
+					<div th:each="error,sts: ${apierror.bindingResult.fieldErrors}">
+						<span th:text="${error.field}"></span>: <span
+							th:text="${error.defaultMessage}"></span>
+					</div>
+				</div>
+			</div>
+
+			<div th:unless="${apierror.bindingResult}">
+				<span th:text="${apierror.errorCode}"></span>: <span
+					th:text="${apierror.errorDetail}"></span>
+			</div>
+		</div>
+	</header>
 </body>
 </html>

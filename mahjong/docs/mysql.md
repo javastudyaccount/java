@@ -37,7 +37,7 @@ Paste [ddl.sql](./ddl/ddl.sql)
 
 `mysql> exit;`
 
-#### Connection
+#### Connect mysql
 
 `$ docker exec -it /game /bin/bash`
 
@@ -48,7 +48,7 @@ Enter password: game
 `mysql> show tables;`
 
 | Tables_in_game |
-|----------------|
+| -------------- |
 | game           |
 | game_log       |
 | game_player    |
@@ -57,3 +57,66 @@ Enter password: game
 
 
 @enduml
+
+### Restart docker 
+`$ docker ps -a`
+<pre>
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS                       PORTS                                                  NAMES
+8b28914fcd7f   mysql:latest   "docker-entrypoint.s…"   2 months ago   Exited (255) 4 minutes ago   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   game
+</pre>
+`$ docker start 8b28914fcd7f`
+<pre>
+8b28914fcd7f
+</pre>
+then [Connect mysql](#connect-mysql)
+
+
+```sql
+select
+    player.player_id,
+    player.nickname,
+    room_player.room_id,
+    room.room_name,
+    game_player.game_id,
+    invite_player.invite_to is not null as invited_flg
+from
+    player
+    left join room_player on player.player_id = room_player.player_id
+    left join game on room_player.room_id = game.room_id
+    left join game_player on game.game_id = game_player.game_id
+    and game_player.player_id = player.player_id
+    left join room on room_player.room_id = room.room_id
+    left join invite_player on invite_player.invite_from = '1'
+    and invite_player.invite_to = player.player_id
+    and invite_timestamp >= NOW() - INTERVAL 1 HOUR
+```
+
+### MySQLのタイムゾーンを日本時間にする
+https://qiita.com/rowpure/items/dbedbe2b98e91a34d0d5
+以下のコマンドを実行する
+
+#### DBコンテナ作成＆起動（DBコンテナがなければ）
+ホストOS% docker run --name ＜好きなDBコンテナ名＞ -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
+#### DBコンテナに入る
+ホストOS% docker exec -it ＜作成したDBコンテナ名＞ bash
+#### タイムゾーンのテーブルを取得
+DBコンテナ% mysql_tzinfo_to_sql /usr/share/zoneinfo/
+#### タイムゾーンを日本時間にする設定ファイルを新規作成（conf.dディレクトリの配下であればファイル名は何でもOK）
+DBコンテナ% echo "" >> /etc/mysql/conf.d/etc-mysql.cnf
+DBコンテナ% sed -i -e "1i [mysqld]\n    default-time-zone='Asia/Tokyo'" /etc/mysql/conf.d/etc-mysql.cnf
+
+DBコンテナ% exit
+#### DBコンテナの再起動（MySQL単体の再起動ができないので）
+ホストOS% docker restart ＜作成したDBコンテナ名＞
+
+```sql
+select nickname, room_name from invite_player
+join player on player.player_id = invite_player.invite_from
+join room_player on room_player.player_id = invite_player.invite_from
+join room on room_player.room_id = room_player.room_id
+where invite_to = 3
+and invite_timestamp >= NOW() - INTERVAL 1 HOUR
+```
+
+
+

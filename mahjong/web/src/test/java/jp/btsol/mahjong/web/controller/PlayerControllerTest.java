@@ -27,7 +27,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jp.btsol.mahjong.entity.Player;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.web.controller.PlayerControllerTest.TestConfig;
 import jp.btsol.mahjong.web.service.PlayerService;
 
@@ -69,7 +69,7 @@ class PlayerControllerTest {
         @Test
         void testPlayers() throws Exception {
             // モック設定
-            List<Player> players = new ArrayList<>();
+            List<PlayerModel> players = new ArrayList<>();
             when(playerService.getPlayers()).thenReturn(players);
 
             // 実行、検証

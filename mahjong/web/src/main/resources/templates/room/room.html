@@ -10,9 +10,9 @@
 <div layout:fragment="content">
 <h3>Players in room: <span th:text="${room.roomName}">
     </span></h3>
-    <span th:if="${players.size()==0}">None</span>
-<table>
-<tr th:each="player, playerStat: ${players}">
+    <span th:if="${room.playersInRoom.size()==0}">None</span>
+<table style="width:100%">
+<tr th:each="player, playerStat: ${room.playersInRoom}">
 <td>
     <span th:text="${player.playerId}">
     </span>
@@ -21,8 +21,28 @@
     <span th:text="${player.nickname}">
     </span>
 </td>
+<td align="right">
+    <form th:if="${#authentication.principal.playerId==player.playerId}" style="display: inline" id="formExitRoom" method="post" th:action="@{/exitRoom}">
+    <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
+    <button class="button-right">Exit room</button>
+    </form>
+</td>
 </tr>
 </table>
+    <form th:unless="${room.entered}" style="display: inline" id="formEnterRoom" method="post" th:action="@{/enterRoom}">
+    <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
+    <button class="button-left">Enter</button>
+    </form>
+
+    <div th:if="${room.gameId}">
+    <a th:href="${'/game/' + room.gameId}">Game</a>
+    </div>
+    <div th:unless="${room.gameId}">
+    <form th:if="${room.playersInRoom.size>=4 && room.entered}" style="display: inline" id="formCreateGame" method="post" th:action="@{/createGame}">
+    <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
+    <button class="button-left">Begin a game</button>
+    </form> <br/>
+    </div>
       <a href="/players">Players</a><br/>
       <a href="/rooms">Rooms</a>
 </div>
