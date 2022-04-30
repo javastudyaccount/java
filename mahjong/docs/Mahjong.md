@@ -426,3 +426,32 @@ $ mvn -Dtest=TestApp1#testHello* test
 $ mvn -Dtest=TestApp1#testHello*+testMagic* test
 
 $ mvn clean test -Djacoco.skip=true
+
+### WebSocket
+```mermaid
+graph LR
+subgraph index.html
+  subgraph send message
+    name
+    message
+    send
+  end
+  greetings
+end
+subgraph app.js
+  sendMessage
+  showGreeting
+end
+subgraph MessageController
+  MessageMapping
+  greeting
+  SendTo
+end
+
+send-->sendMessage
+sendMessage-->MessageMapping
+MessageMapping-->greeting
+greeting-->SendTo
+SendTo-->showGreeting
+showGreeting-->greetings
+```
