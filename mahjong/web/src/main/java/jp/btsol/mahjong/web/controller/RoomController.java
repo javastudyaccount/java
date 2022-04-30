@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.util.UriComponents;
 
 import jp.btsol.mahjong.model.RoomModel;
+import jp.btsol.mahjong.web.form.EnterRoomForm;
 import jp.btsol.mahjong.web.form.RoomForm;
 import jp.btsol.mahjong.web.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
@@ -62,23 +63,22 @@ public class RoomController {
     /**
      * enter room
      * 
-     * @param roomId    long
-     * @param invitorId long
+     * @param enterRoomForm EnterRoomForm
+     * @param invitorId     long
      * @return String view name
      */
     @PostMapping("/enterRoom")
-    public String enterRoom(@Valid //
-    @RequestParam long roomId, //
+    public String enterRoom(@ModelAttribute("enterRoomForm") EnterRoomForm enterRoomForm, //
             @RequestParam(name = "invitorId", required = false) Optional<Long> invitorId) {
-        log.info("roomId: {}", roomId);
+        log.info("roomId: {}", enterRoomForm.getRoomId());
 //        try {
-        roomService.enterRoom(roomId, invitorId);
+        roomService.enterRoom(enterRoomForm.getRoomId(), invitorId);
 //        } catch (HttpServerErrorException e) {
 //            log.error(e.getLocalizedMessage());
 //        }
 
         UriComponents uriComponents = MvcUriComponentsBuilder
-                .fromMethodName(RoomController.class, "room", Model.class, roomId).build();
+                .fromMethodName(RoomController.class, "room", Model.class, enterRoomForm.getRoomId()).build();
 
         URI location = uriComponents.toUri();
 

@@ -53,7 +53,7 @@ public class GameService {
         final String endpoint = applicationProperties.getUri();
 
         final String url = endpoint + applicationProperties.getPath().getCreateGame();
-        RoomId roomIdModel = new RoomId(roomId);
+        RoomId roomIdModel = new RoomId(roomId, 0L);
         GameId game = mahjongRestTemplate.post(url, roomIdModel, GameId.class);
         return game;
     }

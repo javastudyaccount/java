@@ -105,7 +105,9 @@ public class RoomService {
         final String url = endpoint + applicationProperties.getPath().getEnterRoom();
         RoomId roomIdModel = new RoomId();
         roomIdModel.setRoomId(roomId);
-        roomIdModel.setInvitorId(invitorId.get());
+        if (invitorId.isPresent()) {
+            roomIdModel.setInvitorId(invitorId.get());
+        }
         mahjongRestTemplate.post(url, roomIdModel);
     }
 
