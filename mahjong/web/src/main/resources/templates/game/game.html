@@ -38,7 +38,12 @@
 				</tr>
 			</table>
 		</div>
-		<div th:if="${game.countOfPlayers==4}">
+		<div th:each="player, playerStat: ${game.roomModel.playersInRoom}">
+		<div th:if="${player.playerId==#authentication.principal.playerId && player.direction==null}">
+		Click the direction I want to seat.
+		</div>
+		</div>
+		  
 			<table>
                 <tr>
                 <td rowspan="5" style="transform:rotate(-90deg)">West</td>

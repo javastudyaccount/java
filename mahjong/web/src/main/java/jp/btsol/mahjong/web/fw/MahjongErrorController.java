@@ -84,7 +84,10 @@ public class MahjongErrorController implements ErrorController {
             redirectAttributes.addFlashAttribute("errors", bindingErrors.get("errors"));
         }
         Class formClazz = (Class) ((ServletWebRequest) request).getRequest().getSession().getAttribute("formClazz");
-        if (Objects.nonNull(formClazz)) {
+        if (Objects.nonNull(formClazz) && formClazz.isPrimitive()) {
+            log.error("form clazz is primitive");
+        }
+        if (Objects.nonNull(formClazz) && !formClazz.isPrimitive()) {
             try {
                 Object form = formClazz.getDeclaredConstructor().newInstance();
                 Map<String, String[]> params = ((ServletWebRequest) request).getRequest().getParameterMap();

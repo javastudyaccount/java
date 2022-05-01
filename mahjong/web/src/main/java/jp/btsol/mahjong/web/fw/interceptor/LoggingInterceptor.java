@@ -37,6 +37,9 @@ public class LoggingInterceptor implements HandlerInterceptor {
                     + hm.getMethod().getName());
             if (Objects.nonNull(hm.getMethod().getAnnotation(PostMapping.class))) {
                 Class formClazz = hm.getMethod().getParameterTypes()[0];
+                if (formClazz.isPrimitive()) {
+                    log.error("form clazz is primitive");
+                }
                 request.getSession().setAttribute("formClazz", formClazz);
             }
         }

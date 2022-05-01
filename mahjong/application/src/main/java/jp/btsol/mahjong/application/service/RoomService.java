@@ -94,7 +94,11 @@ public class RoomService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("roomId", roomId);
         return baseRepository.findForList(//
-                "select player.player_id, player.nickname, room_player.room_id, game_player.game_id "//
+                "select player.player_id, "//
+                        + "player.nickname, "//
+                        + "room_player.room_id, "//
+                        + "game_player.game_id, "//
+                        + "game_player.direction "//
                         + "from player "//
                         + "left join room_player "//
                         + "on player.player_id = room_player.player_id "//

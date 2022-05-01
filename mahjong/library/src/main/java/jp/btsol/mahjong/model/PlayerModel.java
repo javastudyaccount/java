@@ -32,4 +32,8 @@ public class PlayerModel {
      * invited flag
      */
     private boolean invitedFlg;
+    /**
+     * direction
+     */
+    private String direction;
 }
