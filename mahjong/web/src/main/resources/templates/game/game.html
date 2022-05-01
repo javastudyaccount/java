@@ -40,7 +40,7 @@
 		</div>
 		<div th:each="player, playerStat: ${game.roomModel.playersInRoom}">
 		<div th:if="${player.playerId==#authentication.principal.playerId && player.direction==null}">
-		Click the direction I want to seat.
+		<button id="grab-seat">Grab a seat</button>
 		</div>
 		</div>
 		  
@@ -165,6 +165,9 @@ $(document).ready(function() {
     var dice2 = $("#dice2");
     dice2.click(diceFunc);
 });
+$("#grab-seat").on('click', function(){
+	console.log("grab-seat is clicked.");
+});
 /*]]>*/
 </script>
 			<div class="wrap1">
@@ -175,6 +178,7 @@ $(document).ready(function() {
 			</div>
 		</div>
 		<a href="/players">Players</a><br /> <a href="/rooms">Rooms</a>
+
 	</div>
 </body>
 </html>
