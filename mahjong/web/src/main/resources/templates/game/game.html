@@ -46,13 +46,17 @@
 		  
 			<table>
                 <tr>
-                <td rowspan="5" th:style="'transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_west.png} + ');background-repeat: no-repeat;background-position:center;'">West</td>
+                <td rowspan="5">
+                <div th:style="'height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_west.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                </td>
                     <td></td>
-                    <td height="100px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_north.png} + ');background-repeat: no-repeat;background-position: center;'">
+                    <td height="100px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_north.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
                         North
                     </td>
                     <td></td>
-                    <td rowspan="5" style="transform:rotate(-90deg);cursor:pointer">East</td>
+                    <td rowspan="5">
+                    <div th:style="'width:96px;height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_east.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;East&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
                 </tr>
 				<tr>
 					<td></td>
@@ -122,7 +126,7 @@
 				</tr>
                 <tr>
                     <td></td>
-                    <td align="center" style="cursor:pointer">
+                    <td height="160px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_south.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
                         South
                     </td>
                     <td></td>
