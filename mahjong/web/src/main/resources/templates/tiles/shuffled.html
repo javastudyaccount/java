@@ -116,31 +116,6 @@ $(document).ready(function() {
     $("#dice1").css({"position":"absolute", "left": (size/2)+'px', "top": (size/2)+'px', "zoom": 0.5});
     $("#dice2").css({"position":"absolute", "left": (size/2 + 90)+'px', "top": (size/2)+'px', "zoom": 0.5});
 
-    var diceFunc = function(){
-        $("audio")[0].play();
-        jQuery.each([$("#dice1"), $("#dice2")], function(index, dice){
-            var left = parseInt($(dice).css("left").replace("px", ""));
-            var top = parseInt($(dice).css("top").replace("px", ""));
-            $(".wrap1").append("<div id='dice_mask'></div>");//add mask
-            dice.attr("class","dice");//After clearing the last points animation
-            dice.css('cursor','default');
-            var num = Math.floor(Math.random()*6+1);//random num 1-6
-            
-            dice.animate({left: (left+2)+'px'}, 100,function(){
-                dice.addClass("dice_t");
-            }).delay(200).animate({top:(top-2)+'px'},100,function(){
-                dice.removeClass("dice_t").addClass("dice_s");
-            }).delay(200).animate({opacity: 'show'},600,function(){
-                dice.removeClass("dice_s").addClass("dice_e");
-            }).delay(100).animate({left:(left)+'px',top:(top)+'px'},100,function(){
-                dice.removeClass("dice_e").addClass("dice_"+num);
-                dice.css('cursor','pointer');
-                $("#dice_mask").remove();//remove mask
-                $("audio")[0].pause();
-                $("audio")[0].currentTime = 0;
-            });
-        });
-    };
     var dice1 = $("#dice1");
     dice1.click(diceFunc);
     var dice2 = $("#dice2");

@@ -1,66 +1,63 @@
 <!DOCTYPE html>
-<html lang="ja"
-	xmlns:th="http://www.thymeleaf.org"
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}">
 <head>
-    <title>All tiles arranged</title>
+<title>All tiles arranged</title>
 </head>
 <body class="unselectable">
-    <div layout:fragment="content">
-    <div style="padding-left:50px;padding-right:50px">
-    <table cellspacing="0" cellpadding="0" class="first_div">
-		<tr class="first_div">
-		<td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
-		   	<img class="back portrait" th:src="@{/images/back.png}"></img>
-		</td>
-		</tr>
-	</table>
-	</div>
-	
-	<div>
-	<table class="second_div">
-	<tr>
-	<td>
-    <table cellspacing="0" cellpadding="0">
-		<tr class="rotate90deg" th:each="i , iStat: ${#numbers.sequence(0, 16)}">
-		<td>
-		   	<img class="back landscape" th:src="@{/images/back90deg.png}"></img>
-		</td>
-		</tr>
-	</table>
-	</td>
-	<td align="right">
-    <table cellspacing="0" cellpadding="0">
-		<tr class="rotate90deg" th:each="i , iStat: ${#numbers.sequence(0, 16)}">
-		<td>
-		   	<img class="back landscape" th:src="@{/images/back90deg.png}"></img>
-		</td>
-		</tr>
-	</table>
-	</td>
-	</tr>
-	</table>
-	</div>
-	
-    <div style="padding-left:50px;padding-right:50px">
-    <table cellspacing="0" cellpadding="0">
-		<tr>
-		<td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
-		   	<img class="back portrait" th:src="@{/images/back.png}"></img>
-		</td>
-		</tr>
-	</table>
-	</div>	
-	<figure>
-    <audio style="width:0px;height:0px"
-        controls
-        th:src="@{/sounds/dice.mp3}">
-            Your browser does not support the
-            <code>audio</code> element.
-    </audio>
-    </figure>   
-<script th:inline="javascript">
+	<div layout:fragment="content">
+		<div style="padding-left: 50px; padding-right: 50px">
+			<table cellspacing="0" cellpadding="0" class="first_div">
+				<tr class="first_div">
+					<td th:each="i , iStat: ${#numbers.sequence(0, 16)}"><img
+						class="back portrait" th:src="@{/images/back.png}"></img></td>
+				</tr>
+			</table>
+		</div>
+
+		<div>
+			<table class="second_div">
+				<tr>
+					<td>
+						<table cellspacing="0" cellpadding="0">
+							<tr class="rotate90deg"
+								th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+								<td><img class="back landscape"
+									th:src="@{/images/back90deg.png}"></img></td>
+							</tr>
+						</table>
+					</td>
+					<td align="right">
+						<table cellspacing="0" cellpadding="0">
+							<tr class="rotate90deg"
+								th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+								<td><img class="back landscape"
+									th:src="@{/images/back90deg.png}"></img></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div style="padding-left: 50px; padding-right: 50px">
+			<table cellspacing="0" cellpadding="0">
+				<tr>
+					<td th:each="i , iStat: ${#numbers.sequence(0, 16)}"><img
+						class="back portrait" th:src="@{/images/back.png}"></img></td>
+				</tr>
+			</table>
+		</div>
+		<figure>
+			<audio style="width: 0px; height: 0px" controls
+				th:src="@{/sounds/dice.mp3}">
+				Your browser does not support the
+				<code>audio</code>
+				element.
+			</audio>
+		</figure>
+		<script th:inline="javascript">
 /*<![CDATA[*/
 $(document).ready(function() {
 	var height = $(window).height();
@@ -86,12 +83,12 @@ $(document).ready(function() {
 });
 /*]]>*/
 </script>
-<div class="wrap1">
-<div id="dice1" class="dice dice_1"></div>
-</div>
-<div class="wrap2">
-<div id="dice2" class="dice dice_1"></div>
-</div>
+		<div class="wrap1">
+			<div id="dice1" class="dice dice_1"></div>
+		</div>
+		<div class="wrap2">
+			<div id="dice2" class="dice dice_1"></div>
+		</div>
 	</div>
 </body>
 </html>

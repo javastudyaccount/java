@@ -82,9 +82,13 @@ public class GameService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("gameId", gameId);
         param.addValue("playerId", userContext.playerId());
-        baseRepository.update("insert into game_player (game_id, player_id) values(:gameId, :playerId)", param);
-        int count = baseRepository.findForObject("select count(1) from game_player where game_id = :gameId", param,
-                int.class);
+        param.addValue("requestId", baseRepository.getRequestId());
+        baseRepository.update(//
+                "insert into game_player " //
+                        + " (game_id, player_id, created_user, updated_user) "//
+                        + " values(:gameId, :playerId, :requestId, :requestId)",
+                param);
+        int count = baseRepository.queryForInt("select count(1) from game_player where game_id = :gameId", param);
         if (count > 4) {
             throw new TooManyPlayersException("The game already has 4 players.");
         }

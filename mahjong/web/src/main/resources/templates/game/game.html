@@ -1,41 +1,158 @@
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Game</title>
 </head>
 <body>
-<h1>Game</h1>
-<div layout:fragment="content">
-<h3>Players in room: <span th:text="${game.roomModel.roomName}">
-    </span></h3>
-<table style="width:100%">
-<tr th:each="player, playerStat: ${game.roomModel.playersInRoom}">
-<td>
-    <span th:text="${player.playerId}">
-    </span>
-</td>
-<td>
-    <span th:text="${player.nickname}">
-    </span>
-</td>
-<td align="right">
-    <form th:if="${#authentication.principal.playerId!=player.playerId && player.gameId==null && game.countOfPlayers<4}" style="display: inline" id="formInvite" method="post" th:action="@{/inviteGame}">
-    <input type="hidden" name="gameId" th:value="*{game.gameId}"/>
-    <input type="hidden" name="playerId" th:value="*{player.playerId}"/>
-    <button class="button-right">Invite</button>
-    </form>
-    <form th:if="${#authentication.principal.playerId==player.playerId && player.gameId==null && game.countOfPlayers<4}" style="display: inline" id="formEnterGame" method="post" th:action="@{/enterGame}">
-    <input type="hidden" name="gameId" th:value="*{game.gameId}"/>
-    <button class="button-right">Enter game</button>
-    </form>
-</td>
-</tr>
-</table>
+	<h1>Game</h1>
+	<div layout:fragment="content">
+		<div th:if="${game.countOfPlayers<4}">
+			<h3>
+				Players in room: <span th:text="${game.roomModel.roomName}">
+				</span>
+			</h3>
+			<table style="width: 100%">
+				<tr th:each="player, playerStat: ${game.roomModel.playersInRoom}">
+					<td><span th:text="${player.playerId}"> </span></td>
+					<td><span th:text="${player.nickname}"> </span></td>
+					<td align="right">
+						<form
+							th:if="${#authentication.principal.playerId!=player.playerId && player.gameId==null && game.countOfPlayers<4}"
+							style="display: inline" id="formInvite" method="post"
+							th:action="@{/inviteGame}">
+							<input type="hidden" name="gameId" th:value="*{game.gameId}" />
+							<input type="hidden" name="playerId"
+								th:value="*{player.playerId}" />
+							<button class="button-right">Invite</button>
+						</form>
+						<form
+							th:if="${#authentication.principal.playerId==player.playerId && player.gameId==null && game.countOfPlayers<4}"
+							style="display: inline" id="formEnterGame" method="post"
+							th:action="@{/enterGame}">
+							<input type="hidden" name="gameId" th:value="*{game.gameId}" />
+							<button class="button-right">Enter game</button>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div th:if="${game.countOfPlayers==4}">
+			<table style="width:100%">
+				<tr>
+					<td style="width:10%"></td>
+					<td>
+						<div>
+							<table cellspacing="0" cellpadding="0" class="first_div">
+								<tr class="first_div">
+									<td th:each="i , iStat: ${#numbers.sequence(0, 16)}"><img
+										class="back portrait" th:src="@{/images/back.png}"></img></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td style="width:10%"></td>
+				</tr>
+				<tr>
+					<td>
+						<div>
+							<table class="second_div">
+								<tr>
+									<td>
+										<table cellspacing="0" cellpadding="0">
+											<tr class="rotate90deg"
+												th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+												<td><img class="back landscape"
+													th:src="@{/images/back90deg.png}"></img></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td></td>
+					<td>
+						<div>
+							<table class="second_div">
+								<tr>
+									<td align="right">
+										<table cellspacing="0" cellpadding="0">
+											<tr class="rotate90deg"
+												th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+												<td><img class="back landscape"
+													th:src="@{/images/back90deg.png}"></img></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
 
-      <a href="/players">Players</a><br/>
-      <a href="/rooms">Rooms</a>
-</div>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<div>
+							<table cellspacing="0" cellpadding="0">
+								<tr>
+									<td th:each="i , iStat: ${#numbers.sequence(0, 16)}"><img
+										class="back portrait" th:src="@{/images/back.png}"></img></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td></td>
+				</tr>
+			</table>
+
+
+
+
+			<figure>
+				<audio style="width: 0px; height: 0px" controls
+					th:src="@{/sounds/dice.mp3}">
+					Your browser does not support the
+					<code>audio</code>
+					element.
+				</audio>
+			</figure>
+			<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function() {
+    var height = $(window).height();
+    var width = $(window).width();
+    var size = Math.min(height, width);
+    var ratio = $("img.portrait")[0].height / $("img.portrait")[0].width;
+    var tileWidth = ((size - 2 * (size / 17 * ratio)) / 17) | 0;
+    $("img.portrait").css({"width": tileWidth + 'px'});
+    var tileHeight = $("img.portrait")[0].height;
+    $("img.landscape").css({"width": tileHeight + 'px'});
+    //$(".second_div").css({
+    //  'width': (($(".first_div").width() + 100) + 'px')
+    //});
+    size = size - 2 * (size / 17 * ratio);
+    size = size * 2;
+    $("#dice1").css({"position":"absolute", "left": (size/2)+'px', "top": (size/2)+'px', "zoom": 0.5});
+    $("#dice2").css({"position":"absolute", "left": (size/2 + 90)+'px', "top": (size/2)+'px', "zoom": 0.5});
+    
+    var dice1 = $("#dice1");
+    dice1.click(diceFunc);
+    var dice2 = $("#dice2");
+    dice2.click(diceFunc);
+});
+/*]]>*/
+</script>
+			<div class="wrap1">
+				<div id="dice1" class="dice dice_1"></div>
+			</div>
+			<div class="wrap2">
+				<div id="dice2" class="dice dice_1"></div>
+			</div>
+		</div>
+		<a href="/players">Players</a><br /> <a href="/rooms">Rooms</a>
+	</div>
 </body>
 </html>
