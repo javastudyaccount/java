@@ -99,34 +99,80 @@ public class RoomService {
         if (Objects.nonNull(gameId)) {
             param.addValue("gameId", gameId);
         }
-        String sql = "select player.player_id, "//
-                + "player.nickname, "//
-                + "room_player.room_id, "//
-                + "game_player.game_id, "//
-                + "game_player.direction "//
-        ;
+//        String sql = "select player.player_id, "//
+//                + "player.nickname, "//
+//                + "room_player.room_id, "//
+//                + "game_player.game_id, "//
+//                + "game_player.direction "//
+//        ;
+//        if (Objects.nonNull(gameId)) {
+//            sql += ", game_log.log ";
+//        }
+//        sql += "from player "//
+//                + "left join room_player "//
+//                + "on player.player_id = room_player.player_id "//
+//                + "left join game_player "//
+//                + "on player.player_id = game_player.player_id "//
+//        ;
+//        if (Objects.nonNull(gameId)) {
+//
+//            sql += "left join " //
+//                    + "(select * from game_log where (player_id, game_id, updated_timestamp) in "
+//                    + "(select player_id, game_id, max(updated_timestamp) updated_timestamp from game_log "//
+//                    + "where game_log.game_id = :gameId "//
+//                    + "and deleted_flg = 0 "//
+//                    + "group by player_id, game_id " + ") "//
+//                    + ") game_log "//
+//                    + "on game_log.player_id = player.player_id ";
+//        }
+//
+//        sql += "where room_player.room_id = :roomId "//
+//                + "order by player_id";
+        StringBuffer sql = new StringBuffer("");
+        sql.append("select ");
+        sql.append("    player.player_id, ");
+        sql.append("    player.nickname, ");
+        sql.append("    room_player.room_id, ");
+        sql.append("    game_player.game_id, ");
+        sql.append("    game_player.direction ");
         if (Objects.nonNull(gameId)) {
-            sql += ", game_log.log ";
+            sql.append("    ,game_log.log ");
         }
-        sql += "from player "//
-                + "left join room_player "//
-                + "on player.player_id = room_player.player_id "//
-                + "left join game_player "//
-                + "on player.player_id = game_player.player_id "//
-        ;
+        sql.append("from ");
+        sql.append("    player ");
+        sql.append("    left join room_player on player.player_id = room_player.player_id ");
+        sql.append("    left join game_player on player.player_id = game_player.player_id ");
+        sql.append("    and game_player.game_id = :gameId ");
         if (Objects.nonNull(gameId)) {
-
-            sql += "left join (select * from game_log "//
-                    + "where game_log.game_id = :gameId "//
-                    + "and deleted_flg = 0 "//
-                    + "order by updated_timestamp desc limit 1) game_log "//
-                    + "on game_log.player_id = player.player_id ";
+            sql.append("    left join ( ");
+            sql.append("        select ");
+            sql.append("            distinct player_id, game_id, log ");
+            sql.append("        from ");
+            sql.append("            game_log ");
+            sql.append("        where ");
+            sql.append("            (player_id, game_id, updated_timestamp) in ( ");
+            sql.append("                select ");
+            sql.append("                    player_id, ");
+            sql.append("                    game_id, ");
+            sql.append("                    max(updated_timestamp) updated_timestamp ");
+            sql.append("                from ");
+            sql.append("                    game_log ");
+            sql.append("                where ");
+            sql.append("                    game_log.game_id = :gameId ");
+            sql.append("                    and deleted_flg = 0 ");
+            sql.append("                group by ");
+            sql.append("                    player_id, ");
+            sql.append("                    game_id ");
+            sql.append("            ) ");
+            sql.append("    ) game_log on game_log.player_id = player.player_id ");
+            sql.append("      and game_log.game_id = game_player.game_id ");
         }
-
-        sql += "where room_player.room_id = :roomId "//
-                + "order by player_id";
+        sql.append("where ");
+        sql.append("    room_player.room_id = :roomId ");
+        sql.append("order by ");
+        sql.append("    player_id ");
         return baseRepository.findForList(//
-                sql, param, PlayerModel.class);
+                sql.toString(), param, PlayerModel.class);
     }
 
     /**
