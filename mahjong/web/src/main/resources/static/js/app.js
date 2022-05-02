@@ -22,6 +22,11 @@ function connect() {
             var message = JSON.parse(greeting.body);
             showGreeting(message.name + ":" + message.message);
         });
+        stompClient.subscribe('/topic/game', function (gameMessage) {
+            var message = JSON.parse(gameMessage.body);
+            showGameMessage(message.nickname + " is ready for grabing seat.");
+        });
+        
     });
 }
 

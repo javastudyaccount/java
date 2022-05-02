@@ -29,7 +29,7 @@
 		</div>
 		<div style="clear: both;"></div>
 
-		<h4 th:text="${message}"></h4>
+		<h4 id="messages" th:text="${message}"></h4>
 		<div th:if="${errors}" class="error-message-list width-100">
 			<div th:each="error,sts: ${errors}">
 				<span th:text="${error.field}"></span>: <span

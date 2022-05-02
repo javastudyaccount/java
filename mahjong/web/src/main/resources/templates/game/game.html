@@ -167,7 +167,16 @@ $(document).ready(function() {
 });
 $("#grab-seat").on('click', function(){
 	console.log("grab-seat is clicked.");
+	stompClient.send("/app/grab/begin", {}, 
+		JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+		'action': 'begin',
+		'playerId': [[${#authentication.principal.playerId}]],
+		'nickname': [[${#authentication.principal.nickname}]], 
+		'message': ''}));
 });
+function showGameMessage(message) {
+    $("#messages").append("<div>" + message + "</div>");
+}
 /*]]>*/
 </script>
 			<div class="wrap1">
