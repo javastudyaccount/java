@@ -36,4 +36,8 @@ public class PlayerModel {
      * direction
      */
     private String direction;
+    /**
+     * log
+     */
+    private String log;
 }

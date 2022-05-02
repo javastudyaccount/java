@@ -113,7 +113,7 @@ public class GameService {
                         + "from game where game_id = :gameId", //
                 param, //
                 GameModel.class);
-        RoomModel room = roomService.getRoom(game.getRoomId());
+        RoomModel room = roomService.getRoom(game.getRoomId(), gameId);
         game.setRoomModel(room);
         return game;
     }
@@ -129,18 +129,28 @@ public class GameService {
         gameLog.setGameId(message.getGameId());
         gameLog.setPlayerId(message.getPlayerId());
         gameLog.setOperation(message.getAction());
+        gameLog.setLog(message.getMessage());
+
+//        switch (message.getAction()) {
+//            case "ready for grabing a seat":
+//                gameLog.setMessage(String.format("%s is %s", message.getNickname(), message.getAction()));
+//        }
         Validator.validateMaxLength(gameLog);
 
         int gameLogId = 0;
         gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
 
         gameLog = baseRepository.findById(gameLogId, GameLog.class);
-        MahjongGameMessage messageRet = new ModelMapper().map(gameLog, MahjongGameMessage.class);
-        switch (message.getAction()) {
-            case "ready for grabing a seat":
-                messageRet.setMessage(String.format("%s is %s", message.getNickname(), message.getAction()));
-        }
+//        MahjongGameMessage messageRet = new ModelMapper().map(gameLog, MahjongGameMessage.class);
+//        switch (message.getAction()) {
+//            case "ready for grabing a seat":
+//                messageRet.setMessage(String.format("%s is %s", message.getNickname(), message.getAction()));
+//        }
+//        messageRet.setNickname(message.getNickname());
+//        messageRet.setMessage(gameLog.getLog());
 
+        MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
+        messageRet.setMessage(gameLog.getLog());
         return messageRet;
     }
 }

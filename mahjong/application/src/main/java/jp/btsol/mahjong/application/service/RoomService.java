@@ -62,9 +62,10 @@ public class RoomService {
      * get room
      * 
      * @param roomId long
+     * @param gameId Long
      * @return RoomModel
      */
-    public RoomModel getRoom(long roomId) {
+    public RoomModel getRoom(long roomId, Long gameId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("playerId", userContext.playerId());
         param.addValue("roomId", roomId);
@@ -76,10 +77,11 @@ public class RoomService {
                         + "            where player_id = :playerId) my_room "//
                         + "on room.room_id = my_room.room_id "//
                         + "left join game "//
-                        + "on room.room_id = game.room_id " + "where room.room_id = :roomId "//
+                        + "on room.room_id = game.room_id "//
+                        + "where room.room_id = :roomId "//
                         + "order by room.room_id",
                 param, RoomModel.class);
-        List<PlayerModel> players = getPlayers(roomId);
+        List<PlayerModel> players = getPlayers(roomId, gameId);
         roomModel.setPlayersInRoom(players);
         return roomModel;
     }
@@ -88,25 +90,43 @@ public class RoomService {
      * get players in room
      * 
      * @param roomId long
+     * @param gameId Long
      * @return List<Player>
      */
-    public List<PlayerModel> getPlayers(long roomId) {
+    public List<PlayerModel> getPlayers(long roomId, Long gameId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("roomId", roomId);
+        if (Objects.nonNull(gameId)) {
+            param.addValue("gameId", gameId);
+        }
+        String sql = "select player.player_id, "//
+                + "player.nickname, "//
+                + "room_player.room_id, "//
+                + "game_player.game_id, "//
+                + "game_player.direction "//
+        ;
+        if (Objects.nonNull(gameId)) {
+            sql += ", game_log.log ";
+        }
+        sql += "from player "//
+                + "left join room_player "//
+                + "on player.player_id = room_player.player_id "//
+                + "left join game_player "//
+                + "on player.player_id = game_player.player_id "//
+        ;
+        if (Objects.nonNull(gameId)) {
+
+            sql += "left join (select * from game_log "//
+                    + "where game_log.game_id = :gameId "//
+                    + "and deleted_flg = 0 "//
+                    + "order by updated_timestamp desc limit 1) game_log "//
+                    + "on game_log.player_id = player.player_id ";
+        }
+
+        sql += "where room_player.room_id = :roomId "//
+                + "order by player_id";
         return baseRepository.findForList(//
-                "select player.player_id, "//
-                        + "player.nickname, "//
-                        + "room_player.room_id, "//
-                        + "game_player.game_id, "//
-                        + "game_player.direction "//
-                        + "from player "//
-                        + "left join room_player "//
-                        + "on player.player_id = room_player.player_id "//
-                        + "left join game_player "//
-                        + "on player.player_id = game_player.player_id "//
-                        + "where room_player.room_id = :roomId "//
-                        + "order by player_id",
-                param, PlayerModel.class);
+                sql, param, PlayerModel.class);
     }
 
     /**

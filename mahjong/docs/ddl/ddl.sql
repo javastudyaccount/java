@@ -26,7 +26,7 @@ CREATE TABLE game_log (
     operation varchar(120) NOT NULL,
     tiles json ,
     player_id_counterpart bigint,
-    message varchar(256) default '', 
+    log varchar(256) default '', 
     deleted_flg boolean DEFAULT false NOT NULL,
     created_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_user varchar(20) NOT NULL,

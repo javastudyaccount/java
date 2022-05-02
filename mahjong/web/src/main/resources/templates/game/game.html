@@ -164,6 +164,15 @@ $(window).on('load', function(){
     dice1.click(diceFunc);
     var dice2 = $("#dice2");
     dice2.click(diceFunc);
+    
+    console.log([[${game.roomModel.playersInRoom}]]);
+    [[${game.roomModel.playersInRoom}]].forEach(player=>{
+    	if(null == player.log){
+    		console.log("player.log is null");
+    	} else{
+    		console.log(player.log);
+    	}
+    });
 });
 $("#grab-seat").on('click', function(){
 	console.log("grab-seat is clicked.");
@@ -172,7 +181,7 @@ $("#grab-seat").on('click', function(){
 		'action': 'ready for grabing a seat',
 		'playerId': [[${#authentication.principal.playerId}]],
 		'nickname': [[${#authentication.principal.nickname}]], 
-		'message': '',
+		'message': [[${#authentication.principal.nickname}]] + ' is ' + 'ready for grabing a seat',
 		'gameId': [[${game.gameId}]]}));
 });
 function showGameMessage(message) {
