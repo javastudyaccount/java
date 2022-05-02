@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import jp.btsol.mahjong.model.GameId;
 import jp.btsol.mahjong.model.GameModel;
+import jp.btsol.mahjong.model.MahjongGameMessage;
 import jp.btsol.mahjong.model.RoomId;
 import jp.btsol.mahjong.web.fw.MahjongRestTemplate;
 import lombok.extern.slf4j.Slf4j;
@@ -85,5 +86,19 @@ public class GameService {
         param.put("gameId", gameId);
         GameModel game = mahjongRestTemplate.get(url, param, GameModel.class);
         return game;
+    }
+
+    /**
+     * log
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage log(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getLog();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
     }
 }

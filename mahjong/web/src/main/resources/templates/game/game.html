@@ -40,7 +40,7 @@
 		</div>
 		<div th:each="player, playerStat: ${game.roomModel.playersInRoom}">
 		<div th:if="${player.playerId==#authentication.principal.playerId && player.direction==null}">
-		<button id="grab-seat">Grab a seat</button>
+		<button id="grab-seat" disabled="disabled">Grab a seat</button>
 		</div>
 		</div>
 		  
@@ -143,7 +143,7 @@
 			</figure>
 			<script th:inline="javascript">
 /*<![CDATA[*/
-$(document).ready(function() {
+$(window).on('load', function(){
     var height = $(window).height();
     var width = $(window).width();
     var size = Math.min(height, width);
@@ -169,13 +169,19 @@ $("#grab-seat").on('click', function(){
 	console.log("grab-seat is clicked.");
 	stompClient.send("/app/grab/begin", {}, 
 		JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
-		'action': 'begin',
+		'action': 'ready for grabing a seat',
 		'playerId': [[${#authentication.principal.playerId}]],
 		'nickname': [[${#authentication.principal.nickname}]], 
-		'message': ''}));
+		'message': '',
+		'gameId': [[${game.gameId}]]}));
 });
 function showGameMessage(message) {
-    $("#messages").append("<div>" + message + "</div>");
+	if($("#messages").text().indexOf(message) == -1){//no message appended yet
+	    $("#messages").append("<div>" + message + "</div>");
+	}
+}
+function onConnectStatusChanged(status){
+	$("#grab-seat").prop("disabled", !status);
 }
 /*]]>*/
 </script>

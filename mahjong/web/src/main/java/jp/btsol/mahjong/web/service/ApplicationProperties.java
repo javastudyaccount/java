@@ -112,6 +112,10 @@ public class ApplicationProperties {
          * enter game
          */
         private String enterGame;
+        /**
+         * log
+         */
+        private String log;
     }
 
     /**

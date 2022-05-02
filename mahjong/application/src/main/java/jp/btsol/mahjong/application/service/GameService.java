@@ -2,6 +2,7 @@ package jp.btsol.mahjong.application.service;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,13 @@ import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.fw.exception.TooManyPlayersException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Game;
+import jp.btsol.mahjong.entity.GameLog;
 import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.model.GameId;
 import jp.btsol.mahjong.model.GameModel;
+import jp.btsol.mahjong.model.MahjongGameMessage;
 import jp.btsol.mahjong.model.RoomModel;
+import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -114,4 +118,29 @@ public class GameService {
         return game;
     }
 
+    /**
+     * log game
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage logGame(MahjongGameMessage message) {
+        GameLog gameLog = new GameLog();
+        gameLog.setGameId(message.getGameId());
+        gameLog.setPlayerId(message.getPlayerId());
+        gameLog.setOperation(message.getAction());
+        Validator.validateMaxLength(gameLog);
+
+        int gameLogId = 0;
+        gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
+
+        gameLog = baseRepository.findById(gameLogId, GameLog.class);
+        MahjongGameMessage messageRet = new ModelMapper().map(gameLog, MahjongGameMessage.class);
+        switch (message.getAction()) {
+            case "ready for grabing a seat":
+                messageRet.setMessage(String.format("%s is %s", message.getNickname(), message.getAction()));
+        }
+
+        return messageRet;
+    }
 }

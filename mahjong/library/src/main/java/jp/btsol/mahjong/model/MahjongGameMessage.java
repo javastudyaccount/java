@@ -24,4 +24,8 @@ public class MahjongGameMessage {
      * message String
      */
     private String message;
+    /**
+     * game id
+     */
+    private long gameId;
 }

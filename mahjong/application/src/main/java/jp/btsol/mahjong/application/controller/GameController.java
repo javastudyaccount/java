@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.btsol.mahjong.application.service.GameService;
 import jp.btsol.mahjong.model.GameId;
 import jp.btsol.mahjong.model.GameModel;
+import jp.btsol.mahjong.model.MahjongGameMessage;
 import jp.btsol.mahjong.model.RoomId;
 
 /**
@@ -74,4 +75,14 @@ public class GameController {
         return gameService.getGame(gameId);
     }
 
+    /**
+     * log
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/log")
+    public MahjongGameMessage logGame(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.logGame(message);
+    }
 }

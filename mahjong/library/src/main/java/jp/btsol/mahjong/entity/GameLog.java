@@ -1,12 +1,12 @@
 package jp.btsol.mahjong.entity;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,14 +35,17 @@ public class GameLog implements Serializable {
     @Column(nullable = false)
     private long playerId;
     /** operation */
-    @Column(length = 20, nullable = false)
+    @Column(length = 120, nullable = false)
     private String operation;
     /** tiles */
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String tiles;
     /** player_id_counterpart */
     @Column(nullable = true)
     private long playerIdCounterpart;
+    /** message */
+    @Column(length = 256, nullable = true)
+    private String message;
     /** deleted_flg */
     @Column(nullable = false)
     private boolean deletedFlg;

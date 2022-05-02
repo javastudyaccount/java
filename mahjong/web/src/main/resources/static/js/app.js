@@ -17,6 +17,7 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
+        onConnectStatusChanged(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/greetings', function (greeting) {
             var message = JSON.parse(greeting.body);
@@ -24,7 +25,7 @@ function connect() {
         });
         stompClient.subscribe('/topic/game', function (gameMessage) {
             var message = JSON.parse(gameMessage.body);
-            showGameMessage(message.nickname + " is ready for grabing seat.");
+            showGameMessage(message.message);
         });
         
     });
@@ -36,6 +37,7 @@ function disconnect() {
     }
     setConnected(false);
     console.log("Disconnected");
+    onConnectStatusChanged(false);
 }
 
 function sendMessage() {

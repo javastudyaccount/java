@@ -1,12 +1,12 @@
 package jp.btsol.mahjong.entity;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
