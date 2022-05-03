@@ -40,7 +40,12 @@
 		</div>
 		<div th:each="player, playerStat: ${game.roomModel.playersInRoom}">
 		<div th:if="${player.playerId==#authentication.principal.playerId && player.direction==null}">
-		<button id="grab-seat" disabled="disabled">Grab a seat</button>
+		<div th:if="${player.action==null}">
+		<button id="grab-seat" disabled="disabled">Ready to grab a seat</button>
+		</div>
+        <div th:if="${player.action == 'ready for grabing seat'}">
+        <button id="grab-seat" disabled="disabled">Click the direction I want to seat</button>
+        </div>
 		</div>
 		</div>
 		  
@@ -174,6 +179,7 @@ $(window).on('load', function(){
     		showGameMessage(player.log);
     	}
     });
+    showGameMessage([[${game.gameStatus}]]);
 });
 $("#grab-seat").on('click', function(){
 	console.log("grab-seat is clicked.");
@@ -183,7 +189,9 @@ $("#grab-seat").on('click', function(){
 		'playerId': [[${#authentication.principal.playerId}]],
 		'nickname': [[${#authentication.principal.nickname}]], 
 		'message': [[${#authentication.principal.nickname}]] + ' is ' + 'ready for grabing a seat',
-		'gameId': [[${game.gameId}]]}));
+		'gameId': [[${game.gameId}]],
+		'roomId': [[${game.roomId}]]
+		 }));
 });
 function showGameMessage(message) {
 	if($("#messages").text().indexOf(message) == -1){//no message appended yet

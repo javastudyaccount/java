@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.application.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -15,6 +17,7 @@ import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.model.GameId;
 import jp.btsol.mahjong.model.GameModel;
 import jp.btsol.mahjong.model.MahjongGameMessage;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.RoomModel;
 import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -115,6 +118,15 @@ public class GameService {
                 GameModel.class);
         RoomModel room = roomService.getRoom(game.getRoomId(), gameId);
         game.setRoomModel(room);
+
+        List<PlayerModel> players = roomService.getPlayers(game.getRoomId(), gameId);
+        long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()))
+                .count();
+        if (readyCount == 4) {
+            game.setGameStatus("ready for grabing seat");
+        } else {
+            game.setGameStatus("waiting to grab a seat");
+        }
         return game;
     }
 
@@ -128,7 +140,7 @@ public class GameService {
         GameLog gameLog = new GameLog();
         gameLog.setGameId(message.getGameId());
         gameLog.setPlayerId(message.getPlayerId());
-        gameLog.setOperation(message.getAction());
+        gameLog.setAction(message.getAction());
         gameLog.setLog(message.getMessage());
 
 //        switch (message.getAction()) {
@@ -151,6 +163,13 @@ public class GameService {
 
         MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
         messageRet.setMessage(gameLog.getLog());
+
+        List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()))
+                .count();
+        if (readyCount == 4) {
+            messageRet.setGameStatus("ready for grabing seat");
+        }
         return messageRet;
     }
 }

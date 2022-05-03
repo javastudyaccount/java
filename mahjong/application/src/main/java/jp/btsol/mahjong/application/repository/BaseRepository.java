@@ -376,7 +376,16 @@ public class BaseRepository {
                 sql = sql.replaceAll(":" + key, "'" + (Objects.isNull(param.get(key)) ? "<<null>>" : value) + "'");
             }
         }
-        log.info(sql);
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        String caller = "";
+        for (int i = 0; i < elements.length; i++) {
+            if (elements[i].getClassName().indexOf(".service.") > 0) {
+                caller = elements[i].getClassName() + "#" + elements[i].getMethodName() + ":"
+                        + elements[i].getLineNumber();
+                break;
+            }
+        }
+        log.info(caller + " " + sql);
     }
 
     /**

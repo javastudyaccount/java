@@ -23,7 +23,7 @@ CREATE TABLE game_log (
     game_log_id bigint NOT NULL AUTO_INCREMENT,
     game_id bigint NOT NULL,
     player_id bigint NOT NULL,
-    operation varchar(120) NOT NULL,
+    action varchar(120) NOT NULL,
     tiles json ,
     player_id_counterpart bigint,
     log varchar(256) default '', 

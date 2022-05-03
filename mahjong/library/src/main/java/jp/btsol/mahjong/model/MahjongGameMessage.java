@@ -28,4 +28,12 @@ public class MahjongGameMessage {
      * game id
      */
     private long gameId;
+    /**
+     * game status
+     */
+    private String gameStatus;
+    /**
+     * room id
+     */
+    private long roomId;
 }

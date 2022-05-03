@@ -58,4 +58,7 @@ $(function () {
     $( "#send" ).click(function() { sendMessage(); });
 });
 
+function onConnectStatusChanged(status){
+}
+
 setTimeout("connect()", 3000);

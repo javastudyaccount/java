@@ -40,4 +40,8 @@ public class PlayerModel {
      * log
      */
     private String log;
+    /**
+     * action
+     */
+    private String action;
 }

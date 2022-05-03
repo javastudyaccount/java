@@ -137,16 +137,17 @@ public class RoomService {
         sql.append("    game_player.direction ");
         if (Objects.nonNull(gameId)) {
             sql.append("    ,game_log.log ");
+            sql.append("    ,game_log.action ");
         }
         sql.append("from ");
         sql.append("    player ");
         sql.append("    left join room_player on player.player_id = room_player.player_id ");
         sql.append("    left join game_player on player.player_id = game_player.player_id ");
-        sql.append("    and game_player.game_id = :gameId ");
         if (Objects.nonNull(gameId)) {
+            sql.append("    and game_player.game_id = :gameId ");
             sql.append("    left join ( ");
             sql.append("        select ");
-            sql.append("            distinct player_id, game_id, log ");
+            sql.append("            distinct player_id, game_id, log, action ");
             sql.append("        from ");
             sql.append("            game_log ");
             sql.append("        where ");

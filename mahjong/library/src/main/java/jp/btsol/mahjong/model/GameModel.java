@@ -24,4 +24,8 @@ public class GameModel {
      * count of players
      */
     private int countOfPlayers;
+    /**
+     * game status
+     */
+    private String gameStatus;
 }
