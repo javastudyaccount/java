@@ -201,6 +201,9 @@ function showGameMessage(message) {
 	//}
 	$("#messages").html("");
 	$("#messages").append("<div>" + message + "</div>");
+	if("ready for grabing seat" == message){
+		$("#grab-seat").hide();
+	}
 }
 function showGameNotice(notice) {
     if($("#notices").text().indexOf(notice) == -1){//no notice appended yet
