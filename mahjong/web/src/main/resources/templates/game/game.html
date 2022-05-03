@@ -171,14 +171,16 @@ $(window).on('load', function(){
     dice2.click(diceFunc);
     
     console.log([[${game.roomModel.playersInRoom}]]);
-    [[${game.roomModel.playersInRoom}]].forEach(player=>{
-    	if(null == player.log){
-    		console.log("player.log is null");
-    	} else{
-    		console.log(player.log);
-    		showGameMessage(player.log);
-    	}
-    });
+    if('ready for grabing seat' != [[${game.gameStatus}]]){
+	    [[${game.roomModel.playersInRoom}]].forEach(player=>{
+	    	if(null == player.log){
+	    		console.log("player.log is null");
+	    	} else{
+	    		console.log(player.log);
+	    		showGameNotice(player.log);
+	    	}
+	    });
+    }
     showGameMessage([[${game.gameStatus}]]);
 });
 $("#grab-seat").on('click', function(){
@@ -194,9 +196,16 @@ $("#grab-seat").on('click', function(){
 		 }));
 });
 function showGameMessage(message) {
-	if($("#messages").text().indexOf(message) == -1){//no message appended yet
-	    $("#messages").append("<div>" + message + "</div>");
-	}
+	//if($("#messages").text().indexOf(message) == -1){//no message appended yet
+	//    $("#messages").append("<div>" + message + "</div>");
+	//}
+	$("#messages").html("");
+	$("#messages").append("<div>" + message + "</div>");
+}
+function showGameNotice(notice) {
+    if($("#notices").text().indexOf(notice) == -1){//no notice appended yet
+        $("#notices").append("<div>" + notice + "</div>");
+    }
 }
 function onConnectStatusChanged(status){
 	$("#grab-seat").prop("disabled", !status);
