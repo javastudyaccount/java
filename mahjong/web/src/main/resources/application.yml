@@ -28,7 +28,7 @@ application:
     createGame: /game/new
     game: /game/get
     enterGame: /game/enter
-    log: /game/log
+    ready2GrabSeat: /game/ready2GrabSeat
   iss: iss
   sub: sub
   loginId: anonymous

@@ -76,13 +76,13 @@ public class GameController {
     }
 
     /**
-     * log
+     * ready to grab seat
      * 
      * @return GameModel
      */
-    @PostMapping("/log")
-    public MahjongGameMessage logGame(@Valid //
+    @PostMapping("/ready2GrabSeat")
+    public MahjongGameMessage ready2GrabSeat(@Valid //
     @RequestBody(required = true) MahjongGameMessage message) {
-        return gameService.logGame(message);
+        return gameService.ready2GrabSeat(message);
     }
 }

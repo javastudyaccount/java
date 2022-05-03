@@ -89,15 +89,15 @@ public class GameService {
     }
 
     /**
-     * log
+     * ready to grab seat
      * 
      * @param message MahjongGameMessage
      * @return MahjongGameMessage
      */
-    public MahjongGameMessage log(MahjongGameMessage message) {
+    public MahjongGameMessage ready2GrabSeat(MahjongGameMessage message) {
         final String endpoint = applicationProperties.getUri();
 
-        final String url = endpoint + applicationProperties.getPath().getLog();
+        final String url = endpoint + applicationProperties.getPath().getReady2GrabSeat();
         MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
         return messageRet;
     }

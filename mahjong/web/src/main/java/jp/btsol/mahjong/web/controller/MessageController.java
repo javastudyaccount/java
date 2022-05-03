@@ -34,10 +34,17 @@ public class MessageController {
         return new MahjongMessage(HtmlUtils.htmlEscape(message.getName()), HtmlUtils.htmlEscape(message.getMessage()));
     }
 
-    @MessageMapping("/grab/begin")
+    @MessageMapping("/grab/ready")
     @SendTo("/topic/game")
-    public MahjongGameMessage game(MahjongGameMessage message) throws Exception {
+    public MahjongGameMessage ready2GrabSeat(MahjongGameMessage message) throws Exception {
 //        Thread.sleep(1000); // simulated delay
-        return gameService.log(message);
+        return gameService.ready2GrabSeat(message);
+    }
+
+    @MessageMapping("/grab")
+    @SendTo("/topic/game")
+    public MahjongGameMessage grabSeat(MahjongGameMessage message) throws Exception {
+//        Thread.sleep(1000); // simulated delay
+        return gameService.ready2GrabSeat(message);
     }
 }

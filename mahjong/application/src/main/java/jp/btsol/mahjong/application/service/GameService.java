@@ -131,12 +131,12 @@ public class GameService {
     }
 
     /**
-     * log game
+     * ready to grab seat
      * 
      * @param message MahjongGameMessage
      * @return MahjongGameMessage
      */
-    public MahjongGameMessage logGame(MahjongGameMessage message) {
+    public MahjongGameMessage ready2GrabSeat(MahjongGameMessage message) {
         GameLog gameLog = new GameLog();
         gameLog.setGameId(message.getGameId());
         gameLog.setPlayerId(message.getPlayerId());

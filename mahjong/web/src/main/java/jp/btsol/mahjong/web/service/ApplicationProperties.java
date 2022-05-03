@@ -115,7 +115,7 @@ public class ApplicationProperties {
         /**
          * log
          */
-        private String log;
+        private String ready2GrabSeat;
     }
 
     /**

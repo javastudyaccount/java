@@ -52,15 +52,15 @@
 			<table>
                 <tr>
                 <td rowspan="5">
-                <div th:style="'height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_west.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div id="west" th:style="'height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_west.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                 </td>
                     <td></td>
-                    <td height="100px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_north.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
+                    <td id="north" height="100px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_north.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
                         North
                     </td>
                     <td></td>
                     <td rowspan="5">
-                    <div th:style="'width:96px;height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_east.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;East&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    <div id="east" th:style="'width:96px;height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_east.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;East&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                     </td>
                 </tr>
 				<tr>
@@ -131,7 +131,7 @@
 				</tr>
                 <tr>
                     <td></td>
-                    <td height="96px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_south.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
+                    <td id="south" height="96px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_south.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
                         South
                     </td>
                     <td></td>
@@ -182,10 +182,36 @@ $(window).on('load', function(){
 	    });
     }
     showGameMessage([[${game.gameStatus}]]);
+    
 });
+
+$('#east').on('click', function(){
+	grabSeat('east');
+});
+function grabSeat(seat){
+	   stompClient.send("/app/grab", {}, 
+	            JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+	            'action': 'grab seat ' + seat,
+	            'playerId': [[${#authentication.principal.playerId}]],
+	            'nickname': [[${#authentication.principal.nickname}]], 
+	            'message': [[${#authentication.principal.nickname}]] + ' is ' + 'ready for grabing a seat',
+	            'gameId': [[${game.gameId}]],
+	            'roomId': [[${game.roomId}]]
+	             }));
+}
+$('#north').on('click', function(){
+    grabSeat('north');
+});
+$('#west').on('click', function(){
+    grabSeat('west');
+});
+$('#south').on('click', function(){
+    grabSeat('south');
+});
+
 $("#grab-seat").on('click', function(){
 	console.log("grab-seat is clicked.");
-	stompClient.send("/app/grab/begin", {}, 
+	stompClient.send("/app/grab/ready", {}, 
 		JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
 		'action': 'ready for grabing a seat',
 		'playerId': [[${#authentication.principal.playerId}]],
