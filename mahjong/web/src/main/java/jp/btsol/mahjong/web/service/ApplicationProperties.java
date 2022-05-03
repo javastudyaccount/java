@@ -113,9 +113,13 @@ public class ApplicationProperties {
          */
         private String enterGame;
         /**
-         * log
+         * ready2GrabSeat
          */
         private String ready2GrabSeat;
+        /**
+         * grabSeat
+         */
+        private String grabSeat;
     }
 
     /**

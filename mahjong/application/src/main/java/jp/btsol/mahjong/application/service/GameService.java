@@ -123,9 +123,9 @@ public class GameService {
         long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()))
                 .count();
         if (readyCount == 4) {
-            game.setGameStatus("ready for grabing seat");
+            game.setGameStatus("Ready for grabing seat.");
         } else {
-            game.setGameStatus("waiting to grab a seat");
+            game.setGameStatus("Waiting to grab a seat.");
         }
         return game;
     }
@@ -168,7 +168,53 @@ public class GameService {
         long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()))
                 .count();
         if (readyCount == 4) {
-            messageRet.setGameStatus("ready for grabing seat");
+            messageRet.setGameStatus("Ready for grabing seat.");
+        }
+        return messageRet;
+    }
+
+    /**
+     * grab seat
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage grabSeat(MahjongGameMessage message) {
+        GameLog gameLog = new GameLog();
+        gameLog.setGameId(message.getGameId());
+        gameLog.setPlayerId(message.getPlayerId());
+        gameLog.setAction(message.getAction());
+        gameLog.setLog(message.getMessage());
+
+        Validator.validateMaxLength(gameLog);
+
+        int gameLogId = 0;
+        gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
+
+        gameLog = baseRepository.findById(gameLogId, GameLog.class);
+
+//        MapSqlParameterSource param = new MapSqlParameterSource();
+//        param.addValue("gameId", message.getGameId());
+//        long sameSeat = baseRepository.queryForInt("select count(1) from game_log " //
+//                + "where game_id= :gameId "//
+//                + "and action like 'grab seat%'", param);
+//        if (sameSeat > 1) {
+//
+//        }
+        String seat = message.getAction().replace("grab seat ", "");
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("gameId", message.getGameId());
+        param.addValue("seat", seat);
+        param.addValue("playerId", userContext.playerId());
+        baseRepository.update(
+                "update game_player set direction = :seat where game_id = :gameId and player_id = :playerId", param);
+        MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
+        messageRet.setMessage(gameLog.getLog());
+
+        List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        long readyCount = players.stream().filter(player -> player.getAction().startsWith("grab seat")).count();
+        if (readyCount == 4) {
+            messageRet.setGameStatus("Ready for deciding dealer.");
         }
         return messageRet;
     }

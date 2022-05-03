@@ -51,8 +51,11 @@ CREATE TABLE game_player (
     PRIMARY KEY (game_id, player_id)
 );
 CREATE UNIQUE INDEX game_player_unique
-    ON game_player (player_id);
-    
+    ON game_player (game_id, player_id);
+
+CREATE UNIQUE INDEX game_direction_unique
+    ON game_player (game_id, direction);
+       
 drop table player cascade;
 CREATE TABLE player (
     player_id bigint NOT NULL AUTO_INCREMENT,

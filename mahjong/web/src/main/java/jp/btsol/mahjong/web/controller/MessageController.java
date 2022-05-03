@@ -45,6 +45,6 @@ public class MessageController {
     @SendTo("/topic/game")
     public MahjongGameMessage grabSeat(MahjongGameMessage message) throws Exception {
 //        Thread.sleep(1000); // simulated delay
-        return gameService.ready2GrabSeat(message);
+        return gameService.grabSeat(message);
     }
 }

@@ -29,6 +29,7 @@ application:
     game: /game/get
     enterGame: /game/enter
     ready2GrabSeat: /game/ready2GrabSeat
+    grabSeat: /game/grabSeat
   iss: iss
   sub: sub
   loginId: anonymous

@@ -85,4 +85,15 @@ public class GameController {
     @RequestBody(required = true) MahjongGameMessage message) {
         return gameService.ready2GrabSeat(message);
     }
+
+    /**
+     * grab seat
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/grabSeat")
+    public MahjongGameMessage grabSeat(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.grabSeat(message);
+    }
 }

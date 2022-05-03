@@ -171,7 +171,7 @@ $(window).on('load', function(){
     dice2.click(diceFunc);
     
     console.log([[${game.roomModel.playersInRoom}]]);
-    if('ready for grabing seat' != [[${game.gameStatus}]]){
+    if('Ready for grabing seat.' != [[${game.gameStatus}]]){
 	    [[${game.roomModel.playersInRoom}]].forEach(player=>{
 	    	if(null == player.log){
 	    		console.log("player.log is null");
@@ -194,7 +194,7 @@ function grabSeat(seat){
 	            'action': 'grab seat ' + seat,
 	            'playerId': [[${#authentication.principal.playerId}]],
 	            'nickname': [[${#authentication.principal.nickname}]], 
-	            'message': [[${#authentication.principal.nickname}]] + ' is ' + 'ready for grabing a seat',
+	            'message': [[${#authentication.principal.nickname}]] + ' sits ' + seat,
 	            'gameId': [[${game.gameId}]],
 	            'roomId': [[${game.roomId}]]
 	             }));
