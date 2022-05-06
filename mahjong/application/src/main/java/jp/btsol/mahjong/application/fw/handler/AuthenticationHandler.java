@@ -74,6 +74,8 @@ public class AuthenticationHandler implements HandlerInterceptor {
                     if (Objects.nonNull(header.getLoginId()) && !"anonymous".equals(header.getLoginId())) {
                         Player player = playerService.getPlayer(header.getLoginId());
                         this.userContext.playerId(player.getPlayerId());
+                    } else {
+                        this.userContext.playerId(null);
                     }
                     return true;
                 } catch (JSONException e) {

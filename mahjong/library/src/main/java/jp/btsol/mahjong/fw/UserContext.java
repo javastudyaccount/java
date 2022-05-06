@@ -67,7 +67,7 @@ public class UserContext {
      *
      * @param playerId ユーザ情報のキー
      */
-    public void playerId(@NotNull long playerId) {
+    public void playerId(Long playerId) {
         UserContext.HOLDER_PLAYER_ID.set(playerId);
     }
 }

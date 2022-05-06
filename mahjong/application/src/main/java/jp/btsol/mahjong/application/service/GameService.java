@@ -149,23 +149,12 @@ public class GameService {
         gameLog.setAction(message.getAction());
         gameLog.setLog(message.getMessage());
 
-//        switch (message.getAction()) {
-//            case "ready for grabing a seat":
-//                gameLog.setMessage(String.format("%s is %s", message.getNickname(), message.getAction()));
-//        }
         Validator.validateMaxLength(gameLog);
 
         int gameLogId = 0;
         gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
 
         gameLog = baseRepository.findById(gameLogId, GameLog.class);
-//        MahjongGameMessage messageRet = new ModelMapper().map(gameLog, MahjongGameMessage.class);
-//        switch (message.getAction()) {
-//            case "ready for grabing a seat":
-//                messageRet.setMessage(String.format("%s is %s", message.getNickname(), message.getAction()));
-//        }
-//        messageRet.setNickname(message.getNickname());
-//        messageRet.setMessage(gameLog.getLog());
 
         MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
         messageRet.setMessage(gameLog.getLog());
@@ -199,23 +188,20 @@ public class GameService {
 
         gameLog = baseRepository.findById(gameLogId, GameLog.class);
 
-//        MapSqlParameterSource param = new MapSqlParameterSource();
-//        param.addValue("gameId", message.getGameId());
-//        long sameSeat = baseRepository.queryForInt("select count(1) from game_log " //
-//                + "where game_id= :gameId "//
-//                + "and action like 'grab seat%'", param);
-//        if (sameSeat > 1) {
-//
-//        }
         String seat = message.getAction().replace("grab seat ", "");
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("gameId", message.getGameId());
         param.addValue("seat", seat);
         param.addValue("playerId", userContext.playerId());
-        baseRepository.update(
+        int updated = baseRepository.update(
                 "update game_player set direction = :seat where game_id = :gameId and player_id = :playerId", param);
         MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
         messageRet.setMessage(gameLog.getLog());
+        if (updated != 1) {
+//            messageRet.setGameStatus("ERROR: failed to grab seat.");
+//            return messageRet;
+            throw new RuntimeException("Failed to grab seat.");
+        }
 
         List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
         long readyCount = players.stream().filter(player -> player.getAction().startsWith("grab seat")).count();

@@ -34,8 +34,12 @@ public class MahjongExceptionHandler {
     /**
      * ObjectMapper
      */
+    private final ObjectMapper om;
+
     @Autowired
-    private ObjectMapper om;
+    public MahjongExceptionHandler(ObjectMapper om) {
+        this.om = om;
+    }
 
     /**
      * Exceptionハンドラー
