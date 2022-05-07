@@ -199,3 +199,6 @@ https://stackoverflow.com/questions/69701577/spring-boot-with-spring-session-and
 
 ### Dependency error in Spring boot for Spring session and Redis. What is the correct dependency i have to use?
 https://java.tutorialink.com/dependency-error-in-spring-boot-for-spring-session-and-redis-what-is-the-correct-dependency-i-have-to-use/
+
+### Preliminary integration of spring websocket / stomp and spring session
+https://developpaper.com/preliminary-integration-of-spring-websocket-stomp-and-spring-session/

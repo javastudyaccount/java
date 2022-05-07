@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.web.fw.handler;
 
+import java.util.Objects;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,9 +44,9 @@ public class InvitesHandler implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        if (handler instanceof HandlerMethod) {
+        if (Objects.nonNull(handler) && handler instanceof HandlerMethod) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication.getPrincipal() instanceof MahjongUser) {
+            if (Objects.nonNull(authentication) && authentication.getPrincipal() instanceof MahjongUser) {
                 MahjongUser user = (MahjongUser) authentication.getPrincipal();
                 long playerId = user.getPlayerId();
                 int invites = playerService.getInvites(playerId);

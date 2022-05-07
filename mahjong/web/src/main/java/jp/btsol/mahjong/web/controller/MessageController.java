@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.web.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -54,7 +56,7 @@ public class MessageController {
 
     @MessageMapping("/grab")
     @SendTo("/topic/game")
-    public MahjongGameMessage grabSeat(MahjongGameMessage message) throws Exception {
+    public MahjongGameMessage grabSeat(MahjongGameMessage message, Principal principal) throws Exception {
 //        Thread.sleep(1000); // simulated delay
         return gameService.grabSeat(message);
     }
