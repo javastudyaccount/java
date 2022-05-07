@@ -194,3 +194,6 @@ https://docs.spring.io/spring-session/reference/guides/boot-websocket.html
 ### HttpSession Integration
 https://docs.spring.io/spring-session/reference/http-session.html
 
+### Spring Boot with Spring Session and Redis - RedisConnectionFactory is required
+https://stackoverflow.com/questions/69701577/spring-boot-with-spring-session-and-redis-redisconnectionfactory-is-required
+
