@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 import jp.btsol.mahjong.web.service.PlayerService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,19 +30,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * rememberMeTokenRepositoryImpl RememberMeTokenRepositoryImpl
      */
     private final RememberMeTokenRepositoryImpl rememberMeTokenRepositoryImpl;
-    /**
-     * sessionRegistry SpringSessionBackedSessionRegistry
-     */
-    private final SpringSessionBackedSessionRegistry sessionRegistry;
 
     @Autowired
     public SecurityConfiguration(PlayerService service, PasswordEncoder passwordEncoder,
-            RememberMeTokenRepositoryImpl rememberMeTokenRepositoryImpl,
-            SpringSessionBackedSessionRegistry sessionRegistry) {
+            RememberMeTokenRepositoryImpl rememberMeTokenRepositoryImpl) {
         this.service = service;
         this.passwordEncoder = passwordEncoder;
         this.rememberMeTokenRepositoryImpl = rememberMeTokenRepositoryImpl;
-        this.sessionRegistry = sessionRegistry;
     }
 
     @Override
@@ -98,12 +91,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .tokenRepository(rememberMeTokenRepositoryImpl);
         http.headers().frameOptions().sameOrigin(); // X-Frame-Options
-        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false)
-                .sessionRegistry(this.sessionRegistry);
+        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(service).passwordEncoder(passwordEncoder);
     }
+
 }

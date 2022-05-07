@@ -197,3 +197,5 @@ https://docs.spring.io/spring-session/reference/http-session.html
 ### Spring Boot with Spring Session and Redis - RedisConnectionFactory is required
 https://stackoverflow.com/questions/69701577/spring-boot-with-spring-session-and-redis-redisconnectionfactory-is-required
 
+### Dependency error in Spring boot for Spring session and Redis. What is the correct dependency i have to use?
+https://java.tutorialink.com/dependency-error-in-spring-boot-for-spring-session-and-redis-what-is-the-correct-dependency-i-have-to-use/
