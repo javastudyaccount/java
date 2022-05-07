@@ -188,3 +188,9 @@ https://www.nowonbun.com/170.html
 ### JavaでWebSocket使い方メモ
 https://qiita.com/opengl-8080/items/7ca8484c8579d264e239
 
+### Spring Session - WebSocket
+https://docs.spring.io/spring-session/reference/guides/boot-websocket.html
+
+### HttpSession Integration
+https://docs.spring.io/spring-session/reference/http-session.html
+
