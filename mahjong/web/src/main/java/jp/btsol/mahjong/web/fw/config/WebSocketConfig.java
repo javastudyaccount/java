@@ -3,6 +3,7 @@ package jp.btsol.mahjong.web.fw.config;
 import java.security.Principal;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.messaging.Message;
@@ -25,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @EnableWebSocketMessageBroker
 @Slf4j
 public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfigurer<Session> {
+    @Value("${websocket.end-point:http://localhost:8089}")
+    private String websocketEndPoint;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -44,7 +47,7 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
                             Map<String, Object> attributes) {
                         return new MahjongPrincipal((User) attributes.get("user"));
                     }
-                }).setAllowedOrigins("http://localhost:8089").withSockJS();
+                }).setAllowedOrigins(websocketEndPoint).withSockJS();
     }
 
     @Override

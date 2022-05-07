@@ -48,4 +48,5 @@ spring:
   redis:
     host: localhost
     port: 6379
-    
+websocket:
+  end-point: http://localhost:8089    
