@@ -1,9 +1,11 @@
 package jp.btsol.mahjong.web.service;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
+@Component
 @ConfigurationProperties("application")
 @Data
 public class ApplicationProperties {

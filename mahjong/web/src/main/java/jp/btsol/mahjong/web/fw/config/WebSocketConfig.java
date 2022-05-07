@@ -26,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 @EnableWebSocketMessageBroker
 @Slf4j
 public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfigurer<Session> {
+    /**
+     * websocketEndPoint String
+     */
     @Value("${websocket.end-point:http://localhost:8089}")
     private String websocketEndPoint;
 
