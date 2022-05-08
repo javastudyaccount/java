@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jp.btsol.mahjong.entity.ErrorDataEntity;
+import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.model.MahjongGameMessage;
 import jp.btsol.mahjong.model.MahjongMessage;
 import jp.btsol.mahjong.web.service.GameService;
@@ -28,16 +29,23 @@ public class MessageController {
      * Service gameService
      */
     private final GameService gameService;
+    /**
+     * userContext UserContext
+     */
+    private final UserContext userContext;
 
     /**
      * Constructor
      * 
      * @param gameService GameService
+     * @param om          ObjectMapper
+     * @param userContext UserContext
      */
     @Autowired
-    public MessageController(GameService gameService, ObjectMapper om) {
+    public MessageController(GameService gameService, ObjectMapper om, UserContext userContext) {
         this.gameService = gameService;
         this.om = om;
+        this.userContext = userContext;
     }
 
     @MessageMapping("/hello")
@@ -58,6 +66,8 @@ public class MessageController {
     @SendTo("/topic/game")
     public MahjongGameMessage grabSeat(MahjongGameMessage message, Principal principal) throws Exception {
 //        Thread.sleep(1000); // simulated delay
+        // do not use messgage.player_id, to prevent client attack
+        userContext.userId(principal.getName()); // login_id
         return gameService.grabSeat(message);
     }
 

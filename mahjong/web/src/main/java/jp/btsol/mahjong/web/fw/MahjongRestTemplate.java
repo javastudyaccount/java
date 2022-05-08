@@ -1,6 +1,3 @@
-/**
- * 
- */
 package jp.btsol.mahjong.web.fw;
 
 import java.net.URI;
@@ -28,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.model.MahjongAuthenticationHeader;
 import jp.btsol.mahjong.model.MahjongUser;
 import jp.btsol.mahjong.web.service.ApplicationProperties;
@@ -55,14 +53,20 @@ public class MahjongRestTemplate {
      * to convert error object
      */
     private final ObjectMapper om;
+    /**
+     * userContext UserContext
+     */
+    private final UserContext userContext;
 
     @Autowired
     public MahjongRestTemplate(RestTemplate restTemplate, //
             ObjectMapper om, //
-            ApplicationProperties applicationProperties) {
+            ApplicationProperties applicationProperties, //
+            UserContext userContext) {
         this.restTemplate = restTemplate;
         this.om = om;
         this.applicationProperties = applicationProperties;
+        this.userContext = userContext;
     }
 
     /**
@@ -318,10 +322,12 @@ public class MahjongRestTemplate {
         mahjongHeader.setSub(applicationProperties.getSub());
         mahjongHeader.setIss(applicationProperties.getIss());
         mahjongHeader.setLoginId(applicationProperties.getLoginId());
-        if (Objects.nonNull(authentication)) {
-            if (authentication.getPrincipal() instanceof MahjongUser) {
-                String loginId = ((MahjongUser) authentication.getPrincipal()).getUsername();
-                mahjongHeader.setLoginId(loginId);
+        if (Objects.nonNull(authentication) && authentication.getPrincipal() instanceof MahjongUser) {
+            String loginId = ((MahjongUser) authentication.getPrincipal()).getUsername();
+            mahjongHeader.setLoginId(loginId);
+        } else {
+            if (!StringUtils.isEmpty(userContext.userId())) {
+                mahjongHeader.setLoginId(userContext.userId());
             }
         }
         String mahjongUser = "";
