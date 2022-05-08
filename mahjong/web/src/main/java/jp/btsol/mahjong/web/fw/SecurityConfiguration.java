@@ -41,7 +41,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/favicon.ico", "/css/**", "/image/**", "/js/**");
+        web.ignoring().antMatchers(//
+                "/favicon.ico", //
+                "/css/**", //
+                "/image/**", //
+                "/js/**", //
+                "/webjars/**", //
+                "/gs-guide-websocket/**", //
+                "/index.html");
     }
 
     @Override
@@ -83,10 +90,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .useSecureCookie(true)// Cookie の secure 属性を有効にする
 
                 .tokenRepository(rememberMeTokenRepositoryImpl);
+        http.headers().frameOptions().sameOrigin(); // X-Frame-Options
+        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(service).passwordEncoder(passwordEncoder);
     }
+
 }

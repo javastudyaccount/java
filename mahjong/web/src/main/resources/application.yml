@@ -1,3 +1,24 @@
+---
+spring:
+  profiles: local
+
+  thymeleaf:
+    check-template-location: true
+    cache: false
+    prefix: file:./src/main/resources/templates/
+  web:
+    resources:
+      static-locations: file:./src/main/resources/static/
+  session:
+    store-type: redis
+    redis:
+      namespace: mahjong
+  redis:
+    host: localhost
+    port: 6379
+websocket:
+  end-point: http://localhost:8089  
+  
 server:
   port: 8089
 application:
@@ -28,14 +49,15 @@ application:
     createGame: /game/new
     game: /game/get
     enterGame: /game/enter
+    ready2GrabSeat: /game/ready2GrabSeat
+    grabSeat: /game/grabSeat
   iss: iss
   sub: sub
   loginId: anonymous
+  
+  
+---
 spring:
-  thymeleaf:
-    check-template-location: true
-    cache: false
-    prefix: file:./src/main/resources/templates/
-  web:
-    resources:
-      static-locations: file:./src/main/resources/static/
+  profiles: prod
+    
+  

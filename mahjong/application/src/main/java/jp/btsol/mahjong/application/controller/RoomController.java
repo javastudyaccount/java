@@ -61,7 +61,7 @@ public class RoomController {
     @GetMapping("/get")
     public RoomModel getRoom(@Valid //
     @RequestParam(required = true) long roomId) {
-        return roomService.getRoom(roomId);
+        return roomService.getRoom(roomId, null);
     }
 
     /**
@@ -73,7 +73,7 @@ public class RoomController {
     @GetMapping("/players")
     public List<PlayerModel> getPlayers(@Valid //
     @RequestParam(required = true) long roomId) {
-        return roomService.getPlayers(roomId);
+        return roomService.getPlayers(roomId, null);
     }
 
     /**

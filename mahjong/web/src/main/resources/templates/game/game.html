@@ -1,41 +1,255 @@
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Game</title>
 </head>
 <body>
-<h1>Game</h1>
-<div layout:fragment="content">
-<h3>Players in room: <span th:text="${game.roomModel.roomName}">
-    </span></h3>
-<table style="width:100%">
-<tr th:each="player, playerStat: ${game.roomModel.playersInRoom}">
-<td>
-    <span th:text="${player.playerId}">
-    </span>
-</td>
-<td>
-    <span th:text="${player.nickname}">
-    </span>
-</td>
-<td align="right">
-    <form th:if="${#authentication.principal.playerId!=player.playerId && player.gameId==null && game.countOfPlayers<4}" style="display: inline" id="formInvite" method="post" th:action="@{/inviteGame}">
-    <input type="hidden" name="gameId" th:value="*{game.gameId}"/>
-    <input type="hidden" name="playerId" th:value="*{player.playerId}"/>
-    <button class="button-right">Invite</button>
-    </form>
-    <form th:if="${#authentication.principal.playerId==player.playerId && player.gameId==null && game.countOfPlayers<4}" style="display: inline" id="formEnterGame" method="post" th:action="@{/enterGame}">
-    <input type="hidden" name="gameId" th:value="*{game.gameId}"/>
-    <button class="button-right">Enter game</button>
-    </form>
-</td>
-</tr>
-</table>
+	<h1>Game</h1>
+	<div layout:fragment="content">
+		<div th:if="${game.countOfPlayers<4}">
+			<h3>
+				Players in room: <span th:text="${game.roomModel.roomName}">
+				</span>
+			</h3>
+			<table style="width: 100%">
+				<tr th:each="player, playerStat: ${game.roomModel.playersInRoom}">
+					<td><span th:text="${player.playerId}"> </span></td>
+					<td><span th:text="${player.nickname}"> </span></td>
+					<td align="right">
+						<form
+							th:if="${#authentication.principal.playerId!=player.playerId && player.gameId==null && game.countOfPlayers<4}"
+							style="display: inline" id="formInvite" method="post"
+							th:action="@{/inviteGame}">
+							<input type="hidden" name="gameId" th:value="*{game.gameId}" />
+							<input type="hidden" name="playerId"
+								th:value="*{player.playerId}" />
+							<button class="button-right">Invite</button>
+						</form>
+						<form
+							th:if="${#authentication.principal.playerId==player.playerId && player.gameId==null && game.countOfPlayers<4}"
+							style="display: inline" id="formEnterGame" method="post"
+							th:action="@{/enterGame}">
+							<input type="hidden" name="gameId" th:value="*{game.gameId}" />
+							<button class="button-right">Enter game</button>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div th:each="player, playerStat: ${game.roomModel.playersInRoom}">
+		<div th:if="${player.playerId==#authentication.principal.playerId && player.direction==null}">
+		<div th:if="${player.action==null}">
+		<button id="grab-seat" disabled="disabled">Ready to grab a seat</button>
+		</div>
+        <div th:if="${player.action == 'ready for grabing seat'}">
+        <button id="grab-seat" disabled="disabled">Click the direction I want to seat</button>
+        </div>
+		</div>
+		</div>
+		  
+			<table>
+                <tr>
+                <td rowspan="5">
+                <div id="west" th:style="'height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_west.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                </td>
+                    <td></td>
+                    <td id="north" height="100px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_north.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
+                        North
+                    </td>
+                    <td></td>
+                    <td rowspan="5">
+                    <div id="east" th:style="'width:96px;height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_east.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;East&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </tr>
+				<tr>
+					<td></td>
+					<td>
+						<div>
+							<table cellspacing="0" cellpadding="0" class="first_div">
+								<tr class="first_div">
+									<td th:each="i , iStat: ${#numbers.sequence(0, 16)}"><img
+										class="back portrait" th:src="@{/images/back.png}"></img></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>
+						<div>
+							<table class="second_div">
+								<tr>
+									<td>
+										<table cellspacing="0" cellpadding="0">
+											<tr class="rotate90deg"
+												th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+												<td><img class="back landscape"
+													th:src="@{/images/back90deg.png}"></img></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td></td>
+					<td>
+						<div>
+							<table class="second_div">
+								<tr>
+									<td align="right">
+										<table cellspacing="0" cellpadding="0">
+											<tr class="rotate90deg"
+												th:each="i , iStat: ${#numbers.sequence(0, 16)}">
+												<td><img class="back landscape"
+													th:src="@{/images/back90deg.png}"></img></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
 
-      <a href="/players">Players</a><br/>
-      <a href="/rooms">Rooms</a>
-</div>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<div>
+							<table cellspacing="0" cellpadding="0">
+								<tr>
+									<td th:each="i , iStat: ${#numbers.sequence(0, 16)}"><img
+										class="back portrait" th:src="@{/images/back.png}"></img></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td></td>
+				</tr>
+                <tr>
+                    <td></td>
+                    <td id="south" height="96px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_south.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
+                        South
+                    </td>
+                    <td></td>
+                </tr>
+			</table>
+
+			<figure>
+				<audio style="width: 0px; height: 0px" controls
+					th:src="@{/sounds/dice.mp3}">
+					Your browser does not support the
+					<code>audio</code>
+					element.
+				</audio>
+			</figure>
+			<script th:inline="javascript">
+/*<![CDATA[*/
+$(window).on('load', function(){
+    var height = $(window).height();
+    var width = $(window).width();
+    var size = Math.min(height, width);
+    var ratio = $("img.portrait")[0].height / $("img.portrait")[0].width;
+    var tileWidth = ((size - 2 * (size / 17 * ratio)) / 17) | 0;
+    $("img.portrait").css({"width": tileWidth + 'px'});
+    var tileHeight = $("img.portrait")[0].height;
+    $("img.landscape").css({"width": tileHeight + 'px'});
+    //$(".second_div").css({
+    //  'width': (($(".first_div").width() + 100) + 'px')
+    //});
+    size = size - 2 * (size / 17 * ratio);
+    size = size * 2;
+    $("#dice1").css({"position":"absolute", "left": (size/3*2)+'px', "top": (size/3*2)+'px', "zoom": 0.5});
+    $("#dice2").css({"position":"absolute", "left": (size/3*2 + 90)+'px', "top": (size/3*2)+'px', "zoom": 0.5});
+    
+    var dice1 = $("#dice1");
+    dice1.click(diceFunc);
+    var dice2 = $("#dice2");
+    dice2.click(diceFunc);
+    
+    console.log([[${game.roomModel.playersInRoom}]]);
+    if('Ready for grabing seat.' != [[${game.gameStatus}]]){
+	    [[${game.roomModel.playersInRoom}]].forEach(player=>{
+	    	if(null == player.log){
+	    		console.log("player.log is null");
+	    	} else{
+	    		console.log(player.log);
+	    		showGameNotice(player.log);
+	    	}
+	    });
+    }
+    showGameMessage([[${game.gameStatus}]]);
+    
+});
+
+$('#east').on('click', function(){
+	grabSeat('east');
+});
+function grabSeat(seat){
+	   stompClient.send("/app/grab", {}, 
+	            JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+	            'action': 'grab seat ' + seat,
+	            'playerId': [[${#authentication.principal.playerId}]],
+	            'nickname': [[${#authentication.principal.nickname}]], 
+	            'message': [[${#authentication.principal.nickname}]] + ' sits ' + seat,
+	            'gameId': [[${game.gameId}]],
+	            'roomId': [[${game.roomId}]]
+	             }));
+}
+$('#north').on('click', function(){
+    grabSeat('north');
+});
+$('#west').on('click', function(){
+    grabSeat('west');
+});
+$('#south').on('click', function(){
+    grabSeat('south');
+});
+
+$("#grab-seat").on('click', function(){
+	console.log("grab-seat is clicked.");
+	stompClient.send("/app/grab/ready", {}, 
+		JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+		'action': 'ready for grabing a seat',
+		'playerId': [[${#authentication.principal.playerId}]],
+		'nickname': [[${#authentication.principal.nickname}]], 
+		'message': [[${#authentication.principal.nickname}]] + ' is ' + 'ready for grabing a seat',
+		'gameId': [[${game.gameId}]],
+		'roomId': [[${game.roomId}]]
+		 }));
+});
+function showGameMessage(message) {
+	//if($("#messages").text().indexOf(message) == -1){//no message appended yet
+	//    $("#messages").append("<div>" + message + "</div>");
+	//}
+	$("#messages").html("");
+	$("#messages").append("<div>" + message + "</div>");
+	if("ready for grabing seat" == message){
+		$("#grab-seat").hide();
+	}
+}
+function showGameNotice(notice) {
+    if($("#notices").text().indexOf(notice) == -1){//no notice appended yet
+        $("#notices").append("<div>" + notice + "</div>");
+    }
+}
+function onConnectStatusChanged(status){
+	$("#grab-seat").prop("disabled", !status);
+}
+/*]]>*/
+</script>
+			<div class="wrap1">
+				<div id="dice1" class="dice dice_1"></div>
+			</div>
+			<div class="wrap2">
+				<div id="dice2" class="dice dice_1"></div>
+			</div>
+		</div>
+		<a href="/players">Players</a><br /> <a href="/rooms">Rooms</a>
+
+	</div>
 </body>
 </html>

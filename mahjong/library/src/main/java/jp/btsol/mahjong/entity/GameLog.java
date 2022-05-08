@@ -34,15 +34,18 @@ public class GameLog implements Serializable {
     /** player_id */
     @Column(nullable = false)
     private long playerId;
-    /** operation */
-    @Column(length = 20, nullable = false)
-    private String operation;
+    /** action */
+    @Column(length = 120, nullable = false)
+    private String action;
     /** tiles */
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String tiles;
     /** player_id_counterpart */
     @Column(nullable = true)
     private long playerIdCounterpart;
+    /** log */
+    @Column(length = 256, nullable = true)
+    private String log;
     /** deleted_flg */
     @Column(nullable = false)
     private boolean deletedFlg;

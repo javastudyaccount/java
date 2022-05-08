@@ -67,7 +67,7 @@ class PlayerServiceTest {
         // @DatabaseSetup(value = {"/testdata/room/in/rooms.xlsx"}, type =
         // DatabaseOperation.CLEAN_INSERT)
         void test_getInvited() {
-            userContext.playerId(3);
+            userContext.playerId(3L);
             List<PlayerModel> invites = playerService.getInvited();
             Assertions.assertEquals(1, invites.size());
 

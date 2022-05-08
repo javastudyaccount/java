@@ -1,7 +1,10 @@
 package jp.btsol.mahjong.application.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +12,14 @@ import jp.btsol.mahjong.application.fw.exception.DuplicateKeyException;
 import jp.btsol.mahjong.application.fw.exception.TooManyPlayersException;
 import jp.btsol.mahjong.application.repository.BaseRepository;
 import jp.btsol.mahjong.entity.Game;
+import jp.btsol.mahjong.entity.GameLog;
 import jp.btsol.mahjong.fw.UserContext;
 import jp.btsol.mahjong.model.GameId;
 import jp.btsol.mahjong.model.GameModel;
+import jp.btsol.mahjong.model.MahjongGameMessage;
+import jp.btsol.mahjong.model.PlayerModel;
 import jp.btsol.mahjong.model.RoomModel;
+import jp.btsol.mahjong.utils.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -82,9 +89,13 @@ public class GameService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("gameId", gameId);
         param.addValue("playerId", userContext.playerId());
-        baseRepository.update("insert into game_player (game_id, player_id) values(:gameId, :playerId)", param);
-        int count = baseRepository.findForObject("select count(1) from game_player where game_id = :gameId", param,
-                int.class);
+        param.addValue("requestId", baseRepository.getRequestId());
+        baseRepository.update(//
+                "insert into game_player " //
+                        + " (game_id, player_id, created_user, updated_user) "//
+                        + " values(:gameId, :playerId, :requestId, :requestId)",
+                param);
+        int count = baseRepository.queryForInt("select count(1) from game_player where game_id = :gameId", param);
         if (count > 4) {
             throw new TooManyPlayersException("The game already has 4 players.");
         }
@@ -105,9 +116,100 @@ public class GameService {
                         + "from game where game_id = :gameId", //
                 param, //
                 GameModel.class);
-        RoomModel room = roomService.getRoom(game.getRoomId());
+        RoomModel room = roomService.getRoom(game.getRoomId(), gameId);
         game.setRoomModel(room);
+
+        List<PlayerModel> players = roomService.getPlayers(game.getRoomId(), gameId);
+        long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()) //
+                || player.getAction().startsWith("grab seat")).count();
+        String myStatus = players.stream().filter(player -> player.getPlayerId() == userContext.playerId()).findFirst()
+                .get().getAction();
+        if (readyCount == 4) {
+            if (myStatus.startsWith("grab seat")) {
+                game.setGameStatus("Waiting others sit.");
+            } else {
+                game.setGameStatus("Ready for grabing seat.");
+            }
+        } else {
+            game.setGameStatus("Waiting to grab a seat.");
+        }
         return game;
     }
 
+    /**
+     * ready to grab seat
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage ready2GrabSeat(MahjongGameMessage message) {
+        GameLog gameLog = new GameLog();
+        gameLog.setGameId(message.getGameId());
+        gameLog.setPlayerId(message.getPlayerId());
+        gameLog.setAction(message.getAction());
+        gameLog.setLog(message.getMessage());
+
+        Validator.validateMaxLength(gameLog);
+
+        int gameLogId = 0;
+        gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
+
+        gameLog = baseRepository.findById(gameLogId, GameLog.class);
+
+        MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
+        messageRet.setMessage(gameLog.getLog());
+
+        List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()))
+                .count();
+        if (readyCount == 4) {
+            messageRet.setGameStatus("Ready for grabing seat.");
+        }
+        return messageRet;
+    }
+
+    /**
+     * grab seat
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage grabSeat(MahjongGameMessage message) {
+        GameLog gameLog = new GameLog();
+        gameLog.setGameId(message.getGameId());
+        gameLog.setPlayerId(message.getPlayerId());
+        gameLog.setAction(message.getAction());
+        gameLog.setLog(message.getMessage());
+
+        Validator.validateMaxLength(gameLog);
+
+        int gameLogId = 0;
+        gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
+
+        gameLog = baseRepository.findById(gameLogId, GameLog.class);
+
+        String seat = message.getAction().replace("grab seat ", "");
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("gameId", message.getGameId());
+        param.addValue("seat", seat);
+        param.addValue("playerId", userContext.playerId());
+        int updated = baseRepository.update(
+                "update game_player set direction = :seat where game_id = :gameId and player_id = :playerId", param);
+        MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
+        messageRet.setMessage(gameLog.getLog());
+        if (updated != 1) {
+//            messageRet.setGameStatus("ERROR: failed to grab seat.");
+//            return messageRet;
+            throw new RuntimeException("Failed to grab seat.");
+        }
+
+        List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        long readyCount = players.stream().filter(player -> player.getAction().startsWith("grab seat")).count();
+        if (readyCount == 4) {
+            messageRet.setGameStatus("Ready for deciding dealer.");
+        } else {
+            messageRet.setGameStatus("Waiting others sit.");
+        }
+        return messageRet;
+    }
 }

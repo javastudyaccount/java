@@ -28,29 +28,37 @@
 			</div>
 		</div>
 		<div style="clear: both;"></div>
+    <table>
+        <tr>
+            <td>
+        <h4 id="messages" th:text="${message}"></h4>
+        <div th:if="${errors}" class="error-message-list width-100">
+            <div th:each="error,sts: ${errors}">
+                <span th:text="${error.field}"></span>: <span
+                    th:text="${error.defaultMessage}"></span>
+            </div>
+        </div>
+        <div th:if="${apierror}" class="error-message-list width-100">
+            <div th:if="${apierror.bindingResult}">
+                <div th:if="${apierror.bindingResult.fieldErrors}">
+                    <div th:each="error,sts: ${apierror.bindingResult.fieldErrors}">
+                        <span th:text="${error.field}"></span>: <span
+                            th:text="${error.defaultMessage}"></span>
+                    </div>
+                </div>
+            </div>
 
-		<h4 th:text="${message}"></h4>
-		<div th:if="${errors}" class="error-message-list width-100">
-			<div th:each="error,sts: ${errors}">
-				<span th:text="${error.field}"></span>: <span
-					th:text="${error.defaultMessage}"></span>
-			</div>
-		</div>
-		<div th:if="${apierror}" class="error-message-list width-100">
-			<div th:if="${apierror.bindingResult}">
-				<div th:if="${apierror.bindingResult.fieldErrors}">
-					<div th:each="error,sts: ${apierror.bindingResult.fieldErrors}">
-						<span th:text="${error.field}"></span>: <span
-							th:text="${error.defaultMessage}"></span>
-					</div>
-				</div>
-			</div>
-
-			<div th:unless="${apierror.bindingResult}">
-				<span th:text="${apierror.errorCode}"></span>: <span
-					th:text="${apierror.errorDetail}"></span>
-			</div>
-		</div>
+            <div th:unless="${apierror.bindingResult}">
+                <span th:text="${apierror.errorCode}"></span>: <span
+                    th:text="${apierror.errorDetail}"></span>
+            </div>
+        </div>
+            </td>
+            <td>
+            <h4 id="notices" th:text="${notices}"></h4>
+            </td>
+        </tr>
+    </table>
 	</header>
 </body>
 </html>

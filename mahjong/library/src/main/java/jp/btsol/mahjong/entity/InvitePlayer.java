@@ -29,6 +29,9 @@ public class InvitePlayer implements Serializable {
     /** invite_timestamp */
     @Column(nullable = false)
     private java.sql.Timestamp inviteTimestamp;
+    /** status */
+    @Column(length = 200, nullable = false)
+    private String status;
     /** deleted_flg */
     @Column(nullable = false)
     private boolean deletedFlg;

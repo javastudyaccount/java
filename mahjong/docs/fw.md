@@ -170,3 +170,35 @@ https://qiita.com/rubytomato@github/items/8d132dec042f695e50f6
 
 ### Thymeleaf 3.0を使用した入力フォームのサンプル
 https://qiita.com/rubytomato@github/items/8da1bb19537bbfc9c2ea
+
+### Using WebSocket to build an interactive web application
+https://spring.io/guides/gs/messaging-stomp-websocket/
+
+### WebSocket でインタラクティブ Web アプリケーション作成
+https://spring.pleiades.io/guides/gs/messaging-stomp-websocket/
+
+### Using Spring Boot for WebSocket Implementation with STOMP
+https://www.toptal.com/java/stomp-spring-boot-websocket
+![](image/fw/1651843711839.png)
+![](image/fw/1651843663727.png)
+
+### [Java] Servlet環境でWebSocket通信中、HttpSessionを取得する方法
+https://www.nowonbun.com/170.html
+
+### JavaでWebSocket使い方メモ
+https://qiita.com/opengl-8080/items/7ca8484c8579d264e239
+
+### Spring Session - WebSocket
+https://docs.spring.io/spring-session/reference/guides/boot-websocket.html
+
+### HttpSession Integration
+https://docs.spring.io/spring-session/reference/http-session.html
+
+### Spring Boot with Spring Session and Redis - RedisConnectionFactory is required
+https://stackoverflow.com/questions/69701577/spring-boot-with-spring-session-and-redis-redisconnectionfactory-is-required
+
+### Dependency error in Spring boot for Spring session and Redis. What is the correct dependency i have to use?
+https://java.tutorialink.com/dependency-error-in-spring-boot-for-spring-session-and-redis-what-is-the-correct-dependency-i-have-to-use/
+
+### Preliminary integration of spring websocket / stomp and spring session
+https://developpaper.com/preliminary-integration-of-spring-websocket-stomp-and-spring-session/

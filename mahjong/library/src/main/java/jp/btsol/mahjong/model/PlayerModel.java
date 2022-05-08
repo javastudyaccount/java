@@ -32,4 +32,16 @@ public class PlayerModel {
      * invited flag
      */
     private boolean invitedFlg;
+    /**
+     * direction
+     */
+    private String direction;
+    /**
+     * log
+     */
+    private String log;
+    /**
+     * action
+     */
+    private String action;
 }

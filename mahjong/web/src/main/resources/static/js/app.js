@@ -17,11 +17,18 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
+        onConnectStatusChanged(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/greetings', function (greeting) {
             var message = JSON.parse(greeting.body);
             showGreeting(message.name + ":" + message.message);
         });
+        stompClient.subscribe('/topic/game', function (gameMessage) {
+            var message = JSON.parse(gameMessage.body);
+            showGameNotice(message.message);
+            showGameMessage(message.gameStatus);
+        });
+        
     });
 }
 
@@ -31,6 +38,7 @@ function disconnect() {
     }
     setConnected(false);
     console.log("Disconnected");
+    onConnectStatusChanged(false);
 }
 
 function sendMessage() {
@@ -43,12 +51,15 @@ function showGreeting(message) {
 }
 
 $(function () {
-    $("form").on('submit', function (e) {
-        e.preventDefault();
-    });
+    //$("form").on('submit', function (e) {
+    //    e.preventDefault();
+    //});
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendMessage(); });
 });
+
+function onConnectStatusChanged(status){
+}
 
 setTimeout("connect()", 3000);

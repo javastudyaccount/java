@@ -23,9 +23,10 @@ CREATE TABLE game_log (
     game_log_id bigint NOT NULL AUTO_INCREMENT,
     game_id bigint NOT NULL,
     player_id bigint NOT NULL,
-    operation varchar(20) NOT NULL,
-    tiles json NOT NULL,
+    action varchar(120) NOT NULL,
+    tiles json ,
     player_id_counterpart bigint,
+    log varchar(256) default '', 
     deleted_flg boolean DEFAULT false NOT NULL,
     created_timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_user varchar(20) NOT NULL,
@@ -50,8 +51,11 @@ CREATE TABLE game_player (
     PRIMARY KEY (game_id, player_id)
 );
 CREATE UNIQUE INDEX game_player_unique
-    ON game_player (player_id);
-    
+    ON game_player (game_id, player_id);
+
+CREATE UNIQUE INDEX game_direction_unique
+    ON game_player (game_id, direction);
+       
 drop table player cascade;
 CREATE TABLE player (
     player_id bigint NOT NULL AUTO_INCREMENT,
