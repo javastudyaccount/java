@@ -160,11 +160,16 @@ $(window).on('load', function(){
     //$(".second_div").css({
     //  'width': (($(".first_div").width() + 100) + 'px')
     //});
+    /*
     size = size - 2 * (size / 17 * ratio);
     size = size * 2;
-    $("#dice1").css({"position":"absolute", "left": (size/3*2)+'px', "top": (size/3*2)+'px', "zoom": 0.5});
-    $("#dice2").css({"position":"absolute", "left": (size/3*2 + 90)+'px', "top": (size/3*2)+'px', "zoom": 0.5});
-    
+    $("#dice1").css({"position":"absolute", "left": (size/3*2)+'px', "top": (size/3*2)+'px', "zoom": 0.5, "-moz-transform": "scale(0.5)", "-moz-transform-origin": "-1000 0"});
+    $("#dice2").css({"position":"absolute", "left": (size/3*2 + 90)+'px', "top": (size/3*2)+'px', "zoom": 0.5, "-moz-transform": "scale(0.5)", "-moz-transform-origin": "-1000 0"});
+    if ($.browser.mozilla) {
+    	$("#dice1").css({"position":"absolute", "left": (size/3)+'px', "top": (size/3*2)+'px', "zoom": 0.5, "-moz-transform": "scale(0.5)", "-moz-transform-origin": "-1000 0"});
+        $("#dice2").css({"position":"absolute", "left": (size/3 + 90)+'px', "top": (size/3*2)+'px', "zoom": 0.5, "-moz-transform": "scale(0.5)", "-moz-transform-origin": "-1000 0"});
+    }
+    */
     var dice1 = $("#dice1");
     dice1.click(diceFunc);
     var dice2 = $("#dice2");
@@ -196,12 +201,24 @@ $(window).on('load', function(){
     	break;
     case "west":
         console.log("my seat " + myDirection);
+        $('#upper').text('East');
+        $('#lower').text('West');
+        $('#left').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;North&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+        $('#right').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;South&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
     	break;
     case "south":
         console.log("my seat " + myDirection);
+        $('#upper').text('North');
+        $('#lower').text('South');
+        $('#left').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+        $('#right').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;East&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
     	break;
     case "east":
         console.log("my seat " + myDirection);
+        $('#upper').text('West');
+        $('#lower').text('East');
+        $('#left').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;South&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+        $('#right').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;North&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
     	break;
     }
 });
@@ -262,10 +279,10 @@ function onConnectStatusChanged(status){
 }
 /*]]>*/
 </script>
-			<div class="wrap1">
+			<div class="wrap wrap1">
 				<div id="dice1" class="dice dice_1"></div>
 			</div>
-			<div class="wrap2">
+			<div class="wrap wrap2">
 				<div id="dice2" class="dice dice_1"></div>
 			</div>
 		</div>
