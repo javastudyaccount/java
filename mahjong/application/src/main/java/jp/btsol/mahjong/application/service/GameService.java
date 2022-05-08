@@ -122,16 +122,21 @@ public class GameService {
         List<PlayerModel> players = roomService.getPlayers(game.getRoomId(), gameId);
         long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()) //
                 || player.getAction().startsWith("grab seat")).count();
+        long sitCount = players.stream().filter(player -> player.getAction().startsWith("grab seat")).count();
         String myStatus = players.stream().filter(player -> player.getPlayerId() == userContext.playerId()).findFirst()
                 .get().getAction();
-        if (readyCount == 4) {
-            if (myStatus.startsWith("grab seat")) {
-                game.setGameStatus("Waiting others sit.");
-            } else {
-                game.setGameStatus("Ready for grabing seat.");
-            }
+        if (sitCount == 4) {
+            game.setGameStatus("Ready for deciding dealer.");
         } else {
-            game.setGameStatus("Waiting to grab a seat.");
+            if (readyCount == 4) {
+                if (myStatus.startsWith("grab seat")) {
+                    game.setGameStatus("Waiting others sit.");
+                } else {
+                    game.setGameStatus("Ready for grabing seat.");
+                }
+            } else {
+                game.setGameStatus("Waiting to grab a seat.");
+            }
         }
         return game;
     }
