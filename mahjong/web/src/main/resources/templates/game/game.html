@@ -52,15 +52,15 @@
 			<table>
                 <tr>
                 <td rowspan="5">
-                <div id="west" th:style="'height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_west.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div id="left" th:style="'width:96px;height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_left.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                 </td>
                     <td></td>
-                    <td id="north" height="100px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_north.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
+                    <td id="upper" height="100px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_upper.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
                         North
                     </td>
                     <td></td>
                     <td rowspan="5">
-                    <div id="east" th:style="'width:96px;height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_east.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;East&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    <div id="right" th:style="'width:96px;height:48px;transform:rotate(-90deg);cursor:pointer;background-image:url(' + @{/images/chair_right.png} + ');background-repeat: no-repeat;background-position:center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;East&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                     </td>
                 </tr>
 				<tr>
@@ -131,7 +131,7 @@
 				</tr>
                 <tr>
                     <td></td>
-                    <td id="south" height="96px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_south.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
+                    <td id="lower" height="96px" align="center" th:style="'cursor:pointer;background-image:url(' + @{/images/chair_lower.png} + ');background-repeat: no-repeat;background-position: center;background-blend-mode: lighten;background-color: rgba(255,255,255,0.6);'">
                         South
                     </td>
                     <td></td>
@@ -170,8 +170,9 @@ $(window).on('load', function(){
     var dice2 = $("#dice2");
     dice2.click(diceFunc);
     
-    console.log([[${game.roomModel.playersInRoom}]]);
-    if('Ready for grabing seat.' != [[${game.gameStatus}]]){
+    //console.log([[${game.roomModel.playersInRoom}]]);
+    var myDirection = "";
+    //if('Ready for grabing seat.' != [[${game.gameStatus}]]){
 	    [[${game.roomModel.playersInRoom}]].forEach(player=>{
 	    	if(null == player.log){
 	    		console.log("player.log is null");
@@ -179,13 +180,33 @@ $(window).on('load', function(){
 	    		console.log(player.log);
 	    		showGameNotice(player.log);
 	    	}
+	    	if(player.playerId == [[${#authentication.principal.playerId}]]){
+	    		myDirection = player.direction;
+	    	}
 	    });
-    }
+    //}
     showGameMessage([[${game.gameStatus}]]);
-    
+    switch(myDirection){
+    case "north":
+    	console.log("my seat " + myDirection);
+    	$('#upper').text('South');
+    	$('#lower').text('North');
+    	$('#left').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;East&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+    	$('#right').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+    	break;
+    case "west":
+        console.log("my seat " + myDirection);
+    	break;
+    case "south":
+        console.log("my seat " + myDirection);
+    	break;
+    case "east":
+        console.log("my seat " + myDirection);
+    	break;
+    }
 });
 
-$('#east').on('click', function(){
+$('#right').on('click', function(){
 	grabSeat('east');
 });
 function grabSeat(seat){
@@ -199,13 +220,13 @@ function grabSeat(seat){
 	            'roomId': [[${game.roomId}]]
 	             }));
 }
-$('#north').on('click', function(){
+$('#upper').on('click', function(){
     grabSeat('north');
 });
-$('#west').on('click', function(){
+$('#left').on('click', function(){
     grabSeat('west');
 });
-$('#south').on('click', function(){
+$('#lower').on('click', function(){
     grabSeat('south');
 });
 
