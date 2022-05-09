@@ -122,6 +122,10 @@ public class ApplicationProperties {
          * grabSeat
          */
         private String grabSeat;
+        /**
+         * diceDealer
+         */
+        private String diceDealer;
     }
 
     /**

@@ -8,49 +8,6 @@
 <body>
 	<h1>Game</h1>
 	<div layout:fragment="content">
-		<div th:if="${game.countOfPlayers<4}">
-			<h3>
-				Players in room: <span th:text="${game.roomModel.roomName}">
-				</span>
-			</h3>
-			<table style="width: 100%">
-				<tr th:each="player, playerStat: ${game.roomModel.playersInRoom}">
-					<td><span th:text="${player.playerId}"> </span></td>
-					<td><span th:text="${player.nickname}"> </span></td>
-					<td align="right">
-						<form
-							th:if="${#authentication.principal.playerId!=player.playerId && player.gameId==null && game.countOfPlayers<4}"
-							style="display: inline" id="formInvite" method="post"
-							th:action="@{/inviteGame}">
-							<input type="hidden" name="gameId" th:value="*{game.gameId}" />
-							<input type="hidden" name="playerId"
-								th:value="*{player.playerId}" />
-							<button class="button-right">Invite</button>
-						</form>
-						<form
-							th:if="${#authentication.principal.playerId==player.playerId && player.gameId==null && game.countOfPlayers<4}"
-							style="display: inline" id="formEnterGame" method="post"
-							th:action="@{/enterGame}">
-							<input type="hidden" name="gameId" th:value="*{game.gameId}" />
-							<button class="button-right">Enter game</button>
-						</form>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div th:each="player, playerStat: ${game.roomModel.playersInRoom}">
-			<div
-				th:if="${player.playerId==#authentication.principal.playerId && player.direction==null}">
-				<div th:if="${player.action==null}">
-					<button id="grab-seat" disabled="disabled">Ready to grab a
-						seat</button>
-				</div>
-				<div th:if="${player.action == 'ready for grabing seat'}">
-					<button id="grab-seat" disabled="disabled">Click the
-						direction I want to seat</button>
-				</div>
-			</div>
-		</div>
 		<div>
 			<div class="wrap wrap1">
 				<div id="dice1" class="dice dice_1"></div>
@@ -182,27 +139,66 @@ $(window).on('load', function(){
         $("#dice2").css({"position":"absolute", "left": (size/3 + 90)+'px', "top": (size/3*2)+'px', "zoom": 0.5, "-moz-transform": "scale(0.5)", "-moz-transform-origin": "-1000 0"});
     }
     */
+    function diceDealer(){
+        stompClient.send("/app/diceDealer", {}, 
+                 JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+                 'action': 'dice dealer',
+                 'playerId': [[${#authentication.principal.playerId}]],
+                 'nickname': [[${#authentication.principal.nickname}]], 
+                 'message': [[${#authentication.principal.nickname}]] + ' dice dealder',
+                 'gameId': [[${game.gameId}]],
+                 'roomId': [[${game.roomId}]]
+                  }));
+        }    
     var dice1 = $("#dice1");
-    dice1.click(diceFunc);
+    dice1.on('click', function(){
+    	diceFunc();
+    	diceDealer();
+    });
     var dice2 = $("#dice2");
-    dice2.click(diceFunc);
+    dice2.on('click', function(){
+        diceFunc();
+        diceDealer();
+    });
     
-    //console.log([[${game.roomModel.playersInRoom}]]);
-    var myDirection = "";
-    //if('Ready for grabing seat.' != [[${game.gameStatus}]]){
-	    [[${game.roomModel.playersInRoom}]].forEach(player=>{
-	    	if(null == player.log){
-	    		console.log("player.log is null");
-	    	} else{
-	    		console.log(player.log);
-	    		showGameNotice(player.log);
+    showGameNotice([[${game.roomModel.playersInRoom}]]);
+    //get my direction
+    var myDirection = [[${game.roomModel.playersInRoom}]]
+       .filter(player => player.playerId == [[${#authentication.principal.playerId}]])
+       .map(player => player.direction)
+       [0];
+    if([[${game.roomModel.playersInRoom}]].length == 4){
+    	console.log("4 players entered.");
+        var sitted = [[${game.roomModel.playersInRoom}]]
+	        .filter(player => player.direction != null).length;
+	    console.log(sitted + " players sitted.");
+	    if(sitted == 4){
+	         var rolled = [[${game.roomModel.playersInRoom}]]
+	         .filter(player => player.log.includes('rolled')).length;
+	         console.log(rolled + " players rolled.");
+	         if(rolled == 4){
+	             
+	         } else {
+	             
+	         }
+	    } else {
+	    	var isSitted = [[${game.roomModel.playersInRoom}]]
+		        .filter(player => player.playerId == [[${#authentication.principal.playerId}]]
+		          && player.direction != null).length == 1;
+	    	if(isSitted){
+	            showGameMessage("Waiting others to sit.");
+	    	} else {
+	    		showGameMessage("Grab a seat.");
 	    	}
-	    	if(player.playerId == [[${#authentication.principal.playerId}]]){
-	    		myDirection = player.direction;
-	    	}
-	    });
-    //}
-    showGameMessage([[${game.gameStatus}]]);
+	    }
+    }
+    else {
+    	console.log([[${game.roomModel.playersInRoom}]].length + " players entered, waiting...");
+    	showGameMessage("Waiting or inviting other players.");
+    }
+    
+
+
     switch(myDirection){
     case "north":
     	console.log("my seat " + myDirection);
@@ -281,10 +277,11 @@ function showGameMessage(message) {
 		$("#grab-seat").hide();
 	}
 }
-function showGameNotice(notice) {
-    if($("#notices").text().indexOf(notice) == -1){//no notice appended yet
-        $("#notices").append("<div>" + notice + "</div>");
-    }
+function showGameNotice(players) {
+    $("#notices").html("");
+    players.forEach(player=>{
+    	$("#notices").append("<div>" + player.log + "</div>");
+    });
 }
 function onConnectStatusChanged(status){
 	$("#grab-seat").prop("disabled", !status);

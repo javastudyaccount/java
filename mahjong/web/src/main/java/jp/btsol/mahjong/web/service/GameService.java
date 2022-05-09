@@ -115,4 +115,18 @@ public class GameService {
         MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
         return messageRet;
     }
+
+    /**
+     * dice dealer
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage diceDealer(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getDiceDealer();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
+    }
 }

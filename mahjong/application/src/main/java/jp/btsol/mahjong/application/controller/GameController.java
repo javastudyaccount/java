@@ -96,4 +96,15 @@ public class GameController {
     @RequestBody(required = true) MahjongGameMessage message) {
         return gameService.grabSeat(message);
     }
+
+    /**
+     * dice dealer
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/diceDealer")
+    public MahjongGameMessage diceDealer(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.diceDealer(message);
+    }
 }

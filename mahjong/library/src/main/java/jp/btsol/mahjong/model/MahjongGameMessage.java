@@ -1,5 +1,7 @@
 package jp.btsol.mahjong.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,4 +38,8 @@ public class MahjongGameMessage {
      * room id
      */
     private long roomId;
+    /**
+     * players List<PlayerModel>
+     */
+    private List<PlayerModel> players;
 }

@@ -1,6 +1,7 @@
 package jp.btsol.mahjong.application.service;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -119,25 +120,36 @@ public class GameService {
         RoomModel room = roomService.getRoom(game.getRoomId(), gameId);
         game.setRoomModel(room);
 
-        List<PlayerModel> players = roomService.getPlayers(game.getRoomId(), gameId);
-        long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()) //
-                || player.getAction().startsWith("grab seat")).count();
-        long sitCount = players.stream().filter(player -> player.getAction().startsWith("grab seat")).count();
-        String myStatus = players.stream().filter(player -> player.getPlayerId() == userContext.playerId()).findFirst()
-                .get().getAction();
-        if (sitCount == 4) {
-            game.setGameStatus("Ready for deciding dealer.");
-        } else {
-            if (readyCount == 4) {
-                if (myStatus.startsWith("grab seat")) {
-                    game.setGameStatus("Waiting others sit.");
-                } else {
-                    game.setGameStatus("Ready for grabing seat.");
-                }
-            } else {
-                game.setGameStatus("Waiting to grab a seat.");
-            }
-        }
+//        List<PlayerModel> players = roomService.getPlayers(game.getRoomId(), gameId);
+//        long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()) //
+//                || player.getAction().startsWith("grab seat")).count();
+//        long sitCount = players.stream().filter(player -> player.getAction().startsWith("grab seat")).count();
+//        long rolledCount = players.stream().filter(player -> player.getAction().contains("dice dealer")).count();
+//        String myStatus = players.stream().filter(player -> player.getPlayerId() == userContext.playerId()).findFirst()
+//                .get().getAction();
+//        if (rolledCount == 4) {
+//            game.setGameStatus("Wait dealer to dice.");
+//        } else if (rolledCount > 0) {
+//            if (myStatus.contains("dice dealer")) {
+//                game.setGameStatus("Waiting others to dice for deciding dealer.");
+//            } else {
+//                game.setGameStatus("Ready to dice for deciding dealer.");
+//            }
+//        } else {
+//            if (sitCount == 4) {
+//                game.setGameStatus("Ready to dice for deciding dealer.");
+//            } else {
+//                if (readyCount == 4) {
+//                    if (myStatus.startsWith("grab seat")) {
+//                        game.setGameStatus("Waiting others sit.");
+//                    } else {
+//                        game.setGameStatus("Ready to click direciton for grabing seat.");
+//                    }
+//                } else {
+//                    game.setGameStatus("Waiting to grab a seat.");
+//                }
+//            }
+//        }
         return game;
     }
 
@@ -165,6 +177,8 @@ public class GameService {
         messageRet.setMessage(gameLog.getLog());
 
         List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        messageRet.setPlayers(players);
+
         long readyCount = players.stream().filter(player -> "ready for grabing a seat".equals(player.getAction()))
                 .count();
         if (readyCount == 4) {
@@ -209,11 +223,49 @@ public class GameService {
         }
 
         List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        messageRet.setPlayers(players);
+
         long readyCount = players.stream().filter(player -> player.getAction().startsWith("grab seat")).count();
         if (readyCount == 4) {
             messageRet.setGameStatus("Ready for deciding dealer.");
         } else {
             messageRet.setGameStatus("Waiting others sit.");
+        }
+        return messageRet;
+    }
+
+    /**
+     * dice dealer
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage diceDealer(MahjongGameMessage message) {
+        GameLog gameLog = new GameLog();
+        gameLog.setGameId(message.getGameId());
+        gameLog.setPlayerId(message.getPlayerId());
+        gameLog.setAction(message.getAction());
+        Random r = new Random();
+        int dice1 = r.nextInt(6) + 1;
+        int dice2 = r.nextInt(6) + 1;
+        String log = message.getNickname() + " rolled " + String.valueOf(dice1 + dice2);
+        gameLog.setLog(log);
+
+        Validator.validateMaxLength(gameLog);
+
+        int gameLogId = 0;
+        gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
+
+        gameLog = baseRepository.findById(gameLogId, GameLog.class);
+
+        MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
+
+        List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        messageRet.setPlayers(players);
+
+        long rolledCount = players.stream().filter(player -> player.getAction().contains("rolled")).count();
+        if (rolledCount < 4) {
+            messageRet.setGameStatus("Waiting others rolling dealer.");
         }
         return messageRet;
     }

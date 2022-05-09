@@ -470,3 +470,48 @@ $ mvn clean test -Djacoco.skip=true
 |碰、杠、吃|Pong / Kong / Chow||
 |数番|Scoring||
 |番数|Points||
+
+```mermaid
+graph LR
+start(enter game) 
+a{players == 4} 
+b[waiting players]
+c[ready to sit]
+d{sitted?}
+
+e{sitted == 4}
+f[waiting sitted]
+g[diced?]
+i{diced == 4}
+h[ready to dice]
+j[waiting to dice]
+k{dealer dicided?}
+l[to decide dealer]
+m[shuffle]
+n[dealer dice]
+o[player at starting wall dice]
+p[dealer draw]
+
+start --> a
+a --no--> b
+b --enter game--> a
+a --yes--> d
+d --yes--> e
+e --no--> f
+f --sitted--> e
+d --no--> c
+c --sitted--> d
+e --yes--> g
+g --no--> h
+g ---yes--> i
+h --diced--> g
+i --no--> j
+j --diced--> i
+i --yes--> k
+k --no--> l
+l --diced--> k
+k --yes--> m
+m --> n
+n --> o
+o --> p
+```

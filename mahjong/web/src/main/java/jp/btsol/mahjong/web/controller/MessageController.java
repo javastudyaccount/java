@@ -71,6 +71,16 @@ public class MessageController {
         return gameService.grabSeat(message);
     }
 
+    @MessageMapping("/diceDealer")
+    @SendTo("/topic/game")
+    public MahjongGameMessage diceDealer(MahjongGameMessage message, Principal principal) throws Exception {
+//        Thread.sleep(1000); // simulated delay
+        // do not use messgage.player_id, to prevent client attack
+        userContext.userId(principal.getName()); // login_id
+        MahjongGameMessage msg = gameService.diceDealer(message);
+        return msg;
+    }
+
     @MessageExceptionHandler({HttpServerErrorException.class})
     @SendTo("/topic/game")
     public MahjongGameMessage handleError(HttpServerErrorException e) {
