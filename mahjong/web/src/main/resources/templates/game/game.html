@@ -167,37 +167,7 @@ $(window).on('load', function(){
        .filter(player => player.playerId == [[${#authentication.principal.playerId}]])
        .map(player => player.direction)
        [0];
-    if([[${game.roomModel.playersInRoom}]].length == 4){
-    	console.log("4 players entered.");
-        var sitted = [[${game.roomModel.playersInRoom}]]
-	        .filter(player => player.direction != null).length;
-	    console.log(sitted + " players sitted.");
-	    if(sitted == 4){
-	         var rolled = [[${game.roomModel.playersInRoom}]]
-	         .filter(player => player.log.includes('rolled')).length;
-	         console.log(rolled + " players rolled.");
-	         if(rolled == 4){
-	             
-	         } else {
-	             
-	         }
-	    } else {
-	    	var isSitted = [[${game.roomModel.playersInRoom}]]
-		        .filter(player => player.playerId == [[${#authentication.principal.playerId}]]
-		          && player.direction != null).length == 1;
-	    	if(isSitted){
-	            showGameMessage("Waiting others to sit.");
-	    	} else {
-	    		showGameMessage("Grab a seat.");
-	    	}
-	    }
-    }
-    else {
-    	console.log([[${game.roomModel.playersInRoom}]].length + " players entered, waiting...");
-    	showGameMessage("Waiting or inviting other players.");
-    }
-    
-
+    showGameStatus([[${game.roomModel.playersInRoom}]]);    
 
     switch(myDirection){
     case "north":
@@ -230,6 +200,58 @@ $(window).on('load', function(){
     	break;
     }
 });
+
+function showGameStatus(players){
+    if(players.length == 4){
+        console.log("4 players entered.");
+        var sittedCount = players
+            .filter(player => player.direction != null).length;
+        console.log(sittedCount + " players sitted.");
+        if(sittedCount == 4){
+             var rolledCount = players
+             .filter(player => player.log.includes('rolled')).length;
+             console.log(rolledCount + " players rolled.");
+             if(rolledCount == 4){
+                 var max = players.map(player => parseInt(player.log.split(/ /).pop()))
+                 .reduce(function(a, b) {
+                	    return Math.max(a, b);
+                 }, -Infinity);
+                 console.log("max is " + max);
+                 var maxCount = players
+                 .filter(player => player.log.includes('rolled ' + max)).length;
+                 console.log(maxCount + " played rolled same max " + max);
+                 if(maxCount > 1){
+                	 var maxNicknames = players
+                     .filter(player => player.log.includes('rolled ' + max))
+                     .map(player=>player.nickname);
+                	 showGameMessage("Waiting " + maxNicknames + " to roll again.");
+                 }
+             } else {
+                 var isRolled = players
+                    .filter(player => player.playerId == [[${#authentication.principal.playerId}]]
+                      && player.log.includes('rolled')).length == 1;
+                 if(isRolled){
+                     showGameMessage("Waiting others to roll.");
+                 } else {
+                     showGameMessage("Ready to roll dice.");
+                 }
+             }
+        } else {
+            var isSitted = players
+                .filter(player => player.playerId == [[${#authentication.principal.playerId}]]
+                  && player.direction != null).length == 1;
+            if(isSitted){
+                showGameMessage("Waiting others to sit.");
+            } else {
+                showGameMessage("Grab a seat.");
+            }
+        }
+    }
+    else {
+        console.log(players.length + " players entered, waiting...");
+        showGameMessage("Waiting or inviting other players.");
+    }
+}
 
 $('#right').on('click', function(){
 	grabSeat('east');
