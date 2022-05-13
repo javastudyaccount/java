@@ -198,7 +198,11 @@ $(window).on('load', function(){
         $('#left').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;South&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
         $('#right').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;North&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
     	break;
-    }
+    };
+
+    $('button.btn-primary').on('click', function(){
+        $('#demoNormalModal').modal('hide');
+    });
 });
 
 function showGameStatus(players){
@@ -224,8 +228,14 @@ function showGameStatus(players){
                 	 var maxNicknames = players
                      .filter(player => player.log.includes('rolled ' + max))
                      .map(player=>player.nickname);
-                	 showGameMessage("Waiting " + maxNicknames + " to roll again.");
+                	 var msg = "Waiting " + maxNicknames + " to roll again.";
+                	 showGameMessage(msg);
+                	 $('#demoModalTitle').text(msg);
                 	 $('#demoNormalModal').modal('show');
+                	 $('div.modal-body').html('');
+                	 players.forEach(player=>{
+                		 $('div.modal-body').append("<div>" + player.log + "</div>");
+               	    });
                  }
              } else {
                  var isRolled = players
@@ -252,7 +262,7 @@ function showGameStatus(players){
         console.log(players.length + " players entered, waiting...");
         showGameMessage("Waiting or inviting other players.");
     }
-}
+};
 
 $('#right').on('click', function(){
 	grabSeat('east');
@@ -326,8 +336,7 @@ function onConnectStatusChanged(status){
                 内容・・・
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                <button type="button" class="btn btn-primary">ボタン</button>
+                <button type="button" class="btn btn-primary">OK</button>
             </div>
         </div>
     </div>
