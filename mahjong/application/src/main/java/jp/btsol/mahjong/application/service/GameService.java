@@ -269,4 +269,58 @@ public class GameService {
         }
         return messageRet;
     }
+
+    /**
+     * redice
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage redice(MahjongGameMessage message) {
+        GameLog gameLog = new GameLog();
+        gameLog.setGameId(message.getGameId());
+        gameLog.setPlayerId(message.getPlayerId());
+        gameLog.setAction(message.getAction());
+        gameLog.setLog(message.getMessage());
+
+        Validator.validateMaxLength(gameLog);
+
+        int gameLogId = 0;
+        gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
+
+        gameLog = baseRepository.findById(gameLogId, GameLog.class);
+
+        MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
+
+        List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        messageRet.setPlayers(players);
+        return messageRet;
+    }
+
+    /**
+     * redice waiting
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage rediceWaiting(MahjongGameMessage message) {
+        GameLog gameLog = new GameLog();
+        gameLog.setGameId(message.getGameId());
+        gameLog.setPlayerId(message.getPlayerId());
+        gameLog.setAction(message.getAction());
+        gameLog.setLog(message.getMessage());
+
+        Validator.validateMaxLength(gameLog);
+
+        int gameLogId = 0;
+        gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
+
+        gameLog = baseRepository.findById(gameLogId, GameLog.class);
+
+        MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
+
+        List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        messageRet.setPlayers(players);
+        return messageRet;
+    }
 }

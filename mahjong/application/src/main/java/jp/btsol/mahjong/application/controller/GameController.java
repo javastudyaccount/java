@@ -107,4 +107,26 @@ public class GameController {
     @RequestBody(required = true) MahjongGameMessage message) {
         return gameService.diceDealer(message);
     }
+
+    /**
+     * redice
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/redice")
+    public MahjongGameMessage redice(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.redice(message);
+    }
+
+    /**
+     * redice waiting
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/rediceWaiting")
+    public MahjongGameMessage rediceWaiting(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.rediceWaiting(message);
+    }
 }

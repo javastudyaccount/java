@@ -486,7 +486,9 @@ i{diced == 4}
 h[ready to dice]
 j[waiting to dice]
 k{dealer dicided?}
-l[to decide dealer]
+k1{is max?}
+k2[wait others redice]
+l[redice]
 m[shuffle]
 n[dealer dice]
 o[player at starting wall dice]
@@ -508,7 +510,11 @@ h --diced--> g
 i --no--> j
 j --diced--> i
 i --yes--> k
-k --no--> l
+
+k --no--> k1
+k1 --no--> k2
+k2 --> k
+k1 --yes--> l
 l --diced--> k
 k --yes--> m
 m --> n

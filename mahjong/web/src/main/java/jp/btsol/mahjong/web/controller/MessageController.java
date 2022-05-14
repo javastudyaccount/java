@@ -81,6 +81,20 @@ public class MessageController {
         return msg;
     }
 
+    @MessageMapping("/redice")
+    @SendTo("/topic/game")
+    public MahjongGameMessage redice(MahjongGameMessage message, Principal principal) throws Exception {
+        MahjongGameMessage msg = gameService.redice(message);
+        return msg;
+    }
+
+    @MessageMapping("/rediceWaiting")
+    @SendTo("/topic/game")
+    public MahjongGameMessage rediceWaiting(MahjongGameMessage message, Principal principal) throws Exception {
+        MahjongGameMessage msg = gameService.rediceWaiting(message);
+        return msg;
+    }
+
     @MessageExceptionHandler({HttpServerErrorException.class})
     @SendTo("/topic/game")
     public MahjongGameMessage handleError(HttpServerErrorException e) {

@@ -52,6 +52,8 @@ application:
     ready2GrabSeat: /game/ready2GrabSeat
     grabSeat: /game/grabSeat
     diceDealer: /game/diceDealer
+    redice: /game/redice
+    rediceWaiting: /game/rediceWaiting
   iss: iss
   sub: sub
   loginId: anonymous

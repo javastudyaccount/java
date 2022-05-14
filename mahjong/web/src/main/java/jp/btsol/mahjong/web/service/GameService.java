@@ -129,4 +129,32 @@ public class GameService {
         MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
         return messageRet;
     }
+
+    /**
+     * redice
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage redice(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getRedice();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
+    }
+
+    /**
+     * redice waiting
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage rediceWaiting(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getRediceWaiting();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
+    }
 }

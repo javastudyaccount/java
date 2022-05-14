@@ -126,6 +126,14 @@ public class ApplicationProperties {
          * diceDealer
          */
         private String diceDealer;
+        /**
+         * redice
+         */
+        private String redice;
+        /**
+         * redice waiting
+         */
+        private String rediceWaiting;
     }
 
     /**
