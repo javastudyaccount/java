@@ -81,17 +81,26 @@ public class MessageController {
         return msg;
     }
 
-    @MessageMapping("/redice")
+    @MessageMapping("/rediceDealer")
     @SendTo("/topic/game")
-    public MahjongGameMessage redice(MahjongGameMessage message, Principal principal) throws Exception {
-        MahjongGameMessage msg = gameService.redice(message);
+    public MahjongGameMessage rediceDealer(MahjongGameMessage message, Principal principal) throws Exception {
+        // do not use messgage.player_id, to prevent client attack
+        userContext.userId(principal.getName()); // login_id
+        MahjongGameMessage msg = gameService.rediceDealer(message);
         return msg;
     }
 
-    @MessageMapping("/rediceWaiting")
+    @MessageMapping("/ready2redice")
     @SendTo("/topic/game")
-    public MahjongGameMessage rediceWaiting(MahjongGameMessage message, Principal principal) throws Exception {
-        MahjongGameMessage msg = gameService.rediceWaiting(message);
+    public MahjongGameMessage ready2redice(MahjongGameMessage message, Principal principal) throws Exception {
+        MahjongGameMessage msg = gameService.ready2redice(message);
+        return msg;
+    }
+
+    @MessageMapping("/ready2rediceWaiting")
+    @SendTo("/topic/game")
+    public MahjongGameMessage ready2rediceWaiting(MahjongGameMessage message, Principal principal) throws Exception {
+        MahjongGameMessage msg = gameService.ready2rediceWaiting(message);
         return msg;
     }
 

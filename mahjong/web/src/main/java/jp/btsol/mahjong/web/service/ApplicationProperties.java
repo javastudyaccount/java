@@ -127,13 +127,17 @@ public class ApplicationProperties {
          */
         private String diceDealer;
         /**
-         * redice
+         * ready to redice
          */
-        private String redice;
+        private String ready2Redice;
         /**
-         * redice waiting
+         * ready to redice waiting
          */
-        private String rediceWaiting;
+        private String ready2RediceWaiting;
+        /**
+         * rediceDealer
+         */
+        private String rediceDealer;
     }
 
     /**

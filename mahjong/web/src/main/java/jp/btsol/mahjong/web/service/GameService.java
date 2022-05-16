@@ -131,29 +131,43 @@ public class GameService {
     }
 
     /**
-     * redice
+     * redice dealer
      * 
      * @param message MahjongGameMessage
      * @return MahjongGameMessage
      */
-    public MahjongGameMessage redice(MahjongGameMessage message) {
+    public MahjongGameMessage rediceDealer(MahjongGameMessage message) {
         final String endpoint = applicationProperties.getUri();
 
-        final String url = endpoint + applicationProperties.getPath().getRedice();
+        final String url = endpoint + applicationProperties.getPath().getRediceDealer();
         MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
         return messageRet;
     }
 
     /**
-     * redice waiting
+     * ready to redice
      * 
      * @param message MahjongGameMessage
      * @return MahjongGameMessage
      */
-    public MahjongGameMessage rediceWaiting(MahjongGameMessage message) {
+    public MahjongGameMessage ready2redice(MahjongGameMessage message) {
         final String endpoint = applicationProperties.getUri();
 
-        final String url = endpoint + applicationProperties.getPath().getRediceWaiting();
+        final String url = endpoint + applicationProperties.getPath().getReady2Redice();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
+    }
+
+    /**
+     * ready to redice waiting
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage ready2rediceWaiting(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getReady2RediceWaiting();
         MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
         return messageRet;
     }

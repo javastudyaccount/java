@@ -137,18 +137,46 @@ $(window).on('load', function(){
                  'gameId': [[${game.gameId}]],
                  'roomId': [[${game.roomId}]]
                   }));
-        }    
-    var dice1 = $("#dice1");
-    dice1.on('click', function(){
-    	diceFunc();
-    	diceDealer();
-    });
-    var dice2 = $("#dice2");
-    dice2.on('click', function(){
-        diceFunc();
-        diceDealer();
-    });
+    }   
+    function rediceDealer(){
+        stompClient.send("/app/rediceDealer", {}, 
+                 JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+                 'action': 'redice dealer',
+                 'playerId': [[${#authentication.principal.playerId}]],
+                 'nickname': [[${#authentication.principal.nickname}]], 
+                 'message': [[${#authentication.principal.nickname}]] + ' redice dealder',
+                 'gameId': [[${game.gameId}]],
+                 'roomId': [[${game.roomId}]]
+                  }));
+    }   
     
+    function enableDice(){
+        var dice1 = $("#dice1");
+        dice1.on('click', function(){
+            diceFunc();
+            diceDealer();
+        });
+        var dice2 = $("#dice2");
+        dice2.on('click', function(){
+            diceFunc();
+            diceDealer();
+        });
+    }
+
+    enableDice();
+
+    function enableRedice(){
+        var dice1 = $("#dice1");
+        dice1.on('click', function(){
+            diceFunc();
+            rediceDealer();
+        });
+        var dice2 = $("#dice2");
+        dice2.on('click', function(){
+            diceFunc();
+            rediceDealer();
+        });
+    }
     showGameNotice([[${game.roomModel.playersInRoom}]]);
     //get my direction
     var myDirection = [[${game.roomModel.playersInRoom}]]
@@ -187,185 +215,213 @@ $(window).on('load', function(){
         $('#right').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;North&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
     	break;
     };
-});
 
-function showGameStatus(players){
-    if(players.length == 4){
-        console.log("4 players entered.");
-        var sittedCount = players
-            .filter(player => player.direction != null).length;
-        console.log(sittedCount + " players sitted.");
-        if(sittedCount == 4){
-             var rolledCount = players
-             .filter(player => player.log.includes('rolled')
-            		 || player.log.includes('wait redice')
-            		 || player.log.includes('to redice')).length;
-             console.log(rolledCount + " players rolled.");
-             if(rolledCount == 4){
-                 var max = players.filter(player => player.log.includes('rolled'))
-                 .map(player => parseInt(player.log.split(/ /).pop()))
-                 .reduce(function(a, b) {
-                	    return Math.max(a, b);
-                 }, -Infinity);
-                 console.log("max is " + max);
-                 if(max === -Infinity){
-                	 var msg = players.filter(player => player.playerId == [[${#authentication.principal.playerId}]])
-                	 .map(player => player.log)[0];
-                	 showGameMessage(msg);
+    function disableDice(){
+        var dice1 = $("#dice1");
+        dice1.unbind();
+        dice1.css("cursor", "default");
+        var dice2 = $("#dice2");
+        dice2.unbind();
+        dice2.css("cursor", "default");
+    }
+
+    function showGameStatus(players){
+        if(players.length == 4){
+            console.log("4 players entered.");
+            var sittedCount = players
+                .filter(player => player.direction != null).length;
+            console.log(sittedCount + " players sitted.");
+            if(sittedCount == 4){
+                disableSeatEvent();
+                 var rolledCount = players
+                 .filter(player => player.log.includes('rolled')
+                         || player.log.includes('wait redice')
+                         || player.log.includes('to redice')).length;
+                 console.log(rolledCount + " players rolled.");
+                 if(rolledCount == 4){
+                     var max = players.filter(player => player.log.includes('rolled'))
+                     .map(player => parseInt(player.log.split(/ /).pop()))
+                     .reduce(function(a, b) {
+                        return Math.max(a, b);
+                     }, -Infinity);
+                     console.log("max is " + max);
+                     if(max === -Infinity){
+                         var msg = players.filter(player => player.playerId == [[${#authentication.principal.playerId}]])
+                         .map(player => player.log)[0];
+                         showGameMessage(msg);
+                         if(msg.includes('to redice')){
+                             enableRedice();
+                         } else {
+                             //disable dice function
+                             disableDice();
+                         }
+                     } else {
+                         var maxCount = players
+                         .filter(player => player.log.includes('rolled ' + max)
+                                 || player.log.includes('wait redice')
+                                 || player.log.includes('to redice')).length;
+                         console.log(maxCount + " played rolled same max " + max);
+                         var isMax = players
+                         .filter(player => (player.log.includes('rolled ' + max) 
+                                 || player.log.includes('to redice'))
+                                 && player.playerId == [[${#authentication.principal.playerId}]])
+                                 .length == 1;
+                         
+                         if(maxCount > 1){
+                             if(!isMax){
+                                 var maxNicknames = players
+                                 .filter(player => player.log.includes('rolled ' + max))
+                                 .map(player=>player.nickname);
+                                 var msg = "Waiting " + maxNicknames + " to roll again.";
+                                 showGameMessage(msg);
+                                 $('#demoModalTitle').text(msg);
+                                 $('#demoNormalModal').modal('show');
+                                 $('div.modal-body').html('');
+                                 players.forEach(player=>{
+                                     $('div.modal-body').append("<div>" + player.log + "</div>");
+                                }); 
+                             } else {
+                                 var toRedice = players.filter(player => player.log.includes("to redice")
+                                         && player.playerId != [[${#authentication.principal.playerId}]])
+                                         .length == 1;
+                                 if(!toRedice){
+                                     var maxNicknames = players
+                                     .filter(player => player.log.includes('rolled ' + max)
+                                             && player.playerId != [[${#authentication.principal.playerId}]])
+                                     .map(player=>player.nickname);
+                                     
+                                     var msg = maxNicknames + " rolled same number " + max + ". Dice again.";
+                                     $('#demoModalTitle').text(msg);
+                                     $('#demoNormalModal').modal('show');
+                                     $('div.modal-body').html('');
+                                     players.forEach(player=>{
+                                         $('div.modal-body').append("<div>" + player.log + "</div>");
+                                     });
+                                 }
+                             }
+        
+                            $('button.btn-primary').on('click', function(){
+                                $('#demoNormalModal').modal('hide');
+                                console.log("isMax: " + isMax);
+                                if(!isMax){
+                                    stompClient.send("/app/ready2rediceWaiting", {}, 
+                                            JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+                                            'action': 'rediceWaiting',
+                                            'playerId': [[${#authentication.principal.playerId}]],
+                                            'nickname': [[${#authentication.principal.nickname}]], 
+                                            'message': [[${#authentication.principal.nickname}]] + ' to wait redice.',
+                                            'gameId': [[${game.gameId}]],
+                                            'roomId': [[${game.roomId}]]
+                                             }));
+                                } else {
+                                    stompClient.send("/app/ready2redice", {}, 
+                                            JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+                                            'action': 'redice',
+                                            'playerId': [[${#authentication.principal.playerId}]],
+                                            'nickname': [[${#authentication.principal.nickname}]], 
+                                            'message': [[${#authentication.principal.nickname}]] + ' to redice.',
+                                            'gameId': [[${game.gameId}]],
+                                            'roomId': [[${game.roomId}]]
+                                             }));
+                                }
+                            });
+                         }
+                     }
                  } else {
-	                 var maxCount = players
-	                 .filter(player => player.log.includes('rolled ' + max)
-	                		 || player.log.includes('wait redice')
-	                		 || player.log.includes('to redice')).length;
-	                 console.log(maxCount + " played rolled same max " + max);
-	                 var isMax = players
-	                 .filter(player => (player.log.includes('rolled ' + max) 
-	                		 || player.log.includes('to redice'))
-	                		 && player.playerId == [[${#authentication.principal.playerId}]])
-	                		 .length == 1;
-	                 
-	                 if(maxCount > 1){
-	                	 if(!isMax){
-	                         var maxNicknames = players
-	                         .filter(player => player.log.includes('rolled ' + max))
-	                         .map(player=>player.nickname);
-	                         var msg = "Waiting " + maxNicknames + " to roll again.";
-	                         showGameMessage(msg);
-	                         $('#demoModalTitle').text(msg);
-	                         $('#demoNormalModal').modal('show');
-	                         $('div.modal-body').html('');
-	                         players.forEach(player=>{
-	                             $('div.modal-body').append("<div>" + player.log + "</div>");
-	                        }); 
-	                	 } else {
-	                		 var toRedice = players.filter(player => player.log.includes("to redice")
-	                				 && player.playerId != [[${#authentication.principal.playerId}]])
-	                				 .length == 1;
-	                		 if(!toRedice){
-		                		 var maxNicknames = players
-		                         .filter(player => player.log.includes('rolled ' + max)
-		                        		 && player.playerId != [[${#authentication.principal.playerId}]])
-		                         .map(player=>player.nickname);
-		                		 
-		                         var msg = maxNicknames + " rolled same number " + max + ". Dice again.";
-		                         $('#demoModalTitle').text(msg);
-		                         $('#demoNormalModal').modal('show');
-		                         $('div.modal-body').html('');
-		                         players.forEach(player=>{
-		                             $('div.modal-body').append("<div>" + player.log + "</div>");
-		                         });
-	                         }
-	                	 }
-	
-	               	    $('button.btn-primary').on('click', function(){
-	               	        $('#demoNormalModal').modal('hide');
-	               	        console.log("isMax: " + isMax);
-	               	        if(!isMax){
-	                            stompClient.send("/app/rediceWaiting", {}, 
-	                                    JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
-	                                    'action': 'rediceWaiting',
-	                                    'playerId': [[${#authentication.principal.playerId}]],
-	                                    'nickname': [[${#authentication.principal.nickname}]], 
-	                                    'message': [[${#authentication.principal.nickname}]] + ' to wait redice.',
-	                                    'gameId': [[${game.gameId}]],
-	                                    'roomId': [[${game.roomId}]]
-	                                     }));
-	               	        } else {
-	               	        	stompClient.send("/app/redice", {}, 
-	                                    JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
-	                                    'action': 'redice',
-	                                    'playerId': [[${#authentication.principal.playerId}]],
-	                                    'nickname': [[${#authentication.principal.nickname}]], 
-	                                    'message': [[${#authentication.principal.nickname}]] + ' to redice.',
-	                                    'gameId': [[${game.gameId}]],
-	                                    'roomId': [[${game.roomId}]]
-	                                     }));
-	               	        }
-	               	    });
-	                 }
-	             }
-             } else {
-                 var isRolled = players
-                    .filter(player => player.playerId == [[${#authentication.principal.playerId}]]
-                      && player.log.includes('rolled')).length == 1;
-                 if(isRolled){
-                     showGameMessage("Waiting others to roll.");
-                 } else {
-                     showGameMessage("Ready to roll dice.");
+                     var isRolled = players
+                        .filter(player => player.playerId == [[${#authentication.principal.playerId}]]
+                          && player.log.includes('rolled')).length == 1;
+                     if(isRolled){
+                         showGameMessage("Waiting others to roll.");
+                     } else {
+                         showGameMessage("Ready to roll dice.");
+                     }
                  }
-             }
-        } else {
-            var isSitted = players
-                .filter(player => player.playerId == [[${#authentication.principal.playerId}]]
-                  && player.direction != null).length == 1;
-            if(isSitted){
-                showGameMessage("Waiting others to sit.");
             } else {
-                showGameMessage("Grab a seat.");
+                var isSitted = players
+                    .filter(player => player.playerId == [[${#authentication.principal.playerId}]]
+                      && player.direction != null).length == 1;
+                if(isSitted){
+                    showGameMessage("Waiting others to sit.");
+                    disableSeatEvent();
+                } else {
+                    showGameMessage("Grab a seat.");
+                }
             }
         }
+        else {
+            console.log(players.length + " players entered, waiting...");
+            showGameMessage("Waiting or inviting other players.");
+        }
+    };
+    function disableSeatEvent(){
+        //disable seat event
+        $('#right').unbind();
+        $('#right').css("cursor", "default");
+        $('#upper').unbind();
+        $('#upper').css("cursor", "default");
+        $('#left').unbind();
+        $('#left').css("cursor", "default");
+        $('#lower').unbind();
+        $('#lower').css("cursor", "default");
     }
-    else {
-        console.log(players.length + " players entered, waiting...");
-        showGameMessage("Waiting or inviting other players.");
-    }
-};
-
-$('#right').on('click', function(){
-	grabSeat('east');
-});
-function grabSeat(seat){
-	   stompClient.send("/app/grab", {}, 
-	            JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
-	            'action': 'grab seat ' + seat,
-	            'playerId': [[${#authentication.principal.playerId}]],
-	            'nickname': [[${#authentication.principal.nickname}]], 
-	            'message': [[${#authentication.principal.nickname}]] + ' sits ' + seat,
-	            'gameId': [[${game.gameId}]],
-	            'roomId': [[${game.roomId}]]
-	             }));
-}
-$('#upper').on('click', function(){
-    grabSeat('north');
-});
-$('#left').on('click', function(){
-    grabSeat('west');
-});
-$('#lower').on('click', function(){
-    grabSeat('south');
-});
-
-$("#grab-seat").on('click', function(){
-	console.log("grab-seat is clicked.");
-	stompClient.send("/app/grab/ready", {}, 
-		JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
-		'action': 'ready for grabing a seat',
-		'playerId': [[${#authentication.principal.playerId}]],
-		'nickname': [[${#authentication.principal.nickname}]], 
-		'message': [[${#authentication.principal.nickname}]] + ' is ' + 'ready for grabing a seat',
-		'gameId': [[${game.gameId}]],
-		'roomId': [[${game.roomId}]]
-		 }));
-});
-function showGameMessage(message) {
-	//if($("#messages").text().indexOf(message) == -1){//no message appended yet
-	//    $("#messages").append("<div>" + message + "</div>");
-	//}
-	$("#messages").html("");
-	$("#messages").append("<div>" + message + "</div>");
-	if("ready for grabing seat" == message){
-		$("#grab-seat").hide();
-	}
-}
-function showGameNotice(players) {
-    $("#notices").html("");
-    players.forEach(player=>{
-    	$("#notices").append("<div>" + player.log + "</div>");
+    $('#right').on('click', function(){
+        grabSeat('east');
     });
-}
-function onConnectStatusChanged(status){
-	$("#grab-seat").prop("disabled", !status);
-}
+    function grabSeat(seat){
+           stompClient.send("/app/grab", {}, 
+                    JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+                    'action': 'grab seat ' + seat,
+                    'playerId': [[${#authentication.principal.playerId}]],
+                    'nickname': [[${#authentication.principal.nickname}]], 
+                    'message': [[${#authentication.principal.nickname}]] + ' sits ' + seat,
+                    'gameId': [[${game.gameId}]],
+                    'roomId': [[${game.roomId}]]
+                     }));
+    }
+    $('#upper').on('click', function(){
+        grabSeat('north');
+    });
+    $('#left').on('click', function(){
+        grabSeat('west');
+    });
+    $('#lower').on('click', function(){
+        grabSeat('south');
+    });
+
+    $("#grab-seat").on('click', function(){
+        console.log("grab-seat is clicked.");
+        stompClient.send("/app/grab/ready", {}, 
+            JSON.stringify({'@class': 'jp.btsol.mahjong.model.MahjongGameMessage', 
+            'action': 'ready for grabing a seat',
+            'playerId': [[${#authentication.principal.playerId}]],
+            'nickname': [[${#authentication.principal.nickname}]], 
+            'message': [[${#authentication.principal.nickname}]] + ' is ' + 'ready for grabing a seat',
+            'gameId': [[${game.gameId}]],
+            'roomId': [[${game.roomId}]]
+             }));
+    });
+    function showGameMessage(message) {
+        //if($("#messages").text().indexOf(message) == -1){//no message appended yet
+        //    $("#messages").append("<div>" + message + "</div>");
+        //}
+        $("#messages").html("");
+        $("#messages").append("<div>" + message + "</div>");
+        if("ready for grabing seat" == message){
+            $("#grab-seat").hide();
+        }
+    }
+    function showGameNotice(players) {
+        $("#notices").html("");
+        players.forEach(player=>{
+            $("#notices").append("<div>" + player.log + "</div>");
+        });
+    }
+    function onConnectStatusChanged(status){
+        $("#grab-seat").prop("disabled", !status);
+    }
+});
+
 /*]]>*/
 </script>
 

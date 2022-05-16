@@ -263,10 +263,41 @@ public class GameService {
         List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
         messageRet.setPlayers(players);
 
-        long rolledCount = players.stream().filter(player -> player.getAction().contains("rolled")).count();
-        if (rolledCount < 4) {
-            messageRet.setGameStatus("Waiting others rolling dealer.");
-        }
+//        long rolledCount = players.stream().filter(player -> player.getAction().contains("rolled")).count();
+//        if (rolledCount < 4) {
+//            messageRet.setGameStatus("Waiting others rolling dealer.");
+//        }
+        return messageRet;
+    }
+
+    /**
+     * redice dealer
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage rediceDealer(MahjongGameMessage message) {
+        GameLog gameLog = new GameLog();
+        gameLog.setGameId(message.getGameId());
+        gameLog.setPlayerId(message.getPlayerId());
+        gameLog.setAction(message.getAction());
+        Random r = new Random();
+        int dice1 = r.nextInt(6) + 1;
+        int dice2 = r.nextInt(6) + 1;
+        String log = message.getNickname() + " rerolled " + String.valueOf(dice1 + dice2);
+        gameLog.setLog(log);
+
+        Validator.validateMaxLength(gameLog);
+
+        int gameLogId = 0;
+        gameLogId = baseRepository.insertWithSurrogateKey(gameLog);
+
+        gameLog = baseRepository.findById(gameLogId, GameLog.class);
+
+        MahjongGameMessage messageRet = new ModelMapper().map(message, MahjongGameMessage.class);
+
+        List<PlayerModel> players = roomService.getPlayers(message.getRoomId(), message.getGameId());
+        messageRet.setPlayers(players);
         return messageRet;
     }
 
@@ -276,7 +307,7 @@ public class GameService {
      * @param message MahjongGameMessage
      * @return MahjongGameMessage
      */
-    public MahjongGameMessage redice(MahjongGameMessage message) {
+    public MahjongGameMessage ready2Redice(MahjongGameMessage message) {
         GameLog gameLog = new GameLog();
         gameLog.setGameId(message.getGameId());
         gameLog.setPlayerId(message.getPlayerId());
@@ -303,7 +334,7 @@ public class GameService {
      * @param message MahjongGameMessage
      * @return MahjongGameMessage
      */
-    public MahjongGameMessage rediceWaiting(MahjongGameMessage message) {
+    public MahjongGameMessage ready2RediceWaiting(MahjongGameMessage message) {
         GameLog gameLog = new GameLog();
         gameLog.setGameId(message.getGameId());
         gameLog.setPlayerId(message.getPlayerId());
