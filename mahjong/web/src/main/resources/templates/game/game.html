@@ -125,6 +125,15 @@ function showGameNotice(players) {
     });
 };
 
+function disableDice(){
+    var dice1 = $("#dice1");
+    dice1.unbind();
+    dice1.css("cursor", "default");
+    var dice2 = $("#dice2");
+    dice2.unbind();
+    dice2.css("cursor", "default");
+}
+
 function showGameStatus(players){
     if(players.length == 4){
         console.log("4 players entered.");
@@ -376,15 +385,6 @@ $(window).on('load', function(){
         $('#right').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;North&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
     	break;
     };
-
-    function disableDice(){
-        var dice1 = $("#dice1");
-        dice1.unbind();
-        dice1.css("cursor", "default");
-        var dice2 = $("#dice2");
-        dice2.unbind();
-        dice2.css("cursor", "default");
-    }
 
     $('#right').on('click', function(){
         grabSeat('east');
