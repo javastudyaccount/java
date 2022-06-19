@@ -206,20 +206,6 @@ Goal
  Java Programmer Certificate
  Information Primary Skill
 
-
-Ni: IT Passport       
-   基本情報技術者試験  
-    
-   Java First
-Xiangyang: 中級SE（C）
-    PM？
-    日本語 N3、N2
-
-Xiangyue: Java
-    計算機等級
-
-Wenjing: Java
-
 ### Docker
     Windows 10 ビルド 18917 以降であること
     コマンドプロンプトから確認
@@ -395,7 +381,7 @@ registerObjectMappersForType
 - [X] Player registration
   - [X] API
   - [X] Web
-- [ ] Open a room
+- [x] Open a room
 - [ ] Begin a game
 - [ ] Play a game
 

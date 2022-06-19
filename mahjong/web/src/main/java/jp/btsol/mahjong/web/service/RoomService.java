@@ -53,11 +53,13 @@ public class RoomService {
      * @return List<RoomModel>
      */
     public List<RoomModel> getRooms() {
+        // プロパティフィアルからAPIのURIを取得する
         final String endpoint = applicationProperties.getUri();
-
+        // プロパティフィアルからルーム一覧を取得するAPIのパスを取得する
         final String url = endpoint + applicationProperties.getPath().getRooms();
-
+        // WEB APIを呼び出して、ルーム一覧を取得する
         List<RoomModel> rooms = mahjongRestTemplate.get(url, ArrayList.class);
+        // ルーム一覧データを返却する
         return rooms;
     }
 
