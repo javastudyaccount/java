@@ -55,8 +55,11 @@ public class RoomController {
      */
     @GetMapping("/rooms")
     public String rooms(Model model) {
-        List<RoomModel> rooms = roomService.getRooms();
-        model.addAttribute("rooms", rooms);
+        // get data
+        List<RoomModel> allRooms = roomService.getRooms();
+        // set data to model
+        model.addAttribute("rooms", allRooms);
+        // show html page
         return "room/rooms";
     }
 

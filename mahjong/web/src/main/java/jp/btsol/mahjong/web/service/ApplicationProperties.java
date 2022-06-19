@@ -122,6 +122,22 @@ public class ApplicationProperties {
          * grabSeat
          */
         private String grabSeat;
+        /**
+         * diceDealer
+         */
+        private String diceDealer;
+        /**
+         * ready to redice
+         */
+        private String ready2Redice;
+        /**
+         * ready to redice waiting
+         */
+        private String ready2RediceWaiting;
+        /**
+         * rediceDealer
+         */
+        private String rediceDealer;
     }
 
     /**

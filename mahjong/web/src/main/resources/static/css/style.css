@@ -22,7 +22,7 @@ tr.first_div
 img {
     transition: transform 1s; 
 }
-.wrap{width:90px; height:90px; margin:120px auto 30px auto; position:relative}
+.wrap{width:90px; height:90px; margin:120px auto 30px auto; position:absolute; display: inline;}
 .dice{width:90px; height:90px; background:url(../images/dice.png) no-repeat; cursor:pointer;}
 .dice_1{background-position:-5px -4px}
 .dice_2{background-position:-5px -107px}
@@ -34,7 +34,8 @@ img {
 .dice_s{background-position:-5px -763px}
 .dice_e{background-position:-5px -876px}
 #dice_mask{width:90px; height:90px; background:#fff; opacity:0; position:absolute; top:0; left:0; z-index:999}
-
+.wrap1{left:300px;top:300px}
+.wrap2{left:400px;top:300px}
 span.hint-required{
 	color:red
 }

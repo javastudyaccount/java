@@ -50,6 +50,7 @@ public class RoomController {
      */
     @GetMapping("/all")
     public List<RoomModel> getRooms() {
+        // サービスを呼び出して、ルーム一覧データを取得する
         return roomService.getRooms();
     }
 

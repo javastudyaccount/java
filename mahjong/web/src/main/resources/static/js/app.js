@@ -25,8 +25,10 @@ function connect() {
         });
         stompClient.subscribe('/topic/game', function (gameMessage) {
             var message = JSON.parse(gameMessage.body);
-            showGameNotice(message.message);
-            showGameMessage(message.gameStatus);
+            //[0] is class name
+            showGameNotice(message.players[1]);
+            //showGameMessage(message.gameStatus);
+            showGameStatus(message.players[1]);
         });
         
     });

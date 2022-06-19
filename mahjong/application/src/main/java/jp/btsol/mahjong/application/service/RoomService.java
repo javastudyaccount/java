@@ -49,13 +49,24 @@ public class RoomService {
      * @return List<RoomModel>
      */
     public List<RoomModel> getRooms() {
+        // begin transaction
+
+        // SQLのパラメータを作成する
         MapSqlParameterSource param = new MapSqlParameterSource();
+        // パラメータplayerIdの値を設定する
         param.addValue("playerId", userContext.playerId());
-        return baseRepository.findForList("select room.room_id, room.room_name, "//
-                + "(my_room.room_id is not null) as entered from room "//
-                + "left join (select room_id from room_player " //
-                + "where player_id = :playerId) my_room "//
-                + "on room.room_id = my_room.room_id order by room.room_id", param, RoomModel.class);
+        try {
+            // SQL文を実行して、データを取得する
+            return baseRepository.findForList("select room.room_id, room.room_name, "//
+                    + "(my_room.room_id is not null) as entered from room "//
+                    + "left join (select room_id from room_player " //
+                    + "where player_id = :playerId) my_room "//
+                    + "on room.room_id = my_room.room_id order by room.room_id", param, RoomModel.class);
+        } catch (Exception e) {
+            // rollback
+            return null;
+        }
+        // commit
     }
 
     /**

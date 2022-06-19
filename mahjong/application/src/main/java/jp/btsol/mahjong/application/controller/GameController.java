@@ -96,4 +96,48 @@ public class GameController {
     @RequestBody(required = true) MahjongGameMessage message) {
         return gameService.grabSeat(message);
     }
+
+    /**
+     * dice dealer
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/diceDealer")
+    public MahjongGameMessage diceDealer(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.diceDealer(message);
+    }
+
+    /**
+     * redice dealer
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/rediceDealer")
+    public MahjongGameMessage rediceDealer(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.rediceDealer(message);
+    }
+
+    /**
+     * ready to redice
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/ready2Redice")
+    public MahjongGameMessage ready2Redice(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.ready2Redice(message);
+    }
+
+    /**
+     * ready to redice waiting
+     * 
+     * @return GameModel
+     */
+    @PostMapping("/ready2RediceWaiting")
+    public MahjongGameMessage ready2RediceWaiting(@Valid //
+    @RequestBody(required = true) MahjongGameMessage message) {
+        return gameService.ready2RediceWaiting(message);
+    }
 }

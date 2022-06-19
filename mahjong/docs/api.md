@@ -2,6 +2,8 @@
 
 ![](image/api/1648262137040.png)
 
+{"iss":"iss", "sub":"sub", "username":"username", "bizGroup":"bizGroup", "customParam":"customParam"}
+
 ###
 http://localhost:8088/v1/token/get?series=isI6nqeG+s+7vgpy73GbLQ==
 x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
@@ -58,7 +60,7 @@ x-mahjong-user:eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiL
 request-id:new
 Content-Type:application/json
 
-{"@class":"", jp.btsol.mahjong.model.PlayerRegistration"playerId":0, "nickname":"player7", "deletedFlg":false, "createdTimestamp":null, "createdUser":null, "updatedTimestamp":null, "updatedUser":null}
+{"@class":"jp.btsol.mahjong.model.PlayerRegistration", "loginId":"login100", "nickname":"player7", "password":"password"}
 
 ###
 
@@ -180,3 +182,6 @@ request-id:new
 Content-Type:application/json
 
 {"roomName":""}
+
+eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0
+{"iss":"iss", "sub":"sub", "username":"username", "customParam":"customParam"}

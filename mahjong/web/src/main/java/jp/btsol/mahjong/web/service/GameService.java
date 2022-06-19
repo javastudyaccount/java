@@ -115,4 +115,60 @@ public class GameService {
         MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
         return messageRet;
     }
+
+    /**
+     * dice dealer
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage diceDealer(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getDiceDealer();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
+    }
+
+    /**
+     * redice dealer
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage rediceDealer(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getRediceDealer();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
+    }
+
+    /**
+     * ready to redice
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage ready2redice(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getReady2Redice();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
+    }
+
+    /**
+     * ready to redice waiting
+     * 
+     * @param message MahjongGameMessage
+     * @return MahjongGameMessage
+     */
+    public MahjongGameMessage ready2rediceWaiting(MahjongGameMessage message) {
+        final String endpoint = applicationProperties.getUri();
+
+        final String url = endpoint + applicationProperties.getPath().getReady2RediceWaiting();
+        MahjongGameMessage messageRet = mahjongRestTemplate.post(url, message, MahjongGameMessage.class);
+        return messageRet;
+    }
 }

@@ -71,6 +71,39 @@ public class MessageController {
         return gameService.grabSeat(message);
     }
 
+    @MessageMapping("/diceDealer")
+    @SendTo("/topic/game")
+    public MahjongGameMessage diceDealer(MahjongGameMessage message, Principal principal) throws Exception {
+//        Thread.sleep(1000); // simulated delay
+        // do not use messgage.player_id, to prevent client attack
+        userContext.userId(principal.getName()); // login_id
+        MahjongGameMessage msg = gameService.diceDealer(message);
+        return msg;
+    }
+
+    @MessageMapping("/rediceDealer")
+    @SendTo("/topic/game")
+    public MahjongGameMessage rediceDealer(MahjongGameMessage message, Principal principal) throws Exception {
+        // do not use messgage.player_id, to prevent client attack
+        userContext.userId(principal.getName()); // login_id
+        MahjongGameMessage msg = gameService.rediceDealer(message);
+        return msg;
+    }
+
+    @MessageMapping("/ready2redice")
+    @SendTo("/topic/game")
+    public MahjongGameMessage ready2redice(MahjongGameMessage message, Principal principal) throws Exception {
+        MahjongGameMessage msg = gameService.ready2redice(message);
+        return msg;
+    }
+
+    @MessageMapping("/ready2rediceWaiting")
+    @SendTo("/topic/game")
+    public MahjongGameMessage ready2rediceWaiting(MahjongGameMessage message, Principal principal) throws Exception {
+        MahjongGameMessage msg = gameService.ready2rediceWaiting(message);
+        return msg;
+    }
+
     @MessageExceptionHandler({HttpServerErrorException.class})
     @SendTo("/topic/game")
     public MahjongGameMessage handleError(HttpServerErrorException e) {
