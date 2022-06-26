@@ -1,23 +1,33 @@
+
+
+
+
+
+
+
+
 [mahjong4j github](https://github.com/mahjong4j/mahjong4j.git)
 [Java study](https://github.com/javastudyaccount/java)
 
 ## Beginner
+
 Make mvn project with multiple modules
+
 1. Google searh "mnv springboot create multiproject"
 2. [Creating a Multi Module Project](https://spring.io/guides/gs/multi-module/)
 3. $ `mkdir mahjong`
 4. $ `cd mahjong`
-1. $ `mkdir library`
-2. $ `mkdir application`
-1. $ `mkdir -p application/src/main/java/jp/btsol/mahjong/application`
-2. $ `mkdir -p library/src/main/java/jp/btsol/mahjong/service/`
-1. $ `mkdir -p library/src/test/java/jp/btsol/mahjong/service/`
-3. $ `mvn install && mvn spring-boot:run -pl application`
-1. http://localhost:8088/
- ![](image/Mahjiang/1644042802684.png)
-1. $ `git init`
-2. $ `git add .`
-1. $ `git commit -m init`
+5. $ `mkdir library`
+6. $ `mkdir application`
+7. $ `mkdir -p application/src/main/java/jp/btsol/mahjong/application`
+8. $ `mkdir -p library/src/main/java/jp/btsol/mahjong/service/`
+9. $ `mkdir -p library/src/test/java/jp/btsol/mahjong/service/`
+10. $ `mvn install && mvn spring-boot:run -pl application`
+11. http://localhost:8088/
+    ![](image/Mahjiang/1644042802684.png)
+12. $ `git init`
+13. $ `git add .`
+14. $ `git commit -m init`
 
 `mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true`
 
@@ -28,8 +38,11 @@ Make mvn project with multiple modules
    [Spring BootでThymeleafを使ってhello worldを表示させる方法には？](https://i-common-tech.jp/column/940#Spring+Boot%E3%81%A7Thymeleaf%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hello+world%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%AF%EF%BC%9F)
 
 ## [逆にWebAPIを呼び出してみよう編](https://zenn.dev/sugaryo/books/spring-boot-run-up/viewer/api_call)
+
   [RestTemplateラッパー三点セット](https://zenn.dev/sugaryo/books/spring-boot-run-up/viewer/api_call#%E2%96%A0resttemplate%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E4%B8%89%E7%82%B9%E3%82%BB%E3%83%83%E3%83%88)
+
 ## Advanced
+
 [組み込み Web サーバー](https://spring.pleiades.io/spring-boot/docs/2.1.4.RELEASE/reference/html/howto-embedded-web-servers.html)
     HTTP ポートを変更する
     ランダムな未割り当ての HTTP ポートを使用する
@@ -54,14 +67,15 @@ Make mvn project with multiple modules
 ![](image/Mahjiang/1644111367900.png)
 
 ## Projects
+
 ![](image/Mahjiang/1644579560635.png)
 
-|Project|Function|
-|--|--|
-|web|front end|
-|application|api|
-|library|common library|
-|database|jpa|
+| Project     | Function       |
+| ----------- | -------------- |
+| web         | front end      |
+| application | api            |
+| library     | common library |
+| database    | jpa            |
 
 ```plantuml
 @startuml
@@ -93,19 +107,23 @@ web ..> HTTP
 api --> database : use
 @enduml
 ```
+
 [Spring MVC(+Spring Boot)上でのリクエスト共通処理の実装方法を理解する](https://qiita.com/kazuki43zoo/items/757b557c05f548c6c5db)
 ![](image/Mahjiang/1644734013436.png)
 
 ![](image/Mahjiang/1644734088691.png)
 
 ## Mixin:
+
 [Adding Custom Properties Using Jackson MixIns](https://medvector.github.io/programming/jackson/jackson-trick/)
 
 [Java : Jackson による JSON デシリアライズ時の型解決方法](https://www.techscore.com/blog/2016/06/17/java-jackson-polymorphic-deserialization/)
 
 - Java
-  -  Springboot(Framework) Spring Wicket Struts 
+
+  - Springboot(Framework) Spring Wicket Struts
 - Database (Oracle, MySQL, Postgresql)
+
   - JDBC
   - JPA
   - Hibernate
@@ -113,8 +131,8 @@ api --> database : use
   - JdbcTemplate
   - jooq
 
-  [Java & Databases: An Overview of Libraries & APIs](https://www.marcobehler.com/guides/java-databases)
-- RestAPI    
+  [Java &amp; Databases: An Overview of Libraries &amp; APIs](https://www.marcobehler.com/guides/java-databases)
+- RestAPI
 - Thymeleaf, Wicket, JSP, Apache Velocity
 - HTML
 - CSS
@@ -123,28 +141,43 @@ api --> database : use
 how-to-run.md
 
 ### Mahjong room
+
 #### Create new room
+
 #### Invite player
+
 #### Enter room as player
+
 #### Invite visitor
+
 #### Enter room as visitor
 
 #### List all rooms
+
 #### Private room
 
 ### Play Mahjong
+
 #### Sitting
+
 #### Shuffling
+
 #### [掷色子](https://www.goocode.net/demo/dice/index.php) to decide Zhuangjia(Dealer, East player)
+
 #### Decide where to pick tiles
+
 #### Pick tiles
+
 #### Play
+
 #### Pay
+
 #### Record wins and loses
 
 [简单的麻将ai算法](https://doc.xuwenliang.com/docs/ai/1495)
 
 ### List all branches
+
     $ git branch -a
     * development
     mvn
@@ -172,9 +205,13 @@ how-to-run.md
     - [deleted]         (none)     -> origin/mvn
 
     systemi@PC526 MINGW64 /c/app/java (development)
+
 ### Delete remote branch
-    $ git push --delete origin 20220205_xiangyang_homework    
+
+    $ git push --delete origin 20220205_xiangyang_homework
+
 ### List all branches again
+
     $ git branch -a
     * development
     remotes/origin/20220205_xiangyang_homework
@@ -187,7 +224,9 @@ how-to-run.md
     systemi@PC526 MINGW64 /c/app/java (development)
 
 ### Create DDL from database
+
 using pgAdmin
+
 - Right-click on your database (or schema).
 - Choose "backup"
 - Under "Format" choose "plain"
@@ -195,18 +234,19 @@ using pgAdmin
 - Under "Objects" choose the tables you want.
 - Then click "backup". The output should be a plain text file with the create table statements.
 
-
 Response Responsibility
 No response -> No Responsibility
 
 Goal
+
 1. Job
 2. Job Searching
 3. Certificate
- Java Programmer Certificate
- Information Primary Skill
+   Java Programmer Certificate
+   Information Primary Skill
 
 ### Docker
+
     Windows 10 ビルド 18917 以降であること
     コマンドプロンプトから確認
 
@@ -214,39 +254,43 @@ Goal
     2. verコマンドを実行
     3. 出てきたバージョンが18917以上ならOK！
 
-   - [WSL install](https://docs.microsoft.com/zh-cn/windows/wsl/install)
-   `PS> wsl --install`
+- [WSL install](https://docs.microsoft.com/zh-cn/windows/wsl/install)
+  `PS> wsl --install`
+- [Docker install](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 
-   - [Docker install](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
-     - Set up the repository
-       - `PS> wsl`
-       - `$  sudo apt-get update`
-       - `$ sudo apt-get install ca-certificates curl gnupg lsb-release`
-       - `$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg`
-       - `$  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null`
-     - Install Docker Engine
-       - `$ sudo apt-get update`
-       - `$ sudo apt-get install docker-ce docker-ce-cli containerd.io`
-     - Manually start docker
-       - `$ sudo /etc/init.d/docker start`
-     - Verify that Docker Engine
-       - `$ sudo docker run hello-world`
-   - Set Docker Daemon auto start
-      - `$ echo "# Start dockerd" >> ~/.bashrc`
-      - `$ echo "sudo /etc/init.d/docker start" >> ~/.bashrc`
-   - Set default user as root
-     - `PS> ubuntu config --default-user root` 
+  - Set up the repository
+    - `PS> wsl`
+    - `$  sudo apt-get update`
+    - `$ sudo apt-get install ca-certificates curl gnupg lsb-release`
+    - `$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg`
+    - `$  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \ $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null`
+  - Install Docker Engine
+    - `$ sudo apt-get update`
+    - `$ sudo apt-get install docker-ce docker-ce-cli containerd.io`
+  - Manually start docker
+    - `$ sudo /etc/init.d/docker start`
+  - Verify that Docker Engine
+    - `$ sudo docker run hello-world`
+- Set Docker Daemon auto start
+
+  - `$ echo "# Start dockerd" >> ~/.bashrc`
+  - `$ echo "sudo /etc/init.d/docker start" >> ~/.bashrc`
+- Set default user as root
+
+  - `PS> ubuntu config --default-user root`
 
 [mysql.md](./mysql.md)
 
 [er.md](./er.md)
 
 ### API Test
+
 #### Curl
+
 ```shell
 curl  -X POST -v -H "request-id:requestid" -H "Content-Type:application/json" -H "api-key:AAAAAAA" -d "test name" http://localhost:8088/v1/room/new 
 ```
+
 ```json
 < HTTP/1.1 200
 < Content-Type: application/json
@@ -261,29 +305,30 @@ curl  -X POST -v -H "request-id:requestid" -H "Content-Type:application/json" -H
   "updatedUser" : "default"
 }
 ```
+
 #### Advanced REST client
+
 ![](image/Mahjiang/1645345034221.png)
 ![](image/Mahjiang/1645343275274.png)
 ![](image/Mahjiang/1645343297819.png)
 
-
 [Is there a method built in spring MockMVC to get json content as Object?](https://stackoverflow.com/questions/51873620/is-there-a-method-built-in-spring-mockmvc-to-get-json-content-as-object)
 
-
 MVC:
-   - M: Model
-   - V: View
-   - C: Controller
-![](image/Mahjong/1646465569844.png)
-Address bar:
-URL: `http://   localhost: 8089  /tiles`
-     `[protocol]://[hostname]:[port][path]`
-![](image/Mahjong/1646465658183.png)
 
-     path: @GetMapping("/tiles")
-![](image/Mahjong/1646465705801.png)
-     html: tiles.html
-![](image/Mahjong/1646465877062.png)
+- M: Model
+- V: View
+- C: Controller
+  ![](image/Mahjong/1646465569844.png)
+  Address bar:
+  URL: `http://   localhost: 8089  /tiles`
+  `[protocol]://[hostname]:[port][path]`
+  ![](image/Mahjong/1646465658183.png)
+
+  path: @GetMapping("/tiles")
+  ![](image/Mahjong/1646465705801.png)
+  html: tiles.html
+  ![](image/Mahjong/1646465877062.png)
 - /
 - /hands
 - /rooms
@@ -295,6 +340,7 @@ URL: `http://   localhost: 8089  /tiles`
 ```sql
 mysql> insert into room (room_name, deleted_flg, created_timestamp, created_user, updated_timestamp, updated_user) values ('test 82', 0, current_timestamp, 'test', current_timestamp, 'test');
 ```
+
 ```sql
 mysql> select * from room;
 ```
@@ -304,6 +350,7 @@ mysql> insert into room (room_name, deleted_flg, created_timestamp, created_user
 ```
 
 ![](image/Mahjong/1646538361565.png)
+
 ### Rest Cient
 
 GET http://localhost:8088/v1/room/all HTTP/1.1
@@ -311,24 +358,19 @@ x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUi
 
 {"iss":"iss", "sub":"sub", "username":"username", "bizGroup":"bizGroup", "customParam":"customParam"}
 
-###
-
 POST http://localhost:8088/v1/shuffled HTTP/1.1
 content-type: application/json
 request-id: test-id
 x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
- 
+
 {"gameId": 1}
-###
 
 POST http://localhost:8088/v1/room/new HTTP/1.1
 content-type: application/json
 request-id: test-id
 x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0=
- 
-{"roomName": "testRoom23"}
 
-###
+{"roomName": "testRoom23"}
 
 POST http://localhost:8088/v1/room/new HTTP/1.1
 content-type: application/json
@@ -336,22 +378,17 @@ request-id: request-id
 
 "test room name"
 
-###
-
 POST http://localhost:8088/v1/room/new HTTP/1.1
 content-type: application/json
 request-id: request-id
 
 東京ドーム
 
-###
-
 POST http://localhost:8088/v1/room/new HTTP/1.1
 content-type: application/json
 request-id: request-id
 
-東京ドーム<br/>第一号
-
+東京ドーム`<br/>`第一号
 
 Schedule:
 
@@ -366,7 +403,7 @@ gantt
       create new player: create_new_player, after list_all_players, 1d
       junit for list: junit_for_list, after create_new_player, 2d
       junit for create: junit_for_create, after junit_for_list, 2d
-      
+    
    section game api
       list all games for a room: list_all_games_for_a_room, 2022-03-06, 1d
       create new game for room: create_new_game_for_room, after list_all_games_for_a_room, 1d
@@ -381,7 +418,7 @@ registerObjectMappersForType
 - [X] Player registration
   - [X] API
   - [X] Web
-- [x] Open a room
+- [X] Open a room
 - [ ] Begin a game
 - [ ] Play a game
 
@@ -391,71 +428,78 @@ registerObjectMappersForType
 
 javastudyaccount/javastudy123
 
-
 ### mvn test
+
 # Run all the unit test classes.
+
 $ mvn test
 
 # Run a single test class.
+
 $ mvn -Dtest=TestApp1 test
 
 # Run multiple test classes.
+
 $ mvn -Dtest=TestApp1,TestApp2 test
 
 # Run a single test method from a test class.
+
 $ mvn -Dtest=TestApp1#methodname test
 
 # Run all test methods that match pattern 'testHello*' from a test class.
+
 $ mvn -Dtest=TestApp1#testHello* test
 
 # Run all test methods match pattern 'testHello*' and 'testMagic*' from a test class.
+
 $ mvn -Dtest=TestApp1#testHello*+testMagic* test
 
 $ mvn clean test -Djacoco.skip=true
 
 ### 麻将基本术语中英文对照表
-|中文|英文|解释|
-|--|--|--|
-|麻将(麻雀)|Mahjongg / Mahjong||
-|张|Tile|一张麻将牌的牌面|
-|花|Flower|春、夏、秋、冬、梅、兰、竹、菊|
-|字牌(役牌)|Honor|东、南、西、北、中、发、白|
-|花色(配牌)|Suit|筒、条、万|
-|数字|Rank|一~九|
-|箭牌|Dragon|中、发、白|
-|风牌|Wind|东、南、西、北|
-|筒牌|Dot|一筒~九筒|
-|条牌|Bamboo|一条~九条|
-|万牌|Character|一万~九万|
-|春、夏、秋、冬|Spring / Summer / Autumn / Winter||
-|梅、兰、竹、菊|Plum / Orchid / Bamboo / Chrysanthemum||
-|中、发、白|Red / Green / White Dragon||
-|东、南、西、北|East / South / West / North Wind||
-|门风(自风)|Dealer's Wind||
-|场风(圈风)|Prevailing Wind||
-|庄家|Dealer / Banker||
-|发牌|Deal||
-|骰子|Die (pl. Dice)||
-|洗牌|Shuffle||
-|牌墙|Wall||
-|牌墩|Stack|牌墙中的上下两张牌组成一墩|
-|牌桌|Board||
-|和(胡)牌|Win||
-|和(胡)张|Winning Tile||
-|荒牌(流局)|Draw||
-|摸牌|Draw||
-|打牌|Discard||
-|听牌|Ready Hand||
-|混牌(百搭)|Joker||
-|玩家|Player||
-|一组|Meld|一个顺子、刻子或杠子|
-|将牌(雀头、对子)|Eyes / Pair||
-|刻子|Triplet||
-|顺子|Sequence||
-|明杠、暗杠|Exposed / Concealed Kong||
-|碰、杠、吃|Pong / Kong / Chow||
-|数番|Scoring||
-|番数|Points||
+
+| 中文             | 英文                                   | 解释                           |
+| ---------------- | -------------------------------------- | ------------------------------ |
+| 麻将(麻雀)       | Mahjongg / Mahjong                     |                                |
+| 张               | Tile                                   | 一张麻将牌的牌面               |
+| 花               | Flower                                 | 春、夏、秋、冬、梅、兰、竹、菊 |
+| 字牌(役牌)       | Honor                                  | 东、南、西、北、中、发、白     |
+| 花色(配牌)       | Suit                                   | 筒、条、万                     |
+| 数字             | Rank                                   | 一~九                          |
+| 箭牌             | Dragon                                 | 中、发、白                     |
+| 风牌             | Wind                                   | 东、南、西、北                 |
+| 筒牌             | Dot                                    | 一筒~九筒                      |
+| 条牌             | Bamboo                                 | 一条~九条                      |
+| 万牌             | Character                              | 一万~九万                      |
+| 春、夏、秋、冬   | Spring / Summer / Autumn / Winter      |                                |
+| 梅、兰、竹、菊   | Plum / Orchid / Bamboo / Chrysanthemum |                                |
+| 中、发、白       | Red / Green / White Dragon             |                                |
+| 东、南、西、北   | East / South / West / North Wind       |                                |
+| 门风(自风)       | Dealer's Wind                          |                                |
+| 场风(圈风)       | Prevailing Wind                        |                                |
+| 庄家             | Dealer / Banker                        |                                |
+| 发牌             | Deal                                   |                                |
+| 骰子             | Die (pl. Dice)                         |                                |
+| 洗牌             | Shuffle                                |                                |
+| 牌墙             | Wall                                   |                                |
+| 牌墩             | Stack                                  | 牌墙中的上下两张牌组成一墩     |
+| 牌桌             | Board                                  |                                |
+| 和(胡)牌         | Win                                    |                                |
+| 和(胡)张         | Winning Tile                           |                                |
+| 荒牌(流局)       | Draw                                   |                                |
+| 摸牌             | Draw                                   |                                |
+| 打牌             | Discard                                |                                |
+| 听牌             | Ready Hand                             |                                |
+| 混牌(百搭)       | Joker                                  |                                |
+| 玩家             | Player                                 |                                |
+| 一组             | Meld                                   | 一个顺子、刻子或杠子           |
+| 将牌(雀头、对子) | Eyes / Pair                            |                                |
+| 刻子             | Triplet                                |                                |
+| 顺子             | Sequence                               |                                |
+| 明杠、暗杠       | Exposed / Concealed Kong               |                                |
+| 碰、杠、吃       | Pong / Kong / Chow                     |                                |
+| 数番             | Scoring                                |                                |
+| 番数             | Points                                 |                                |
 
 ```mermaid
 graph LR
