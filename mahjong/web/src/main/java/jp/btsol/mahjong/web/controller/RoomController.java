@@ -59,6 +59,8 @@ public class RoomController {
         List<RoomModel> allRooms = roomService.getRooms();
         // set data to model
         model.addAttribute("rooms", allRooms);
+        Boolean entered = allRooms.stream().filter(roomModel -> roomModel.isEntered()).findAny().isPresent();
+        model.addAttribute("entered", entered);
         // show html page
         return "room/rooms";
     }

@@ -19,11 +19,11 @@
     </span>
 </td>
 <td>
-    <form th:if="${room.entered}" style="display: inline" id="formExitRoom" method="post" th:action="@{/exitRoom}">
+    <form th:if="${entered && room.entered}" style="display: inline" id="formExitRoom" method="post" th:action="@{/exitRoom}">
     <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
     <button class="button-right">Exit</button>
     </form>
-    <form th:unless="${room.entered}" style="display: inline" id="formEnterRoom" method="post" th:action="@{/enterRoom}">
+    <form th:if="${!entered}" style="display: inline" id="formEnterRoom" method="post" th:action="@{/enterRoom}">
     <input type="hidden" name="roomId" th:value="*{room.roomId}"/>
     <button class="button-right">Enter</button>
     </form>
