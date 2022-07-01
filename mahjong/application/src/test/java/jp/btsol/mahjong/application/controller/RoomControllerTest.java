@@ -87,8 +87,8 @@ class RoomControllerTest {
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString();
-            List<Room> roomsArr = objectMapper.readValue(content, ArrayList.class);
-            Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr.toArray(new Room[0]));
+            List<RoomModel> roomsArr = objectMapper.readValue(content, ArrayList.class);
+            Assertions.assertArrayEquals(rooms.toArray(new RoomModel[0]), roomsArr.toArray(new RoomModel[0]));
         }
 
         @Test
@@ -123,8 +123,8 @@ class RoomControllerTest {
 
             room = new RoomModel();
             room.setRoomId(2);
-            rooms.add(room);
             room.setRoomName("Test room");
+            rooms.add(room);
             when(roomService.getRooms()).thenReturn(rooms);
 
             // 実行、検証
@@ -133,9 +133,12 @@ class RoomControllerTest {
                     .andExpect(status().isOk())//
                     .andReturn();
             String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-            List<Room> roomsArr = objectMapper.readValue(content, ArrayList.class);
+            List<RoomModel> roomsArr = objectMapper.readValue(content, ArrayList.class);
 
-            Assertions.assertArrayEquals(rooms.toArray(new Room[0]), roomsArr.toArray(new Room[0]));
+            Assertions.assertEquals(2, roomsArr.size());
+            Assertions.assertArrayEquals(rooms.toArray(new RoomModel[0]), roomsArr.toArray(new RoomModel[0]));
+            Assertions.assertEquals("日本語", roomsArr.get(0).getRoomName());
+            Assertions.assertEquals("Test room", roomsArr.get(1).getRoomName());
         }
     }
 
