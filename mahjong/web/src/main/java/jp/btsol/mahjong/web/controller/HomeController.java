@@ -35,6 +35,9 @@ public class HomeController {
     public String home(Model model) {
         List<Message> messages = homeService.getMessages();
         model.addAttribute("messages", messages);
+
+        List<String> logins = homeService.getLogins();
+        model.addAttribute("logins", logins);
         return "home";
     }
 

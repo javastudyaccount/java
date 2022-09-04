@@ -32,6 +32,12 @@
       <a href="/players">Players</a>
     </div>
    </div>
+
+    <div layout:fragment="sidebarcontent">
+        <div th:each="login, loginStat: ${logins}">
+            <a th:href="@{/login(loginId=${login})}">[[${login}]]</a>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -68,6 +68,10 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS    
 <pre>
 8b28914fcd7f
 </pre>
+### Restart docker in one command 
+```
+docker start  `docker ps -q -l`
+```
 then [Connect mysql](#connect-mysql)
 
 

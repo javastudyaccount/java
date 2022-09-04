@@ -40,3 +40,8 @@ management:
     port: 9999
 service:
   message: This is majhong application. 
+  
+logging:
+  file:
+    path: C:/app/java/mahjong/logs
+    name: application.log

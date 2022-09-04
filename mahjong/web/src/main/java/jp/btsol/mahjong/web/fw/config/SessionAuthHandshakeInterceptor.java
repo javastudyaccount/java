@@ -1,6 +1,7 @@
 package jp.btsol.mahjong.web.fw.config;
 
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,8 +22,12 @@ public class SessionAuthHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
             Map<String, Object> attributes) throws Exception {
         HttpSession session = getSession(request);
-        if (session == null) {
+        if (Objects.isNull(session)) {
             log.error("websocket permission denied");
+            return false;
+        }
+        if (Objects.isNull(session.getAttribute("SPRING_SECURITY_CONTEXT"))) {
+            log.error("No SPRING_SECURITY_CONTEXT");
             return false;
         }
         User user = (User) ((SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication()
