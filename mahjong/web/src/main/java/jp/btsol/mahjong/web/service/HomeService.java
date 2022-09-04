@@ -48,6 +48,16 @@ public class HomeService {
         String path = applicationProperties.getUri() + applicationProperties.getPath().getHome();
         return restTemplate.get(path, ArrayList.class);
     }
+    
+    /**
+     * get login list
+     * 
+     * @return List<String>
+     */
+    public List<String> getLogins() {
+        String path = applicationProperties.getUri() + applicationProperties.getPath().getLogins();
+        return restTemplate.get(path, ArrayList.class);
+    }
 
     /**
      * unescape string encoded with unicode

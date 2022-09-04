@@ -31,3 +31,18 @@
 6. ``git pull``
    ![](image/readme/1643454047390.png)
 
+### How to split and combine files
+https://superuser.com/questions/80081/how-to-split-and-combine-files
+#### combine files
+`copy /b example.ext.001+example.ext.002+example.ext.003+example.ext.004 example.ext`
+
+#### Cygwin (basic install), Bash shell
+`dd if=archive.tar bs=512M | xz -e9fc | split -b4000m - /destination/path/archive_split.`
+
+`dd if=dbunit2.7.0.zip bs=512M | split -b5m - ./dbunit2.7.0_split.`
+
+Omit the xz pipe block if your archive is already compressed.
+
+#### To combine your archive together:
+
+`cat archive_split.* > archive`

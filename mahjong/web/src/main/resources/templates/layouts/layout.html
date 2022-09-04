@@ -10,7 +10,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	<link rel="stylesheet" media="all" th:href="@{/css/style.css}">
+	<link rel="stylesheet" media="all" th:href="@{/css/main.css}">
+    <link rel="stylesheet" media="all" th:href="@{/css/style.css}">
 	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common.js}" charset="UTF-8"></script>
     
@@ -28,10 +29,22 @@
             <div class="container">
                 <div layout:fragment="content" th:remove="tag"></div>
             </div>
+            
+	        <div layout:replace="~{layouts/footer::content-footer}"></div>
         </div>
-        <div layout:replace="~{layouts/footer::content-footer}"></div>
-        <div layout:replace="~{layouts/footer::footer}"></div>
+        
+	   <!-- The sidebar -->
+	    <div class="sidebar">
+	      <div class="sidebarcontent" layout:fragment="sidebarcontent" th:remove="tag">
+	        <a class="active" href="/">Home</a>
+	        <a href="#news">News</a>
+	        <a href="#contact">Contact</a>
+	        <a href="#about">About</a>
+	      </div>
+	    </div>
+	    
     </div>
+    <div layout:replace="~{layouts/footer::footer}"></div>
      <div layout:fragment="popupcontent" th:remove="tag"></div>
 </body>
 </html>

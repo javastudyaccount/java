@@ -1,6 +1,7 @@
 package jp.btsol.mahjong.application.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @RestController
-//@RequestMapping("/player")
+@RequestMapping("/player")
 @Slf4j
 public class PlayerController {
     /**
@@ -52,9 +54,19 @@ public class PlayerController {
      * 
      * @return List<PlayerModel>
      */
-    @GetMapping("/player/all")
+    @GetMapping("/all")
     public List<PlayerModel> getPlayers() {
         return playerService.getPlayers();
+    }
+
+    /**
+     * get player login list
+     * 
+     * @return List<String>
+     */
+    @GetMapping("/logins")
+    public List<String> getLogins() {
+        return playerService.getPlayers().stream().map(player -> player.getNickname()).collect(Collectors.toList());
     }
 
     /**
@@ -63,7 +75,7 @@ public class PlayerController {
      * @param playerRegistration PlayerRegistration
      * @return Player
      */
-    @PostMapping(value = "/player/new", produces = {"application/json"}, consumes = {"application/json"})
+    @PostMapping(value = "/new", produces = {"application/json"}, consumes = {"application/json"})
     public Player createNewPlayer(@Valid // validate annotation
     @RequestBody(required = true) PlayerRegistration playerRegistration) {
         return playerService.createPlayer(playerRegistration);
@@ -122,7 +134,7 @@ public class PlayerController {
      * @param loginId LoginId
      * @return PlayerAuthentication
      */
-    @GetMapping("/player/authentication")
+    @GetMapping("/authentication")
     public PlayerAuthentication getPlayerAuthentication(@Valid //
     @RequestParam(required = true) String loginId) {
         return playerService.getPlayerAuthentication(loginId);
@@ -133,7 +145,7 @@ public class PlayerController {
      * 
      * @param invitePlayerModel player IDs
      */
-    @PostMapping("/player/invite")
+    @PostMapping("/invite")
     public void invite(@Valid //
     @RequestBody(required = true) InvitePlayerModel invitePlayerModel) {
         log.info("invite players {}", invitePlayerModel);
@@ -146,7 +158,7 @@ public class PlayerController {
      * @param playerId long
      * @return Invites
      */
-    @GetMapping("/player/invites")
+    @GetMapping("/invites")
     public Invites invites(@Valid //
     @RequestParam(required = true) long playerId) {
         log.info("invites for player {}", playerId);
@@ -158,7 +170,7 @@ public class PlayerController {
      * 
      * @return List<PlayerModel>
      */
-    @GetMapping("/player/invited")
+    @GetMapping("/invited")
     public List<PlayerModel> invited() {
         return playerService.getInvited();
     }

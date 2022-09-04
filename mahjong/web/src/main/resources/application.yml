@@ -35,6 +35,7 @@ application:
     playersInRoom: /room/players
     createRoom: /room/new
     
+    logins: /player/logins
     players: /player/all
     createPlayer: /player/new
     playerAuthentication: /player/authentication
@@ -59,7 +60,10 @@ application:
   sub: sub
   loginId: anonymous
   
-  
+logging:
+  file:
+    path: C:/app/java/mahjong/logs
+    name: web.log
 ---
 spring:
   profiles: prod

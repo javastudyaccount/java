@@ -26,6 +26,10 @@ public class ApplicationProperties {
          */
         private String home;
         /**
+         * logins
+         */
+        private String logins;
+        /**
          * path hands
          */
         private String hands;
