@@ -1,3 +1,7 @@
+
+
+
+
 # Java study
 
 1. ``git clone https://github.com/javastudyaccount/java.git``
@@ -16,7 +20,7 @@
    ![img](image/readme/1643453565286.png)
 5. ``git push``
 
-   ![img](image/readme/1643453601368.png)`<br/>`
+   ![img](image/readme/1643453601368.png) `<br/>`
    ![](image/readme/1643453625436.png)`<br/>`
    javastudyaccount/javastudy123
 
@@ -32,11 +36,15 @@
    ![](image/readme/1643454047390.png)
 
 ### How to split and combine files
+
 https://superuser.com/questions/80081/how-to-split-and-combine-files
+
 #### combine files
+
 `copy /b example.ext.001+example.ext.002+example.ext.003+example.ext.004 example.ext`
 
 #### Cygwin (basic install), Bash shell
+
 `dd if=archive.tar bs=512M | xz -e9fc | split -b4000m - /destination/path/archive_split.`
 
 `dd if=dbunit2.7.0.zip bs=512M | split -b5m - ./dbunit2.7.0_split.`
