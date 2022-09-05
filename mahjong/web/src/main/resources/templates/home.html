@@ -34,6 +34,7 @@
    </div>
 
     <div layout:fragment="sidebarcontent">
+    All users:
         <div th:each="login, loginStat: ${logins}">
             <a th:href="@{/login(loginId=${login})}">[[${login}]]</a>
         </div>
