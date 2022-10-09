@@ -59,7 +59,7 @@ public class MahjongNoticeService {
         LocalDate localSysDate = sysDate.toInstant().atZone(timeZone.toZoneId()).toLocalDate();
         param.addValue("today", localSysDate);
         List<Notice> notices = baseRepository.findForList(
-                "select * from notice where start_date <= :today and (end_date is null or end_date >= :today) order by start_date ",
+                "select * from notice where notice.start_date <= :today and (notice.end_date is null or notice.end_date >= :today) order by notice.start_date ",
                 param, Notice.class);
         return notices.stream().map(notice -> new Message(notice.getTitle(), notice.getDetail(), notice.getStartDate(),
                 notice.getEndDate())).collect(Collectors.toList());

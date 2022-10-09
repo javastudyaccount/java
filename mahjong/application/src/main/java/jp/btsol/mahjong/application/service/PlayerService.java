@@ -103,10 +103,10 @@ public class PlayerService {
                         + "on room_player.room_id = room.room_id " //
                         + "left join invite_player " //
                         + "on invite_player.invite_from = :playerId " //
-                        + "and status = 'invited' " //
+                        + "and invite_player.status = 'invited' " //
                         + "and invite_player.invite_to = player.player_id " //
-                        + "and invite_timestamp >= NOW() - INTERVAL 1 HOUR" //
-                , param, PlayerModel.class);
+                        + "and invite_player.invite_timestamp >= NOW() - INTERVAL 1 HOUR", //
+                param, PlayerModel.class);
     }
 
     /**
@@ -133,7 +133,7 @@ public class PlayerService {
         try {
             return baseRepository.findForObject(//
                     "select player.player_id, " + //
-                            " player.login_id, nickname, password " + //
+                            " player.login_id, player.nickname, passwd.password " + //
                             "from player " + //
                             "join passwd " + //
                             "on player.player_id = passwd.player_id " + //
@@ -246,13 +246,13 @@ public class PlayerService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("playerId", userContext.playerId());
         return baseRepository.findForList(//
-                "select player.player_id, room.room_id, nickname, room_name from invite_player "//
+                "select player.player_id, room.room_id, player.nickname, room.room_name from invite_player "//
                         + "join player on player.player_id = invite_player.invite_from "//
                         + "join room_player on room_player.player_id = invite_player.invite_from "//
                         + "join room on room_player.room_id = room_player.room_id "//
-                        + "where invite_to = :playerId "//
-                        + "and status = 'invited' " //
-                        + "and invite_timestamp >= NOW() - INTERVAL 1 HOUR ",
+                        + "where invite_player.invite_to = :playerId "//
+                        + "and invite_player.status = 'invited' " //
+                        + "and invite_player.invite_timestamp >= NOW() - INTERVAL 1 HOUR ",
                 param, PlayerModel.class);
     }
 }

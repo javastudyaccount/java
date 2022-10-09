@@ -56,7 +56,7 @@ class RoomControllerTest {
 
     @Nested
     @DisplayName("roomメソッドのテストケース")
-    class rooms {
+    class Rooms {
         @Test
         void testRooms() throws Exception {
 //            fail("まだ実装されていません");
