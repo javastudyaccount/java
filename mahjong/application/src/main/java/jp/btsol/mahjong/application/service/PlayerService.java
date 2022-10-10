@@ -118,7 +118,8 @@ public class PlayerService {
     public Player getPlayer(String loginId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("loginId", loginId);
-        return baseRepository.findForObject("select * from player where login_id = :loginId", param, Player.class);
+        return baseRepository.findForObject("select * from player where player.login_id = :loginId", param,
+                Player.class);
     }
 
     /**
@@ -208,8 +209,8 @@ public class PlayerService {
     public PersistentLogins getToken(String series) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("series", series);
-        return baseRepository.findForObject("select * from persistent_logins where series=:series", param,
-                PersistentLogins.class);
+        return baseRepository.findForObject("select * from persistent_logins where persistent_logins.series=:series",
+                param, PersistentLogins.class);
     }
 
     public void deleteToken(String loginId) {
@@ -249,7 +250,7 @@ public class PlayerService {
                 "select player.player_id, room.room_id, player.nickname, room.room_name from invite_player "//
                         + "join player on player.player_id = invite_player.invite_from "//
                         + "join room_player on room_player.player_id = invite_player.invite_from "//
-                        + "join room on room_player.room_id = room_player.room_id "//
+                        + "join room on room.room_id = room_player.room_id "//
                         + "where invite_player.invite_to = :playerId "//
                         + "and invite_player.status = 'invited' " //
                         + "and invite_player.invite_timestamp >= NOW() - INTERVAL 1 HOUR ",

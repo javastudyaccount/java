@@ -56,7 +56,7 @@ public class RoomService {
         // パラメータplayerIdの値を設定する
         param.addValue("playerId", userContext.playerId());
         // SQL文を実行して、データを取得する
-        return baseRepository.findForList("select rm.room_id, room.room_name, "//
+        return baseRepository.findForList("select room.room_id, room.room_name, "//
                 + "(my_room.room_id is not null) as entered from room "//
                 + "left join (select room_player.room_id from room_player " //
                 + "where room_player.player_id = :playerId) my_room "//
@@ -86,7 +86,7 @@ public class RoomService {
                         + " left join game "//
                         + " on room.room_id = game.room_id "//
                         + " where room.room_id = :roomId "//
-                        + " order by room.room_id",
+                        + " order by room.room_id, room.room_name",
                 param, RoomModel.class);
         List<PlayerModel> players = getPlayers(roomId, gameId);
         roomModel.setPlayersInRoom(players);
@@ -140,8 +140,8 @@ public class RoomService {
             sql.append("                    game_log.game_id = :gameId ");
             sql.append("                    and game_log.deleted_flg = 0 ");
             sql.append("                group by ");
-            sql.append("                    player_id, ");
-            sql.append("                    game_id ");
+            sql.append("                    game_log.player_id, ");
+            sql.append("                    game_log.game_id ");
             sql.append("            ) ");
             sql.append("    ) game_log on game_log.player_id = p.player_id ");
             sql.append("      and game_log.game_id = game_player.game_id ");

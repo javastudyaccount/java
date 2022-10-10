@@ -17,6 +17,10 @@ spring:
     url: jdbc:mysql://localhost:3306/game
     username: game
     password: game    
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
   jackson:
     #serialization:
       #write-dates-as-timestamps: false

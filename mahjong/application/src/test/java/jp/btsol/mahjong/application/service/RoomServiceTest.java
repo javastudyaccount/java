@@ -13,8 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
@@ -29,8 +33,10 @@ import jp.btsol.mahjong.model.RoomModel;
 
 @DirtiesContext
 @SpringBootTest(classes = {TestConfig.class})
-//@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
-//        TransactionDbUnitTestExecutionListener.class, DbUnitTestExecutionListener.class})
+//@Sql("/testdata/room/in/rooms-1.sql")
+//でテストデータを準備する場合は、@TestExecutionListenersは不要
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
+        TransactionDbUnitTestExecutionListener.class, DbUnitTestExecutionListener.class})
 @Transactional
 @DisplayName("RoomServiceTestのテストケース")
 class RoomServiceTest {
@@ -63,20 +69,17 @@ class RoomServiceTest {
                     () -> Assertions.assertEquals("testRoom1", room.getRoomName()));
         }
 
-        @Test
-        @DisplayName("データが1件のテストケース（テストデータの準備は、Excelではなく、SQLで行う）")
-        // testdata/room/in/rooms-1.xlsx
-//        @DatabaseSetup(value = {"/testdata/room/in/rooms-1.xlsx"}, type = DatabaseOperation.CLEAN_INSERT)
-//        @Sql(scripts = "classpath:/testdata/room/in/rooms-1.sql")
-        @Sql("/testdata/room/in/rooms-1.sql")
-        void testGetRooms1BySQL() {
-            List<RoomModel> rooms = roomService.getRooms();
-            Assertions.assertEquals(1, rooms.size());
-            RoomModel room = rooms.get(0);
-            // テストを途中で止めずに一気に評価したい
-            Assertions.assertAll(() -> Assertions.assertEquals(1, room.getRoomId()),
-                    () -> Assertions.assertEquals("testRoom1", room.getRoomName()));
-        }
+//        @Test
+//        @DisplayName("データが1件のテストケース（テストデータの準備は、Excelではなく、SQLで行う）")
+//        @Sql("/testdata/room/in/rooms-1.sql")
+//        void testGetRooms1BySQL() {
+//            List<RoomModel> rooms = roomService.getRooms();
+//            Assertions.assertEquals(1, rooms.size());
+//            RoomModel room = rooms.get(0);
+//            // テストを途中で止めずに一気に評価したい
+//            Assertions.assertAll(() -> Assertions.assertEquals(1, room.getRoomId()),
+//                    () -> Assertions.assertEquals("testRoom1", room.getRoomName()));
+//        }
 
         @Test
         @DisplayName("データが複数件のテストケース")
