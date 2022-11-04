@@ -98,6 +98,17 @@ using pgAdmin
 
    [Spring BootでThymeleafを使ってhello worldを表示させる方法には？](https://i-common-tech.jp/column/940#Spring+Boot%E3%81%A7Thymeleaf%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6hello+world%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%AF%EF%BC%9F)
 
+### Start dababase
+`ubuntu`
+systemi
+
+`$ docker start  `docker ps -q -l``
+
+`$ docker exec -it /game /bin/bash`
+
+`mysql -h localhost -P 3306 -u game -p`
+game
+
 ## [逆にWebAPIを呼び出してみよう編](https://zenn.dev/sugaryo/books/spring-boot-run-up/viewer/api_call)
 
   [RestTemplateラッパー三点セット](https://zenn.dev/sugaryo/books/spring-boot-run-up/viewer/api_call#%E2%96%A0resttemplate%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E4%B8%89%E7%82%B9%E3%82%BB%E3%83%83%E3%83%88)
@@ -194,6 +205,8 @@ api --> database : use
 ### API Test
 
 #### Curl
+
+curl -v -H "request-id:requestid" -H "Content-Type:application/json" -H "api-key:AAAAAAA" -H "x-mahjong-user: eyJpc3MiOiJpc3MiLCAic3ViIjoic3ViIiwgInVzZXJuYW1lIjoidXNlcm5hbWUiLCAiYml6R3JvdXAiOiJiaXpHcm91cCIsICJjdXN0b21QYXJhbSI6ImN1c3RvbVBhcmFtIn0="  http://localhost:8088/v1/room/all
 
 ```shell
 curl  -X POST -v -H "request-id:requestid" -H "Content-Type:application/json" -H "api-key:AAAAAAA" -d "test name" http://localhost:8088/v1/room/new 
