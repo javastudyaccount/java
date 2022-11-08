@@ -2,13 +2,13 @@
 <html lang="ja"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+	layout:decorate="~{layouts/layout-noheader}">
 <head>
     <title>All tiles random</title>
 </head>
 <body ondblclick="beginRandomIt(event);" class="unselectable">
     <div layout:fragment="content">
-    <table>
+    <table height="520px">
 		<tr>
 		<td:block th:each="tile , tileStat: ${T(jp.btsol.mahjong.web.tile.TileImage).values()}">
 		   	<span th:each="i, iStat : ${#numbers.sequence(0, 3)}">
