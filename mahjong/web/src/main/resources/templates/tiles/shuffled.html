@@ -2,12 +2,13 @@
 <html lang="ja"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+	layout:decorate="~{layouts/layout-noheader}">
 <head>
     <title>All tiles arranged</title>
 </head>
 <body class="unselectable">
     <div layout:fragment="content">
+    <div style="height:520px">
     <table cellspacing="0" cellpadding="0">
         <tr>
         <td th:each="i , iStat: ${#numbers.sequence(0, 16)}">
@@ -67,7 +68,7 @@
         </td>
         </tr>
     </table>
-	
+	</div>
 	<figure>
     <audio style="width:0px;height:0px"
         controls
