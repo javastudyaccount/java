@@ -62,14 +62,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/system-error", //
                         "/logout", //
                         "/afterLogout", //
-                        "/tiles", "/tiles/shuffled", //
+                        "/tiles", //
+                        "/tiles/shuffled", //
                         "/tiles/random", //
                         "/tiles/arranged")
                 .permitAll()
                 // disable remember-me authentication for important page
-                .antMatchers("/remember-me/high-level").fullyAuthenticated()// Remember-Me によるログインの場合は重要な処理の実行を許可しない
+                .antMatchers("/remember-me/high-level")//
+                .fullyAuthenticated()// Remember-Me によるログインの場合は重要な処理の実行を許可しない
                 // 上記以外は直リンク禁止
-                .anyRequest().authenticated()// Remember-Me認証も許可する
+                .anyRequest()//
+                .authenticated()// Remember-Me認証も許可する
                 .and() //
                 .formLogin()
                 // ログイン処理のパス
@@ -86,7 +89,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password") //
                 .and()
                 // Logout
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")) //
+                .logout()//
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) //
                 .logoutUrl("/logout") // ログアウトのURL
 //                .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
@@ -101,12 +105,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .tokenRepository(rememberMeTokenRepositoryImpl);
         http.headers().frameOptions().sameOrigin(); // X-Frame-Options
-        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false);
+        http.sessionManagement()//
+                .maximumSessions(1)//
+                .maxSessionsPreventsLogin(false);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(service).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(service)//
+                .passwordEncoder(passwordEncoder);
     }
-
 }
