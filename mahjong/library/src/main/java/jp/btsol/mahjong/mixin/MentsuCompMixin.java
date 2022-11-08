@@ -44,7 +44,6 @@ public abstract class MentsuCompMixin {
         /**
          * Constructor
          */
-        @SuppressWarnings("unused")
         public MentsuCompWriter() {
             
         }

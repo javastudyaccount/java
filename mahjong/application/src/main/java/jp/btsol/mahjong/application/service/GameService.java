@@ -112,9 +112,9 @@ public class GameService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("gameId", gameId);
         GameModel game = baseRepository.findForObject(//
-                "select game_id, room_id, "//
+                "select game.game_id, game.room_id, "//
                         + "(select count(1) from game_player where game_player.game_id = :gameId) countOfPlayers "
-                        + "from game where game_id = :gameId", //
+                        + "from game where game.game_id = :gameId", //
                 param, //
                 GameModel.class);
         RoomModel room = roomService.getRoom(game.getRoomId(), gameId);

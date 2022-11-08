@@ -55,17 +55,12 @@ public class RoomService {
         MapSqlParameterSource param = new MapSqlParameterSource();
         // パラメータplayerIdの値を設定する
         param.addValue("playerId", userContext.playerId());
-        try {
-            // SQL文を実行して、データを取得する
-            return baseRepository.findForList("select room.room_id, room.room_name, "//
-                    + "(my_room.room_id is not null) as entered from room "//
-                    + "left join (select room_id from room_player " //
-                    + "where player_id = :playerId) my_room "//
-                    + "on room.room_id = my_room.room_id order by room.room_id", param, RoomModel.class);
-        } catch (Exception e) {
-            // rollback
-            return null;
-        }
+        // SQL文を実行して、データを取得する
+        return baseRepository.findForList("select room.room_id, room.room_name, "//
+                + "(my_room.room_id is not null) as entered from room "//
+                + "left join (select room_player.room_id from room_player " //
+                + "where room_player.player_id = :playerId) my_room "//
+                + "on room.room_id = my_room.room_id order by room.room_id", param, RoomModel.class);
         // commit
     }
 
@@ -81,16 +76,17 @@ public class RoomService {
         param.addValue("playerId", userContext.playerId());
         param.addValue("roomId", roomId);
         RoomModel roomModel = baseRepository.findForObject(//
-                "select room.room_id, room.room_name, "//
-                        + "(my_room.room_id is not null) as entered, "//
-                        + "game.game_id " + "from room "//
-                        + "left join (select room_id from room_player " //
-                        + "            where player_id = :playerId) my_room "//
-                        + "on room.room_id = my_room.room_id "//
-                        + "left join game "//
-                        + "on room.room_id = game.room_id "//
-                        + "where room.room_id = :roomId "//
-                        + "order by room.room_id",
+                " select room.room_id, room.room_name, "//
+                        + " (my_room.room_id is not null) as entered, "//
+                        + " game.game_id "//
+                        + " from room "//
+                        + " left join (select room_player.room_id from room_player " //
+                        + "          where room_player.player_id = :playerId) my_room "//
+                        + " on room.room_id = my_room.room_id "//
+                        + " left join game "//
+                        + " on room.room_id = game.room_id "//
+                        + " where room.room_id = :roomId "//
+                        + " order by room.room_id, room.room_name",
                 param, RoomModel.class);
         List<PlayerModel> players = getPlayers(roomId, gameId);
         roomModel.setPlayersInRoom(players);
@@ -110,39 +106,10 @@ public class RoomService {
         if (Objects.nonNull(gameId)) {
             param.addValue("gameId", gameId);
         }
-//        String sql = "select player.player_id, "//
-//                + "player.nickname, "//
-//                + "room_player.room_id, "//
-//                + "game_player.game_id, "//
-//                + "game_player.direction "//
-//        ;
-//        if (Objects.nonNull(gameId)) {
-//            sql += ", game_log.log ";
-//        }
-//        sql += "from player "//
-//                + "left join room_player "//
-//                + "on player.player_id = room_player.player_id "//
-//                + "left join game_player "//
-//                + "on player.player_id = game_player.player_id "//
-//        ;
-//        if (Objects.nonNull(gameId)) {
-//
-//            sql += "left join " //
-//                    + "(select * from game_log where (player_id, game_id, updated_timestamp) in "
-//                    + "(select player_id, game_id, max(updated_timestamp) updated_timestamp from game_log "//
-//                    + "where game_log.game_id = :gameId "//
-//                    + "and deleted_flg = 0 "//
-//                    + "group by player_id, game_id " + ") "//
-//                    + ") game_log "//
-//                    + "on game_log.player_id = player.player_id ";
-//        }
-//
-//        sql += "where room_player.room_id = :roomId "//
-//                + "order by player_id";
         StringBuffer sql = new StringBuffer("");
         sql.append("select ");
-        sql.append("    player.player_id, ");
-        sql.append("    player.nickname, ");
+        sql.append("    p.player_id, ");
+        sql.append("    p.nickname, ");
         sql.append("    room_player.room_id, ");
         sql.append("    game_player.game_id, ");
         sql.append("    game_player.direction ");
@@ -151,38 +118,38 @@ public class RoomService {
             sql.append("    ,game_log.action ");
         }
         sql.append("from ");
-        sql.append("    player ");
-        sql.append("    left join room_player on player.player_id = room_player.player_id ");
-        sql.append("    left join game_player on player.player_id = game_player.player_id ");
+        sql.append("    player p");
+        sql.append("    left join room_player on p.player_id = room_player.player_id ");
+        sql.append("    left join game_player on p.player_id = game_player.player_id ");
         if (Objects.nonNull(gameId)) {
             sql.append("    and game_player.game_id = :gameId ");
             sql.append("    left join ( ");
             sql.append("        select ");
-            sql.append("            distinct player_id, game_id, log, action ");
+            sql.append("            distinct game_log.player_id, game_log.game_id, game_log.log, game_log.action ");
             sql.append("        from ");
             sql.append("            game_log ");
             sql.append("        where ");
-            sql.append("            (player_id, game_id, updated_timestamp) in ( ");
+            sql.append("            (game_log.player_id, game_log.game_id, game_log.updated_timestamp) in ( ");
             sql.append("                select ");
-            sql.append("                    player_id, ");
-            sql.append("                    game_id, ");
-            sql.append("                    max(updated_timestamp) updated_timestamp ");
+            sql.append("                    game_log.player_id, ");
+            sql.append("                    game_log.game_id, ");
+            sql.append("                    max(game_log.updated_timestamp) updated_timestamp ");
             sql.append("                from ");
             sql.append("                    game_log ");
             sql.append("                where ");
             sql.append("                    game_log.game_id = :gameId ");
-            sql.append("                    and deleted_flg = 0 ");
+            sql.append("                    and game_log.deleted_flg = 0 ");
             sql.append("                group by ");
-            sql.append("                    player_id, ");
-            sql.append("                    game_id ");
+            sql.append("                    game_log.player_id, ");
+            sql.append("                    game_log.game_id ");
             sql.append("            ) ");
-            sql.append("    ) game_log on game_log.player_id = player.player_id ");
+            sql.append("    ) game_log on game_log.player_id = p.player_id ");
             sql.append("      and game_log.game_id = game_player.game_id ");
         }
         sql.append("where ");
         sql.append("    room_player.room_id = :roomId ");
         sql.append("order by ");
-        sql.append("    player_id ");
+        sql.append("    p.player_id ");
         return baseRepository.findForList(//
                 sql.toString(), param, PlayerModel.class);
     }
@@ -258,5 +225,158 @@ public class RoomService {
             throw dke;
         }
         return baseRepository.findById(roomId, Room.class);
+    }
+
+    public void testSQL() {
+        StringBuffer sql = new StringBuffer();
+        sql.append("    with tmp as ( ");
+        sql.append("    select ");
+        sql.append("        dr.user_id, ");
+        sql.append("        au.user_name, ");
+        sql.append("        dr.record_date, ");
+        sql.append("        dr.steps, ");
+        sql.append("        au.company_cd ");
+        sql.append("    from ");
+        sql.append("        daily_record dr ");
+        sql.append("        inner join app_user au on dr.user_id = au.user_id ");
+        sql.append("        and au.is_deleted = false ");
+        sql.append("    where ");
+        sql.append("        dr.record_date between '2022-06-01' ");
+        sql.append("        and '2022-06-30' ");
+        sql.append("        and au.company_cd = 'C100012FX' ");
+        sql.append("        and dr.steps is not null ");
+        sql.append("        and dr.is_deleted = false ");
+        sql.append("), aaa as (select * from daily_record) ");
+        sql.append("select ");
+        sql.append("    tmp.user_id as お客様番号, ");
+        sql.append("    tmp.user_name as 社員氏名, ");
+        sql.append("    tmp.record_date as ウォーキングチャレンジ記録日, ");
+        sql.append("    tmp.steps as ウォーキングチャレンジ歩数記録, ");
+        sql.append("    tmph.point_grant_item_name as 付与項目, ");
+        sql.append("    substr(tmph.grant_date, 0, 9) as ポイント付与日, ");
+        sql.append("    tmph.point as ポイント付与数 ");
+        sql.append("from ");
+        sql.append("    tmp ");
+        sql.append("    left join t_myhl_point_history tmph on tmph.client_id = tmp.company_cd ");
+        sql.append("    and tmph.user_id = tmp.user_id ");
+        sql.append("    and TO_CHAR(tmp.record_date + 15, 'yyyyMMdd') = substr(tmph.grant_date, 0, 9) ");
+        sql.append("    and tmph.point_grant_category_id = '01' ");
+        sql.append("    and tmph.point_grant_item_id >= 1 ");
+        sql.append("    and tmph.point_grant_item_id <= 10 ");
+        sql.append("    and tmph.period_div = '01' ");
+        sql.append("    and tmph.delete_flg = 0 ");
+        sql.append("union ");
+        sql.append("all ");
+        sql.append("select ");
+        sql.append("    tmph2.user_id as お客様番号, ");
+        sql.append("    au.user_name as 社員氏名, ");
+        sql.append("    null as ウォーキングチャレンジ記録日, ");
+        sql.append("    null as ウォーキングチャレンジ歩数記録, ");
+        sql.append("    tmph2.point_grant_item_name as 付与項目, ");
+        sql.append("    substr(tmph2.grant_date, 0, 9) as ポイント付与日, ");
+        sql.append("    tmph2.point as ポイント付与数 ");
+        sql.append("from ");
+        sql.append("    t_myhl_point_history tmph2 ");
+        sql.append("    inner join app_user au on tmph2.user_id = au.user_id ");
+        sql.append("    and au.is_deleted = false ");
+        sql.append("where ");
+        sql.append("    exists ( ");
+        sql.append("        select ");
+        sql.append("            1 ");
+        sql.append("        from ");
+        sql.append("            tmp ");
+        sql.append("        where ");
+        sql.append("            tmph2.user_id = tmp.user_id ");
+        sql.append("            and tmph2.client_id = tmp.company_cd ");
+        sql.append("    ) ");
+        sql.append("    and ( ");
+        sql.append("        ( ");
+        sql.append("            tmph2.period_div = '02' ");
+        sql.append("            and substr(tmph2.grant_date, 0, 9) >= '20220620' ");
+        sql.append("            and substr(tmph2.grant_date, 0, 9) <= '20220718' ");
+        sql.append("        ) ");
+        sql.append("        or ( ");
+        sql.append("            tmph2.period_div = '03' ");
+        sql.append("            and substr(tmph2.grant_date, 0, 9) = '20220801' ");
+        sql.append("        ) ");
+        sql.append("    ) ");
+        sql.append("    and tmph2.point_grant_item_id >= 11 ");
+        sql.append("    and tmph2.point_grant_item_id <= 41 ");
+        sql.append("    and tmph2.delete_flg = 0 ");
+        sql.append("order by ");
+        sql.append("    1, ");
+        sql.append("    3, ");
+        sql.append("    7; ");
+        baseRepository.findForList(//
+                sql.toString(), null, null);
+    }
+
+    public void testSQL2() {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" ");
+        sql.append(" SELECT ");
+        sql.append("    tmp.user_id AS お客様番号");
+        sql.append("    , ");
+        sql.append("    tmp.user_name AS 社員氏名");
+        sql.append("    , ");
+        sql.append("    tmp.record_date AS ウォーキングチャレンジ記録日");
+        sql.append("    , ");
+        sql.append("    tmp.steps AS ウォーキングチャレンジ歩数記録");
+        sql.append("    , ");
+        sql.append("    tmph.point_grant_item_name AS 付与項目");
+        sql.append("    , ");
+        sql.append("    substr(tmph.grant_date, 0, 9) AS ポイント付与日");
+        sql.append("    , ");
+        sql.append("    tmph.point AS ポイント付与数");
+        sql.append(" FROM ");
+        sql.append("    (");
+        sql.append("    SELECT ");
+        sql.append("        dr.user_id");
+        sql.append("        , ");
+        sql.append("        au.user_name");
+        sql.append("        , ");
+        sql.append("        dr.record_date");
+        sql.append("        , ");
+        sql.append("        dr.steps");
+        sql.append("        , ");
+        sql.append("        au.company_cd");
+        sql.append("    FROM ");
+        sql.append("        daily_record dr");
+        sql.append("    INNER JOIN app_user au ");
+        sql.append("        ON ");
+        sql.append("        dr.user_id = au.user_id");
+        sql.append("        AND");
+        sql.append("        au.is_deleted = false");
+        sql.append("    WHERE ");
+        sql.append("        dr.record_date BETWEEN '2022-06-01' AND '2022-06-30'");
+        sql.append("        AND");
+        sql.append("        au.company_cd = 'C100012FX'");
+        sql.append("        AND");
+        sql.append("        dr.steps IS NOT NULL");
+        sql.append("        AND");
+        sql.append("        dr.is_deleted = false");
+        sql.append(" ) as tmp");
+        sql.append(" LEFT JOIN t_myhl_point_history tmph ");
+        sql.append("    ON ");
+        sql.append("    tmph.client_id = tmp.company_cd");
+        sql.append("    AND");
+        sql.append("    tmph.user_id = tmp.user_id");
+        sql.append("    AND");
+        sql.append("    TO_CHAR(tmp.record_date + 15, 'yyyyMMdd') = substr(tmph.grant_date, 0, 9)");
+        sql.append("    AND");
+        sql.append("    tmph.point_grant_category_id = '01'");
+        sql.append("    AND");
+        sql.append("    tmph.point_grant_item_id >= 1");
+        sql.append("    AND");
+        sql.append("    tmph.point_grant_item_id <= 10");
+        sql.append("    AND");
+        sql.append("    tmph.period_div = '01'");
+        sql.append("    AND");
+        sql.append("    tmph.delete_flg = 0");
+        sql.append(" ORDER BY ");
+        sql.append(" 1, 3, 7");
+
+        baseRepository.findForList(//
+                sql.toString(), null, null);
     }
 }

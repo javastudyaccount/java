@@ -1,0 +1,6 @@
+[submodule "JSqlParser"]
+	path = JSqlParser
+	url = https://github.com/JSQLParser/JSqlParser.git
+[submodule "JSqlParser.git"]
+	path = JSqlParser.git
+	url = https://github.com/JSQLParser/JSqlParser.git
