@@ -59,11 +59,7 @@ application:
   iss: iss
   sub: sub
   loginId: anonymous
-  
-logging:
-  file:
-    path: C:/app/java/mahjong/logs
-    name: web.log
+
 ---
 spring:
   profiles: prod
