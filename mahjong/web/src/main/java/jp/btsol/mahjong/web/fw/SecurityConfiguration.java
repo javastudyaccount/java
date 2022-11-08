@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(//
                 "/favicon.ico", //
                 "/css/**", //
-                "/image/**", //
+                "/images/**", //
                 "/js/**", //
                 "/webjars/**", //
                 "/gs-guide-websocket/**", //
@@ -55,7 +55,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 「login.html」はログイン不要でアクセス可能に設定
-                .antMatchers("/", "/signin", "/login", "/error", "/system-error", "/logout", "/afterLogout").permitAll()
+                .antMatchers("/", //
+                        "/signin", //
+                        "/login", //
+                        "/error", //
+                        "/system-error", //
+                        "/logout", //
+                        "/afterLogout", //
+                        "/tiles", "/tiles/shuffled", //
+                        "/tiles/random", //
+                        "/tiles/arranged")
+                .permitAll()
                 // disable remember-me authentication for important page
                 .antMatchers("/remember-me/high-level").fullyAuthenticated()// Remember-Me によるログインの場合は重要な処理の実行を許可しない
                 // 上記以外は直リンク禁止

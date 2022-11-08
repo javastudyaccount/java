@@ -55,16 +55,16 @@ public class RequestLoggingFilter extends CommonsRequestLoggingFilter {
     protected void beforeRequest(HttpServletRequest request, String message) {
         String requestId = UUID.randomUUID().toString();
         MDC.put(REQUEST_ID_KEY, requestId);
-        if (this.logger.isInfoEnabled() && !request.getServletPath().startsWith("/actuator/")) {
-            this.logger.info(message);
-        }
+//        if (this.logger.isInfoEnabled() && !request.getServletPath().startsWith("/actuator/")) {
+//            this.logger.info(message);
+//        }
     }
 
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
-        if (this.logger.isInfoEnabled() && !request.getServletPath().startsWith("/actuator/")) {
-            this.logger.info(message);
-        }
+//        if (this.logger.isInfoEnabled() && !request.getServletPath().startsWith("/actuator/")) {
+//            this.logger.info(message);
+//        }
         MDC.remove(REQUEST_ID_KEY);
     }
 }

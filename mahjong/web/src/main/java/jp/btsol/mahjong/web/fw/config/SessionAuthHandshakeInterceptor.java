@@ -27,7 +27,7 @@ public class SessionAuthHandshakeInterceptor implements HandshakeInterceptor {
             return false;
         }
         if (Objects.isNull(session.getAttribute("SPRING_SECURITY_CONTEXT"))) {
-            log.error("No SPRING_SECURITY_CONTEXT");
+//            log.error("No SPRING_SECURITY_CONTEXT");
             return false;
         }
         User user = (User) ((SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication()
