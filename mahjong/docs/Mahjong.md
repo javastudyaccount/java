@@ -123,3 +123,10 @@ Make mvn project with multiple modules
 ### 役名一覧
 http://www.jmsa.jp/www/rule1.html
 [役の一覧.pdf](./役の一覧.pdf)
+
+### Demo
+http://localhost:8089/tiles/random
+    Double click to arrange tiles randomly
+http://localhost:8089/tiles/arranged
+
+http://localhost:8089/tiles/shuffled

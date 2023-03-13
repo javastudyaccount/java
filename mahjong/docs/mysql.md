@@ -8,6 +8,8 @@ ubuntu
 #### Start a mysql server instance
 `$ docker run -p 3306:3306 --name game -e MYSQL_ROOT_PASSWORD=game -d mysql:latest `
 
+`$ docker start 8b28914fcd7f `
+
 #### Docker CLI
 `$ docker exec -it /game /bin/bash`
 
