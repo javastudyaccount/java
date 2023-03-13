@@ -1,4 +1,4 @@
-package jp.btsol.mahjong.web.fw;
+package jp.btsol.mahjong.web.fw.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import jp.btsol.mahjong.web.fw.RememberMeTokenRepositoryImpl;
 import jp.btsol.mahjong.web.service.PlayerService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,6 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/system-error", //
                         "/logout", //
                         "/afterLogout", //
+                        "/hands", //
                         "/tiles", //
                         "/tiles/shuffled", //
                         "/tiles/random", //
