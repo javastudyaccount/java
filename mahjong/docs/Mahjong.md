@@ -35,42 +35,32 @@ Make mvn project with multiple modules
 [how-to-run.md](./how-to-run.md)
 
 ## TODO
+
 ### Home page
-- [x] Show all users in sidebar
+
+- [X] Show all users in sidebar
 - [ ] Scroll users in sidebar
+
 ### Mahjong room
 
-- [x]  Create new room
-
-- [x]  Invite player
-
-- [x]  Enter room as player
-
-- [ ]  Invite visitor
-
-- [ ]  Enter room as visitor
-
-- [x]  List all rooms
-
-- [ ]  Private room
+- [X] Create new room
+- [X] Invite player
+- [X] Enter room as player
+- [ ] Invite visitor
+- [ ] Enter room as visitor
+- [X] List all rooms
+- [ ] Private room
 
 ### Play Mahjong
 
-- [x]  Sitting
-
-- [x]  Shuffling
-
-- [x]  [掷色子](https://www.goocode.net/demo/dice/index.php) to decide Zhuangjia(Dealer, East player)
-
-- [x]  Decide where to pick tiles
-
-- [ ]  Pick tiles
-
-- [ ]  Play
-
-- [ ]  Pay
-
-- [ ]  Record wins and loses
+- [X] Sitting
+- [X] Shuffling
+- [X] [掷色子](https://www.goocode.net/demo/dice/index.php) to decide Zhuangjia(Dealer, East player)
+- [X] Decide where to pick tiles
+- [ ] Pick tiles
+- [ ] Play
+- [ ] Pay
+- [ ] Record wins and loses
 
 [简单的麻将ai算法](https://doc.xuwenliang.com/docs/ai/1495)
 
@@ -120,13 +110,31 @@ Make mvn project with multiple modules
 | 番数             | Points                                 |                                |
 
 ![1662378410126](image/Mahjong/1662378410126.png)
+
 ### 役名一覧
+
 http://www.jmsa.jp/www/rule1.html
 [役の一覧.pdf](./役の一覧.pdf)
 
 ### Demo
+
 http://localhost:8089/tiles/random
+
+![1678669210793](image/Mahjong/1678669210793.png)
     Double click to arrange tiles randomly
 http://localhost:8089/tiles/arranged
 
+![1678669237621](image/Mahjong/1678669237621.png)
+
 http://localhost:8089/tiles/shuffled
+
+![1678669188129](image/Mahjong/1678669188129.png)
+
+
+http://localhost:8089/hands
+
+![1678669305009](image/Mahjong/1678669305009.png)
+
+http://localhost:8089/tiles
+
+![1678669362249](image/Mahjong/1678669362249.png)
